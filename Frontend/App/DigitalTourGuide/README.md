@@ -1,6 +1,6 @@
 # Digital Tour Guide
 
-Digital tour guide Android App for SWE2 Group 2
+Digital Tour Guide Android App for SWE2 Group 2
 
 ## Getting Started
 
