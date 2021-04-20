@@ -37,6 +37,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MapHereComponent } from './components/map-here/map-here.component';
 
 const materialModules = [
   BrowserModule,
@@ -79,7 +80,7 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MapHereComponent],
   imports: [AppRoutingModule, ...materialModules],
   providers: [],
   bootstrap: [AppComponent],
