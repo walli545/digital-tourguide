@@ -35,9 +35,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapHereComponent } from './components/map-here/map-here.component';
+import { MapMapboxComponent } from './components/map-mapbox/map-mapbox.component';
 
 const materialModules = [
   BrowserModule,
@@ -80,8 +82,15 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, MapHereComponent],
-  imports: [AppRoutingModule, ...materialModules],
+  declarations: [AppComponent, MapHereComponent, MapMapboxComponent],
+  imports: [
+    AppRoutingModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken:
+        'pk.eyJ1Ijoid2FsbG5lcjMiLCJhIjoiY2tubzdwbGtsMWJ2azJwcG5vOW8yOHFyZSJ9.G3lm3BNg2KlYm5EwJl3AKg',
+    }),
+    ...materialModules,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
