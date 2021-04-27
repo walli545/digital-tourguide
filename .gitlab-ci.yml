@@ -1,51 +1,60 @@
 stages:
-    - install
-    - build-and-test
+  - install
+  - build-and-test
 
 install_dependencies_website:
-    stage: install
-    image: node:14-alpine
-    tags:
-        - docker
-    script:
-        - cd WebApp/tourguide
-        - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
-        - npm install --prefer-offline --no-audit
-    cache:
-        key:
-            files:
-                - WebApp/tourguide/package-lock.json
-        paths:
-            - WebApp/tourguide/node_modules
-    only:
-        changes:
-            - WebApp/tourguide/package-lock.json
+  stage: install
+  image: node:14-alpine
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install --prefer-offline --no-audit
+  cache:
+    key:
+      files:
+        - WebApp/tourguide/package-lock.json
+    paths:
+      - WebApp/tourguide/node_modules
+  only:
+    changes:
+      - WebApp/tourguide/package-lock.json
 
 build_website:
-    stage: build-and-test
-    image: node:14-alpine
-    tags:
-        - docker
-    script:
-        - cd WebApp/tourguide
-        - npm run build:prod
-    artifacts:
-        name: "website"
-        paths:
-            - WebApp/tourguide/dist/tourguide
-    cache:
-        key:
-            files:
-                - WebApp/tourguide/package-lock.json
-        paths:
-            - WebApp/tourguide/node_modules
-        policy: pull
+  stage: build-and-test
+  image: node:14-alpine
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm run build:prod
+  artifacts:
+    name: "website"
+    paths:
+      - WebApp/tourguide/dist/tourguide
+  cache:
+    key:
+      files:
+        - WebApp/tourguide/package-lock.json
+    paths:
+      - WebApp/tourguide/node_modules
+    policy: pull
 
-lint_website:
-    stage: build-and-test
-    image: node:14-alpine
-    tags:
-        - docker
-    script:
-        - cd WebApp/tourguide
-        - npm run lint
+lint_format_test_website:
+  stage: build-and-test
+  image: buildkite/puppeteer
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm run lint
+    - npm run prettier:check
+    - npm run test:ci
+  artifacts:
+    name: "test-and-coverage"
+    reports:
+      junit:
+        - WebApp\tourguide\artifacts\tests\junit-test-results.xml
+      cobertura:
+        - WebApp\tourguide\coverage\tourguide\cobertura-coverage.xml
