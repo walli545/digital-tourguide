@@ -2,7 +2,7 @@ stages:
     - install
 
 variables:
-    - WEBSITE-PATH: "WebApp/tourguide"
+    WEBSITE-PATH: "WebApp/tourguide"
 
 install_dependencies_website:
     stage: install
