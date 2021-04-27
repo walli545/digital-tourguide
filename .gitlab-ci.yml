@@ -10,7 +10,7 @@ install_dependencies_website:
     script:
         - cd WebApp/tourguide
         - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
-        - npm ci
+        - npm install --prefer-offline --no-audit
     cache:
         key:
             files:
