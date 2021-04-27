@@ -14,10 +14,4 @@ install_dependencies:
                 - package-lock.json
         paths:
             - node_modules
-    only:
-        refs:
-            - merge_requests
-            - master
-            - develop
-        changes:
-            - package-lock.json
+
