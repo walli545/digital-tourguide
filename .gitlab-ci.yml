@@ -12,8 +12,8 @@ install_dependencies:
         key:
             files:
                 - package-lock.json
-            paths:
-                - node_modules
+        paths:
+            - node_modules
     only:
         refs:
             - merge_requests
