@@ -1,5 +1,6 @@
 stages:
     - install
+    - build
 
 install_dependencies_website:
     stage: install
@@ -16,4 +17,24 @@ install_dependencies_website:
                 - WebApp/tourguide/package-lock.json
         paths:
             - WebApp/tourguide/node_modules
+
+build_website:
+    stage: build
+    image: node:14-alpine
+    tags:
+        - docker
+    script:
+        - cd WebApp/tourguide
+        - npm run ng build --prod
+    artifacts:
+        name: "website"
+        paths:
+            - WebApp/tourguide/dist/tourguide
+    cache:
+        key:
+            files:
+                - WebApp/tourguide/package-lock.json
+        paths:
+            - WebApp/tourguide/node_modules
+        policy: pull
 
