@@ -1,2 +1,23 @@
-echo:
-    script: echo "Hello World"
+stages:
+    - install
+
+install_dependencies:
+    stage: install
+    image: node:14-alpine
+    tags:
+        - docker
+    script:
+        - npm ci
+    cache:
+        key:
+            files:
+                - package-lock.json
+            paths:
+                - node_modules
+    only:
+        refs:
+            - merge_requests
+            - master
+            - develop
+        changes:
+            - package-lock.json
