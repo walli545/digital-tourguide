@@ -1,17 +1,21 @@
 stages:
     - install
 
-install_dependencies:
+variables:
+    - WEBSITE-PATH: "WebApp/tourguide"
+
+install_dependencies_website:
     stage: install
     image: node:14-alpine
     tags:
         - docker
     script:
+        - cd $WEBSITE-PATH
         - npm ci
     cache:
         key:
             files:
-                - package-lock.json
+                - $WEBSITE-PATH/package-lock.json
         paths:
-            - node_modules
+            - $WEBSITE-PATH/node_modules
 
