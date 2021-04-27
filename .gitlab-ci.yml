@@ -58,3 +58,10 @@ lint_format_test_website:
         - WebApp\tourguide\artifacts\tests\junit-test-results.xml
       cobertura:
         - WebApp\tourguide\coverage\tourguide\cobertura-coverage.xml
+  cache:
+    key:
+      files:
+        - WebApp/tourguide/package-lock.json
+    paths:
+      - WebApp/tourguide/node_modules
+    policy: pull
