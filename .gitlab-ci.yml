@@ -1,6 +1,6 @@
 stages:
     - install
-    - build
+    - build-and-test
 
 install_dependencies_website:
     stage: install
@@ -22,13 +22,13 @@ install_dependencies_website:
             - WebApp/tourguide/package-lock.json
 
 build_website:
-    stage: build
+    stage: build-and-test
     image: node:14-alpine
     tags:
         - docker
     script:
         - cd WebApp/tourguide
-        - npm run ng build --prod
+        - npm run build:prod
     artifacts:
         name: "website"
         paths:
@@ -41,3 +41,11 @@ build_website:
             - WebApp/tourguide/node_modules
         policy: pull
 
+lint_website:
+    stage: build-and-test
+    image: node:14-alpine
+    tags:
+        - docker
+    script:
+        - cd WebApp/tourguide
+        - npm run lint
