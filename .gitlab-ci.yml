@@ -17,6 +17,9 @@ install_dependencies_website:
                 - WebApp/tourguide/package-lock.json
         paths:
             - WebApp/tourguide/node_modules
+    only:
+        changes:
+            - WebApp/tourguide/package-lock.json
 
 build_website:
     stage: build
