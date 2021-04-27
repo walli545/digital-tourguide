@@ -8,6 +8,7 @@ install_dependencies_website:
         - docker
     script:
         - cd WebApp/tourguide
+        - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
         - npm ci
     cache:
         key:
