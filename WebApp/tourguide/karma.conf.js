@@ -27,7 +27,11 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/tourguide'),
       subdir: '.',
-      reporters: [{ type: 'html' }, { type: 'text-summary' }, { type: 'cobertura'}],
+      reporters: [
+        { type: 'html' },
+        { type: 'text-summary' },
+        { type: 'cobertura' },
+      ],
     },
     reporters: ['progress', 'kjhtml', 'junit'],
     port: 9876,
