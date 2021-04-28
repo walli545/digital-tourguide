@@ -55,9 +55,9 @@ lint_format_test_website:
     name: "test-and-coverage"
     reports:
       junit:
-        - WebApp\tourguide\artifacts\tests\junit-test-results.xml
+        - WebApp/tourguide/artifacts/tests/junit-test-results.xml
       cobertura:
-        - WebApp\tourguide\coverage\tourguide\cobertura-coverage.xml
+        - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
   cache:
     key:
       files:
