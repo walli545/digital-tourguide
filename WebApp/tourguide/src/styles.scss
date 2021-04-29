@@ -1,4 +1,104 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import '~mapbox-gl/dist/mapbox-gl.css';
 @import '~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+
+@import '~@angular/material/theming';
+@import './mixins.scss';
+@include mat-core();
+
+// $md-tg-primary: (
+//   50: #e3f7f2,
+//   100: #b9ebdd,
+//   200: #8adec7,
+//   300: #5bd0b1,
+//   400: #37c6a0,
+//   500: #14bc8f,
+//   600: #12b687,
+//   700: #0ead7c,
+//   800: #0ba572,
+//   900: #069760,
+//   A100: #c3ffe5,
+//   A200: #90ffd0,
+//   A400: #5dffba,
+//   A700: #43ffaf,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #000000,
+//     400: #000000,
+//     500: #000000,
+//     600: #ffffff,
+//     700: #ffffff,
+//     800: #ffffff,
+//     900: #ffffff,
+//     A100: #000000,
+//     A200: #000000,
+//     A400: #000000,
+//     A700: #000000,
+//   ),
+// );
+
+// $md-tg-accent: (
+//   50: #f7ece6,
+//   100: #ebd0c1,
+//   200: #deb197,
+//   300: #d1926d,
+//   400: #c77a4e,
+//   500: #bd632f,
+//   600: #b75b2a,
+//   700: #ae5123,
+//   800: #a6471d,
+//   900: #983512,
+//   A100: #ffd6ca,
+//   A200: #ffaf97,
+//   A400: #ff8764,
+//   A700: #ff744b,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #000000,
+//     400: #000000,
+//     500: #ffffff,
+//     600: #ffffff,
+//     700: #ffffff,
+//     800: #ffffff,
+//     900: #ffffff,
+//     A100: #000000,
+//     A200: #000000,
+//     A400: #000000,
+//     A700: #000000,
+//   ),
+// );
+
+// Available color palettes: https://material.io/design/color/
+// https://material.io/design/color/the-color-system.html#tools-for-picking-colors
+
+$tg-primary: mat-palette($mat-amber, 500);
+$tg-accent: mat-palette($mat-purple, 500);
+$tg-warn: mat-palette($mat-red);
+
+$tg-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $tg-primary,
+      accent: $tg-accent,
+      warn: $tg-warn,
+    ),
+  )
+);
+
+@include angular-material-theme($tg-theme);
+@include default-theme($tg-theme);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
