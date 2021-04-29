@@ -1,0 +1,27 @@
+.sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+[class^='mat-list-'] {
+  &:hover:active {
+    background: rgba(255, 255, 255, 0.04);
+  }
+  &:focus,
+  .mat-list-text {
+    background: none !important;
+  }
+}
+
+[mat-list-item].is-active {
+  background: hsla(0, 0%, 100%, 0.1) !important;
+}
+
+mat-sidenav {
+  width: 200px;
+}
+
+mat-nav-list mat-icon {
+  margin-right: 10px;
+}

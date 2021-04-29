@@ -1,3 +1,4 @@
+import { AgmCoreModule } from '@agm/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -38,11 +39,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MapGoogleComponent } from './components/map-google/map-google.component';
 import { MapHereComponent } from './components/map-here/map-here.component';
 import { MapMapboxComponent } from './components/map-mapbox/map-mapbox.component';
-import { MapGoogleComponent } from './components/map-google/map-google.component';
-import { AgmCoreModule } from '@agm/core';
 import { PoiItemComponent } from './components/poi-item/poi-item.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { TestComponent } from './components/test/test.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 const materialModules = [
   BrowserModule,
@@ -91,6 +94,9 @@ const materialModules = [
     MapMapboxComponent,
     MapGoogleComponent,
     PoiItemComponent,
+    ToolbarComponent,
+    SideNavComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
