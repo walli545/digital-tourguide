@@ -11,7 +11,7 @@ export class MapGoogleComponent implements OnInit {
   @Output() addPoi: EventEmitter<Poi> = new EventEmitter();
   pois: Poi[] = [];
 
-  // coordinates of munich
+  // center coordinates of munich
   lat = 48.137154;
   lng = 11.576124;
   locationChosen = false;
