@@ -40,6 +40,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapHereComponent } from './components/map-here/map-here.component';
 import { MapMapboxComponent } from './components/map-mapbox/map-mapbox.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 const materialModules = [
   BrowserModule,
@@ -82,7 +83,12 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, MapHereComponent, MapMapboxComponent],
+  declarations: [
+    AppComponent,
+    MapHereComponent,
+    MapMapboxComponent,
+    ToolbarComponent,
+  ],
   imports: [
     AppRoutingModule,
     NgxMapboxGLModule.withConfig({
