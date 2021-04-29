@@ -37,6 +37,16 @@
         <mat-icon matListIcon>map</mat-icon>
         MapBox
       </a>
+      <a
+        mat-list-item
+        (click)="toggle()"
+        [routerLink]="['gmaps']"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListIcon>map</mat-icon>
+        Google Maps
+      </a>
 
       <mat-divider></mat-divider>
     </mat-nav-list>
