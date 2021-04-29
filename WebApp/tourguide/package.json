@@ -15,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.1.0",
     "@angular/animations": "~11.2.7",
     "@angular/cdk": "^11.1.1",
     "@angular/common": "~11.2.7",
@@ -26,6 +27,7 @@
     "@angular/platform-browser-dynamic": "~11.2.7",
     "@angular/router": "~11.2.7",
     "@here/maps-api-for-javascript": "^1.24.0",
+    "@types/googlemaps": "^3.43.3",
     "mapbox-gl": "^2.2.0",
     "ngx-mapbox-gl": "^6.0.4",
     "puppeteer": "^7.0.1",

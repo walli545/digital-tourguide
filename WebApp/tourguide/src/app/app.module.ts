@@ -40,6 +40,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapHereComponent } from './components/map-here/map-here.component';
 import { MapMapboxComponent } from './components/map-mapbox/map-mapbox.component';
+import { MapGoogleComponent } from './components/map-google/map-google.component';
+import { AgmCoreModule } from '@agm/core';
+import { PoiItemComponent } from './components/poi-item/poi-item.component';
 
 const materialModules = [
   BrowserModule,
@@ -82,12 +85,22 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, MapHereComponent, MapMapboxComponent],
+  declarations: [
+    AppComponent,
+    MapHereComponent,
+    MapMapboxComponent,
+    MapGoogleComponent,
+    PoiItemComponent,
+  ],
   imports: [
+    BrowserModule,
     AppRoutingModule,
     NgxMapboxGLModule.withConfig({
       accessToken:
         'pk.eyJ1Ijoid2FsbG5lcjMiLCJhIjoiY2tubzdwbGtsMWJ2azJwcG5vOW8yOHFyZSJ9.G3lm3BNg2KlYm5EwJl3AKg',
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: '',
     }),
     ...materialModules,
   ],
