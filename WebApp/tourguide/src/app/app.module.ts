@@ -41,6 +41,7 @@ import { AppComponent } from './app.component';
 import { MapHereComponent } from './components/map-here/map-here.component';
 import { MapMapboxComponent } from './components/map-mapbox/map-mapbox.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 const materialModules = [
@@ -90,6 +91,7 @@ const materialModules = [
     MapMapboxComponent,
     ToolbarComponent,
     SideNavComponent,
+    TestComponent,
   ],
   imports: [
     AppRoutingModule,
