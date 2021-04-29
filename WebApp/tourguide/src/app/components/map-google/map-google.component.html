@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="map">
+    <agm-map
+      [zoom]="14"
+      [latitude]="lat"
+      [longitude]="lng"
+      (mapClick)="onChoseLocation($event)"
+    >
+      <agm-marker
+        *ngFor="let poi of pois; index as i"
+        [latitude]="poi.lat"
+        [longitude]="poi.lng"
+      ></agm-marker>
+    </agm-map>
+  </div>
+  <div class="pois">
+    <app-poi-item
+      *ngFor="let poi of pois; index as i"
+      [poi]="poi"
+      [indexOfelement]="i"
+    ></app-poi-item>
+  </div>
+</div>
