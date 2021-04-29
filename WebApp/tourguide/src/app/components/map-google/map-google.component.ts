@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { PoiService } from '../../services/poi.service';
 import { Poi } from '../../models/Poi';
+import { customStyle } from './custom-style';
 
 @Component({
   selector: 'app-map-google',
@@ -15,6 +16,8 @@ export class MapGoogleComponent implements OnInit {
   lat = 48.137154;
   lng = 11.576124;
   locationChosen = false;
+
+  customStyle = customStyle;
 
   constructor(private poiService: PoiService) {}
 

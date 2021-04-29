@@ -5,6 +5,7 @@
       [latitude]="lat"
       [longitude]="lng"
       (mapClick)="onChoseLocation($event)"
+      [styles]="customStyle"
     >
       <agm-marker
         *ngFor="let poi of pois; index as i"
