@@ -23,10 +23,12 @@ export class PoiService {
   ];
   constructor() {}
 
+  //later fetch PoI's via REST-API
   getPois() {
     return this.pois;
   }
 
+  //later delete PoI via REST-API
   deletePoi(poi: Poi) {
     const index: number = this.pois.indexOf(poi);
     if (index !== -1) {
@@ -34,6 +36,8 @@ export class PoiService {
     }
     console.log(this.pois);
   }
+
+  //later add PoI via REST-API
   addPoi(poi: Poi) {
     this.pois.push(poi);
   }

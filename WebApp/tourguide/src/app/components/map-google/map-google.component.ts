@@ -23,9 +23,8 @@ export class MapGoogleComponent implements OnInit {
     this.pois = this.poiService.getPois();
   }
 
+  // create new PoI from Map-Click
   onChoseLocation(event: any) {
-    this.lat = event.coords.lat;
-    this.lng = event.coords.lng;
     this.poiService.addPoi(
       new Poi('testName', event.coords.lat, event.coords.lng, 'testDescription')
     );

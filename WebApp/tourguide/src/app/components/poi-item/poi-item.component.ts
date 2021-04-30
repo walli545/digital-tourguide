@@ -9,18 +9,18 @@ import { Poi } from 'src/app/models/Poi';
 })
 export class PoiItemComponent implements OnInit {
   @Input() poi: Poi = new Poi('', 0, 0, '');
-  @Input() indexOfelement = null;
-  enableEdit = false;
-  enableEditIndex = null;
+  @Input() indexOfelement = {};
 
   constructor(private poiService: PoiService) {}
 
   ngOnInit(): void {}
 
+  //delete PoI from Service bzw Server later
   onDelete(poi: Poi) {
     this.poiService.deletePoi(poi);
   }
 
+  //edit current PoI Name
   editName() {
     const name = this.poi.name;
     const result = prompt('Edit PoI Name', name);
@@ -29,6 +29,7 @@ export class PoiItemComponent implements OnInit {
     }
   }
 
+  //edit current PoI Description
   editDescription() {
     const description = this.poi.description;
     const result = prompt('Edit PoI Description', description);
