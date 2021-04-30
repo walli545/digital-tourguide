@@ -8,10 +8,16 @@
       [styles]="customStyle"
     >
       <agm-marker
+        (mouseOver)="window.open()"
+        (mouseOut)="window.close()"
         *ngFor="let poi of pois; index as i"
         [latitude]="poi.lat"
         [longitude]="poi.lng"
-      ></agm-marker>
+        ><agm-info-window #window>
+          <h4>{{ i }}: {{ poi.name }}</h4>
+          <h5>{{ poi.description }}</h5>
+        </agm-info-window></agm-marker
+      >
     </agm-map>
   </div>
   <div class="pois">

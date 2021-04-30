@@ -1,7 +1,24 @@
 <div class="poi">
-  <p>
-    {{ indexOfelement }}: Name: {{ poi.name }}, Latitude: {{ poi.lat }},
-    Longitude: {{ poi.lng }}
-    <button (click)="onDelete(poi)" class="del">x</button>
-  </p>
+  <table border="0" style="width: 100%">
+    <tr>
+      <td style="width: 5%">
+        <b>{{ indexOfelement }}:</b>
+      </td>
+      <th>{{ poi.name }}</th>
+      <td>
+        <button class="edit" (click)="editName()">e</button>
+      </td>
+      <td><button (click)="onDelete(poi)" class="del">x</button></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="width: 100%">
+        {{ poi.description }}
+      </td>
+      <td>
+        <button class="edit" (click)="editDescription()">e</button>
+      </td>
+      <td></td>
+    </tr>
+  </table>
 </div>
