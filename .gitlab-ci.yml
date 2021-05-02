@@ -1,6 +1,8 @@
 stages:
   - install
   - build-and-test
+variables:
+  GIT_CLEAN_FLAGS: -ffd
 
 .website_cache: &website_cache
   key:
