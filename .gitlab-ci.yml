@@ -51,7 +51,7 @@ website_lint:
     - docker
   script:
     - cd WebApp/tourguide
-    - npm run lint
+    - npx npm run lint
   cache:
     <<: *website_cache
 
@@ -62,7 +62,7 @@ website_prettier:
     - docker
   script:
     - cd WebApp/tourguide
-    - npm run prettier:check
+    - npx npm run prettier:check
   cache:
     <<: *website_cache
 
@@ -73,7 +73,7 @@ website_test:
     - docker
   script:
     - cd WebApp/tourguide
-    - npm run test:ci
+    - npm npx run test:ci
   artifacts:
     name: "test-and-coverage"
     reports:
