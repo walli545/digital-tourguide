@@ -2,7 +2,7 @@ stages:
   - install
   - build-and-test
 
-cache: &website_cache
+.website_cache: &website_cache
   key:
     files:
       - WebApp/tourguide/package-lock.json
@@ -51,7 +51,7 @@ website_lint:
     - docker
   script:
     - cd WebApp/tourguide
-    - npx npm run lint
+    - npm run lint
   cache:
     <<: *website_cache
 
@@ -62,7 +62,7 @@ website_prettier:
     - docker
   script:
     - cd WebApp/tourguide
-    - npx npm run prettier:check
+    - npm run prettier:check
   cache:
     <<: *website_cache
 
@@ -73,7 +73,7 @@ website_test:
     - docker
   script:
     - cd WebApp/tourguide
-    - npm npx run test:ci
+    - npm run test:ci
   artifacts:
     name: "test-and-coverage"
     reports:
