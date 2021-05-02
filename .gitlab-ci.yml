@@ -2,7 +2,15 @@ stages:
   - install
   - build-and-test
 
-install_dependencies_website:
+cache: &website_cache
+  key:
+    files:
+      - WebApp/tourguide/package-lock.json
+  paths:
+    - WebApp/tourguide/node_modules
+  policy: pull
+
+website_install_dependencies:
   stage: install
   image: node:14-alpine
   tags:
@@ -21,7 +29,7 @@ install_dependencies_website:
     changes:
       - WebApp/tourguide/package-lock.json
 
-build_website:
+website_build:
   stage: build-and-test
   image: node:14-alpine
   tags:
@@ -34,22 +42,37 @@ build_website:
     paths:
       - WebApp/tourguide/dist/tourguide
   cache:
-    key:
-      files:
-        - WebApp/tourguide/package-lock.json
-    paths:
-      - WebApp/tourguide/node_modules
-    policy: pull
+    <<: *website_cache
 
-lint_format_test_website:
+website_lint:
+  stage: build-and-test
+  image: node:14-alpine
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm run lint
+  cache:
+    <<: *website_cache
+
+website_prettier:
+  stage: build-and-test
+  image: node:14-alpine
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm run prettier:check
+  cache:
+    <<: *website_cache
+
+website_test:
   stage: build-and-test
   image: buildkite/puppeteer
   tags:
     - docker
   script:
     - cd WebApp/tourguide
-    - npm run lint
-    - npm run prettier:check
     - npm run test:ci
   artifacts:
     name: "test-and-coverage"
@@ -59,9 +82,4 @@ lint_format_test_website:
       cobertura:
         - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
   cache:
-    key:
-      files:
-        - WebApp/tourguide/package-lock.json
-    paths:
-      - WebApp/tourguide/node_modules
-    policy: pull
+    <<: *website_cache
