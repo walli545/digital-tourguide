@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import H from '@here/maps-api-for-javascript';
 
@@ -15,8 +16,6 @@ export class MapHereComponent implements AfterViewInit {
     { lat: 48.1378660155541, lng: 11.574366858966822 },
     { lat: 48.1250039872127, lng: 11.526697803315923 },
   ];
-
-  constructor() {}
 
   ngAfterViewInit(): void {
     const platform = new H.service.Platform({
@@ -36,12 +35,8 @@ export class MapHereComponent implements AfterViewInit {
         zoom: 12,
       }
     );
-    const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(m));
-    const ui = H.ui.UI.createDefault(
-      m,
-      platform.createDefaultLayers(),
-      'de-DE'
-    );
+    new H.mapevents.Behavior(new H.mapevents.MapEvents(m));
+    H.ui.UI.createDefault(m, platform.createDefaultLayers(), 'de-DE');
 
     this.addMarkers(m);
     this.displayRoute(platform, m);
@@ -59,7 +54,7 @@ export class MapHereComponent implements AfterViewInit {
     //provider?.setStyleInternal(style);
   }
 
-  private addMarkers(map: H.Map) {
+  private addMarkers(map: H.Map): void {
     // const svgMarkup =
     //   '<svg width="24" height="24" ' +
     //   'xmlns="http://www.w3.org/2000/svg">' +
@@ -81,7 +76,7 @@ export class MapHereComponent implements AfterViewInit {
     });
   }
 
-  private displayRoute(platform: H.service.Platform, map: H.Map) {
+  private displayRoute(platform: H.service.Platform, map: H.Map): void {
     // Create the parameters for the routing request:
     const routingParameters = {
       routingMode: 'fast',
@@ -98,7 +93,7 @@ export class MapHereComponent implements AfterViewInit {
     };
 
     // Define a callback function to process the routing response:
-    const onResult = (result: any) => {
+    const onResult = (result: any): void => {
       // ensure that at least one route was found
       if (result.routes.length) {
         result.routes[0].sections.forEach((section: any) => {

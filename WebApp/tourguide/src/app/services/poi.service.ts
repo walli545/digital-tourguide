@@ -21,15 +21,14 @@ export class PoiService {
         'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
     },
   ];
-  constructor() {}
 
   //later fetch PoI's via REST-API
-  getPois() {
+  getPois(): Poi[] {
     return this.pois;
   }
 
   //later delete PoI via REST-API
-  deletePoi(poi: Poi) {
+  deletePoi(poi: Poi): void {
     const index: number = this.pois.indexOf(poi);
     if (index !== -1) {
       this.pois.splice(index, 1);
@@ -38,7 +37,7 @@ export class PoiService {
   }
 
   //later add PoI via REST-API
-  addPoi(poi: Poi) {
+  addPoi(poi: Poi): void {
     this.pois.push(poi);
   }
 }

@@ -40,15 +40,19 @@ describe('SideNavComponent', () => {
 
   it('toggling open nav should close it', () => {
     component.sidenav?.open();
+
     expect(component.sidenav?.opened).toBeTrue();
     component.toggle();
+
     expect(component.sidenav?.opened).toBeFalse();
   });
 
   it('toggling closed nav should open it', () => {
     component.sidenav?.close();
+
     expect(component.sidenav?.opened).toBeFalse();
     component.toggle();
+
     expect(component.sidenav?.opened).toBeTrue();
   });
 
@@ -57,6 +61,7 @@ describe('SideNavComponent', () => {
       .query(By.css('mat-nav-list:first-child'))
       .nativeElement.click();
     tick();
+
     expect(TestBed.inject(Location).path()).toBe('');
   }));
 });

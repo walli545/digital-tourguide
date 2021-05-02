@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PoiService } from '../../services/poi.service';
 import { Poi } from 'src/app/models/Poi';
 
@@ -7,21 +7,19 @@ import { Poi } from 'src/app/models/Poi';
   templateUrl: './poi-item.component.html',
   styleUrls: ['./poi-item.component.scss'],
 })
-export class PoiItemComponent implements OnInit {
+export class PoiItemComponent {
   @Input() poi: Poi = new Poi('', 0, 0, '');
   @Input() indexOfelement = {};
 
   constructor(private poiService: PoiService) {}
 
-  ngOnInit(): void {}
-
   //delete PoI from Service bzw Server later
-  onDelete(poi: Poi) {
+  onDelete(poi: Poi): void {
     this.poiService.deletePoi(poi);
   }
 
   //edit current PoI Name
-  editName() {
+  editName(): void {
     const name = this.poi.name;
     const result = prompt('Edit PoI Name', name);
     if (result !== null && result !== '') {
@@ -30,7 +28,7 @@ export class PoiItemComponent implements OnInit {
   }
 
   //edit current PoI Description
-  editDescription() {
+  editDescription(): void {
     const description = this.poi.description;
     const result = prompt('Edit PoI Description', description);
     if (result !== null && result !== '') {

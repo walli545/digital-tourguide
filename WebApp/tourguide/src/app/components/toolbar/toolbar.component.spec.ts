@@ -10,10 +10,10 @@ describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
 
-  let routerStub: any;
+  let routerStub: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    routerStub = jasmine.createSpyObj('Router', ['navigate']);
+    routerStub = jasmine.createSpyObj<Router>('Router', ['navigate']);
     await TestBed.configureTestingModule({
       declarations: [ToolbarComponent],
       imports: [MatButtonModule, MatToolbarModule, MatIconModule],
@@ -29,6 +29,7 @@ describe('ToolbarComponent', () => {
 
   it('navigates to home when on title click', () => {
     fixture.debugElement.query(By.css('.app-name')).nativeElement.click();
+
     expect(routerStub.navigate).toHaveBeenCalledWith(['']);
   });
 

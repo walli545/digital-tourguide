@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 
 @Component({
@@ -6,10 +6,6 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   @ViewChild('snav') sidenav?: SideNavComponent;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

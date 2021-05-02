@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoiService } from '../../services/poi.service';
 import { Poi } from '../../models/Poi';
 import { customStyle } from './custom-style';
+import { MouseEvent } from '@agm/core';
 
 @Component({
   selector: 'app-map-google',
@@ -24,7 +25,7 @@ export class MapGoogleComponent implements OnInit {
   }
 
   // create new PoI from Map-Click
-  onChoseLocation(event: any) {
+  onChoseLocation(event: MouseEvent): void {
     this.poiService.addPoi(
       new Poi('testName', event.coords.lat, event.coords.lng, 'testDescription')
     );
