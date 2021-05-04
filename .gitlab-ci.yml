@@ -1,2 +1,37 @@
-echo:
-    script: echo "Hello World"
+stages:
+  - build-and-test
+
+build_website:
+  stage: build-and-test
+  image: node:14-alpine
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install --prefer-offline --no-audit
+    - npm run build:prod
+  artifacts:
+    name: "website"
+    paths:
+      - WebApp/tourguide/dist/tourguide
+
+lint_format_test_website:
+  stage: build-and-test
+  image: buildkite/puppeteer
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install --prefer-offline --no-audit
+    - npm run lint
+    - npm run prettier:check
+    - npm run test:ci
+  artifacts:
+    name: "test-and-coverage"
+    reports:
+      junit:
+        - WebApp/tourguide/artifacts/tests/junit-test-results.xml
+      cobertura:
+        - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml

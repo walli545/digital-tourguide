@@ -1,1 +1,4 @@
-<router-outlet></router-outlet>
+<div class="container">
+  <app-toolbar (hamburgerClick)="sidenav?.toggle()"></app-toolbar>
+  <app-side-nav #snav><router-outlet></router-outlet></app-side-nav>
+</div>

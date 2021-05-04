@@ -1,19 +1,20 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { MapHereComponent } from './map-here.component';
+// import { MapGoogleComponent } from './map-google.component';
 
-// describe('MapHereComponent', () => {
-//   let component: MapHereComponent;
-//   let fixture: ComponentFixture<MapHereComponent>;
+// describe('MapGoogleComponent', () => {
+//   let component: MapGoogleComponent;
+//   let fixture: ComponentFixture<MapGoogleComponent>;
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       declarations: [MapHereComponent],
-//     }).compileComponents();
+//       declarations: [ MapGoogleComponent ]
+//     })
+//     .compileComponents();
 //   });
 
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(MapHereComponent);
+//     fixture = TestBed.createComponent(MapGoogleComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });

@@ -1,19 +1,20 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { MapHereComponent } from './map-here.component';
+// import { PoiItemComponent } from './poi-item.component';
 
-// describe('MapHereComponent', () => {
-//   let component: MapHereComponent;
-//   let fixture: ComponentFixture<MapHereComponent>;
+// describe('PoiItemComponent', () => {
+//   let component: PoiItemComponent;
+//   let fixture: ComponentFixture<PoiItemComponent>;
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       declarations: [MapHereComponent],
-//     }).compileComponents();
+//       declarations: [ PoiItemComponent ]
+//     })
+//     .compileComponents();
 //   });
 
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(MapHereComponent);
+//     fixture = TestBed.createComponent(PoiItemComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });
