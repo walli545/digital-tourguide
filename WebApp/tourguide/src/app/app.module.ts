@@ -1,9 +1,11 @@
-import { AgmCoreModule } from '@agm/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { CdkTreeModule } from '@angular/cdk/tree';
+import { CommonModule } from '@angular/common';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -46,9 +48,6 @@ import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 const materialModules = [
   BrowserModule,
@@ -102,20 +101,17 @@ const materialModules = [
     TestComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    NgxMapboxGLModule.withConfig({
-      accessToken:
-        'pk.eyJ1Ijoid2FsbG5lcjMiLCJhIjoiY2tubzdwbGtsMWJ2azJwcG5vOW8yOHFyZSJ9.G3lm3BNg2KlYm5EwJl3AKg',
-    }),
-    AgmCoreModule.forRoot({
-      apiKey: '',
-    }),
-    ...materialModules,
+    BrowserModule,
     CommonModule,
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken:
+        'pk.eyJ1Ijoid2FsbG5lcjMiLCJhIjoiY2tubzdwbGtsMWJ2azJwcG5vOW8yOHFyZSJ9.G3lm3BNg2KlYm5EwJl3AKg',
+    }),
+    ...materialModules,
   ],
   providers: [],
   bootstrap: [AppComponent],

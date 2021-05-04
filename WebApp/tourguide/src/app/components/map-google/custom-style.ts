@@ -1,8 +1,6 @@
-import { MapTypeStyle } from '@agm/core';
-
 // https://mapstyle.withgoogle.com/
 
-export const customStyle: MapTypeStyle[] = [
+export const customStyle: google.maps.MapTypeStyle[] = [
   {
     elementType: 'geometry',
     stylers: [
