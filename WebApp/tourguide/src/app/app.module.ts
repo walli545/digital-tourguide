@@ -46,6 +46,9 @@ import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 const materialModules = [
   BrowserModule,
@@ -109,6 +112,10 @@ const materialModules = [
       apiKey: '',
     }),
     ...materialModules,
+    CommonModule,
+    GoogleMapsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="map">
-    <agm-map
+  <div class="map" *ngIf="apiLoaded | async">
+    <!-- <agm-map
       [zoom]="14"
       [latitude]="lat"
       [longitude]="lng"
@@ -18,7 +18,18 @@
           <h5>{{ poi.description }}</h5>
         </agm-info-window></agm-marker
       >
-    </agm-map>
+    </agm-map> -->
+    <google-map [options]="options" (mapClick)="addMarker($event)">
+      <map-marker
+        #marker="mapMarker"
+        *ngFor="let poi of pois; index as i"
+        [position]="poi.google()"
+        [title]="poi.description"
+        [clickable]="true"
+        (mapClick)="openInfoWindow(marker)"
+        ><map-info-window>Info Window content</map-info-window></map-marker
+      >
+    </google-map>
   </div>
   <div class="pois">
     <app-poi-item
