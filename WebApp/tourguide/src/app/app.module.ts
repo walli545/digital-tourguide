@@ -1,8 +1,11 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { CdkTreeModule } from '@angular/cdk/tree';
+import { CommonModule } from '@angular/common';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,8 +41,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MapGoogleComponent } from './components/map-google/map-google.component';
 import { MapHereComponent } from './components/map-here/map-here.component';
 import { MapMapboxComponent } from './components/map-mapbox/map-mapbox.component';
+import { PoiItemComponent } from './components/poi-item/poi-item.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { TestComponent } from './components/test/test.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 const materialModules = [
   BrowserModule,
@@ -82,9 +90,23 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, MapHereComponent, MapMapboxComponent],
+  declarations: [
+    AppComponent,
+    MapHereComponent,
+    MapMapboxComponent,
+    MapGoogleComponent,
+    PoiItemComponent,
+    ToolbarComponent,
+    SideNavComponent,
+    TestComponent,
+  ],
   imports: [
     AppRoutingModule,
+    BrowserModule,
+    CommonModule,
+    GoogleMapsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
     NgxMapboxGLModule.withConfig({
       accessToken:
         'pk.eyJ1Ijoid2FsbG5lcjMiLCJhIjoiY2tubzdwbGtsMWJ2azJwcG5vOW8yOHFyZSJ9.G3lm3BNg2KlYm5EwJl3AKg',

@@ -9,10 +9,18 @@
         "createDefaultProgram": true
       },
       "extends": [
+        "eslint:recommended",
         "plugin:@angular-eslint/ng-cli-compat",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:jasmine/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
       ],
+      "env": {
+        "jasmine": true
+      },
+      "plugins": ["jasmine"],
       "rules": {
         "@angular-eslint/component-selector": [
           "error",
@@ -36,6 +44,7 @@
             "accessibility": "explicit"
           }
         ],
+        "@typescript-eslint/explicit-function-return-type": ["error"],
         "arrow-parens": ["off", "always"],
         "id-blacklist": "error",
         "import/order": "off",

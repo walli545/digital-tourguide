@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import mapboxgl, { Marker } from 'mapbox-gl';
 
 @Component({
@@ -6,7 +6,7 @@ import mapboxgl, { Marker } from 'mapbox-gl';
   templateUrl: './map-mapbox.component.html',
   styleUrls: ['./map-mapbox.component.scss'],
 })
-export class MapMapboxComponent implements OnInit, AfterViewInit {
+export class MapMapboxComponent {
   private coords = [
     { lat: 48.11107030946002, lng: 11.61439881491252 },
     { lat: 48.11730789786704, lng: 11.638860123146667 },
@@ -14,13 +14,7 @@ export class MapMapboxComponent implements OnInit, AfterViewInit {
     { lat: 48.1250039872127, lng: 11.526697803315923 },
   ];
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {}
-
-  onLoad(m: mapboxgl.Map) {
+  onLoad(m: mapboxgl.Map): void {
     this.coords.forEach((c) => {
       new Marker({}).setLngLat([c.lng, c.lat]).addTo(m);
     });
