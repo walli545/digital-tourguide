@@ -43,7 +43,7 @@ import {
   ApiModule,
   Configuration,
   ConfigurationParameters,
-  PetService,
+  PointOfInterestService,
 } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,7 +54,7 @@ import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { PetMock } from './services/api-mocks/pet-mock';
+import { PointOfInterestServiceMock } from './services/api-mocks/poi-mock';
 
 const materialModules = [
   BrowserModule,
@@ -128,7 +128,9 @@ export const apiConfigFactory = (): Configuration => {
     }),
     ...materialModules,
   ],
-  providers: [{ provide: PetService, useClass: PetMock }],
+  providers: [
+    { provide: PointOfInterestService, useClass: PointOfInterestServiceMock },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
