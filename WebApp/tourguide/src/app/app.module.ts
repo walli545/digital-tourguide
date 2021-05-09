@@ -54,6 +54,7 @@ import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { PetMock } from './services/api-mocks/pet-mock';
 
 const materialModules = [
   BrowserModule,
@@ -127,7 +128,7 @@ export const apiConfigFactory = (): Configuration => {
     }),
     ...materialModules,
   ],
-  providers: [],
+  providers: [{ provide: PetService, useClass: PetMock }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
