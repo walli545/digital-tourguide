@@ -39,6 +39,12 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import {
+  ApiModule,
+  Configuration,
+  ConfigurationParameters,
+  PetService,
+} from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapGoogleComponent } from './components/map-google/map-google.component';
@@ -89,6 +95,13 @@ const materialModules = [
   ReactiveFormsModule,
 ];
 
+export const apiConfigFactory = (): Configuration => {
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+  };
+  return new Configuration(params);
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +114,7 @@ const materialModules = [
     TestComponent,
   ],
   imports: [
+    ApiModule.forRoot(apiConfigFactory),
     AppRoutingModule,
     BrowserModule,
     CommonModule,
