@@ -1,10 +1,10 @@
-export * from './pet.service';
-import { PetService } from './pet.service';
-export * from './pet.serviceInterface'
-export * from './store.service';
-import { StoreService } from './store.service';
-export * from './store.serviceInterface'
-export * from './user.service';
-import { UserService } from './user.service';
-export * from './user.serviceInterface'
-export const APIS = [PetService, StoreService, UserService];
+export * from './pointOfInterest.service';
+import { PointOfInterestService } from './pointOfInterest.service';
+export * from './pointOfInterest.serviceInterface'
+export * from './promoted.service';
+import { PromotedService } from './promoted.service';
+export * from './promoted.serviceInterface'
+export * from './route.service';
+import { RouteService } from './route.service';
+export * from './route.serviceInterface'
+export const APIS = [PointOfInterestService, PromotedService, RouteService];

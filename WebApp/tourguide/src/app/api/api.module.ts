@@ -2,9 +2,9 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
-import { PetService } from './api/pet.service';
-import { StoreService } from './api/store.service';
-import { UserService } from './api/user.service';
+import { PointOfInterestService } from './api/pointOfInterest.service';
+import { PromotedService } from './api/promoted.service';
+import { RouteService } from './api/route.service';
 
 @NgModule({
   imports:      [],
