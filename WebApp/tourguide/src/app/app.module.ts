@@ -39,6 +39,12 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import {
+  ApiModule,
+  Configuration,
+  ConfigurationParameters,
+  PetService,
+} from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapGoogleComponent } from './components/map-google/map-google.component';
@@ -48,6 +54,7 @@ import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { PetMock } from './services/api-mocks/pet-mock';
 
 const materialModules = [
   BrowserModule,
@@ -89,6 +96,13 @@ const materialModules = [
   ReactiveFormsModule,
 ];
 
+export const apiConfigFactory = (): Configuration => {
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+  };
+  return new Configuration(params);
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +115,7 @@ const materialModules = [
     TestComponent,
   ],
   imports: [
+    ApiModule.forRoot(apiConfigFactory),
     AppRoutingModule,
     BrowserModule,
     CommonModule,
@@ -113,7 +128,7 @@ const materialModules = [
     }),
     ...materialModules,
   ],
-  providers: [],
+  providers: [{ provide: PetService, useClass: PetMock }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
