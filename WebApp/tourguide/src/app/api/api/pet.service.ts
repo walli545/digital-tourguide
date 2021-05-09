@@ -22,13 +22,16 @@ import { Pet } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import {
+    PetServiceInterface
+} from './pet.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class PetService {
+export class PetService implements PetServiceInterface {
 
     protected basePath = 'http://localhost/api/v3';
     public defaultHeaders = new HttpHeaders();

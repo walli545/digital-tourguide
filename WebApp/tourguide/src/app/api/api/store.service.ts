@@ -21,13 +21,16 @@ import { Order } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import {
+    StoreServiceInterface
+} from './store.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class StoreService {
+export class StoreService implements StoreServiceInterface {
 
     protected basePath = 'http://localhost/api/v3';
     public defaultHeaders = new HttpHeaders();

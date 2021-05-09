@@ -21,13 +21,16 @@ import { User } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import {
+    UserServiceInterface
+} from './user.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements UserServiceInterface {
 
     protected basePath = 'http://localhost/api/v3';
     public defaultHeaders = new HttpHeaders();
