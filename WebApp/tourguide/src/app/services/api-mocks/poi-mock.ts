@@ -16,16 +16,19 @@ export class PointOfInterestServiceMock
   private pois = new Map<Number, PointOfInterest>();
   private currentId = 0;
 
-  addpoi(
-    route: PostPointOfInterest,
+  addPOI(
+    poi: PostPointOfInterest,
     extraHttpRequestParams?: any
-  ): Observable<{}> {
-    this.pois.set(this.currentId, {
-      id: this.currentId,
-      ...route,
-    });
+  ): Observable<PointOfInterest> {
+    const newPoi = {
+      id: `${this.currentId}`,
+      ...poi,
+      averageRating: 3,
+      numberOfRatings: 10,
+    };
+    this.pois.set(this.currentId, newPoi);
     this.currentId++;
-    return of();
+    return of(newPoi);
   }
 
   deletePOI(poiID: number, extraHttpRequestParams?: any): Observable<{}> {
@@ -48,7 +51,7 @@ export class PointOfInterestServiceMock
     }
   }
 
-  getPois(
+  getPOIs(
     userName: string,
     extraHttpRequestParams?: any
   ): Observable<Array<number>> {
@@ -57,15 +60,18 @@ export class PointOfInterestServiceMock
 
   putPOI(
     poiID: number,
-    route: PostPointOfInterest,
+    poi: PostPointOfInterest,
     extraHttpRequestParams?: any
-  ): Observable<{}> {
+  ): Observable<PointOfInterest> {
     if (this.pois.has(poiID)) {
-      this.pois.set(poiID, {
-        id: poiID,
-        ...route,
-      });
-      return of();
+      const updated = {
+        id: `${poiID}`,
+        ...poi,
+        averageRating: 3,
+        numberOfRatings: 10,
+      };
+      this.pois.set(poiID, updated);
+      return of(updated);
     } else {
       return throwError('not found');
     }

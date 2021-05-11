@@ -12,7 +12,7 @@
 
 
 export interface PointOfInterest { 
-    id: number;
+    id: string;
     name: string;
     description: string;
     latitude: number;

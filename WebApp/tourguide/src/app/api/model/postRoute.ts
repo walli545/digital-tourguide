@@ -12,7 +12,7 @@
 
 
 export interface PostRoute { 
-    routeID?: number;
+    routeID?: string;
     pointOfInterests: Array<number>;
     name: string;
     description: string;

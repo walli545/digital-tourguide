@@ -13,7 +13,7 @@ import { PointOfInterest } from './pointOfInterest';
 
 
 export interface Route { 
-    routeID: number;
+    routeID: string;
     pointOfInterests: Array<PointOfInterest>;
     name: string;
     description: string;

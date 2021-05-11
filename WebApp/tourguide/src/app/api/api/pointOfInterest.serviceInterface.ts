@@ -28,9 +28,9 @@ export interface PointOfInterestServiceInterface {
     /**
      * Add a new poi to the database
      * 
-     * @param route 
+     * @param poi 
      */
-    addpoi(route: PostPointOfInterest, extraHttpRequestParams?: any): Observable<{}>;
+    addPOI(poi: PostPointOfInterest, extraHttpRequestParams?: any): Observable<PointOfInterest>;
 
     /**
      * Deletes the poi to a given id
@@ -51,14 +51,14 @@ export interface PointOfInterestServiceInterface {
      * 
      * @param userName 
      */
-    getPois(userName: string, extraHttpRequestParams?: any): Observable<Array<number>>;
+    getPOIs(userName: string, extraHttpRequestParams?: any): Observable<Array<number>>;
 
     /**
      * Edits the poi to a given id
      * 
      * @param poiID 
-     * @param route 
+     * @param poi 
      */
-    putPOI(poiID: number, route: PostPointOfInterest, extraHttpRequestParams?: any): Observable<{}>;
+    putPOI(poiID: number, poi: PostPointOfInterest, extraHttpRequestParams?: any): Observable<PointOfInterest>;
 
 }

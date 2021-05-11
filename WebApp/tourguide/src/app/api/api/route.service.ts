@@ -33,7 +33,7 @@ import {
 })
 export class RouteService implements RouteServiceInterface {
 
-    protected basePath = 'https://SERVER/v2';
+    protected basePath = 'http://SERVER/v2';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -94,10 +94,10 @@ export class RouteService implements RouteServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addRoute(route: PostRoute, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public addRoute(route: PostRoute, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public addRoute(route: PostRoute, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public addRoute(route: PostRoute, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public addRoute(route: PostRoute, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Route>;
+    public addRoute(route: PostRoute, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Route>>;
+    public addRoute(route: PostRoute, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Route>>;
+    public addRoute(route: PostRoute, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (route === null || route === undefined) {
             throw new Error('Required parameter route was null or undefined when calling addRoute.');
         }
@@ -108,6 +108,7 @@ export class RouteService implements RouteServiceInterface {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -129,7 +130,7 @@ export class RouteService implements RouteServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/route`,
+        return this.httpClient.post<Route>(`${this.configuration.basePath}/route`,
             route,
             {
                 responseType: <any>responseType_,
@@ -191,10 +192,10 @@ export class RouteService implements RouteServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRoute(routeID: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Route>;
-    public getRoute(routeID: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Route>>;
-    public getRoute(routeID: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Route>>;
-    public getRoute(routeID: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public getRoute(routeID: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Route>;
+    public getRoute(routeID: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Route>>;
+    public getRoute(routeID: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Route>>;
+    public getRoute(routeID: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (routeID === null || routeID === undefined) {
             throw new Error('Required parameter routeID was null or undefined when calling getRoute.');
         }
@@ -282,10 +283,10 @@ export class RouteService implements RouteServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public putRoute(routeID: number, route: PostRoute, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public putRoute(routeID: number, route: PostRoute, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public putRoute(routeID: number, route: PostRoute, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public putRoute(routeID: number, route: PostRoute, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public putRoute(routeID: string, route: PostRoute, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public putRoute(routeID: string, route: PostRoute, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public putRoute(routeID: string, route: PostRoute, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public putRoute(routeID: string, route: PostRoute, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (routeID === null || routeID === undefined) {
             throw new Error('Required parameter routeID was null or undefined when calling putRoute.');
         }

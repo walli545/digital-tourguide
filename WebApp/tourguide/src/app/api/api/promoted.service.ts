@@ -31,7 +31,7 @@ import {
 })
 export class PromotedService implements PromotedServiceInterface {
 
-    protected basePath = 'https://SERVER/v2';
+    protected basePath = 'http://SERVER/v2';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -95,21 +95,21 @@ export class PromotedService implements PromotedServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPromotedPOIS(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<number>>;
-    public getPromotedPOIS(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<number>>>;
-    public getPromotedPOIS(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<number>>>;
-    public getPromotedPOIS(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<number>>;
+    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<number>>>;
+    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<number>>>;
+    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (longitudeMin === null || longitudeMin === undefined) {
-            throw new Error('Required parameter longitudeMin was null or undefined when calling getPromotedPOIS.');
+            throw new Error('Required parameter longitudeMin was null or undefined when calling getPromotedPOIs.');
         }
         if (latitudeMin === null || latitudeMin === undefined) {
-            throw new Error('Required parameter latitudeMin was null or undefined when calling getPromotedPOIS.');
+            throw new Error('Required parameter latitudeMin was null or undefined when calling getPromotedPOIs.');
         }
         if (longitudeMax === null || longitudeMax === undefined) {
-            throw new Error('Required parameter longitudeMax was null or undefined when calling getPromotedPOIS.');
+            throw new Error('Required parameter longitudeMax was null or undefined when calling getPromotedPOIs.');
         }
         if (latitudeMax === null || latitudeMax === undefined) {
-            throw new Error('Required parameter latitudeMax was null or undefined when calling getPromotedPOIS.');
+            throw new Error('Required parameter latitudeMax was null or undefined when calling getPromotedPOIs.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});

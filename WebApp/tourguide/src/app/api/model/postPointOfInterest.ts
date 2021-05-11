@@ -12,12 +12,10 @@
 
 
 export interface PostPointOfInterest { 
-    id?: number;
+    id?: string;
     name: string;
     description: string;
     latitude: number;
     longitude: number;
-    averageRating: number;
-    numberOfRatings: number;
 }
 
