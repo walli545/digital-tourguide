@@ -1,4 +1,4 @@
 src/polyfills.ts
 coverage
 src/app/api
-src/app/services/api-mocks
+src/app/services/local-api

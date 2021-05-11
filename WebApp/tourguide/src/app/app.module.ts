@@ -51,7 +51,7 @@ import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { PointOfInterestServiceMock } from './services/api-mocks/poi-mock';
+import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
 
 const materialModules = [
   BrowserModule,
@@ -120,7 +120,7 @@ export const apiConfigFactory = (): Configuration => {
     ...materialModules,
   ],
   providers: [
-    { provide: PointOfInterestService, useClass: PointOfInterestServiceMock },
+    { provide: PointOfInterestService, useClass: LocalPointOfInterestService },
   ],
   bootstrap: [AppComponent],
 })

@@ -7,13 +7,13 @@ import {
   PostPointOfInterest,
 } from '../../api';
 
-export class PointOfInterestServiceMock
+export class LocalPointOfInterestService
   implements PointOfInterestServiceInterface {
   public defaultHeaders!: HttpHeaders;
   public configuration!: Configuration;
   public encoder!: HttpParameterCodec;
 
-  private pois = new Map<Number, PointOfInterest>();
+  private pois = new Map<number, PointOfInterest>();
   private currentId = 0;
 
   addPOI(
