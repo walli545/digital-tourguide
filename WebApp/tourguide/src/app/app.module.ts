@@ -52,6 +52,7 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
+import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 
 const materialModules = [
   BrowserModule,
@@ -108,6 +109,7 @@ export const apiConfigFactory = (): Configuration => {
     ToolbarComponent,
     SideNavComponent,
     TestComponent,
+    EditPoiComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
