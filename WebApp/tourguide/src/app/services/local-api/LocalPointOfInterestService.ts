@@ -1,5 +1,10 @@
-import { HttpHeaders, HttpParameterCodec } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParameterCodec,
+} from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import {
   Configuration,
   PointOfInterest,
@@ -28,7 +33,7 @@ export class LocalPointOfInterestService
     };
     this.pois.set(this.currentId, newPoi);
     this.currentId++;
-    return of(newPoi);
+    return of(newPoi).pipe(delay(5_000));
   }
 
   deletePOI(poiID: number, extraHttpRequestParams?: any): Observable<{}> {
@@ -36,7 +41,9 @@ export class LocalPointOfInterestService
       this.pois.delete(poiID);
       return of();
     } else {
-      return throwError('not found');
+      return throwError(
+        new HttpErrorResponse({ status: 404, statusText: 'Not found' })
+      );
     }
   }
 
@@ -47,15 +54,19 @@ export class LocalPointOfInterestService
     if (this.pois.has(poiID)) {
       return of(this.pois.get(poiID)!);
     } else {
-      return throwError('not found');
+      return throwError(
+        new HttpErrorResponse({ status: 404, statusText: 'Not found' })
+      );
     }
   }
 
   getPOIs(
     userName: string,
     extraHttpRequestParams?: any
-  ): Observable<Array<number>> {
-    throw new Error('Not implemented');
+  ): Observable<Array<string>> {
+    return of(Array.from(this.pois.values()).map((p) => p.id)).pipe(
+      delay(2_000)
+    );
   }
 
   putPOI(
@@ -73,7 +84,9 @@ export class LocalPointOfInterestService
       this.pois.set(poiID, updated);
       return of(updated);
     } else {
-      return throwError('not found');
+      return throwError(
+        new HttpErrorResponse({ status: 404, statusText: 'Not found' })
+      );
     }
   }
 }

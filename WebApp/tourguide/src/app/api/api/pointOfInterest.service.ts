@@ -237,9 +237,9 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPOIs(userName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<number>>;
-    public getPOIs(userName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<number>>>;
-    public getPOIs(userName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<number>>>;
+    public getPOIs(userName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<string>>;
+    public getPOIs(userName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<string>>>;
+    public getPOIs(userName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<string>>>;
     public getPOIs(userName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (userName === null || userName === undefined) {
             throw new Error('Required parameter userName was null or undefined when calling getPOIs.');
@@ -265,7 +265,7 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<number>>(`${this.configuration.basePath}/pointOfInterest/${encodeURIComponent(String(userName))}`,
+        return this.httpClient.get<Array<string>>(`${this.configuration.basePath}/pointOfInterest/${encodeURIComponent(String(userName))}`,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

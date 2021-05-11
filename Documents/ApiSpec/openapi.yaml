@@ -237,7 +237,8 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  type: string
+                  format: guid
         404:
           description: User not found
   /promoted:

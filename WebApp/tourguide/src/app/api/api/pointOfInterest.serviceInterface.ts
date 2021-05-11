@@ -51,7 +51,7 @@ export interface PointOfInterestServiceInterface {
      * 
      * @param userName 
      */
-    getPOIs(userName: string, extraHttpRequestParams?: any): Observable<Array<number>>;
+    getPOIs(userName: string, extraHttpRequestParams?: any): Observable<Array<string>>;
 
     /**
      * Edits the poi to a given id
