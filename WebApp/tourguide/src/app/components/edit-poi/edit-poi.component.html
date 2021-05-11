@@ -1,1 +1,22 @@
-<p>edit-poi works!</p>
+<google-map [options]="mapOptions" height="100%" width="100%" #map>
+  <ng-content></ng-content>
+  <map-marker
+    #marker
+    [options]="markerOptions"
+    [position]="{ lat: 0, lng: 0 }"
+    (positionChanged)="onMarkerPositionChanged()"
+  ></map-marker>
+</google-map>
+
+<mat-card id="card">
+  <mat-spinner *ngIf="!poi"></mat-spinner>
+  <ng-container *ngIf="poi">
+    <h1>{{ poi.name }}</h1>
+    {{ poi.description }}
+
+    <br />
+    Long: {{ poi.longitude }}
+    <br />
+    Lat: {{ poi.latitude }}
+  </ng-container>
+</mat-card>
