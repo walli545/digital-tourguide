@@ -7,7 +7,7 @@ servers:
   - url: http://SERVER/v2
 tags:
   - name: route
-    description: api calls for the route
+    description: api calls for the route 
     externalDocs:
       description: Find out more
       url: http://swagger.io
