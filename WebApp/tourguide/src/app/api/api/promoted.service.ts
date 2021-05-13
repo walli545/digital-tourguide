@@ -95,9 +95,9 @@ export class PromotedService implements PromotedServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<number>>;
-    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<number>>>;
-    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<number>>>;
+    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<string>>;
+    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<string>>>;
+    public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<string>>>;
     public getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (longitudeMin === null || longitudeMin === undefined) {
             throw new Error('Required parameter longitudeMin was null or undefined when calling getPromotedPOIs.');
@@ -150,7 +150,7 @@ export class PromotedService implements PromotedServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<number>>(`${this.configuration.basePath}/promoted`,
+        return this.httpClient.get<Array<string>>(`${this.configuration.basePath}/promoted`,
             {
                 params: queryParameters,
                 responseType: <any>responseType_,

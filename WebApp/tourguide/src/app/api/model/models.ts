@@ -1,3 +1,4 @@
+export * from './inlineResponse200';
 export * from './pointOfInterest';
 export * from './postPointOfInterest';
 export * from './postRoute';

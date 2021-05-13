@@ -12,6 +12,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/inlineResponse200.ts
 model/models.ts
 model/pointOfInterest.ts
 model/postPointOfInterest.ts
