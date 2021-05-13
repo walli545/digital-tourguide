@@ -11,7 +11,11 @@ const routes: Routes = [
   },
   { path: 'gmaps', component: MapGoogleComponent },
   {
-    path: 'poi',
+    path: 'poi/new',
+    component: EditPoiComponent,
+  },
+  {
+    path: 'poi/:id',
     component: EditPoiComponent,
   },
 ];

@@ -7,6 +7,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import {
   Configuration,
+  InlineResponse200,
   PointOfInterest,
   PointOfInterestServiceInterface,
   PostPointOfInterest,
@@ -18,8 +19,20 @@ export class LocalPointOfInterestService
   public configuration!: Configuration;
   public encoder!: HttpParameterCodec;
 
-  private pois = new Map<number, PointOfInterest>();
+  private pois = new Map<string, PointOfInterest>();
   private currentId = 0;
+
+  constructor() {
+    this.pois.set('1', {
+      latitude: 48.137154,
+      longitude: 11.576124,
+      id: '1',
+      description: 'Hauptplatz in München\n\nabc',
+      name: 'Marienplatz',
+      numberOfRatings: 10,
+      averageRating: 1,
+    });
+  }
 
   addPOI(
     poi: PostPointOfInterest,
@@ -31,12 +44,12 @@ export class LocalPointOfInterestService
       averageRating: 3,
       numberOfRatings: 10,
     };
-    this.pois.set(this.currentId, newPoi);
+    this.pois.set(newPoi.id, newPoi);
     this.currentId++;
     return of(newPoi).pipe(delay(5_000));
   }
 
-  deletePOI(poiID: number, extraHttpRequestParams?: any): Observable<{}> {
+  deletePOI(poiID: string, extraHttpRequestParams?: any): Observable<{}> {
     if (this.pois.has(poiID)) {
       this.pois.delete(poiID);
       return of();
@@ -48,11 +61,11 @@ export class LocalPointOfInterestService
   }
 
   getPOI(
-    poiID: number,
+    poiID: string,
     extraHttpRequestParams?: any
   ): Observable<PointOfInterest> {
     if (this.pois.has(poiID)) {
-      return of(this.pois.get(poiID)!);
+      return of(this.pois.get(poiID)!).pipe(delay(2_000));
     } else {
       return throwError(
         new HttpErrorResponse({ status: 404, statusText: 'Not found' })
@@ -70,7 +83,7 @@ export class LocalPointOfInterestService
   }
 
   putPOI(
-    poiID: number,
+    poiID: string,
     poi: PostPointOfInterest,
     extraHttpRequestParams?: any
   ): Observable<PointOfInterest> {
@@ -88,5 +101,12 @@ export class LocalPointOfInterestService
         new HttpErrorResponse({ status: 404, statusText: 'Not found' })
       );
     }
+  }
+
+  getCenterOfPOIs(
+    userName: string,
+    extraHttpRequestParams?: any
+  ): Observable<InlineResponse200> {
+    return of({ latitude: 10, longitude: 10 });
   }
 }

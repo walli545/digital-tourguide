@@ -1,14 +1,18 @@
+import { OnInit } from '@angular/core';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
-import { PointOfInterest } from '../../api';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { PointOfInterest, PointOfInterestService } from '../../api';
+import { toGoogleMaps } from '../../utils/poi';
 import { customStyle } from '../map-google/custom-style';
+import { PoiForm } from './poi-form';
 
 @Component({
   selector: 'app-edit-poi',
   templateUrl: './edit-poi.component.html',
   styleUrls: ['./edit-poi.component.scss'],
 })
-export class EditPoiComponent implements AfterViewInit {
+export class EditPoiComponent implements OnInit, AfterViewInit {
   @ViewChild('map') map!: GoogleMap;
   @ViewChild(MapMarker) public marker!: MapMarker;
 
@@ -24,38 +28,64 @@ export class EditPoiComponent implements AfterViewInit {
     backgroundColor: '#424242',
   };
 
-  poi: PointOfInterest | undefined;
+  loading = true;
+  isNew = true;
+  poiForm: PoiForm;
 
-  // constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private poiService: PointOfInterestService
+  ) {
+    this.poiForm = new PoiForm();
+  }
 
-  // ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    this.route.paramMap.subscribe(async (params: ParamMap) => {
+      const id = params.get('id');
+      if (id) {
+        await this.getExistingPoi(id);
+        this.isNew = false;
+      }
+      this.poiForm.updateFormControl();
+      this.loading = false;
+      this.onPoiReceived(this.poiForm.pointOfInterest);
+    });
+  }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.onPoiReceived({
-        latitude: 48.137154,
-        longitude: 11.576124,
-        id: '1',
-        description: 'Description',
-        name: 'Name',
-        numberOfRatings: 10,
-        averageRating: 1,
-      });
-    }, 1_000);
+  async ngAfterViewInit(): Promise<void> {
+    this.map.panBy(-260, 0);
   }
 
   onMarkerPositionChanged(): void {
     const pos = this.marker.getPosition();
-    if (this.poi && pos) {
-      this.poi.latitude = pos.lat();
-      this.poi.longitude = pos.lng();
+    if (pos) {
+      this.poiForm.pointOfInterest.latitude = pos.lat();
+      this.poiForm.pointOfInterest.longitude = pos.lng();
     }
   }
 
   onPoiReceived(poi: PointOfInterest): void {
-    this.poi = poi;
-    this.map.googleMap?.setCenter({ lat: poi.latitude, lng: poi.longitude });
-    this.map.panBy(-260, 0);
-    this.marker.marker?.setPosition({ lat: poi.latitude, lng: poi.longitude });
+    if (this.map && this.marker) {
+      this.map.googleMap?.setCenter(toGoogleMaps(poi));
+      this.marker.marker?.setPosition(toGoogleMaps(poi));
+      this.map.panBy(-260, 0);
+    } else {
+      this.mapOptions.center = toGoogleMaps(poi);
+      this.markerOptions.position = toGoogleMaps(poi);
+    }
+  }
+
+  onSave(): void {}
+
+  private async getExistingPoi(id: string): Promise<void> {
+    try {
+      this.poiForm.pointOfInterest = await this.poiService
+        .getPOI(id)
+        .toPromise();
+    } catch (error) {
+      //this.handleError(error, 'Category not found');
+      this.router.navigate(['poi/new']);
+    }
   }
 }
