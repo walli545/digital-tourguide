@@ -1,9 +1,10 @@
-import { OnInit } from '@angular/core';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { PointOfInterest, PointOfInterestService } from '../../api';
-import { toGoogleMaps } from '../../utils/poi';
+import { PointOfInterestService } from '../../api';
+import { toGoogleMaps, toPostPoi } from '../../utils/poi';
 import { customStyle } from '../map-google/custom-style';
 import { PoiForm } from './poi-form';
 
@@ -16,7 +17,7 @@ export class EditPoiComponent implements OnInit, AfterViewInit {
   @ViewChild('map') map!: GoogleMap;
   @ViewChild(MapMarker) public marker!: MapMarker;
 
-  markerOptions: google.maps.MarkerOptions = { draggable: true, title: 'a' };
+  markerOptions: google.maps.MarkerOptions = { draggable: true };
   mapOptions: google.maps.MapOptions = {
     zoom: 12,
     styles: customStyle,
@@ -35,27 +36,33 @@ export class EditPoiComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private poiService: PointOfInterestService
+    private poiService: PointOfInterestService,
+    private location: Location,
+    private snackBar: MatSnackBar
   ) {
     this.poiForm = new PoiForm();
   }
+
+  // Lifecycle methods
 
   async ngOnInit(): Promise<void> {
     this.route.paramMap.subscribe(async (params: ParamMap) => {
       const id = params.get('id');
       if (id) {
         await this.getExistingPoi(id);
-        this.isNew = false;
       }
       this.poiForm.updateFormControl();
       this.loading = false;
-      this.onPoiReceived(this.poiForm.pointOfInterest);
+      this.updateMap();
     });
   }
 
-  async ngAfterViewInit(): Promise<void> {
+  ngAfterViewInit(): void {
+    // pan map in eastern direction because of overlay card
     this.map.panBy(-260, 0);
   }
+
+  // Callbacks
 
   onMarkerPositionChanged(): void {
     const pos = this.marker.getPosition();
@@ -65,27 +72,70 @@ export class EditPoiComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onPoiReceived(poi: PointOfInterest): void {
+  async onSave(): Promise<void> {
+    this.loading = true;
+    this.poiForm.updatePoi();
+    try {
+      if (this.isNew) {
+        await this.saveNewPoi();
+      } else {
+        await this.saveExistingPoi();
+      }
+    } catch (error) {
+      this.handleError(error, `Unable to save point of interest`);
+    }
+    this.loading = false;
+  }
+
+  onCancel(): void {
+    this.location.back();
+  }
+
+  private updateMap(): void {
+    const poi = this.poiForm.pointOfInterest;
     if (this.map && this.marker) {
+      // after afterViewInit
       this.map.googleMap?.setCenter(toGoogleMaps(poi));
       this.marker.marker?.setPosition(toGoogleMaps(poi));
       this.map.panBy(-260, 0);
     } else {
+      // before afterViewInit
       this.mapOptions.center = toGoogleMaps(poi);
       this.markerOptions.position = toGoogleMaps(poi);
     }
   }
-
-  onSave(): void {}
 
   private async getExistingPoi(id: string): Promise<void> {
     try {
       this.poiForm.pointOfInterest = await this.poiService
         .getPOI(id)
         .toPromise();
+      this.isNew = false;
     } catch (error) {
-      //this.handleError(error, 'Category not found');
-      this.router.navigate(['poi/new']);
+      this.handleError(error, 'Point of interest not found');
+      this.router.navigate(['poi', 'new']);
     }
+  }
+
+  private async saveNewPoi(): Promise<void> {
+    const newPoi = await this.poiService
+      .addPOI(toPostPoi(this.poiForm.pointOfInterest))
+      .toPromise();
+    this.router.navigate(['poi', newPoi.id]);
+  }
+
+  private async saveExistingPoi(): Promise<void> {
+    const updatedPoi = await this.poiService
+      .putPOI(this.poiForm.pointOfInterest.id, this.poiForm.pointOfInterest)
+      .toPromise();
+    this.poiForm.pointOfInterest = updatedPoi;
+    this.updateMap();
+  }
+
+  private handleError(error: Error, snackBarMessage: string): void {
+    console.error(error);
+    this.snackBar.open(snackBarMessage, undefined, {
+      duration: 3000,
+    });
   }
 }

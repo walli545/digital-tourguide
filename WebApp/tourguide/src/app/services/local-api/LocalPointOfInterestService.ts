@@ -20,7 +20,7 @@ export class LocalPointOfInterestService
   public encoder!: HttpParameterCodec;
 
   private pois = new Map<string, PointOfInterest>();
-  private currentId = 0;
+  private currentId = 2;
 
   constructor() {
     this.pois.set('1', {
@@ -95,7 +95,7 @@ export class LocalPointOfInterestService
         numberOfRatings: 10,
       };
       this.pois.set(poiID, updated);
-      return of(updated);
+      return of(updated).pipe(delay(2_000));
     } else {
       return throwError(
         new HttpErrorResponse({ status: 404, statusText: 'Not found' })

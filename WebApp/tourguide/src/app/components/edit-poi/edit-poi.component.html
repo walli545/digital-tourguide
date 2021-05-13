@@ -66,10 +66,7 @@
           <mat-icon inline="true">save</mat-icon>
           SAVE
         </button>
-        <button id="btn-cancel" mat-button mat-raised-button color="warn">
-          <mat-icon inline="true">cancel</mat-icon>
-          CANCEL
-        </button>
+        <button id="btn-cancel" mat-button (click)="onCancel()">CANCEL</button>
       </mat-card-actions>
     </ng-container>
     <mat-spinner *ngIf="loading"></mat-spinner>
