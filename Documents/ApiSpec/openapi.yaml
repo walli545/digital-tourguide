@@ -71,7 +71,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
+            format: guid
       responses:
         200:
           description: Success
@@ -124,7 +125,8 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  type: string
+                  format: guid
         404:
           description: User not found
   /pointOfInterest:
@@ -162,7 +164,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
+            format: guid
       responses:
         200:
           description: Success
@@ -182,7 +185,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
+            format: guid
       responses:
         200:
           description: Success
@@ -198,7 +202,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
+            format: guid
       requestBody:
         content:
           "*/*":
@@ -241,6 +246,32 @@ paths:
                   format: guid
         404:
           description: User not found
+  /pointOfInterest/{userName}/center:
+    get:
+      tags:
+        - pointOfInterest
+      summary: Get the center of all poi's from the given user
+      operationId: getCenterOfPOIs
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  latitude:
+                    type: number
+                  longitude:
+                    type: number
+        404:
+          description: User not found
   /promoted:
     get:
       tags:
@@ -276,7 +307,8 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  type: string
+                  format: guid
 components:
   schemas:
     PointOfInterest:
