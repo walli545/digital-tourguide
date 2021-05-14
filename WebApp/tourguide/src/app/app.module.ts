@@ -51,6 +51,7 @@ import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
 
 const materialModules = [
@@ -108,6 +109,7 @@ export const apiConfigFactory = (): Configuration => {
     ToolbarComponent,
     SideNavComponent,
     TestComponent,
+    ViewPoisComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
