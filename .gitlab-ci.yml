@@ -69,7 +69,7 @@ openapi_deploy:
     - git pull .
     - git add Frontend/App/DigitalTourGuide/app/src/main/java/edu/hm/digitaltourguide/api
     - git commit -m "Updated API Client" || if [ $? -eq 64 ]; then echo "success"; else echo $code; fi
-    - git push https://${GITLAB_USER_LOGIN}:${TOKEN}@gitlab.lrz.de/swe2_ss2021/Gruppe02.git/ HEAD:swaggerCI -f
+    - git push https://${GITLAB_USER_LOGIN}:${TOKEN}@gitlab.lrz.de/swe2_ss2021/Gruppe02.git/ HEAD:develop -f
   only:
     changes: 
       - Documents/ApiSpec/openapi.yaml
