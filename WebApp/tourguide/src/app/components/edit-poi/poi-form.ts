@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   AbstractControl,
   FormControl,
@@ -8,13 +9,13 @@ import { PointOfInterest } from '../../api';
 
 export class PoiForm {
   private poi: PointOfInterest = {
-    latitude: 48.137154,
-    longitude: 11.576124,
+    latitude: 0,
+    longitude: 0,
     id: 'new',
     description: '',
     name: '',
-    numberOfRatings: 10,
-    averageRating: 1,
+    numberOfRatings: 0,
+    averageRating: 0,
   };
 
   private poiForm = new FormGroup({
@@ -23,19 +24,11 @@ export class PoiForm {
   });
 
   public get nameControl(): AbstractControl {
-    const c = this.poiForm.get('name');
-    if (!c) {
-      throw new Error('Form control with name "name" does not exist');
-    }
-    return c;
+    return this.poiForm.get('name')!;
   }
 
   public get descriptionControl(): AbstractControl {
-    const c = this.poiForm.get('description');
-    if (!c) {
-      throw new Error('Form control with name "description" does not exist');
-    }
-    return c;
+    return this.poiForm.get('description')!;
   }
 
   public get formGroup(): FormGroup {
