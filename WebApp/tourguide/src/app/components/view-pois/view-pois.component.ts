@@ -68,20 +68,26 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
         });
       });
     });
+    this.loading = false;
   }
 
   ngAfterViewInit(): void {
     // pan map in eastern direction because of overlay card
     this.map.panBy(-260, 0);
-    this.loading = false;
   }
 
   openInfoWindow(marker: MapMarker, poi: PointOfInterest): void {
     this.infoWindow.options = {
       content: `<h4>${poi.name}</h4><br>
-      <h5>${poi.description}</h5>`,
+      <h5>${poi.description}<br>
+      <b>Latitude:</b> ${poi.latitude}<br>
+      <b>Longitude:</b> ${poi.longitude}<br>
+      <b>Average Rating:</b> ${poi.averageRating}<br>
+      <b>Number of Ratings:</b> ${poi.numberOfRatings}</h5>`,
     };
+
     this.infoWindow.open(marker);
+    this.mapOptions.center = this.toGoogle(poi);
   }
 
   closeInfoWindow(): void {
@@ -103,6 +109,11 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
   // for Marker label
   toString(index: number): string {
     return index.toString();
+  }
+
+  // for pois with array index as marker-label, instead of poi.id, on website
+  toArray(): PointOfInterest[] {
+    return Array.from(this.pois.values());
   }
 
   onDelete(poi: PointOfInterest): void {

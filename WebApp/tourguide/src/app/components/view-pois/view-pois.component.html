@@ -1,17 +1,17 @@
 <google-map [options]="mapOptions" height="100%" width="100%" #map>
   <map-marker
-    *ngFor="let poi of pois | keyvalue"
+    *ngFor="let poi of toArray(); index as i"
     #marker="mapMarker"
     [options]="markerOptions"
     [clickable]="true"
-    [position]="toGoogle(poi.value)"
-    [title]="poi.value.name"
-    [label]="toString(poi.key)"
-    (mapMouseover)="openInfoWindow(marker, poi.value)"
+    [position]="toGoogle(poi)"
+    [title]="poi.name"
+    [label]="toString(i)"
+    (mapMouseover)="openInfoWindow(marker, poi)"
     (mapMouseout)="closeInfoWindow()"
-    (mapClick)="onEdit(poi.value)"
+    (mapClick)="onEdit(poi)"
   >
-    <map-info-window id="info-window"></map-info-window>
+    <map-info-window></map-info-window>
   </map-marker>
 </google-map>
 
@@ -20,7 +20,7 @@
     <mat-card-header>
       <mat-card-title>Meine Points Of Interests</mat-card-title>
       <mat-card-subtitle
-        >zum bearbeiten auf den Eintrag oder Marker klicken</mat-card-subtitle
+        >zum Bearbeiten auf den Eintrag oder Marker klicken</mat-card-subtitle
       >
     </mat-card-header>
 
@@ -28,12 +28,21 @@
       ><mat-card-content>Keine Pois vorhanden!</mat-card-content></mat-card
     >
     <mat-card-content id="card-content" *ngIf="hasPois()">
-      <mat-card (click)="onEdit(poi.value)" *ngFor="let poi of pois | keyvalue"
+      <mat-card
+        id="card-poi"
+        (click)="onEdit(poi)"
+        *ngFor="let poi of toArray(); index as i"
         ><mat-card-header>
-          <mat-card-title>{{ poi.value.name }}</mat-card-title>
+          <mat-card-title>{{ poi.name }}</mat-card-title>
           <mat-card-subtitle
-            >Marker: {{ poi.key }}
-            <button mat-button (click)="onDelete(poi.value)">
+            >Marker: {{ i }}
+            <button
+              mat-button
+              (click)="onDelete(poi)"
+              matTooltip="löscht diesen PoI"
+              matTooltipClass="tooltip-red"
+              aria-label="Poi delete button"
+            >
               <mat-icon inline="true" color="warn">delete</mat-icon>
             </button>
           </mat-card-subtitle>
@@ -44,6 +53,15 @@
   </ng-container>
   <mat-spinner *ngIf="loading"></mat-spinner>
 </mat-card>
-<button id="btn-new" mat-fab color="accent" (click)="onNew()">
+<button
+  id="btn-new"
+  mat-fab
+  color="accent"
+  (click)="onNew()"
+  matTooltip="neuen PoI hinzufügen"
+  matTooltipClass="tooltip-red"
+  matTooltipPosition="above"
+  aria-label="Poi add button"
+>
   <mat-icon>add_location</mat-icon>
 </button>

@@ -19,11 +19,6 @@
   box-sizing: border-box;
 }
 
-#info-window {
-  background-color: black;
-  color: blue;
-}
-
 #btn-new {
   position: fixed;
   z-index: 10;
@@ -32,6 +27,11 @@
   box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
   display: flex;
   flex-direction: column;
+}
+
+#card-poi {
+  cursor: pointer;
+  display: flex;
 }
 mat-card-actions {
   display: flex;
@@ -54,4 +54,11 @@ mat-icon {
   > .mat-card-content {
     overflow-y: auto;
   }
+}
+
+::ng-deep .gm-style .gm-style-iw-c {
+  background-color: #303030;
+}
+::ng-deep .tooltip-red {
+  background: #f44336;
 }
