@@ -1,0 +1,58 @@
+<google-map [options]="mapOptions" height="100%" width="100%" #map>
+  <map-marker
+    *ngFor="let poi of pois | keyvalue"
+    #marker="mapMarker"
+    [options]="markerOptions"
+    [clickable]="true"
+    [position]="toGoogle(poi.value)"
+    [title]="poi.value.name"
+    [label]="toString(poi.key)"
+    (mapMouseover)="openInfoWindow(marker, poi.value)"
+    (mapMouseout)="closeInfoWindow()"
+  >
+    <map-info-window id="info-window"></map-info-window>
+  </map-marker>
+</google-map>
+
+<mat-card id="card" class="scrollable-content">
+  <ng-container *ngIf="!loading">
+    <mat-card-header>
+      <mat-card-title>Meine Points Of Intrests</mat-card-title>
+    </mat-card-header>
+
+    <mat-card *ngIf="!hasPois()"
+      ><mat-card-content>Keine Pois vorhanden!</mat-card-content></mat-card
+    >
+    <mat-card-content id="card-content" *ngIf="hasPois()">
+      <mat-card id="p" *ngFor="let poi of pois | keyvalue"
+        ><mat-card-header>
+          <mat-card-title>{{ poi.value.name }}</mat-card-title>
+          <mat-card-subtitle>Marker: {{ poi.key }} </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button
+            id="btn-save"
+            (click)="onDelete(poi.value)"
+            mat-button
+            mat-raised-button
+            color="warn"
+          >
+            <mat-icon inline="true">delete</mat-icon>
+          </button>
+          <button
+            (click)="onEdit(poi.value)"
+            mat-button
+            mat-raised-button
+            color="primary"
+          >
+            <mat-icon inline="true">edit</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-card-content>
+  </ng-container>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+</mat-card>
+<button id="btn-new" mat-fab color="accent" (click)="onNew()">
+  <mat-icon>add_location</mat-icon>
+</button>
