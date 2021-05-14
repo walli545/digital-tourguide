@@ -27,6 +27,16 @@
         <mat-icon matListIcon>map</mat-icon>
         Google Maps
       </a>
+      <a
+        mat-list-item
+        (click)="toggle()"
+        [routerLink]="['pois']"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListIcon>location_on</mat-icon>
+        Meine PoI's
+      </a>
 
       <mat-divider></mat-divider>
     </mat-nav-list>
