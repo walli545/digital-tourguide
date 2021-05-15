@@ -18,7 +18,7 @@ describe('PoiForm', () => {
     expect(fg.dirty).toBeFalse();
   });
 
-  it('get nameCcontrol works', () => {
+  it('get nameControl works', () => {
     const nameCtl = form.nameControl;
 
     expect(nameCtl.dirty).toBeFalse();
