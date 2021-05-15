@@ -1,5 +1,4 @@
-import { Location } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -13,9 +12,9 @@ import { PoiForm } from './poi-form';
   templateUrl: './edit-poi.component.html',
   styleUrls: ['./edit-poi.component.scss'],
 })
-export class EditPoiComponent implements OnInit, AfterViewInit {
+export class EditPoiComponent implements OnInit {
   @ViewChild('map') map!: GoogleMap;
-  @ViewChild(MapMarker) public marker!: MapMarker;
+  @ViewChild(MapMarker) marker!: MapMarker;
 
   markerOptions: google.maps.MarkerOptions = { draggable: true };
   mapOptions: google.maps.MapOptions = {
@@ -37,7 +36,6 @@ export class EditPoiComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private poiService: PointOfInterestService,
-    private location: Location,
     private snackBar: MatSnackBar
   ) {
     this.poiForm = new PoiForm();
@@ -45,21 +43,21 @@ export class EditPoiComponent implements OnInit, AfterViewInit {
 
   // Lifecycle methods
 
-  async ngOnInit(): Promise<void> {
-    this.route.paramMap.subscribe(async (params: ParamMap) => {
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params: ParamMap) => {
       const id = params.get('id');
+      let promise: Promise<void>;
       if (id) {
-        await this.getExistingPoi(id);
+        promise = this.getExistingPoi(id);
+      } else {
+        promise = this.getDefaultCoordinates();
       }
-      this.poiForm.updateFormControl();
-      this.loading = false;
-      this.updateMap();
+      promise.then(() => {
+        this.poiForm.updateFormControl();
+        this.loading = false;
+        this.updateMap();
+      });
     });
-  }
-
-  ngAfterViewInit(): void {
-    // pan map in eastern direction because of overlay card
-    this.map.panBy(-260, 0);
   }
 
   // Callbacks
@@ -88,7 +86,7 @@ export class EditPoiComponent implements OnInit, AfterViewInit {
   }
 
   onCancel(): void {
-    this.location.back();
+    this.router.navigate(['poi']);
   }
 
   private updateMap(): void {
@@ -103,6 +101,21 @@ export class EditPoiComponent implements OnInit, AfterViewInit {
       this.mapOptions.center = toGoogleMaps(poi);
       this.markerOptions.position = toGoogleMaps(poi);
     }
+  }
+
+  private async getDefaultCoordinates(): Promise<void> {
+    let coords;
+    try {
+      coords = await this.poiService
+        .getCenterOfPOIs('default-username')
+        .toPromise();
+    } catch (error) {
+      console.error(
+        'failed to fetch center of existing coords, using local defaults'
+      );
+    }
+    this.poiForm.pointOfInterest.latitude = coords?.latitude || 48.137154;
+    this.poiForm.pointOfInterest.longitude = coords?.longitude || 11.576124;
   }
 
   private async getExistingPoi(id: string): Promise<void> {

@@ -1,7 +1,5 @@
 <google-map [options]="mapOptions" height="100%" width="100%" #map>
-  <ng-content></ng-content>
   <map-marker
-    #marker
     [options]="markerOptions"
     (positionChanged)="onMarkerPositionChanged()"
   ></map-marker>

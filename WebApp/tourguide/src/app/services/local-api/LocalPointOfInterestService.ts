@@ -24,8 +24,8 @@ export class LocalPointOfInterestService
 
   constructor() {
     this.pois.set('1', {
-      latitude: 48.137154,
-      longitude: 11.576124,
+      latitude: 48.1373,
+      longitude: 11.57549,
       id: '1',
       description: 'Hauptplatz in München\n\nabc',
       name: 'Marienplatz',
@@ -107,6 +107,6 @@ export class LocalPointOfInterestService
     userName: string,
     extraHttpRequestParams?: any
   ): Observable<InlineResponse200> {
-    return of({ latitude: 10, longitude: 10 });
+    return of({ latitude: 48.1, longitude: 11.5 });
   }
 }
