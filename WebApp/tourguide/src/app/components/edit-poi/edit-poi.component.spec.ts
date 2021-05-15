@@ -166,7 +166,7 @@ describe('EditPoiComponent', () => {
       expect(routerSpy.navigate).toHaveBeenCalledWith(['poi', '1']);
     }));
 
-    it('shows error when poi could not be saved', fakeAsync(() => {
+    it('shows error when poi could not be added', fakeAsync(() => {
       const snackBarSpy = spyOn(snackBar, 'open');
       snackBarSpy.and.callThrough();
       poiServiceSpy.getCenterOfPOIs.and.returnValue(
@@ -298,6 +298,7 @@ describe('EditPoiComponent', () => {
       } as MapMarker;
       component.map = {
         googleMap: mapSpy,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
         panBy: (x: number, y: number) => {},
       } as GoogleMap;
       const panBySpy = spyOn(component.map, 'panBy').and.stub();
@@ -319,6 +320,7 @@ describe('EditPoiComponent', () => {
       } as MapMarker;
       component.map = {
         googleMap: undefined,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
         panBy: (x: number, y: number) => {},
       } as GoogleMap;
       const panBySpy = spyOn(component.map, 'panBy').and.stub();
