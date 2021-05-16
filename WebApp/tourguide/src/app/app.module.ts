@@ -38,16 +38,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import {
+  ApiModule,
+  Configuration,
+  ConfigurationParameters,
+  PointOfInterestService,
+} from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapGoogleComponent } from './components/map-google/map-google.component';
-import { MapHereComponent } from './components/map-here/map-here.component';
-import { MapMapboxComponent } from './components/map-mapbox/map-mapbox.component';
 import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
+import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 
 const materialModules = [
   BrowserModule,
@@ -89,31 +94,36 @@ const materialModules = [
   ReactiveFormsModule,
 ];
 
+export const apiConfigFactory = (): Configuration => {
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+  };
+  return new Configuration(params);
+};
+
 @NgModule({
   declarations: [
     AppComponent,
-    MapHereComponent,
-    MapMapboxComponent,
     MapGoogleComponent,
     PoiItemComponent,
     ToolbarComponent,
     SideNavComponent,
     TestComponent,
+    EditPoiComponent,
   ],
   imports: [
+    ApiModule.forRoot(apiConfigFactory),
     AppRoutingModule,
     BrowserModule,
     CommonModule,
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    NgxMapboxGLModule.withConfig({
-      accessToken:
-        'pk.eyJ1Ijoid2FsbG5lcjMiLCJhIjoiY2tubzdwbGtsMWJ2azJwcG5vOW8yOHFyZSJ9.G3lm3BNg2KlYm5EwJl3AKg',
-    }),
     ...materialModules,
   ],
-  providers: [],
+  providers: [
+    { provide: PointOfInterestService, useClass: LocalPointOfInterestService },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
