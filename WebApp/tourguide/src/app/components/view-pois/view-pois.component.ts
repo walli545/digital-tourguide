@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { PointOfInterest, PointOfInterestService } from 'src/app/api';
-import { PostPointOfInterest } from 'src/app/api/model/postPointOfInterest';
 import { customStyle } from '../map-google/custom-style';
 
 @Component({
@@ -13,7 +12,6 @@ import { customStyle } from '../map-google/custom-style';
 })
 export class ViewPoisComponent implements OnInit, AfterViewInit {
   @ViewChild('map') map!: GoogleMap;
-  //@ViewChild(MapMarker) public marker!: MapMarker; //???
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
 
   markerOptions: google.maps.MarkerOptions = { draggable: false };
@@ -30,45 +28,25 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
   };
   pois = new Map<number, PointOfInterest>();
   index = 0;
-
-  postPois: PostPointOfInterest[] = [
-    {
-      id: '0',
-      name: 'SendlingerTor',
-      latitude: 48.13401718904898,
-      longitude: 11.56761646270752,
-      description:
-        'Das Sendlinger Tor ist das südliche Stadttor der historischen Altstadt in München. ',
-    },
-    {
-      id: '1',
-      name: 'Marienplatz',
-      latitude: 48.13739675056184,
-      longitude: 11.575448513031006,
-      description:
-        'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
-    },
-  ];
+  username = '';
 
   loading = true;
   constructor(
     private poiService: PointOfInterestService,
-    private router: Router,
-    private snackBar: MatSnackBar
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.postPois.forEach((value) => {
-      this.poiService.addPOI(value);
-    });
-    this.poiService.getPOIs('test').subscribe((pois) => {
-      pois.forEach((id) => {
-        this.poiService.getPOI(parseInt(id, 2)).subscribe((p) => {
-          this.pois.set(parseInt(id, 2), p);
+    this.poiService
+      .getPOIs(this.username)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((pois) => {
+        pois.forEach((id) => {
+          this.poiService.getPOI(parseInt(id, 2)).subscribe((p) => {
+            this.pois.set(parseInt(id, 2), p);
+          });
         });
       });
-    });
-    this.loading = false;
   }
 
   ngAfterViewInit(): void {
@@ -95,10 +73,7 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
   }
 
   hasPois(): boolean {
-    if (this.pois.size > 0) {
-      return true;
-    }
-    return false;
+    return this.pois.size > 0;
   }
 
   //for Marker positon
@@ -127,12 +102,5 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
 
   onNew(): void {
     this.router.navigate(['poi', 'new']);
-  }
-
-  private handleError(error: Error, snackBarMessage: string): void {
-    console.error(error);
-    this.snackBar.open(snackBarMessage, undefined, {
-      duration: 3000,
-    });
   }
 }
