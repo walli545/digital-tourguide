@@ -46,6 +46,7 @@ import {
 } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { MapGoogleComponent } from './components/map-google/map-google.component';
 import { PoiItemComponent } from './components/poi-item/poi-item.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
@@ -110,6 +111,7 @@ export const apiConfigFactory = (): Configuration => {
     SideNavComponent,
     TestComponent,
     ViewPoisComponent,
+    EditPoiComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),

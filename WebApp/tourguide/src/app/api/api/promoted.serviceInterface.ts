@@ -31,6 +31,6 @@ export interface PromotedServiceInterface {
      * @param longitudeMax 
      * @param latitudeMax 
      */
-    getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, extraHttpRequestParams?: any): Observable<Array<number>>;
+    getPromotedPOIs(longitudeMin: number, latitudeMin: number, longitudeMax: number, latitudeMax: number, extraHttpRequestParams?: any): Observable<Array<string>>;
 
 }

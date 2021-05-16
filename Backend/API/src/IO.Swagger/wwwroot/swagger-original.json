@@ -1,0 +1,656 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Digitaler Reiseführer",
+    "description" : "REST Api für den digitalen Reiseführer.",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://SERVER/v2"
+  } ],
+  "tags" : [ {
+    "name" : "route",
+    "description" : "api calls for the route",
+    "externalDocs" : {
+      "description" : "Find out more",
+      "url" : "http://swagger.io"
+    }
+  }, {
+    "name" : "pointOfInterest"
+  }, {
+    "name" : "promoted"
+  }, {
+    "name" : "review"
+  }, {
+    "name" : "user"
+  } ],
+  "paths" : {
+    "/route" : {
+      "post" : {
+        "tags" : [ "route" ],
+        "summary" : "Add a new route to the database",
+        "operationId" : "addRoute",
+        "requestBody" : {
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PostRoute"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Route"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input"
+          }
+        },
+        "x-codegen-request-body-name" : "route"
+      }
+    },
+    "/route/{routeID}" : {
+      "get" : {
+        "tags" : [ "route" ],
+        "summary" : "Gets the route to a given id",
+        "operationId" : "getRoute",
+        "parameters" : [ {
+          "name" : "routeID",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "guid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Route"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "route" ],
+        "summary" : "Edits the route to a given id",
+        "operationId" : "putRoute",
+        "parameters" : [ {
+          "name" : "routeID",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "guid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PostRoute"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid input",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        },
+        "x-codegen-request-body-name" : "route"
+      },
+      "delete" : {
+        "tags" : [ "route" ],
+        "summary" : "Deletes the route to a given id",
+        "operationId" : "deleteRoute",
+        "parameters" : [ {
+          "name" : "routeID",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "guid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/routes/{userName}" : {
+      "get" : {
+        "tags" : [ "route" ],
+        "summary" : "Get all routes from the given user",
+        "operationId" : "getRoutes",
+        "parameters" : [ {
+          "name" : "userName",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "guid"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        }
+      }
+    },
+    "/pointOfInterest" : {
+      "post" : {
+        "tags" : [ "pointOfInterest" ],
+        "summary" : "Add a new poi to the database",
+        "operationId" : "addPOI",
+        "requestBody" : {
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PostPointOfInterest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PointOfInterest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input",
+            "content" : { }
+          }
+        },
+        "x-codegen-request-body-name" : "poi"
+      }
+    },
+    "/pointOfInterest/{poiID}" : {
+      "get" : {
+        "tags" : [ "pointOfInterest" ],
+        "summary" : "Gets the poi to a given id",
+        "operationId" : "getPOI",
+        "parameters" : [ {
+          "name" : "poiID",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "guid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PointOfInterest"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "pointOfInterest" ],
+        "summary" : "Edits the poi to a given id",
+        "operationId" : "putPOI",
+        "parameters" : [ {
+          "name" : "poiID",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "guid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PostPointOfInterest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PointOfInterest"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        },
+        "x-codegen-request-body-name" : "poi"
+      },
+      "delete" : {
+        "tags" : [ "pointOfInterest" ],
+        "summary" : "Deletes the poi to a given id",
+        "operationId" : "deletePOI",
+        "parameters" : [ {
+          "name" : "poiID",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "guid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/pointOfInterest/{userName}" : {
+      "get" : {
+        "tags" : [ "pointOfInterest" ],
+        "summary" : "Get all poi's from the given user",
+        "operationId" : "getPOIs",
+        "parameters" : [ {
+          "name" : "userName",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "guid"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        }
+      }
+    },
+    "/pointOfInterest/{userName}/center" : {
+      "get" : {
+        "tags" : [ "pointOfInterest" ],
+        "summary" : "Get the center of all poi's from the given user",
+        "operationId" : "getCenterOfPOIs",
+        "parameters" : [ {
+          "name" : "userName",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        }
+      }
+    },
+    "/promoted" : {
+      "get" : {
+        "tags" : [ "promoted" ],
+        "summary" : "Get all promoted pois in an area",
+        "operationId" : "getPromotedPOIs",
+        "parameters" : [ {
+          "name" : "longitudeMin",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "latitudeMin",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "longitudeMax",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "latitudeMax",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "guid"
+                  },
+                  "x-content-type" : "application/json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "PointOfInterest" : {
+        "required" : [ "averageRating", "description", "id", "latitude", "longitude", "name", "numberOfRatings" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "guid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number"
+          },
+          "longitude" : {
+            "type" : "number"
+          },
+          "averageRating" : {
+            "type" : "number"
+          },
+          "numberOfRatings" : {
+            "type" : "integer"
+          }
+        },
+        "example" : {
+          "latitude" : 0.8008281904610115,
+          "averageRating" : 1.4658129805029452,
+          "name" : "name",
+          "numberOfRatings" : 5,
+          "description" : "description",
+          "id" : "id",
+          "longitude" : 6.027456183070403
+        }
+      },
+      "PostPointOfInterest" : {
+        "required" : [ "description", "latitude", "longitude", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "guid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number"
+          },
+          "longitude" : {
+            "type" : "number"
+          }
+        }
+      },
+      "Review" : {
+        "required" : [ "content", "rating", "userName" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string"
+          },
+          "rating" : {
+            "maximum" : 5,
+            "minimum" : 0,
+            "type" : "number",
+            "format" : "float"
+          },
+          "userName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "User" : {
+        "required" : [ "role", "userName" ],
+        "type" : "object",
+        "properties" : {
+          "userName" : {
+            "type" : "string"
+          },
+          "role" : {
+            "type" : "string",
+            "enum" : [ "ContentCreator", "Admin", "Moderator", "Tourist", "Advertiser" ]
+          }
+        }
+      },
+      "PostRoute" : {
+        "required" : [ "creatorName", "description", "duration", "name", "pointOfInterests" ],
+        "type" : "object",
+        "properties" : {
+          "routeID" : {
+            "type" : "string",
+            "format" : "guid"
+          },
+          "pointOfInterests" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer"
+            }
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "creatorName" : {
+            "type" : "string"
+          },
+          "duration" : {
+            "multipleOf" : 0.5,
+            "minimum" : 0,
+            "type" : "number",
+            "format" : "float"
+          }
+        }
+      },
+      "Route" : {
+        "required" : [ "creatorName", "description", "duration", "name", "pointOfInterests", "routeID" ],
+        "type" : "object",
+        "properties" : {
+          "routeID" : {
+            "type" : "string",
+            "format" : "guid"
+          },
+          "pointOfInterests" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PointOfInterest"
+            }
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "creatorName" : {
+            "type" : "string"
+          },
+          "duration" : {
+            "multipleOf" : 0.5,
+            "minimum" : 0,
+            "type" : "number",
+            "format" : "float"
+          }
+        },
+        "example" : {
+          "duration" : 0.5637377,
+          "routeID" : "routeID",
+          "pointOfInterests" : [ {
+            "latitude" : 0.8008281904610115,
+            "averageRating" : 1.4658129805029452,
+            "name" : "name",
+            "numberOfRatings" : 5,
+            "description" : "description",
+            "id" : "id",
+            "longitude" : 6.027456183070403
+          }, {
+            "latitude" : 0.8008281904610115,
+            "averageRating" : 1.4658129805029452,
+            "name" : "name",
+            "numberOfRatings" : 5,
+            "description" : "description",
+            "id" : "id",
+            "longitude" : 6.027456183070403
+          } ],
+          "name" : "name",
+          "creatorName" : "creatorName",
+          "description" : "description"
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "latitude" : {
+            "type" : "number"
+          },
+          "longitude" : {
+            "type" : "number"
+          }
+        },
+        "example" : {
+          "latitude" : 0.8008281904610115,
+          "longitude" : 6.027456183070403
+        }
+      }
+    }
+  }
+}

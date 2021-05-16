@@ -13,6 +13,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { InlineResponse200 } from '../model/models';
 import { PointOfInterest } from '../model/models';
 import { PostPointOfInterest } from '../model/models';
 
@@ -37,14 +38,21 @@ export interface PointOfInterestServiceInterface {
      * 
      * @param poiID 
      */
-    deletePOI(poiID: number, extraHttpRequestParams?: any): Observable<{}>;
+    deletePOI(poiID: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Get the center of all poi\&#39;s from the given user
+     * 
+     * @param userName 
+     */
+    getCenterOfPOIs(userName: string, extraHttpRequestParams?: any): Observable<InlineResponse200>;
 
     /**
      * Gets the poi to a given id
      * 
      * @param poiID 
      */
-    getPOI(poiID: number, extraHttpRequestParams?: any): Observable<PointOfInterest>;
+    getPOI(poiID: string, extraHttpRequestParams?: any): Observable<PointOfInterest>;
 
     /**
      * Get all poi\&#39;s from the given user
@@ -59,6 +67,6 @@ export interface PointOfInterestServiceInterface {
      * @param poiID 
      * @param poi 
      */
-    putPOI(poiID: number, poi: PostPointOfInterest, extraHttpRequestParams?: any): Observable<PointOfInterest>;
+    putPOI(poiID: string, poi: PostPointOfInterest, extraHttpRequestParams?: any): Observable<PointOfInterest>;
 
 }
