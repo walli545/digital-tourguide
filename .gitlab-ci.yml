@@ -49,6 +49,8 @@ openapi_gen:
   script:
     - 'java -jar openapi-generator-cli.jar generate -g kotlin -i Documents/ApiSpec/openapi.yaml -o openapi-kotlin-client'
   only:
+    refs:
+      - develop
     changes: 
       - Documents/ApiSpec/openapi.yaml
   artifacts:
@@ -71,5 +73,7 @@ openapi_deploy:
     - git commit -m "Updated API Client" || if [ $? -eq 64 ]; then echo "success"; else echo $code; fi
     - git push https://${GITLAB_USER_LOGIN}:${TOKEN}@gitlab.lrz.de/swe2_ss2021/Gruppe02.git/ HEAD:develop -f
   only:
+    refs:
+      - develop
     changes: 
       - Documents/ApiSpec/openapi.yaml
