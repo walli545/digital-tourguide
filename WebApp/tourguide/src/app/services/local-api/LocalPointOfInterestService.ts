@@ -22,25 +22,21 @@ export class LocalPointOfInterestService
   private currentId = 0;
 
   constructor() {
-    this.pois.set(0, {
+    this.addPOI({
       id: '0',
       name: 'SendlingerTor',
       latitude: 48.13401718904898,
       longitude: 11.56761646270752,
       description:
         'Das Sendlinger Tor ist das südliche Stadttor der historischen Altstadt in München. ',
-      averageRating: 3,
-      numberOfRatings: 10,
     });
-    this.pois.set(1, {
+    this.addPOI({
       id: '1',
       name: 'Marienplatz',
       latitude: 48.13739675056184,
       longitude: 11.575448513031006,
       description:
         'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
-      averageRating: 3,
-      numberOfRatings: 10,
     });
   }
   addPOI(
