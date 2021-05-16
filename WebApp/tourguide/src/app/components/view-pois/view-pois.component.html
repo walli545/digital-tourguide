@@ -16,15 +16,14 @@
 </google-map>
 
 <mat-card id="card" class="scrollable-content">
+  <mat-card-header>
+    <mat-card-title>Meine Points Of Interests</mat-card-title>
+    <mat-card-subtitle
+      >zum Bearbeiten auf den Eintrag oder Marker klicken</mat-card-subtitle
+    >
+  </mat-card-header>
   <ng-container *ngIf="!loading">
-    <mat-card-header>
-      <mat-card-title>Meine Points Of Interests</mat-card-title>
-      <mat-card-subtitle
-        >zum Bearbeiten auf den Eintrag oder Marker klicken</mat-card-subtitle
-      >
-    </mat-card-header>
-
-    <mat-card *ngIf="!hasPois()"
+    <mat-card id="card-poi" *ngIf="!hasPois()"
       ><mat-card-content>Keine Pois vorhanden!</mat-card-content></mat-card
     >
     <mat-card-content id="card-content" *ngIf="hasPois()">
@@ -39,8 +38,7 @@
             <button
               mat-button
               (click)="onDelete(poi)"
-              matTooltip="löscht diesen PoI"
-              matTooltipClass="tooltip-red"
+              matTooltip="lösche diesen PoI"
               aria-label="Poi delete button"
             >
               <mat-icon inline="true" color="warn">delete</mat-icon>
@@ -59,7 +57,6 @@
   color="accent"
   (click)="onNew()"
   matTooltip="neuen PoI hinzufügen"
-  matTooltipClass="tooltip-red"
   matTooltipPosition="above"
   aria-label="Poi add button"
 >
