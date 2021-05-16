@@ -28,10 +28,17 @@
         <action
             android:id="@+id/action_nav_login_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="edu.hm.digitaltourguide.ui.login.RegisterFragment"
         android:label="@string/menu_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_nav_login"
+            app:destination="@id/nav_login" />
+    </fragment>
 </navigation>

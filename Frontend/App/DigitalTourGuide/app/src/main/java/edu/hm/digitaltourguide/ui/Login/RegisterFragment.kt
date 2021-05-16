@@ -1,5 +1,7 @@
 package edu.hm.digitaltourguide.ui.login
 
+import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.annotation.StringRes
@@ -11,10 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import edu.hm.digitaltourguide.databinding.FragmentRegisterBinding
 
 import edu.hm.digitaltourguide.R
@@ -121,6 +122,8 @@ class RegisterFragment : Fragment() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome) + model.displayName
         // TODO : initiate successful logged in experience
+        hideKeyboard()
+        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToNavLogin())
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
     }
@@ -133,5 +136,18 @@ class RegisterFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    /**
+     * Force hide softKeyboard.
+     */
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
