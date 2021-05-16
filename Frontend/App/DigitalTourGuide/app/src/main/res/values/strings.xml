@@ -10,4 +10,19 @@
     <string name="menu_home">Home</string>
     <string name="menu_maps">Map</string>
     <string name="menu_slideshow">Slideshow</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_password_repeat">Password wiederholen</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome! "</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_repeated_password">Password does not match</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_register">Registrieren</string>
+    <string name="prompt_username">Username</string>
+    <string name="register">Registrieren</string>
+    <string name="login">Anmelden</string>
 </resources>
