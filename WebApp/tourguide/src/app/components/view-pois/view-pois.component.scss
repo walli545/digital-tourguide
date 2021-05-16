@@ -19,11 +19,15 @@
   box-sizing: border-box;
 }
 
+#card-poi {
+  background-color: #303030e1;
+}
+
 #btn-new {
   position: fixed;
   z-index: 10;
-  right: 10%;
-  bottom: 10%;
+  right: 20px;
+  bottom: 20px;
   box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
   mat-icon {
     font-size: 2em !important;
@@ -63,8 +67,4 @@ mat-icon {
     display: none;
   }
   -ms-overflow-style: none;
-}
-
-::ng-deep .tooltip-red {
-  background: #f44336;
 }
