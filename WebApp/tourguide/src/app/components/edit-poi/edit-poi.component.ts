@@ -86,7 +86,7 @@ export class EditPoiComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['poi']);
+    this.router.navigate(['pois']);
   }
 
   private updateMap(): void {
