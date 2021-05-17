@@ -23,18 +23,6 @@ export class LocalPointOfInterestService
   private currentId = 2;
 
   constructor() {
-    this.pois.set('1', {
-      latitude: 48.1373,
-      longitude: 11.57549,
-      id: '1',
-      description: 'Hauptplatz in München\n\nabc',
-      name: 'Marienplatz',
-      numberOfRatings: 10,
-      averageRating: 1,
-    });
-  }
-
-  constructor() {
     this.addPOI({
       id: '0',
       name: 'SendlingerTor',
@@ -83,7 +71,7 @@ export class LocalPointOfInterestService
     extraHttpRequestParams?: any
   ): Observable<PointOfInterest> {
     if (this.pois.has(poiID)) {
-      return of(this.pois.get(poiID)!).pipe(delay(2_000));
+      return of({ ...this.pois.get(poiID)! }).pipe(delay(2_000));
     } else {
       return throwError(
         new HttpErrorResponse({ status: 404, statusText: 'Not found' })

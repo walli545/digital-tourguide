@@ -42,7 +42,7 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((pois) => {
         pois.forEach((id) => {
-          this.poiService.getPOI(parseInt(id, 2)).subscribe((p) => {
+          this.poiService.getPOI(id).subscribe((p) => {
             this.pois.set(parseInt(id, 2), p);
           });
         });
@@ -63,7 +63,6 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
       <b>Average Rating:</b> ${poi.averageRating}<br>
       <b>Number of Ratings:</b> ${poi.numberOfRatings}</h5>`,
     };
-
     this.infoWindow.open(marker);
     this.mapOptions.center = this.toGoogle(poi);
   }
@@ -77,8 +76,8 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
   }
 
   //for Marker positon
-  toGoogle(poi: PointOfInterest): google.maps.LatLng {
-    return new google.maps.LatLng(poi.latitude, poi.longitude);
+  toGoogle(poi: PointOfInterest): google.maps.LatLngLiteral {
+    return { lat: poi.latitude, lng: poi.longitude };
   }
 
   // for Marker label
@@ -92,7 +91,7 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
   }
 
   onDelete(poi: PointOfInterest): void {
-    this.poiService.deletePOI(parseInt(poi.id, 2));
+    this.poiService.deletePOI(poi.id);
     this.pois.delete(parseInt(poi.id, 2));
   }
 
