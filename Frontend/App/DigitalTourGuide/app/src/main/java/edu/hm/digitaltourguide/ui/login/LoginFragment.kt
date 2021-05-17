@@ -10,8 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -125,6 +127,15 @@ class LoginFragment : Fragment() {
         val welcome = getString(R.string.welcome) + model.displayName
         // TODO : initiate successful logged in experience
         hideKeyboard()
+        activity
+        val loginBtn = activity?.findViewById<Button>(R.id.login_button)
+        val logoutBtn = activity?.findViewById<Button>(R.id.logout_button)
+        if (logoutBtn != null) {
+            logoutBtn.isVisible = true
+        }
+        if (loginBtn != null) {
+            loginBtn.isVisible = false
+        }
         findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavHome())
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
