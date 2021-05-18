@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { PointOfInterest, PointOfInterestService } from 'src/app/api';
 import { customStyle } from '../map-google/custom-style';
 
@@ -39,14 +39,24 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.poiService
       .getPOIs(this.username)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe((pois) => {
-        pois.forEach((id) => {
-          this.poiService.getPOI(id).subscribe((p) => {
-            this.pois.set(parseInt(id, 2), p);
+      .pipe(
+        map((pois) => {
+          pois.map((id) => {
+            // console.log(id);
+            this.poiService
+              .getPOI(id)
+              .pipe(
+                map((p) => {
+                  //console.log(p);
+                  this.pois.set(parseInt(id, 2), p);
+                }),
+                finalize(() => (this.loading = false))
+              )
+              .subscribe();
           });
-        });
-      });
+        })
+      )
+      .subscribe();
   }
 
   ngAfterViewInit(): void {
