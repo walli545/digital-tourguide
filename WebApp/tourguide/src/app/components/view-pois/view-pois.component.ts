@@ -3,7 +3,7 @@ import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Router } from '@angular/router';
 import { finalize, map } from 'rxjs/operators';
 import { PointOfInterest, PointOfInterestService } from 'src/app/api';
-import { customStyle } from '../map-google/custom-style';
+import { customStyle } from 'src/app/utils/custom-style';
 
 @Component({
   selector: 'app-view-pois',
@@ -42,12 +42,10 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
       .pipe(
         map((pois) => {
           pois.map((id) => {
-            // console.log(id);
             this.poiService
               .getPOI(id)
               .pipe(
                 map((p) => {
-                  //console.log(p);
                   this.pois.set(parseInt(id, 2), p);
                 }),
                 finalize(() => (this.loading = false))
