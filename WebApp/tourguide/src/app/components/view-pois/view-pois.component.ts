@@ -27,7 +27,6 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
     center: { lat: 48.137154, lng: 11.576124 },
   };
   pois = new Map<number, PointOfInterest>();
-  index = 0;
   username = '';
 
   loading = true;
