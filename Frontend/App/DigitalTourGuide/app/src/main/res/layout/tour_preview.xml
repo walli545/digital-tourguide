@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/tour_preview_picture"
+        android:layout_width="59dp"
+        android:layout_height="67dp"
+        app:layout_constraintBottom_toTopOf="@+id/tour_preview_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_gallery"
+        android:contentDescription="@string/map_preview_description" />
+
+    <TextView
+        android:id="@+id/tour_preview_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tour_name_dummy"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/tour_preview_estimate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toEndOf="@+id/tour_preview_picture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tour_preview_estimate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tour_estimate_dummy"
+        app:layout_constraintBottom_toTopOf="@+id/tour_preview_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tour_preview_text"
+        app:layout_constraintTop_toBottomOf="@+id/tour_preview_text" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/tour_preview_map"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/tour_preview_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tour_preview_picture" />
+
+    <TextView
+        android:id="@+id/tour_preview_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/tour_description_dummy"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tour_preview_map" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
