@@ -1,109 +1,122 @@
 openapi: 3.0.1
 info:
   title: Digitaler Reiseführer
-  description: 'REST Api für den digitalen Reiseführer.'
+  description: "REST Api für den digitalen Reiseführer."
   version: 1.0.0
 servers:
-- url: https://SERVER/v2
-- url: http://SERVER/v2
+  - url: http://SERVER/v2
 tags:
-- name: route
-  description: api calls for the route
-  externalDocs:
-    description: Find out more
-    url: http://swagger.io
-- name: pointOfInterest
-- name: promoted
-- name: review
-- name: user
+  - name: route
+    description: api calls for the route 
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: pointOfInterest
+  - name: promoted
+  - name: review
+  - name: user
 paths:
   /route:
     post:
       tags:
-      - route
+        - route
       summary: Add a new route to the database
       operationId: addRoute
       requestBody:
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PostRoute'
+              $ref: "#/components/schemas/PostRoute"
         required: true
       responses:
-        405:
+        400:
           description: Invalid input
-          content: {}
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Route"
       x-codegen-request-body-name: route
   /route/{routeID}:
     get:
       tags:
-      - route
+        - route
       summary: Gets the route to a given id
       operationId: getRoute
       parameters:
-      - name: routeID
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: routeID
+          in: path
+          required: true
+          schema:
+            type: string
+            format: guid
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Route'
-                
+                $ref: "#/components/schemas/Route"
+        404:
+          description: Not found
+
     delete:
       tags:
-      - route
+        - route
       summary: Deletes the route to a given id
       operationId: deleteRoute
       parameters:
-      - name: routeID
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: routeID
+          in: path
+          required: true
+          schema:
+            type: string
+            format: guid
       responses:
         200:
           description: Success
+        404:
+          description: Not found
     put:
       tags:
-      - route
+        - route
       summary: Edits the route to a given id
       operationId: putRoute
       parameters:
-      - name: routeID
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: routeID
+          in: path
+          required: true
+          schema:
+            type: string
+            format: guid
       requestBody:
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PostRoute'
+              $ref: "#/components/schemas/PostRoute"
         required: true
       responses:
         200:
           description: Success
-        405:
+        400:
           description: Invalid input
           content: {}
+        404:
+          description: Not found
       x-codegen-request-body-name: route
   /routes/{userName}:
     get:
       tags:
-      - route
+        - route
       summary: Get all routes from the given user
       operationId: getRoutes
       parameters:
-      - name: userName
-        in: path
-        required: true
-        schema:
-          type: string
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Success
@@ -112,95 +125,115 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  type: string
+                  format: guid
+        404:
+          description: User not found
   /pointOfInterest:
     post:
       tags:
-      - pointOfInterest
+        - pointOfInterest
       summary: Add a new poi to the database
-      operationId: addpoi
+      operationId: addPOI
       requestBody:
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PostPointOfInterest'
+              $ref: "#/components/schemas/PostPointOfInterest"
         required: true
       responses:
-        405:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PointOfInterest"
+        400:
           description: Invalid input
           content: {}
-      x-codegen-request-body-name: route
-      
-      
+      x-codegen-request-body-name: poi
+
   /pointOfInterest/{poiID}:
     get:
       tags:
-      - pointOfInterest
+        - pointOfInterest
       summary: Gets the poi to a given id
       operationId: getPOI
       parameters:
-      - name: poiID
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: poiID
+          in: path
+          required: true
+          schema:
+            type: string
+            format: guid
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PointOfInterest'
+                $ref: "#/components/schemas/PointOfInterest"
+        404:
+          description: Not found
     delete:
       tags:
-      - pointOfInterest
+        - pointOfInterest
       summary: Deletes the poi to a given id
       operationId: deletePOI
       parameters:
-      - name: poiID
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: poiID
+          in: path
+          required: true
+          schema:
+            type: string
+            format: guid
       responses:
         200:
           description: Success
+        404:
+          description: Not found
     put:
       tags:
-      - pointOfInterest
+        - pointOfInterest
       summary: Edits the poi to a given id
       operationId: putPOI
       parameters:
-      - name: poiID
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: poiID
+          in: path
+          required: true
+          schema:
+            type: string
+            format: guid
       requestBody:
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PostPointOfInterest'
+              $ref: "#/components/schemas/PostPointOfInterest"
         required: true
       responses:
         200:
           description: Success
-        405:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PointOfInterest"
+        400:
           description: Invalid input
-          content: {}
-      x-codegen-request-body-name: route
+        404:
+          description: Not found
+      x-codegen-request-body-name: poi
   /pointOfInterest/{userName}:
     get:
       tags:
-      - pointOfInterest
+        - pointOfInterest
       summary: Get all poi's from the given user
-      operationId: getPois
+      operationId: getPOIs
       parameters:
-      - name: userName
-        in: path
-        required: true
-        schema:
-          type: string
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Success
@@ -209,34 +242,63 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  type: string
+                  format: guid
+        404:
+          description: User not found
+  /pointOfInterest/{userName}/center:
+    get:
+      tags:
+        - pointOfInterest
+      summary: Get the center of all poi's from the given user
+      operationId: getCenterOfPOIs
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  latitude:
+                    type: number
+                  longitude:
+                    type: number
+        404:
+          description: User not found
   /promoted:
     get:
       tags:
-      - promoted
+        - promoted
       summary: Get all promoted pois in an area
-      operationId: getPromotedPOIS
+      operationId: getPromotedPOIs
       parameters:
-      - name: longitudeMin
-        in: query
-        required: true
-        schema:
-          type: number
-      - name: latitudeMin
-        in: query
-        required: true
-        schema:
-          type: number
-      - name: longitudeMax
-        in: query
-        required: true
-        schema:
-          type: number
-      - name: latitudeMax
-        in: query
-        required: true
-        schema:
-          type: number
+        - name: longitudeMin
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: latitudeMin
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: longitudeMax
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: latitudeMax
+          in: query
+          required: true
+          schema:
+            type: number
       responses:
         200:
           description: Success
@@ -245,22 +307,24 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  type: string
+                  format: guid
 components:
   schemas:
     PointOfInterest:
       required:
-      - averageRating
-      - description
-      - id
-      - latitude
-      - longitude
-      - name
-      - numberOfRatings
+        - averageRating
+        - description
+        - id
+        - latitude
+        - longitude
+        - name
+        - numberOfRatings
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: guid
         name:
           type: string
         description:
@@ -273,19 +337,18 @@ components:
           type: number
         numberOfRatings:
           type: integer
-          
+
     PostPointOfInterest:
       required:
-      - averageRating
-      - description
-      - latitude
-      - longitude
-      - name
-      - numberOfRatings
+        - description
+        - latitude
+        - longitude
+        - name
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: guid
         name:
           type: string
         description:
@@ -294,15 +357,11 @@ components:
           type: number
         longitude:
           type: number
-        averageRating:
-          type: number
-        numberOfRatings:
-          type: integer
     Review:
       required:
-      - content
-      - rating
-      - userName
+        - content
+        - rating
+        - userName
       type: object
       properties:
         content:
@@ -316,8 +375,8 @@ components:
           type: string
     User:
       required:
-      - role
-      - userName
+        - role
+        - userName
       type: object
       properties:
         userName:
@@ -325,22 +384,23 @@ components:
         role:
           type: string
           enum:
-          - ContentCreator
-          - Admin
-          - Moderator
-          - Tourist
-          - Advertiser
+            - ContentCreator
+            - Admin
+            - Moderator
+            - Tourist
+            - Advertiser
     PostRoute:
       required:
-      - creatorName
-      - description
-      - duration
-      - name
-      - pointOfInterests
+        - creatorName
+        - description
+        - duration
+        - name
+        - pointOfInterests
       type: object
       properties:
         routeID:
-          type: integer
+          type: string
+          format: guid
         pointOfInterests:
           type: array
           items:
@@ -358,20 +418,21 @@ components:
           format: float
     Route:
       required:
-      - creatorName
-      - description
-      - duration
-      - name
-      - pointOfInterests
-      - routeID
+        - creatorName
+        - description
+        - duration
+        - name
+        - pointOfInterests
+        - routeID
       type: object
       properties:
         routeID:
-          type: integer
+          type: string
+          format: guid
         pointOfInterests:
           type: array
           items:
-            $ref: '#/components/schemas/PointOfInterest'
+            $ref: "#/components/schemas/PointOfInterest"
         name:
           type: string
         description:

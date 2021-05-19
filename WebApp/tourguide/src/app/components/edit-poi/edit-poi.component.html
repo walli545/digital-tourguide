@@ -1,0 +1,72 @@
+<google-map [options]="mapOptions" height="100%" width="100%" #map>
+  <map-marker
+    [options]="markerOptions"
+    (positionChanged)="onMarkerPositionChanged()"
+  ></map-marker>
+</google-map>
+
+<form [formGroup]="poiForm.formGroup" (ngSubmit)="onSave()">
+  <mat-card id="card">
+    <ng-container *ngIf="!loading">
+      <mat-card-header>
+        <mat-card-title>{{
+          isNew ? 'New Point of Interest' : 'Edit Point of
+          Interest'
+        }}</mat-card-title>
+        <mat-card-subtitle *ngIf="!isNew"
+          >Id: {{ poiForm.pointOfInterest.id }}</mat-card-subtitle
+        >
+      </mat-card-header>
+
+      <mat-card-content id="card-content">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" id="input-name" />
+          <mat-error
+            *ngIf="poiForm.nameControl.errors?.required"
+            id="error-name-required"
+            >Name is required</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" id="description-form-field">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            id="input-description"
+          ></textarea>
+        </mat-form-field>
+
+        <p class="coordinate">
+          <span class="label">Longitude:</span>
+          <span class="value"
+            >{{ poiForm.pointOfInterest.longitude | number: '2.5-5' }}°</span
+          >
+        </p>
+        <p class="coordinate">
+          <span class="label">Latitude:</span>
+          <span class="value"
+            >{{ poiForm.pointOfInterest.latitude | number: '2.5-5' }}°</span
+          >
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          id="btn-save"
+          type="submit"
+          mat-button
+          mat-raised-button
+          color="primary"
+          [disabled]="poiForm.formGroup.invalid"
+        >
+          <mat-icon inline="true">save</mat-icon>
+          SAVE
+        </button>
+        <button id="btn-cancel" mat-button (click)="onCancel()">CANCEL</button>
+      </mat-card-actions>
+    </ng-container>
+    <mat-spinner *ngIf="loading"></mat-spinner>
+  </mat-card>
+</form>
