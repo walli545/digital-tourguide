@@ -18,5 +18,6 @@ export interface PostRoute {
     description: string;
     creatorName: string;
     duration: number;
+    polyline: string;
 }
 
