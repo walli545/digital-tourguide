@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewRoutesComponent } from './view-routes.component';
 
@@ -23,3 +23,4 @@ describe('ViewRoutesComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */
