@@ -3,8 +3,8 @@ import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PointOfInterestService } from '../../api';
+import { customStyle } from '../../utils/custom-style';
 import { toGoogleMaps, toPostPoi } from '../../utils/poi';
-import { customStyle } from '../map-google/custom-style';
 import { PoiForm } from './poi-form';
 
 @Component({
@@ -86,7 +86,7 @@ export class EditPoiComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['poi']);
+    this.router.navigate(['pois']);
   }
 
   private updateMap(): void {
