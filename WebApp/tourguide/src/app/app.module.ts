@@ -52,6 +52,7 @@ import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
+import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
 
 const materialModules = [
   BrowserModule,
@@ -108,6 +109,7 @@ export const apiConfigFactory = (): Configuration => {
     TestComponent,
     ViewPoisComponent,
     EditPoiComponent,
+    ViewRoutesComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
