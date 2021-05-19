@@ -1,5 +1,6 @@
 ﻿using API.Helper;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,7 +9,6 @@ using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -17,16 +17,11 @@ namespace API.Controllers
   [Route("[controller]")]
   public class PointOfInterestController : ControllerBase
   {
+    private readonly IPointOfInterestService _poiService;
 
-    //_logger.LogInformation("Hello World Logging :)");
-
-    private readonly ILogger<PointOfInterestController> _logger;
-    private readonly MariaDbContext _dbContext;
-
-    public PointOfInterestController(ILogger<PointOfInterestController> logger, MariaDbContext dbContext)
+    public PointOfInterestController(IPointOfInterestService poiService)
     {
-      _logger = logger ?? throw new ArgumentNullException("logger was null!", nameof(logger)); ;
-      _dbContext = dbContext ?? throw new ArgumentNullException("Context was null!", nameof(dbContext));
+      _poiService = poiService ?? throw new ArgumentNullException("Context was null!", nameof(_poiService));
     }
 
     /// <summary>
@@ -40,83 +35,70 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("AddPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
-    public virtual IActionResult AddPOI([FromBody] PostPointOfInterest body)
+    public virtual async Task<IActionResult> AddPOIAsync([FromBody] PostPointOfInterest body)
     {
-      var record = new PointOfInterest
+      try
       {
-        Id = Guid.NewGuid(),
-        Description = body.Description,
-        Latitude = body.Latitude,
-        Longitude = body.Longitude,
-        Name = body.Name,
-        AverageRating = 0.0M,
-        NumberOfRatings = 0
-      };
-
-      var success = _dbContext.Add(record);
-      if (success.State != EntityState.Added)
+        var result = await _poiService.AddPoI(body);
+        return StatusCode(200, result);
+      }
+      catch (Exception)
       {
-        _logger.LogInformation($"Failed to add PoI to the database! Item: {0} Given body:{1}", nameof(record), body, body);
         return StatusCode(500);
       }
-
-      _dbContext.SaveChanges();
-      var json = JsonConvert.SerializeObject(record);
-      return StatusCode(200, json);
     }
 
     /// <summary>
     /// Deletes the poi to a given id
     /// </summary>
-    /// <param name="poiID"></param>
+    /// <param name="poiID">the poiID to delete</param>
     /// <response code="200">Success</response>
     /// <response code="404">Not found</response>
     [HttpDelete]
     [Route("/pointOfInterest/{poiID}")]
     [ValidateModelState]
     [SwaggerOperation("DeletePOI")]
-    public virtual IActionResult DeletePOI([FromRoute][Required] Guid poiID)
+    public virtual async Task<IActionResult> DeletePOIAsync([FromRoute][Required] Guid poiID)
     {
-      var result = _dbContext.PointOfInterest.Find(poiID);
-      if (result == null)
-        return StatusCode(404);
-
-      var success = _dbContext.PointOfInterest.Remove(result);
-      if (success.State != EntityState.Deleted)
+      try
       {
-        _logger.LogInformation($"Failed to delete PoI from the database! Item: {0} Given poi:{1}", nameof(result), poiID, result);
+        var result = await _poiService.DeletePoI(poiID);
+        if (result == 0)
+          return StatusCode(404);
+        return StatusCode(200);
+      }
+      catch (Exception)
+      {
         return StatusCode(500);
       }
-      _dbContext.SaveChanges();
-      return StatusCode(200);
     }
 
-    ///// <summary>
-    ///// Get the center of all poi&#x27;s from the given user
-    ///// </summary>
-    ///// <param name="userName"></param>
-    ///// <response code="200">Success</response>
-    ///// <response code="404">User not found</response>
-    //[HttpGet]
-    //[Route("/v2/pointOfInterest/{userName}/center")]
-    //[ValidateModelState]
-    //[SwaggerOperation("GetCenterOfPOIs")]
-    //[SwaggerResponse(statusCode: 200, type: typeof(InlineResponse200), description: "Success")]
-    //public virtual IActionResult GetCenterOfPOIs([FromRoute][Required] string userName)
-    //{
-    //  //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-    //  // return StatusCode(200, default(InlineResponse200));
+    /////// <summary>
+    /////// Get the center of all poi&#x27;s from the given user
+    /////// </summary>
+    /////// <param name="userName"></param>
+    /////// <response code="200">Success</response>
+    /////// <response code="404">User not found</response>
+    ////[HttpGet]
+    ////[Route("/v2/pointOfInterest/{userName}/center")]
+    ////[ValidateModelState]
+    ////[SwaggerOperation("GetCenterOfPOIs")]
+    ////[SwaggerResponse(statusCode: 200, type: typeof(InlineResponse200), description: "Success")]
+    ////public virtual IActionResult GetCenterOfPOIs([FromRoute][Required] string userName)
+    ////{
+    ////  //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+    ////  // return StatusCode(200, default(InlineResponse200));
 
-    //  //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-    //  // return StatusCode(404);
-    //  string exampleJson = null;
-    //  exampleJson = "{\n  \"latitude\" : 0.8008281904610115,\n  \"longitude\" : 6.027456183070403\n}";
+    ////  //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+    ////  // return StatusCode(404);
+    ////  string exampleJson = null;
+    ////  exampleJson = "{\n  \"latitude\" : 0.8008281904610115,\n  \"longitude\" : 6.027456183070403\n}";
 
-    //  var example = exampleJson != null
-    //  ? JsonConvert.DeserializeObject<InlineResponse200>(exampleJson)
-    //  : default(InlineResponse200);            //TODO: Change the data returned
-    //  return new ObjectResult(example);
-    //}
+    ////  var example = exampleJson != null
+    ////  ? JsonConvert.DeserializeObject<InlineResponse200>(exampleJson)
+    ////  : default(InlineResponse200);            //TODO: Change the data returned
+    ////  return new ObjectResult(example);
+    ////}
 
     /// <summary>
     /// Gets the poi to a given id
@@ -129,9 +111,9 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("GetPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
-    public virtual IActionResult GetPOI([FromRoute][Required] Guid poiID)
+    public virtual async Task<IActionResult> GetPOIAsync([FromRoute][Required] Guid poiID)
     {
-      var result = _dbContext.PointOfInterest.Find(poiID);
+      var result = await _poiService.GetPoI(poiID);
       if (result == null)
         return StatusCode(404);
 
@@ -150,16 +132,13 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("GetPOIs")]
     [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "Success")]
-    public virtual IActionResult GetPOIs([FromRoute][Required] string userName)
+    public virtual async Task<IActionResult> GetPOIsAsync([FromRoute][Required] string userName)
     {
-      var results = from entries in _dbContext.PointOfInterest
-                    where entries.Name == userName
-                    select entries;
-      if (!results.Any())
+      var results = await _poiService.GetAllPoIs(userName);
+      if (results.Count == 0)
         return StatusCode(404);
 
-      var pois = results.ToList();
-      var json = JsonConvert.SerializeObject(pois);
+      var json = JsonConvert.SerializeObject(results);
       return StatusCode(200, json);
     }
 
@@ -176,20 +155,12 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("PutPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
-    public virtual IActionResult PutPOI([FromBody] PointOfInterest body)
+    public virtual async Task<IActionResult> PutPOIAsync([FromBody] PointOfInterest body) //TODO: Which poi is the correct one
     {
-      var result = _dbContext.PointOfInterest.AsNoTracking().FirstOrDefault(entry => entry.Id == body.Id);
-      if (result == null)
+      var result = await _poiService.PutPoI(body);
+      if (result == 0)
         return StatusCode(404);
 
-      var success = _dbContext.PointOfInterest.Update(body);
-      if (success.State != EntityState.Modified)
-      {
-        _logger.LogInformation($"Failed to update the PoI in the database! Item: {0} ", nameof(body), body);
-        return StatusCode(500);
-      }
-      
-      _dbContext.SaveChanges();
       return StatusCode(200);
     }
   }
