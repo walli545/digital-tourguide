@@ -16,4 +16,5 @@
     <string name="tour_description_dummy">Tour \n description</string>
     <string name="tour_name_dummy">Tour Name</string>
     <string name="start_text">It\'s time to start a Tour!</string>
+    <string name="button_select_a_tour_text">Select a Tour</string>
 </resources>
