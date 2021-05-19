@@ -19,5 +19,6 @@ export interface Route {
     description: string;
     creatorName: string;
     duration: number;
+    polyline: string;
 }
 
