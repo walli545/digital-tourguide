@@ -20,7 +20,7 @@ const routes: Routes = [
     component: EditPoiComponent,
   },
   {
-    path: 'routes',
+    path: 'myroutes',
     component: ViewRoutesComponent,
   },
 ];
