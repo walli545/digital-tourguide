@@ -1,61 +1,51 @@
-<ng-container *ngIf="!loading">
-  <div id="container" *ngIf="hasRoutes()">
-    <mat-card id="card" *ngFor="let route of toArray()"
-      ><mat-card-header>
-        <mat-card-title>{{ route.name }}</mat-card-title>
-        <mat-card-subtitle
-          ><div
-            class="duration"
-            matTooltip="duration"
-            matTooltipClass="tooltip"
-          >
-            <mat-icon inline="true">timer</mat-icon>
-            ~ {{ route.duration }}
-          </div>
-          <div class="review" matTooltip="reviews" matTooltipClass="tooltip">
-            <mat-icon inline="true">reviews</mat-icon> route.review
-          </div></mat-card-subtitle
-        >
-      </mat-card-header>
-      <img
-        mat-card-image
-        src="https://maps.googleapis.com/maps/api/staticmap?center=Munich&zoom=12&size=280x150&maptype=roadmap&key=AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ"
-        alt="map"
-      />
-      <mat-card-content>
-        <p>
-          {{ route.description }}
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button
-          mat-button
-          (click)="onDelete(route)"
-          matTooltip="delete route"
-          matTooltipPosition="above"
-          matTooltipClass="tooltip"
-          aria-label="route delete button"
-        >
-          <mat-icon inline="true" color="warn">delete</mat-icon>
-        </button>
-        <button
-          mat-button
-          (click)="onEdit(route)"
-          matTooltip="edit route"
-          matTooltipPosition="above"
-          matTooltipClass="tooltip"
-          aria-label="route delete button"
-        >
-          <mat-icon inline="true" color="primary">edit</mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-</ng-container>
+<mat-spinner *ngIf="loading" id="spinner"></mat-spinner>
+<div id="container" *ngIf="hasRoutes()">
+  <mat-card id="card" *ngFor="let route of toArray()"
+    ><mat-card-header>
+      <mat-card-title>{{ route.name }}</mat-card-title>
+      <mat-card-subtitle
+        ><div class="duration" matTooltip="duration" matTooltipClass="tooltip">
+          <mat-icon inline="true">timer</mat-icon>
+          ~ {{ route.duration }}
+        </div>
+        <div class="review" matTooltip="reviews" matTooltipClass="tooltip">
+          <mat-icon inline="true">reviews</mat-icon> route.review
+        </div></mat-card-subtitle
+      >
+    </mat-card-header>
+    <img mat-card-image [src]="buildStaticMapUrl(route)" alt="map" />
+    <mat-card-content>
+      <p>
+        {{ route.description }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-button
+        (click)="onDelete(route)"
+        matTooltip="delete route"
+        matTooltipPosition="above"
+        matTooltipClass="tooltip"
+        aria-label="route delete button"
+      >
+        <mat-icon inline="true" color="warn">delete</mat-icon>
+      </button>
+      <button
+        mat-button
+        (click)="onEdit(route)"
+        matTooltip="edit route"
+        matTooltipPosition="above"
+        matTooltipClass="tooltip"
+        aria-label="route delete button"
+      >
+        <mat-icon inline="true" color="primary">edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
 <mat-card *ngIf="!hasRoutes()"
   ><mat-card-title>Keine Routen vorhanden...</mat-card-title></mat-card
 >
-<mat-spinner *ngIf="loading" id="spinner"></mat-spinner>
 <button
   id="btn-new"
   mat-fab
