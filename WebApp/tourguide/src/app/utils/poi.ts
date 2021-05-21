@@ -8,6 +8,7 @@ export const toGoogleMaps = (
 });
 
 export const toPostPoi = (poi: PointOfInterest): PostPointOfInterest => ({
+  id: poi.id,
   name: poi.name,
   description: poi.description,
   latitude: poi.latitude,
