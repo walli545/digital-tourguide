@@ -3,7 +3,8 @@ import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PointOfInterestService } from '../../api';
-import { customStyle } from '../../utils/custom-style';
+import { displayError } from '../../utils/errors';
+import { mapOptions } from '../../utils/map-options';
 import { toGoogleMaps, toPostPoi } from '../../utils/poi';
 import { PoiForm } from './poi-form';
 
@@ -17,16 +18,7 @@ export class EditPoiComponent implements OnInit {
   @ViewChild(MapMarker) marker!: MapMarker;
 
   markerOptions: google.maps.MarkerOptions = { draggable: true };
-  mapOptions: google.maps.MapOptions = {
-    zoom: 12,
-    styles: customStyle,
-    fullscreenControl: false,
-    mapTypeControl: false,
-    streetViewControl: false,
-    scaleControl: false,
-    zoomControl: false,
-    backgroundColor: '#424242',
-  };
+  mapOptions = mapOptions;
 
   loading = true;
   isNew = true;
@@ -80,7 +72,7 @@ export class EditPoiComponent implements OnInit {
         await this.saveExistingPoi();
       }
     } catch (error) {
-      this.handleError(error, `Unable to save point of interest`);
+      displayError(error, `Unable to save point of interest`, this.snackBar);
     }
     this.loading = false;
   }
@@ -125,7 +117,7 @@ export class EditPoiComponent implements OnInit {
         .toPromise();
       this.isNew = false;
     } catch (error) {
-      this.handleError(error, 'Point of interest not found');
+      displayError(error, 'Point of interest not found', this.snackBar);
       this.router.navigate(['poi', 'new']);
     }
   }
@@ -143,12 +135,5 @@ export class EditPoiComponent implements OnInit {
       .toPromise();
     this.poiForm.pointOfInterest = updatedPoi;
     this.updateMap();
-  }
-
-  private handleError(error: Error, snackBarMessage: string): void {
-    console.error(error);
-    this.snackBar.open(snackBarMessage, undefined, {
-      duration: 3000,
-    });
   }
 }
