@@ -1,22 +1,18 @@
 {
-    "/route":
-    {
+    "/route": {
         "target": "http://localhost:3000",
         "secure": false
-    } ,
-    "/routes/":
-    {
+    },
+    "/routes/": {
         "target": "http://localhost:3000",
         "secure": false
-    } ,
-    "/pointOfInterest":
-    {
+    },
+    "/pointOfInterest": {
         "target": "http://localhost:3000",
         "secure": false
-    } ,
-    "/promoted":
-    {
+    },
+    "/promoted": {
         "target": "http://localhost:3000",
         "secure": false
-    } 
+    }
 }
