@@ -20,32 +20,12 @@
       <a
         mat-list-item
         (click)="toggle()"
-        [routerLink]="['here']"
+        [routerLink]="['pois']"
         routerLinkActive="is-active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <mat-icon matListIcon>map</mat-icon>
-        Here
-      </a>
-      <a
-        mat-list-item
-        (click)="toggle()"
-        [routerLink]="['mapbox']"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <mat-icon matListIcon>map</mat-icon>
-        MapBox
-      </a>
-      <a
-        mat-list-item
-        (click)="toggle()"
-        [routerLink]="['gmaps']"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <mat-icon matListIcon>map</mat-icon>
-        Google Maps
+        <mat-icon matListIcon>location_on</mat-icon>
+        Meine PoI's
       </a>
 
       <mat-divider></mat-divider>
