@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/nav_login"
-        android:name="edu.hm.digitaltourguide.ui.login.LoginFragment"
+        android:name="edu.hm.digitaltourguide.ui.signIn.login.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="edu.hm.digitaltourguide.ui.login.RegisterFragment"
+        android:name="edu.hm.digitaltourguide.ui.signIn.register.RegisterFragment"
         android:label="@string/menu_register"
         tools:layout="@layout/fragment_register" >
         <action

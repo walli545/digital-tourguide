@@ -1,4 +1,4 @@
-package edu.hm.digitaltourguide.ui.login
+package edu.hm.digitaltourguide.ui.signIn.login
 
 import android.app.Activity
 import android.content.Context
@@ -41,7 +41,7 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val navController = findNavController()
 
-        binding.register.setOnClickListener { view: View ->
+        binding.goToRegister.setOnClickListener { view: View ->
             view.findNavController().navigate(LoginFragmentDirections.actionNavLoginToRegisterFragment())
         }
 

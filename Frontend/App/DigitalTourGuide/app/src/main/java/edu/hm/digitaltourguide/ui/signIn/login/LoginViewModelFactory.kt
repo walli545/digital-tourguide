@@ -1,9 +1,9 @@
-package edu.hm.digitaltourguide.ui.login
+package edu.hm.digitaltourguide.ui.signIn.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import edu.hm.digitaltourguide.data.LoginDataSource
-import edu.hm.digitaltourguide.data.LoginRepository
+import edu.hm.digitaltourguide.data.signIn.LoginDataSource
+import edu.hm.digitaltourguide.data.signIn.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

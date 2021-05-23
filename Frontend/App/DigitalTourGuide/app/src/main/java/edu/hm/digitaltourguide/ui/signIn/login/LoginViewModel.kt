@@ -1,11 +1,11 @@
-package edu.hm.digitaltourguide.ui.login
+package edu.hm.digitaltourguide.ui.signIn.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import edu.hm.digitaltourguide.data.LoginRepository
-import edu.hm.digitaltourguide.data.Result
+import edu.hm.digitaltourguide.data.signIn.LoginRepository
+import edu.hm.digitaltourguide.data.signIn.Result
 
 import edu.hm.digitaltourguide.R
 
@@ -44,8 +44,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password)) {
             _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
-        } else if (!isPasswordValid(password, passwordRepeated)) {
-            _loginForm.value = LoginFormState(passwordRepeatedError = R.string.invalid_repeated_password)
         } else{
             _loginForm.value = LoginFormState(isDataValid = true)
         }

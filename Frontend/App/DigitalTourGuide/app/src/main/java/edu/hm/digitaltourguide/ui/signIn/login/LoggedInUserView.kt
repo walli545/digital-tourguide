@@ -1,4 +1,4 @@
-package edu.hm.digitaltourguide.ui.login
+package edu.hm.digitaltourguide.ui.signIn.login
 
 /**
  * User details post authentication that is exposed to the UI

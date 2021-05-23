@@ -1,6 +1,6 @@
-package edu.hm.digitaltourguide.data
+package edu.hm.digitaltourguide.data.signIn
 
-import edu.hm.digitaltourguide.data.model.LoggedInUser
+import edu.hm.digitaltourguide.data.signIn.model.LoggedInUser
 
 /**
  * Class that requests authentication and user information from the remote data source and

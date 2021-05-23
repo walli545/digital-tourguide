@@ -1,4 +1,4 @@
-package edu.hm.digitaltourguide.ui.login
+package edu.hm.digitaltourguide.ui.signIn.register
 
 import android.app.Activity
 import android.content.Context
@@ -18,11 +18,9 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import edu.hm.digitaltourguide.databinding.FragmentRegisterBinding
 
-import edu.hm.digitaltourguide.R
-
 class RegisterFragment : Fragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var registerViewModel: RegisterViewModel
     private var _binding: FragmentRegisterBinding? = null
 
     // This property is only valid between onCreateView and
@@ -42,40 +40,40 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        registerViewModel = ViewModelProvider(this, RegisterViewModelFactory())
+            .get(RegisterViewModel::class.java)
 
         val usernameEditText = binding.username
         val passwordEditText = binding.password
         val passwordRepeatedEditText = binding.passwordRepeated
-        val loginButton = binding.login
+        val registerButton = binding.register
         val loadingProgressBar = binding.loading
 
-        loginViewModel.loginFormState.observe(viewLifecycleOwner,
-            Observer { loginFormState ->
-                if (loginFormState == null) {
+        registerViewModel.registerFormState.observe(viewLifecycleOwner,
+            Observer { registerFormState ->
+                if (registerFormState == null) {
                     return@Observer
                 }
-                loginButton.isEnabled = loginFormState.isDataValid
-                loginFormState.usernameError?.let {
+                registerButton.isEnabled = registerFormState.isDataValid
+                registerFormState.usernameError?.let {
                     usernameEditText.error = getString(it)
                 }
-                loginFormState.passwordError?.let {
+                registerFormState.passwordError?.let {
                     passwordEditText.error = getString(it)
                 }
-                loginFormState.passwordRepeatedError?.let {
+                registerFormState.passwordRepeatedError?.let {
                     passwordRepeatedEditText.error = getString(it)
                 }
             })
 
-        loginViewModel.loginResult.observe(viewLifecycleOwner,
-            Observer { loginResult ->
-                loginResult ?: return@Observer
+        registerViewModel.registerResult.observe(viewLifecycleOwner,
+            Observer { registerResult ->
+                registerResult ?: return@Observer
                 loadingProgressBar.visibility = View.GONE
-                loginResult.error?.let {
-                    showLoginFailed(it)
+                registerResult.error?.let {
+                    showRegisterFailed(it)
                 }
-                loginResult.success?.let {
+                registerResult.success?.let {
                     updateUiWithUser(it)
                 }
             })
@@ -90,7 +88,7 @@ class RegisterFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                loginViewModel.loginDataChanged(
+                registerViewModel.registerDataChanged(
                     usernameEditText.text.toString(),
                     passwordEditText.text.toString(),
                     passwordRepeatedEditText.text.toString()
@@ -102,7 +100,7 @@ class RegisterFragment : Fragment() {
         passwordRepeatedEditText.addTextChangedListener(afterTextChangedListener)
         passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                loginViewModel.login(
+                registerViewModel.register(
                     usernameEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
@@ -110,25 +108,23 @@ class RegisterFragment : Fragment() {
             false
         }
 
-        loginButton.setOnClickListener {
+        registerButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
-            loginViewModel.login(
+            registerViewModel.register(
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString()
             )
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome) + model.displayName
-        // TODO : initiate successful logged in experience
+    private fun updateUiWithUser(@StringRes successString: Int) {
         hideKeyboard()
         findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToNavLogin())
         val appContext = context?.applicationContext ?: return
-        Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        Toast.makeText(appContext, successString, Toast.LENGTH_LONG).show()
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
+    private fun showRegisterFailed(@StringRes errorString: Int) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }

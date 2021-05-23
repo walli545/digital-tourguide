@@ -1,4 +1,4 @@
-package edu.hm.digitaltourguide.data
+package edu.hm.digitaltourguide.data.signIn
 
 /**
  * A generic class that holds a value with its loading status.
