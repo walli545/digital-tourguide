@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize, map } from 'rxjs/operators';
 import { Route, RouteService } from 'src/app/api';
 
 @Component({
@@ -21,7 +22,7 @@ export class ViewRoutesComponent implements OnInit {
   constructor(private routeService: RouteService, private router: Router) {}
 
   ngOnInit(): void {
-    /*     this.routeService
+    this.routeService
       .getRoutes(this.username)
       .pipe(
         map((routes) => {
@@ -30,7 +31,7 @@ export class ViewRoutesComponent implements OnInit {
               .getRoute(id)
               .pipe(
                 map((r) => {
-                  this.routes.set(parseInt(id, 2), r);
+                  this.routes.set(id, r);
                 }),
                 finalize(() => (this.loading = false))
               )
@@ -38,7 +39,7 @@ export class ViewRoutesComponent implements OnInit {
           });
         })
       )
-      .subscribe(); */
+      .subscribe();
 
     //temp test
     this.initArray();
@@ -78,6 +79,7 @@ export class ViewRoutesComponent implements OnInit {
 
   buildStaticMapUrl(route: Route): string {
     const url =
+      // eslint-disable-next-line max-len
       this.mapUrl + '&path=enc:' + this.polyline + '&key=' + this.apikey; // replace this.polyline with route.polyline
     console.log(url);
     return url;
