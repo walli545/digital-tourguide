@@ -11,7 +11,7 @@ build_website:
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
-  script:
+  script:sed
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR/WebApp/tourguide --dockerfile $CI_PROJECT_DIR/WebApp/tourguide/Dockerfile --destination $IMAGE_TAG
@@ -76,10 +76,12 @@ openapi_deploy:
       - Documents/ApiSpec/openapi.yaml
 
 deploy_production:
-  image: quay.io/honestbee/drone-kubernetes
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
   stage: deploy-test
   script:
-    - echo "Deploy to server"
+    - kubectl version
   environment:
     name: Production
     url: https://cityguide.sart.solutions/
