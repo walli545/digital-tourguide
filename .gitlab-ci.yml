@@ -1,10 +1,12 @@
 stages:
-  - build-and-test
+  - website_build-and-test
+  - app_build-and-test
+  - app_deploy
   - openapi_gen
   - openapi_deploy
 
 build_website:
-  stage: build-and-test
+  stage: website_build-and-test
   image: node:14-alpine
   tags:
     - docker
@@ -19,7 +21,7 @@ build_website:
       - WebApp/tourguide/dist/tourguide
 
 lint_format_test_website:
-  stage: build-and-test
+  stage: website_build-and-test
   image: buildkite/puppeteer
   tags:
     - docker
@@ -38,6 +40,60 @@ lint_format_test_website:
       cobertura:
         - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
 
+
+app_lintDebug:
+  image: jangrewe/gitlab-ci-android
+  stage: app_build-and-test
+  before_script:
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - cd ./Frontend/App/DigitalTourGuide/
+    - chmod +x ./gradlew
+  script:
+  - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+
+app_build:
+  image: jangrewe/gitlab-ci-android
+  stage: app_build-and-test
+  before_script:
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - cd ./Frontend/App/DigitalTourGuide/
+    - chmod +x ./gradlew
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - ./Frontend/App/DigitalTourGuide/app/build/outputs/apk
+
+app_testDebug:
+  image: jangrewe/gitlab-ci-android
+  stage: app_build-and-test
+  before_script:
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - cd ./Frontend/App/DigitalTourGuide/
+    - chmod +x ./gradlew
+  script:
+  - ./gradlew -Pci --console=plain :app:testDebug
+
+app_apk_deploy:
+  stage: app_deploy
+  before_script:
+    - apk update
+    - apk add git 
+    - apk add --update openssl
+  script:
+    - cp -r Frontend/App/DigitalTourGuide/app/build/outputs/apk Documents/App
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    - git pull .
+    - git add Documents/App
+    - git commit -m "App APK updated" || if [ $? -eq 64 ]; then echo "success"; else echo $code; fi
+    - git push https://${GITLAB_USER_LOGIN}:${TOKEN}@gitlab.lrz.de/swe2_ss2021/Gruppe02.git/ HEAD:develop -f
+  only:
+    refs:
+      - develop
+  except:
+    changes: 
+      - Documents/App/
 
 openapi_gen:
   image: jeshan/swagger-codegen-cli
