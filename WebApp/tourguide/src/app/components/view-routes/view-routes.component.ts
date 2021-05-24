@@ -40,8 +40,7 @@ export class ViewRoutesComponent implements OnInit {
         })
       )
       .subscribe();
-
-    //temp test
+    /*     //temp test
     this.initArray();
     setTimeout(() => {
       this.loading = false;
@@ -53,20 +52,21 @@ export class ViewRoutesComponent implements OnInit {
     setTimeout(() => {
       this.routes.set(this.i.toString(), {
         name: 'ROUTENAME',
-        routeID: this.i.toString(),
+        id: this.i.toString(),
         description:
           // eslint-disable-next-line max-len
           'DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION ',
         pointOfInterests: [],
         creatorName: 'Mr.X',
         duration: 2,
+        polyline: this.polyline,
       });
       this.i++; //  increment the counter
       if (this.i < 10) {
         //  if the counter < 10, call the loop function
         this.initArray(); //  ..  again which will trigger another
       } //  ..  setTimeout()
-    }, 1000);
+    }, 1000); */
   }
 
   toArray(): Route[] {
@@ -79,8 +79,7 @@ export class ViewRoutesComponent implements OnInit {
 
   buildStaticMapUrl(route: Route): string {
     const url =
-      // eslint-disable-next-line max-len
-      this.mapUrl + '&path=enc:' + this.polyline + '&key=' + this.apikey; // replace this.polyline with route.polyline
+      this.mapUrl + '&path=enc:' + route.polyline + '&key=' + this.apikey;
     console.log(url);
     return url;
   }
@@ -92,12 +91,12 @@ export class ViewRoutesComponent implements OnInit {
 
   onEdit(route: Route): void {
     console.log('edit ' + route);
-    this.router.navigate(['route', route.routeID]);
+    this.router.navigate(['route', route.id]);
   }
 
   onDelete(route: Route): void {
     console.log('delete ' + route);
-    this.routeService.deleteRoute(route.routeID);
-    this.routes.delete(route.routeID);
+    this.routeService.deleteRoute(route.id);
+    this.routes.delete(route.id);
   }
 }
