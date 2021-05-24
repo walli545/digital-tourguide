@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -18,19 +19,17 @@
 
     <TextView
         android:id="@+id/tour_preview_text"
-        android:text="@string/tour_name_dummy"
+        style="@style/sub_header"
         app:layout_constraintBottom_toTopOf="@+id/tour_preview_estimate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toEndOf="@+id/tour_preview_picture"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/sub_header" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tour_preview_estimate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tour_estimate_dummy"
         app:layout_constraintBottom_toTopOf="@+id/tour_preview_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -44,7 +43,9 @@
         app:layout_constraintBottom_toTopOf="@+id/tour_preview_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tour_preview_picture" />
+        app:layout_constraintTop_toBottomOf="@+id/tour_preview_picture"
+        map:liteMode="true"
+        map:mapType="none" />
 
     <TextView
         android:id="@+id/tour_preview_description"
@@ -52,7 +53,6 @@
         android:layout_height="100dp"
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
-        android:text="@string/tour_description_dummy"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

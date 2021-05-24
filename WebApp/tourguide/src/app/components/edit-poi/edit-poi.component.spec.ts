@@ -207,24 +207,22 @@ describe('EditPoiComponent', () => {
         'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone.';
 
       setupGetPOI();
-      poiServiceSpy.putPOI.and.callFake(
-        (poiId: string, poi: PointOfInterest) => {
-          expect(poiId).toEqual('1');
-          expect(poi.name).toEqual(newName);
-          expect(poi.description).toEqual(newDescription);
-          expect(poi.longitude).toEqual(11);
-          expect(poi.latitude).toEqual(12);
-          return of({
-            id: '1',
-            description: newDescription,
-            name: newName,
-            latitude: 11,
-            longitude: 12,
-            averageRating: 0,
-            numberOfRatings: 0,
-          } as PointOfInterest);
-        }
-      );
+      poiServiceSpy.putPOI.and.callFake((poi: PointOfInterest) => {
+        expect(poi.id).toEqual('1');
+        expect(poi.name).toEqual(newName);
+        expect(poi.description).toEqual(newDescription);
+        expect(poi.longitude).toEqual(11);
+        expect(poi.latitude).toEqual(12);
+        return of({
+          id: '1',
+          description: newDescription,
+          name: newName,
+          latitude: 11,
+          longitude: 12,
+          averageRating: 0,
+          numberOfRatings: 0,
+        } as PointOfInterest);
+      });
 
       fixture.detectChanges(); // onInit
       tick(); // wait for getPOI

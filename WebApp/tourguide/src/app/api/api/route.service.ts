@@ -278,18 +278,14 @@ export class RouteService implements RouteServiceInterface {
 
     /**
      * Edits the route to a given id
-     * @param routeID 
      * @param route 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public putRoute(routeID: string, route: PostRoute, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public putRoute(routeID: string, route: PostRoute, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public putRoute(routeID: string, route: PostRoute, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public putRoute(routeID: string, route: PostRoute, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
-        if (routeID === null || routeID === undefined) {
-            throw new Error('Required parameter routeID was null or undefined when calling putRoute.');
-        }
+    public putRoute(route: PostRoute, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public putRoute(route: PostRoute, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public putRoute(route: PostRoute, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public putRoute(route: PostRoute, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (route === null || route === undefined) {
             throw new Error('Required parameter route was null or undefined when calling putRoute.');
         }
@@ -321,7 +317,7 @@ export class RouteService implements RouteServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/route/${encodeURIComponent(String(routeID))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/route`,
             route,
             {
                 responseType: <any>responseType_,
