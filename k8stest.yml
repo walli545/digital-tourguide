@@ -41,7 +41,7 @@ kind: Ingress
 metadata:
   name: gitlab-k8s-test-ingress
   annotations:
-  cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt
     kubernetes.io/ingress.class: "public"
 spec:
   tls:
