@@ -41,13 +41,8 @@ kind: Ingress
 metadata:
   name: gitlab-k8s-test-ingress
   annotations:
-    cert-manager.io/cluster-issuer: http-issuer
     kubernetes.io/ingress.class: "public"
 spec:
-  tls:
-  - hosts:
-    - gitlab.k8s.test.sart.solutions
-    secretName: gitlab-k8s-test-certificate-tls
   rules:
   - host: gitlab.k8s.test.sart.solutions
     http:
