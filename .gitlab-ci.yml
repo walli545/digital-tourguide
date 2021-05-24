@@ -82,8 +82,7 @@ deploy_production:
   stage: deploy-test
   script:
     - kubectl version
-    - kubectl delete secret image-pull-secret --ignore-not-found
-    - kubectl create secret docker-registry image-pull-secret --docker-server $CI_REGISTRY --docker-username $CI_DEPLOY_USER --docker-password $CI_DEPLOY_PASSWORD
+    - kubectl create secret docker-registry image-pull-secret --docker-server $CI_REGISTRY --docker-username $CI_DEPLOY_USER --docker-password $CI_DEPLOY_PASSWORD --dry-run=true -o yaml | kubectl apply -f -
     - kubectl apply -f k8stest.yml
   environment:
     name: Production
