@@ -46,10 +46,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - gitlab.k8s.test.sart.solutions
+    - test.sart.solutions
     secretName: gitlab-k8s-test-certificate-tls
   rules:
-  - host: gitlab.k8s.test.sart.solutions
+  - host: test.sart.solutions
     http:
       paths:
       - path: /
