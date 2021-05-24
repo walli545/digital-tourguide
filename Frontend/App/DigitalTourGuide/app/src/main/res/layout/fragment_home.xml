@@ -54,6 +54,8 @@
         app:strokeWidth="1sp">
 
         <edu.hm.digitaltourguide.TourPreview
+
+            android:id="@+id/last_tour_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
