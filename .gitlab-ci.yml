@@ -82,6 +82,7 @@ deploy_production:
   stage: deploy-test
   script:
     - kubectl version
+    - kubectl get namespaces
   environment:
     name: Production
     url: https://cityguide.sart.solutions/
