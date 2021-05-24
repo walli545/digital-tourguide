@@ -1,4 +1,5 @@
 stages:
+  - deploy-test
   - build-and-test
   - openapi_gen
   - openapi_deploy
@@ -73,3 +74,11 @@ openapi_deploy:
       - develop
     changes:
       - Documents/ApiSpec/openapi.yaml
+
+deploy_staging:
+  stage: deploy-test
+  script:
+    - echo "Deploy to server"
+  environment:
+    name: Production
+    url: https://cityguide.sart.solutions/
