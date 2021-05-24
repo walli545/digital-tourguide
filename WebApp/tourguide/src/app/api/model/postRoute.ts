@@ -12,11 +12,12 @@
 
 
 export interface PostRoute { 
-    routeID?: string;
-    pointOfInterests: Array<number>;
+    id?: string;
+    pointOfInterests: Array<string>;
     name: string;
     description: string;
     creatorName: string;
     duration: number;
+    polyline: string;
 }
 
