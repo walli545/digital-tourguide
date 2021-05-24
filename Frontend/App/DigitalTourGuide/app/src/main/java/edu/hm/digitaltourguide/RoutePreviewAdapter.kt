@@ -21,6 +21,7 @@ class RoutePreviewAdapter(var routes: List<Route>) :
         private val mapView: MapView = itemView.findViewById(R.id.tour_preview_map)
         private lateinit var map: GoogleMap
         private lateinit var latLng: LatLng
+        private lateinit var route: Route
 
         init {
             with(mapView) {
@@ -40,13 +41,13 @@ class RoutePreviewAdapter(var routes: List<Route>) :
                 route.pointOfInterests[0].longitude.toDouble()
             )
 
-            setLocation(route.pointOfInterests)
+            this.route = route
         }
 
         override fun onMapReady(gMap: GoogleMap) {
             MapsInitializer.initialize(itemView.context)
             map = gMap ?: return
-            setLocation()
+            setLocation(route.pointOfInterests)
         }
 
         private fun setLocation() {
