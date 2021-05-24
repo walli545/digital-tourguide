@@ -75,10 +75,14 @@ openapi_deploy:
     changes:
       - Documents/ApiSpec/openapi.yaml
 
-deploy_staging:
+deploy_production:
+  image: quay.io/honestbee/drone-kubernetes
   stage: deploy-test
   script:
     - echo "Deploy to server"
   environment:
     name: Production
     url: https://cityguide.sart.solutions/
+  only:
+    - 105-deployment-einrichten
+    #- master
