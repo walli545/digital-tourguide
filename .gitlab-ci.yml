@@ -82,6 +82,7 @@ deploy_production:
   stage: deploy-test
   script:
     - kubectl version
+    - kubectl create secret docker-registry image-pull-secret --docker-server=gitlab.lrz.de:5005 --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD
     - kubectl apply -f k8stest.yml
   environment:
     name: Production
