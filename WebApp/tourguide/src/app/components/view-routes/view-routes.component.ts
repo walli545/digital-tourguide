@@ -54,8 +54,7 @@ export class ViewRoutesComponent implements OnInit {
         name: 'ROUTENAME',
         id: this.i.toString(),
         description:
-          // eslint-disable-next-line max-len
-          'DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION ',
+          'DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION',
         pointOfInterests: [],
         creatorName: 'Mr.X',
         duration: 2,
