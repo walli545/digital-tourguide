@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gitlab-k8s-test
-        image: nginx
+        image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/website:105-deployment-einrichten
         ports:
         - containerPort: 80
 
