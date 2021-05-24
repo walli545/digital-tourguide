@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
+import { EditRouteComponent } from './components/edit-route/edit-route.component';
 import { TestComponent } from './components/test/test.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
@@ -22,6 +23,14 @@ const routes: Routes = [
   {
     path: 'myroutes',
     component: ViewRoutesComponent,
+  },
+  {
+    path: 'route/new',
+    component: EditRouteComponent,
+  },
+  {
+    path: 'route/:id',
+    component: EditRouteComponent,
   },
 ];
 

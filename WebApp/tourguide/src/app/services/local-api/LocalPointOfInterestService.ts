@@ -3,6 +3,7 @@ import {
   HttpHeaders,
   HttpParameterCodec,
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import {
@@ -13,6 +14,7 @@ import {
   PostPointOfInterest,
 } from '../../api';
 
+@Injectable()
 export class LocalPointOfInterestService
   implements PointOfInterestServiceInterface {
   public defaultHeaders!: HttpHeaders;
@@ -89,18 +91,17 @@ export class LocalPointOfInterestService
   }
 
   putPOI(
-    poiID: string,
     poi: PostPointOfInterest,
     extraHttpRequestParams?: any
   ): Observable<PointOfInterest> {
-    if (this.pois.has(poiID)) {
+    if (poi.id && this.pois.has(poi.id)) {
       const updated = {
-        id: `${poiID}`,
+        id: `${poi.id}`,
         ...poi,
         averageRating: 3,
         numberOfRatings: 10,
       };
-      this.pois.set(poiID, updated);
+      this.pois.set(poi.id, updated);
       return of(updated).pipe(delay(2_000));
     } else {
       return throwError(

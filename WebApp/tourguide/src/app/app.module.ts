@@ -43,16 +43,19 @@ import {
   Configuration,
   ConfigurationParameters,
   PointOfInterestService,
+  RouteService,
 } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
+import { EditRouteComponent } from './components/edit-route/edit-route.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
-import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
+import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
+import { LocalRouteService } from './services/local-api/LocalRouteService';
 
 const materialModules = [
   BrowserModule,
@@ -110,6 +113,7 @@ export const apiConfigFactory = (): Configuration => {
     ViewPoisComponent,
     EditPoiComponent,
     ViewRoutesComponent,
+    EditRouteComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
@@ -123,6 +127,7 @@ export const apiConfigFactory = (): Configuration => {
   ],
   providers: [
     { provide: PointOfInterestService, useClass: LocalPointOfInterestService },
+    { provide: RouteService, useClass: LocalRouteService },
   ],
   bootstrap: [AppComponent],
 })

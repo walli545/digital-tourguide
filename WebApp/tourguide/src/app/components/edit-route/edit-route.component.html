@@ -1,0 +1,71 @@
+<google-map [options]="mapOptions" height="100%" width="100%" #map>
+</google-map>
+
+<form [formGroup]="routeForm.formGroup" (ngSubmit)="onSave()">
+  <mat-card id="card">
+    <ng-container *ngIf="!loading">
+      <mat-card-header>
+        <mat-card-title>{{
+          isNew ? 'New Route' : 'Edit Route'
+        }}</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content id="card-content">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" id="input-name" />
+          <mat-error
+            *ngIf="routeForm.nameControl.errors?.required"
+            id="error-name-required"
+            >Name darf nicht leer sein</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Dauer (in Stunden)</mat-label>
+          <input
+            matInput
+            formControlName="duration"
+            id="input-duration"
+            type="number"
+            min="0"
+            step="0.5"
+          />
+          <mat-error
+            *ngIf="routeForm.nameControl.errors?.required"
+            id="error-name-required"
+            >Dauer darf nicht leer sein</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" id="description-form-field">
+          <mat-label>Beschreibung</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            id="input-description"
+          ></textarea>
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          id="btn-save"
+          type="submit"
+          mat-button
+          mat-raised-button
+          color="primary"
+          [disabled]="routeForm.formGroup.invalid"
+        >
+          <mat-icon inline="true">save</mat-icon>
+          SPEICHERN
+        </button>
+        <button id="btn-cancel" mat-button (click)="onCancel()">
+          ABBRECHEN
+        </button>
+      </mat-card-actions>
+    </ng-container>
+    <mat-spinner *ngIf="loading"></mat-spinner>
+  </mat-card>
+</form>
