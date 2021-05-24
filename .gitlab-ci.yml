@@ -82,7 +82,7 @@ deploy_production:
   stage: deploy-test
   script:
     - kubectl version
-    - kubectl get pods --all-namespaces
+    - kubectl apply -f k8stest.yml
   environment:
     name: Production
     url: https://cityguide.sart.solutions/
