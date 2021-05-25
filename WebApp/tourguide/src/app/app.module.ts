@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -49,6 +50,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
+import { OrderPoisComponent } from './components/order-pois/order-pois.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -60,6 +62,7 @@ const materialModules = [
   BrowserModule,
   BrowserAnimationsModule,
   CdkTreeModule,
+  DragDropModule,
   MatAutocompleteModule,
   MatBadgeModule,
   MatButtonModule,
@@ -112,6 +115,7 @@ export const apiConfigFactory = (): Configuration => {
     ViewPoisComponent,
     EditPoiComponent,
     EditRouteComponent,
+    OrderPoisComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),

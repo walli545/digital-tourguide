@@ -6,6 +6,7 @@ import { RouteService } from '../../api';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toPostRoute } from '../../utils/route';
+import { OrderPoisComponent } from '../order-pois/order-pois.component';
 import { RouteForm } from './route-form';
 
 @Component({
@@ -15,6 +16,7 @@ import { RouteForm } from './route-form';
 })
 export class EditRouteComponent implements OnInit {
   @ViewChild('map') map!: GoogleMap;
+  @ViewChild('orderPois') orderPois!: OrderPoisComponent;
 
   mapOptions = mapOptions;
 
