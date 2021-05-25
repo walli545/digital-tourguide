@@ -144,5 +144,4 @@ deploy_production:
     name: Production
     url: https://$URL
   only:
-    - 105-deployment-einrichten
-    #- master
+    - master
