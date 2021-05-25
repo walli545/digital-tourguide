@@ -16,8 +16,6 @@ export class UrlGeneratorService {
 
   private apikey = 'AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ';
 
-  constructor() {}
-
   buildStaticMapUrl(route: Route): string {
     // eslint-disable-next-line no-useless-escape
     const reComma = /\,/gi;
