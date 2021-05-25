@@ -81,14 +81,13 @@ deploy_review:
     entrypoint: ["/bin/sh", "-c"]
   stage: deploy-test
   variables:
-    IMAGE: $CI_REGISTRY_IMAGE/website:$CI_COMMIT_REF_SLUG
     URL: $CI_ENVIRONMENT_SLUG.cityguide.sart.solutions
   script:
     - kubectl version
     - kubectl create secret docker-registry image-pull-secret --docker-server $CI_REGISTRY --docker-username $CI_DEPLOY_USER --docker-password $CI_DEPLOY_PASSWORD --dry-run=true -o yaml | kubectl apply -f -
     - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/g" WebApp/tourguide/k8s.yml
     - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/g" WebApp/tourguide/k8s.yml
-    - sed -i "s/__IMAGE__/${IMAGE}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__CI_COMMIT_REF_SLUG__/${CI_COMMIT_REF_SLUG}/g" WebApp/tourguide/k8s.yml
     - sed -i "s/__URL__/${URL}/g" WebApp/tourguide/k8s.yml
     - kubectl apply -f WebApp/tourguide/k8s.yml
   environment:
@@ -106,14 +105,13 @@ deploy_production:
     entrypoint: ["/bin/sh", "-c"]
   stage: deploy-test
   variables:
-    IMAGE: $CI_REGISTRY_IMAGE/website:$CI_COMMIT_REF_SLUG
     URL: cityguide.sart.solutions
   script:
     - kubectl version
     - kubectl create secret docker-registry image-pull-secret --docker-server $CI_REGISTRY --docker-username $CI_DEPLOY_USER --docker-password $CI_DEPLOY_PASSWORD --dry-run=true -o yaml | kubectl apply -f -
     - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/g" WebApp/tourguide/k8s.yml
     - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/g" WebApp/tourguide/k8s.yml
-    - sed -i "s/__IMAGE__/${IMAGE}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__CI_COMMIT_REF_SLUG__/${CI_COMMIT_REF_SLUG}/g" WebApp/tourguide/k8s.yml
     - sed -i "s/__URL__/${URL}/g" WebApp/tourguide/k8s.yml
     - kubectl apply -f WebApp/tourguide/k8s.yml
   environment:
