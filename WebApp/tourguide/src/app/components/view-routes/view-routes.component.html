@@ -43,8 +43,8 @@
     </mat-card-actions>
   </mat-card>
 </div>
-<mat-card *ngIf="!hasRoutes()"
-  ><mat-card-title>Keine Routen vorhanden...</mat-card-title></mat-card
+<mat-card *ngIf="!hasRoutes() && !loading" id="cardNoRoutes"
+  ><mat-card-title>No Routes available...</mat-card-title></mat-card
 >
 <button
   id="btn-new"
