@@ -8,7 +8,7 @@ namespace API.Services
 {
   public interface IPointOfInterestService
   {
-    public Task<string> AddPoI(PostPointOfInterest poi);
+    public Task<PointOfInterest> AddPoI(PostPointOfInterest poi);
 
     public Task<int> DeletePoI(Guid poi);
 

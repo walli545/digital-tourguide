@@ -31,7 +31,7 @@ namespace API.Controllers
     /// <response code="200">Success</response>
     /// <response code="400">Invalid input</response>
     [HttpPost]
-    [Route("/pointOfInterest")]
+    [Route("/api/pointOfInterest")]
     [ValidateModelState]
     [SwaggerOperation("AddPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
@@ -40,7 +40,11 @@ namespace API.Controllers
       try
       {
         var result = await _poiService.AddPoI(body);
-        return StatusCode(200, result);
+        if (result == null)
+          return StatusCode(400);
+
+        var json = JsonConvert.SerializeObject(result);
+        return StatusCode(200, json);
       }
       catch (Exception)
       {
@@ -55,7 +59,7 @@ namespace API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Not found</response>
     [HttpDelete]
-    [Route("/pointOfInterest/{poiID}")]
+    [Route("/api/pointOfInterest/{poiID}")]
     [ValidateModelState]
     [SwaggerOperation("DeletePOI")]
     public virtual async Task<IActionResult> DeletePOIAsync([FromRoute][Required] Guid poiID)
@@ -107,7 +111,7 @@ namespace API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">Not found</response>
     [HttpGet]
-    [Route("/pointOfInterest/{poiID}")]
+    [Route("/api/pointOfInterest/{poiID}")]
     [ValidateModelState]
     [SwaggerOperation("GetPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
@@ -128,7 +132,7 @@ namespace API.Controllers
     /// <response code="200">Success</response>
     /// <response code="404">User not found</response>
     [HttpGet]
-    [Route("/pointOfInterest/getUserPoIs/{userName}")]
+    [Route("/api/pointOfInterest/getUserPoIs/{userName}")]
     [ValidateModelState]
     [SwaggerOperation("GetPOIs")]
     [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "Success")]
@@ -151,7 +155,7 @@ namespace API.Controllers
     /// <response code="400">Invalid input</response>
     /// <response code="404">Not found</response>
     [HttpPut]
-    [Route("/pointOfInterest")]
+    [Route("/api/pointOfInterest")]
     [ValidateModelState]
     [SwaggerOperation("PutPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]

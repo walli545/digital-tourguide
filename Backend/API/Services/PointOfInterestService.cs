@@ -18,9 +18,14 @@ namespace API.Services
     private readonly ILogger<PointOfInterestService> _logger;
     private readonly MariaDbContext _dbContext;
 
+    /// <summary>
+    /// Ctor.
+    /// </summary>
+    /// <param name="logger">Logger for fails.</param>
+    /// <param name="dbContext">The desired db context.</param>
     public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext)
     {
-      _logger = logger ?? throw new ArgumentNullException("logger was null!", nameof(logger)); ;
+      _logger = logger ?? throw new ArgumentNullException("logger was null!", nameof(logger));
       _dbContext = dbContext ?? throw new ArgumentNullException("Context was null!", nameof(dbContext));
     }
 
@@ -30,7 +35,7 @@ namespace API.Services
     /// </summary>
     /// <param name="poi">The poi to add</param>
     /// <returns>The added poi as json format</returns>
-    public async Task<string> AddPoI(PostPointOfInterest poi)
+    public async Task<PointOfInterest> AddPoI(PostPointOfInterest poi)
     {
       var record = new PointOfInterest
       {
@@ -52,8 +57,7 @@ namespace API.Services
       var result = await _dbContext.SaveChangesAsync();
       if (result > 0)
       {
-        var json = JsonConvert.SerializeObject(record);
-        return json;
+        return record;
       }
       throw new Exception(); // This path means no rows got affected after add
     }
