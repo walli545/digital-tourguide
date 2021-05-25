@@ -117,6 +117,8 @@ stop_review:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
   stage: deploy-k8s
+  variables:
+    GIT_STRATEGY: none
   script:
     - kubectl version
     - kubectl delete namespace $KUBE_NAMESPACE
