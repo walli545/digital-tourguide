@@ -110,7 +110,6 @@ deploy_review:
     - branches
   except:
     - master
-    - develop
 
 stop_review:
   image:
@@ -126,6 +125,10 @@ stop_review:
   environment:
     name: review/$CI_COMMIT_REF_SLUG
     action: stop
+  only:
+    - branches
+  except:
+    - master
 
 deploy_production:
   image:
