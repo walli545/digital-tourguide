@@ -120,7 +120,7 @@ stop_review:
     GIT_STRATEGY: none
   script:
     - kubectl version
-    - kubectl delete namespace $KUBE_NAMESPACE
+    - kubectl delete all --all
   when: manual
   environment:
     name: review/$CI_COMMIT_REF_SLUG
