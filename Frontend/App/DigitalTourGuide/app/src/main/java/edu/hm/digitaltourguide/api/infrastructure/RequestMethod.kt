@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package io.swagger.client.infrastructure
 
 /**
  * Provides enumerated HTTP verbs

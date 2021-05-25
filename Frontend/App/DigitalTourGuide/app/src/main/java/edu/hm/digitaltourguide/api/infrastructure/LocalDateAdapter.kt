@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
@@ -13,7 +13,6 @@ class LocalDateAdapter {
 
     @FromJson
     fun fromJson(value: String): LocalDate {
-        return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE)
+        return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
-
 }
