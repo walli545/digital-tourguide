@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: angular
-        image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/website:__CI_COMMIT_REF_SLUG__
+        image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/website:__CI_COMMIT_SHA__
         ports:
         - containerPort: 80
       imagePullSecrets:
