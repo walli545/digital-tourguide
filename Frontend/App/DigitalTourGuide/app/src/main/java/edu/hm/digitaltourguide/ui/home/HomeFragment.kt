@@ -45,6 +45,26 @@ class HomeFragment : Fragment() {
                             BigDecimal(0),
                             0,
 
+                            ),
+                        PointOfInterest(
+                            2,
+                            "Besserer Kirchsee",
+                            "",
+                            BigDecimal(47.8235),
+                            BigDecimal(11.6345),
+                            BigDecimal(0),
+                            0,
+
+                            ),
+                        PointOfInterest(
+                            2,
+                            "Bester Kirchsee",
+                            "",
+                            BigDecimal(47.8199),
+                            BigDecimal(11.6045),
+                            BigDecimal(0),
+                            0,
+
                             )
                     ),
                     "TestTour",
