@@ -116,6 +116,7 @@ stop_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
+  stage: deploy-k8s
   script:
     - kubectl version
     - kubectl delete -f WebApp/tourguide/k8s.yml
