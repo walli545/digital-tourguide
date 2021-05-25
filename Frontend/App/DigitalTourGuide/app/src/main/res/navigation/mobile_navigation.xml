@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_maps" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="edu.hm.digitaltourguide.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/tourDetailFragment"
+        android:name="edu.hm.digitaltourguide.TourDetailFragment"
+        android:label="Tour"
+        tools:layout="@layout/fragment_tour_detail" />
 </navigation>
