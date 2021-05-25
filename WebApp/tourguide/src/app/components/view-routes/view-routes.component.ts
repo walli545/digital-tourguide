@@ -12,12 +12,15 @@ export class ViewRoutesComponent implements OnInit {
   loading = true;
   routes = new Map<string, Route>();
   username = '';
-  polyline = 'sdxdHshreAcT}o@';
   mapUrl =
     'https://maps.googleapis.com/maps/api/staticmap?&size=600x300&maptype=roadmap';
+  mapStyle =
+    // eslint-disable-next-line max-len
+    '&style=feature:poi|all|visibility:off&style=element:geometry%7Ccolor:0x242f3e&style=element:labels.text.fill%7Ccolor:0x746855&style=element:labels.text.stroke%7Ccolor:0x242f3e&style=feature:administrative.locality%7Celement:labels.text.fill%7Ccolor:0xd59563&style=feature:poi%7Celement:labels.text.fill%7Ccolor:0xd59563&style=feature:poi.park%7Celement:geometry%7Ccolor:0x263c3f&style=feature:poi.park%7Celement:labels.text.fill%7Ccolor:0x6b9a76&style=feature:road%7Celement:geometry%7Ccolor:0x38414e&style=feature:road%7Celement:geometry.stroke%7Ccolor:0x212a37&style=feature:road%7Celement:labels.text.fill%7Ccolor:0x9ca5b3&style=feature:road.highway%7Celement:geometry%7Ccolor:0x746855&style=feature:road.highway%7Celement:geometry.stroke%7Ccolor:0x1f2835&style=feature:road.highway%7Celement:labels.text.fill%7Ccolor:0xf3d19c&style=feature:transit%7Celement:geometry%7Ccolor:0x2f3948&style=feature:transit.station%7Celement:labels.text.fill%7Ccolor:0xd59563&style=feature:water%7Celement:geometry%7Ccolor:0x17263c&style=feature:water%7Celement:labels.text.fill%7Ccolor:0x515c6d&style=feature:water%7Celement:labels.text.stroke%7Ccolor:0x17263c';
+
+  mapUrl1 = 'https://maps.googleapis.com/maps/api/staticmap?&size=600x300';
 
   apikey = 'AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ';
-  i = 0;
 
   constructor(private routeService: RouteService, private router: Router) {}
 
@@ -40,32 +43,6 @@ export class ViewRoutesComponent implements OnInit {
         })
       )
       .subscribe();
-    /*     //temp test
-    this.initArray();
-    setTimeout(() => {
-      this.loading = false;
-    }, 10000);
-  }
-
-  //temp test function
-  initArray(): void {
-    setTimeout(() => {
-      this.routes.set(this.i.toString(), {
-        name: 'ROUTENAME',
-        id: this.i.toString(),
-        description:
-          'DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION',
-        pointOfInterests: [],
-        creatorName: 'Mr.X',
-        duration: 2,
-        polyline: this.polyline,
-      });
-      this.i++; //  increment the counter
-      if (this.i < 10) {
-        //  if the counter < 10, call the loop function
-        this.initArray(); //  ..  again which will trigger another
-      } //  ..  setTimeout()
-    }, 1000); */
   }
 
   toArray(): Route[] {
@@ -77,24 +54,39 @@ export class ViewRoutesComponent implements OnInit {
   }
 
   buildStaticMapUrl(route: Route): string {
+    // eslint-disable-next-line no-useless-escape
+    const reComma = /\,/gi;
+    // eslint-disable-next-line no-useless-escape
+    const reSemi = /\;/gi;
+    const marker =
+      route.pointOfInterests
+        .map((p) => '|' + p.latitude + ';' + p.longitude)
+        .toString()
+        .replace(reComma, '')
+        .replace(reSemi, ',') + '|';
+    console.log(marker);
     const url =
-      this.mapUrl + '&path=enc:' + route.polyline + '&key=' + this.apikey;
-    console.log(url);
+      this.mapUrl +
+      '&path=color:0xffc107|enc:' +
+      route.polyline +
+      '&markers=color:0x9c27b0' +
+      marker +
+      this.mapStyle +
+      '&key=' +
+      this.apikey;
+
     return url;
   }
 
   onNew(): void {
-    console.log('new');
     this.router.navigate(['route', 'new']);
   }
 
   onEdit(route: Route): void {
-    console.log('edit ' + route);
     this.router.navigate(['route', route.id]);
   }
 
   onDelete(route: Route): void {
-    console.log('delete ' + route);
     this.routeService.deleteRoute(route.id);
     this.routes.delete(route.id);
   }
