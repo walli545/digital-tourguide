@@ -2,6 +2,8 @@ package edu.hm.digitaltourguide
 
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Button
+import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -13,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +41,31 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_maps, R.id.tourDetailFragment), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+        val loginBtn = findViewById<Button>(R.id.login_button)
+        loginBtn.setOnClickListener{
+            navController.navigateUp()
+            navController.navigate(R.id.nav_login)
+            drawerLayout.closeDrawers();
+        }
+
+        val logoutBtn = findViewById<Button>(R.id.logout_button)
+        logoutBtn.setOnClickListener{
+            logoutBtn.isVisible = false
+            loginBtn.isVisible = true
+            navController.navigateUp()
+            navController.navigate(R.id.nav_login)
+            drawerLayout.closeDrawers();
+
+            Toast.makeText(applicationContext, "User logged out", Toast.LENGTH_LONG).show()
+        }
+
+
+    }
+
+    public fun logedIn(){
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
