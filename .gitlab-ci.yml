@@ -119,7 +119,7 @@ stop_review:
   stage: deploy-k8s
   script:
     - kubectl version
-    - kubectl delete -f WebApp/tourguide/k8s.yml
+    - kubectl delete namespace $KUBE_NAMESPACE
   when: manual
   environment:
     name: review/$CI_COMMIT_REF_SLUG
