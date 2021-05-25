@@ -96,7 +96,7 @@ deploy_review:
     url: https://$URL
   only:
     - branches
-  exept:
+  except:
     - master
     - develop
 
