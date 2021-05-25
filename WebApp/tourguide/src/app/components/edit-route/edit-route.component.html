@@ -18,7 +18,7 @@
           <mat-error
             *ngIf="routeForm.nameControl.errors?.required"
             id="error-name-required"
-            >Name darf nicht leer sein</mat-error
+            >Name cannot be empty</mat-error
           >
         </mat-form-field>
 
@@ -35,7 +35,7 @@
           <mat-error
             *ngIf="routeForm.nameControl.errors?.required"
             id="error-name-required"
-            >Dauer darf nicht leer sein</mat-error
+            >Duration cannot be empty</mat-error
           >
         </mat-form-field>
 
@@ -59,11 +59,9 @@
           [disabled]="routeForm.formGroup.invalid"
         >
           <mat-icon inline="true">save</mat-icon>
-          SPEICHERN
+          SAVE
         </button>
-        <button id="btn-cancel" mat-button (click)="onCancel()">
-          ABBRECHEN
-        </button>
+        <button id="btn-cancel" mat-button (click)="onCancel()">CANCEL</button>
       </mat-card-actions>
     </ng-container>
     <mat-spinner *ngIf="loading"></mat-spinner>

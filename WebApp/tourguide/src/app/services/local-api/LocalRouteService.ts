@@ -18,25 +18,68 @@ export class LocalRouteService implements RouteServiceInterface {
 
   private routes = new Map<string, Route>();
   private currentId = 1;
-  private poi: PointOfInterest = {
-    id: '1',
-    averageRating: 0,
-    numberOfRatings: 0,
-    name: 'SendlingerTor',
-    latitude: 48.13401718904898,
-    longitude: 11.56761646270752,
-    description:
-      'Das Sendlinger Tor ist das südliche Stadttor der historischen Altstadt in München. ',
-  };
+  private polyline = 'sdxdHshreAcT}o@';
+  private polyline1 = 'sdxdHshreAw^dJrIc{@';
+  private pois: PointOfInterest[] = [
+    {
+      id: '0',
+      averageRating: 0,
+      numberOfRatings: 0,
+      name: 'SendlingerTor',
+      latitude: 48.13401718904898,
+      longitude: 11.56761646270752,
+      description:
+        'Das Sendlinger Tor ist das südliche Stadttor der historischen Altstadt in München. ',
+    },
+    {
+      id: '1',
+      name: 'Marienplatz',
+      latitude: 48.13739675056184,
+      longitude: 11.575448513031006,
+      description:
+        'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+    },
+    {
+      id: '2',
+      name: 'Stachus',
+      latitude: 48.139167,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+    },
+  ];
 
-  constructor(private poiService: PointOfInterestService) {}
+  constructor(private poiService: PointOfInterestService) {
+    this.addRoute({
+      pointOfInterests: [this.pois[0].id, this.pois[1].id, this.pois[2].id],
+      polyline: this.polyline1,
+      name: 'Innenstadt München',
+      description: 'Vom Marienplatz über den Stachus zum Sendlinger Tor',
+      duration: 1,
+      creatorName: 'Mr.X',
+    });
+    for (let i = 0; i < 4; i++) {
+      this.addRoute({
+        name: 'ROUTENAME',
+        description:
+          'DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION',
+        pointOfInterests: [this.pois[0].id, this.pois[1].id],
+        creatorName: 'Mr.X',
+        duration: 2,
+        polyline: this.polyline,
+      });
+    }
+  }
 
   addRoute(route: PostRoute, extraHttpRequestParams?: any): Observable<Route> {
     const newRoute = {
       id: `${this.currentId}`,
       pointOfInterests: route.pointOfInterests.map((p) => {
-        this.poi.id = p;
-        return { ...this.poi };
+        return { ...this.pois[parseInt(p, 3)] };
       }),
       name: route.name,
       description: route.description,
@@ -84,8 +127,8 @@ export class LocalRouteService implements RouteServiceInterface {
       const updated = {
         id: route.id,
         pointOfInterests: route.pointOfInterests.map((p) => {
-          this.poi.id = p;
-          return { ...this.poi };
+          // this.pois[parseInt(p,3)].id = p;
+          return { ...this.pois[parseInt(p, 3)] };
         }),
         name: route.name,
         description: route.description,

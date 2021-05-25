@@ -1,3 +1,6 @@
+#spinner {
+  left: 35%;
+}
 #card {
   width: auto;
   min-width: 300px;
@@ -20,7 +23,7 @@
 }
 
 #card-poi {
-  background-color: #303030e1;
+  background-color: #696969cb;
   margin-top: 10px;
 }
 
@@ -68,4 +71,7 @@ mat-icon {
     display: none;
   }
   -ms-overflow-style: none;
+}
+::ng-deep .tooltip {
+  background: #303030;
 }
