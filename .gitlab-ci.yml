@@ -73,27 +73,7 @@ app_testDebug:
     - chmod +x ./gradlew
   script:
   - ./gradlew -Pci --console=plain :app:testDebug
-
-app_apk_deploy:
-  stage: app_deploy
-  before_script:
-    - apk update
-    - apk add git 
-    - apk add --update openssl
-  script:
-    - cp -r Frontend/App/DigitalTourGuide/app/build/outputs/apk Documents/App
-    - git config --global user.name "${GITLAB_USER_NAME}"
-    - git config --global user.email "${GITLAB_USER_EMAIL}"
-    - git pull .
-    - git add Documents/App
-    - git commit -m "App APK updated" || if [ $? -eq 64 ]; then echo "success"; else echo $code; fi
-    - git push https://${GITLAB_USER_LOGIN}:${TOKEN}@gitlab.lrz.de/swe2_ss2021/Gruppe02.git/ HEAD:develop -f
-  only:
-    refs:
-      - develop
-  except:
-    changes: 
-      - Documents/App/
+  
 
 openapi_gen:
   image: jeshan/swagger-codegen-cli
