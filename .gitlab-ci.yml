@@ -1,8 +1,8 @@
 stages:
-  - deploy-test
   - build-and-test
   - openapi_gen
   - openapi_deploy
+  - deploy-k8s
 
 build_website:
   stage: build-and-test
@@ -79,7 +79,7 @@ deploy_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
-  stage: deploy-test
+  stage: deploy-k8s
   variables:
     URL: $CI_ENVIRONMENT_SLUG.cityguide.sart.solutions
   script:
@@ -92,18 +92,31 @@ deploy_review:
     - kubectl apply -f WebApp/tourguide/k8s.yml
   environment:
     name: review/$CI_COMMIT_REF_SLUG
-    url: https://$URL
+    url: https://$CI_ENVIRONMENT_SLUG.cityguide.sart.solutions
+    on_stop: stop_review
   only:
     - branches
   except:
     - master
     - develop
 
+stop_review:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
+  script:
+    - kubectl version
+    - kubectl delete -f WebApp/tourguide/k8s.yml
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+
 deploy_production:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
-  stage: deploy-test
+  stage: deploy-k8s
   variables:
     URL: cityguide.sart.solutions
   script:
