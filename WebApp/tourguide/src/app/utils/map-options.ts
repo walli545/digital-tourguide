@@ -9,4 +9,5 @@ export const mapOptions: google.maps.MapOptions = {
   scaleControl: false,
   zoomControl: false,
   backgroundColor: '#424242',
+  center: { lat: 48.137154, lng: 11.576124 },
 };

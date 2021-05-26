@@ -25,7 +25,17 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <mat-icon matListIcon>location_on</mat-icon>
-        Meine PoI's
+        My PoI's
+      </a>
+      <a
+        mat-list-item
+        (click)="toggle()"
+        [routerLink]="['routes']"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListIcon>follow_the_signs</mat-icon>
+        My Routes
       </a>
 
       <mat-divider></mat-divider>
