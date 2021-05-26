@@ -1,0 +1,5 @@
+{
+    "modelPackage" : "edu.hm.digitaltourguide.api.models",
+    "apiPackage" : "edu.hm.digitaltourguide.api.apis",
+    "infrastructurePackage": "edu.hm.digitaltourguide.api.infrastructure"
+}
