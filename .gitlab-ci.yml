@@ -58,7 +58,7 @@ app_lintDebug:
   - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
   only:
     changes: 
-      - Frontend/App/
+      - Frontend/App/*
 
 app_build:
   image: jangrewe/gitlab-ci-android
