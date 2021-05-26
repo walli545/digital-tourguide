@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using API.Services;
 
 namespace API
 {
@@ -29,6 +30,8 @@ namespace API
 
       string mySqlConnectionStr = Configuration.GetConnectionString("MariaDbConnectionString");
       services.AddDbContextPool<MariaDbContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
+
+      services.AddScoped<IPointOfInterestService, PointOfInterestService>();
 
       services.AddControllers();
       services.AddSwaggerGen(c =>

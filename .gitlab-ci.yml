@@ -3,24 +3,31 @@ stages:
   - app_build-and-test
   - openapi_gen
   - openapi_deploy
+  - deploy-k8s
 
 build_website:
-  stage: website_build-and-test
-  image: node:14-alpine
-  tags:
-    - docker
+  stage: build-and-test
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/website:$CI_COMMIT_SHA
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
   script:
-    - cd WebApp/tourguide
-    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
-    - npm install --prefer-offline --no-audit
-    - npm run build:prod
-  only:
-    changes:  
-      - WebApp/*
-  artifacts:
-    name: "website"
-    paths:
-      - WebApp/tourguide/dist/tourguide
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/WebApp/tourguide --dockerfile $CI_PROJECT_DIR/WebApp/tourguide/Dockerfile --destination $IMAGE_TAG
+
+build_api:
+  stage: build-and-test
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/Backend/API --dockerfile $CI_PROJECT_DIR/Backend/API/Dockerfile --destination $IMAGE_TAG
 
 lint_format_test_website:
   stage: website_build-and-test
@@ -97,21 +104,21 @@ openapi_gen:
     - apk add --update openssl
     - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
   script:
-    - 'java -jar openapi-generator-cli.jar generate -g kotlin -i Documents/ApiSpec/openapi.yaml -o openapi-kotlin-client'
+    - "java -jar openapi-generator-cli.jar generate -g kotlin -i Documents/ApiSpec/openapi.yaml -o openapi-kotlin-client"
   only:
     refs:
       - develop
-    changes: 
+    changes:
       - Documents/ApiSpec/openapi.yaml
   artifacts:
     name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
-    paths: ['openapi-kotlin-client']
+    paths: ["openapi-kotlin-client"]
 
 openapi_deploy:
   stage: openapi_deploy
   before_script:
     - apk update
-    - apk add git 
+    - apk add git
     - apk add --update openssl
   script:
     - rm -r Frontend/App/DigitalTourGuide/app/src/main/java/edu/hm/digitaltourguide/api
@@ -125,5 +132,69 @@ openapi_deploy:
   only:
     refs:
       - develop
-    changes: 
+    changes:
       - Documents/ApiSpec/openapi.yaml
+
+deploy_review:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
+  stage: deploy-k8s
+  variables:
+    URL: $CI_ENVIRONMENT_SLUG.cityguide.sart.solutions
+  script:
+    - kubectl version
+    - kubectl create secret docker-registry image-pull-secret --docker-server $CI_REGISTRY --docker-username $CI_DEPLOY_USER --docker-password $CI_DEPLOY_PASSWORD --dry-run=true -o yaml | kubectl apply -f -
+    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__URL__/${URL}/g" WebApp/tourguide/k8s.yml
+    - kubectl apply -f WebApp/tourguide/k8s.yml
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://$CI_ENVIRONMENT_SLUG.cityguide.sart.solutions
+    on_stop: stop_review
+  only:
+    - branches
+  except:
+    - master
+
+stop_review:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
+  stage: deploy-k8s
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - kubectl version
+    - kubectl delete all --all
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+  only:
+    - branches
+  except:
+    - master
+
+deploy_production:
+  image:
+    name: lachlanevenson/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
+  stage: deploy-k8s
+  variables:
+    URL: cityguide.sart.solutions
+  script:
+    - kubectl version
+    - kubectl create secret docker-registry image-pull-secret --docker-server $CI_REGISTRY --docker-username $CI_DEPLOY_USER --docker-password $CI_DEPLOY_PASSWORD --dry-run=true -o yaml | kubectl apply -f -
+    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__URL__/${URL}/g" WebApp/tourguide/k8s.yml
+    - kubectl apply -f WebApp/tourguide/k8s.yml
+  environment:
+    name: Production
+    url: https://$URL
+  only:
+    - master
