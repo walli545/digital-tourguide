@@ -15,6 +15,8 @@ build_website:
     - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
     - npm install --prefer-offline --no-audit
     - npm run build:prod
+  only:
+    changes: WebApp/
   artifacts:
     name: "website"
     paths:
@@ -32,6 +34,8 @@ lint_format_test_website:
     - npm run lint
     - npm run prettier:check
     - npm run test:ci
+  only:
+    changes: WebApp/
   artifacts:
     name: "test-and-coverage"
     reports:
@@ -50,6 +54,8 @@ app_lintDebug:
     - chmod +x ./gradlew
   script:
   - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+  only:
+    changes: Frontend/App/
 
 app_build:
   image: jangrewe/gitlab-ci-android
@@ -73,6 +79,8 @@ app_testDebug:
     - chmod +x ./gradlew
   script:
   - ./gradlew -Pci --console=plain :app:testDebug
+  only:
+    changes: Frontend/App/
   
 
 openapi_gen:
