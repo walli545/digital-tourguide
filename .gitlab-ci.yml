@@ -16,7 +16,7 @@ build_website:
     - npm install --prefer-offline --no-audit
     - npm run build:prod
   only:
-    changes: WebApp/
+    - changes: WebApp/
   artifacts:
     name: "website"
     paths:
@@ -35,7 +35,7 @@ lint_format_test_website:
     - npm run prettier:check
     - npm run test:ci
   only:
-    changes: WebApp/
+    - changes: WebApp/
   artifacts:
     name: "test-and-coverage"
     reports:
@@ -55,7 +55,7 @@ app_lintDebug:
   script:
   - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
   only:
-    changes: Frontend/App/
+    - changes: Frontend/App/
 
 app_build:
   image: jangrewe/gitlab-ci-android
@@ -80,7 +80,7 @@ app_testDebug:
   script:
   - ./gradlew -Pci --console=plain :app:testDebug
   only:
-    changes: Frontend/App/
+    - changes: Frontend/App/
   
 
 openapi_gen:
