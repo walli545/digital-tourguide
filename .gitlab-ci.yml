@@ -6,7 +6,7 @@ stages:
   - deploy-k8s
 
 build_website:
-  stage: build-and-test
+  stage: website_build-and-test
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/website:$CI_COMMIT_SHA
   image:
@@ -16,6 +16,10 @@ build_website:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR/WebApp/tourguide --dockerfile $CI_PROJECT_DIR/WebApp/tourguide/Dockerfile --destination $IMAGE_TAG
+  only:
+    changes:  
+      - WebApp/*
+
 
 build_api:
   stage: build-and-test
