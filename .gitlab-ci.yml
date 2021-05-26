@@ -1,7 +1,6 @@
 stages:
   - website_build-and-test
   - app_build-and-test
-  - app_deploy
   - openapi_gen
   - openapi_deploy
 
