@@ -16,7 +16,7 @@ build_website:
     - npm install --prefer-offline --no-audit
     - npm run build:prod
   only:
-    - changes: WebApp/
+    - changes: WebApp/*
   artifacts:
     name: "website"
     paths:
