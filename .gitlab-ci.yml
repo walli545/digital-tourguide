@@ -22,7 +22,7 @@ build_website:
 
 
 build_api:
-  stage: build-and-test
+  stage: website_build-and-test
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
   image:
