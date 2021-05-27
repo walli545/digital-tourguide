@@ -3,8 +3,14 @@
   class="poi-list"
   (cdkDropListDropped)="drop($event)"
   [ngClass]="{ error: invalid() }"
+  *ngIf="showDragList()"
 >
-  <div class="poi" *ngFor="let poi of pois; index as i" cdkDragHandle cdkDrag>
+  <div
+    class="poi"
+    *ngFor="let poi of pointsOfInterests; index as i"
+    cdkDragHandle
+    cdkDrag
+  >
     <div class="drag-handle">
       <mat-icon class="drag-indicator">drag_indicator</mat-icon>
       <mat-icon *ngIf="isFirstOrLast(i)" color="primary">place</mat-icon>
@@ -17,7 +23,7 @@
       class="poi-name"
       style="width: 100%; padding-left: 20px"
     >
-      <input type="text" matInput [value]="poi" disabled />
+      <input type="text" matInput [value]="poi.name" disabled />
       <button
         mat-icon-button
         matSuffix
@@ -31,23 +37,12 @@
   </div>
 </div>
 
-<mat-error *ngIf="invalid()" class="min-error"
-  >Select at least two Points of Interest</mat-error
+<mat-error *ngIf="pointsOfInterests.length <= 1" class="min-error"
+  >Select at least two Points of Interests</mat-error
+>
+<mat-error *ngIf="containsTwoInRow()" class="min-error"
+  >Route can`t contain the same Point Of Interest directly followed by
+  itself</mat-error
 >
 
-<mat-form-field appearance="outline" id="select-poi-formfield">
-  <mat-label>Add Point of Interest to Route</mat-label>
-  <input
-    type="text"
-    matInput
-    placeholder="Enter Point of Interest Name"
-    aria-label="Add PoI"
-    [matAutocomplete]="auto"
-    [formControl]="selectPoiControl"
-  />
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="add($event)">
-    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-      {{ option }}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
+<app-poi-select (poiSelect)="add($event)"></app-poi-select>

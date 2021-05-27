@@ -50,7 +50,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
-import { OrderPoisComponent } from './components/order-pois/order-pois.component';
+import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
+import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -117,7 +118,8 @@ export const apiConfigFactory = (): Configuration => {
     EditPoiComponent,
     ViewRoutesComponent,
     EditRouteComponent,
-    OrderPoisComponent,
+    PoiOrderComponent,
+    PoiSelectComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),

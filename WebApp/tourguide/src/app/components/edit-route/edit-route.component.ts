@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { RouteService } from '../../api';
+import { PointOfInterest, RouteService } from '../../api';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toPostRoute } from '../../utils/route';
-import { OrderPoisComponent } from '../order-pois/order-pois.component';
+import { PoiOrderComponent } from '../poi/poi-order/poi-order.component';
 import { RouteForm } from './route-form';
 
 @Component({
@@ -16,7 +16,7 @@ import { RouteForm } from './route-form';
 })
 export class EditRouteComponent implements OnInit {
   @ViewChild('map') map!: GoogleMap;
-  @ViewChild('orderPois') orderPois!: OrderPoisComponent;
+  @ViewChild('orderPois') orderPois!: PoiOrderComponent;
 
   mapOptions = mapOptions;
 
@@ -64,6 +64,10 @@ export class EditRouteComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['routes']);
+  }
+
+  onPoisChange(pois: PointOfInterest[]): void {
+    console.log(pois);
   }
 
   private async getExistingRoute(id: string): Promise<void> {

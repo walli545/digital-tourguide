@@ -48,7 +48,11 @@
           ></textarea>
         </mat-form-field>
 
-        <app-order-pois #orderPois></app-order-pois>
+        <app-poi-order
+          #orderPois
+          [pointsOfInterests]="routeForm.route.pointOfInterests"
+          (poisChange)="onPoisChange($event)"
+        ></app-poi-order>
       </mat-card-content>
 
       <mat-card-actions>

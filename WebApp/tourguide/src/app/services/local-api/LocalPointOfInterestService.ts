@@ -41,6 +41,14 @@ export class LocalPointOfInterestService
       description:
         'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
     });
+    this.addPOI({
+      id: '2',
+      name: 'Stachus',
+      latitude: 48.139167,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+    });
   }
   addPOI(
     poi: PostPointOfInterest,
@@ -85,9 +93,7 @@ export class LocalPointOfInterestService
     userName: string,
     extraHttpRequestParams?: any
   ): Observable<Array<string>> {
-    return of(Array.from(this.pois.values()).map((p) => p.id)).pipe(
-      delay(2_000)
-    );
+    return of(Array.from(this.pois.values()).map((p) => p.id)).pipe(delay(500));
   }
 
   putPOI(
