@@ -2,9 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { PointOfInterest, RouteService } from '../../api';
+import {
+  PointOfInterest,
+  PointOfInterestService,
+  RouteService,
+} from '../../api';
+import { PolylineService } from '../../services/polyline.service';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
+import { toGoogleMaps } from '../../utils/poi';
 import { toPostRoute } from '../../utils/route';
 import { PoiOrderComponent } from '../poi/poi-order/poi-order.component';
 import { RouteForm } from './route-form';
@@ -19,6 +25,24 @@ export class EditRouteComponent implements OnInit {
   @ViewChild('orderPois') orderPois!: PoiOrderComponent;
 
   mapOptions = mapOptions;
+  polylineOptions: google.maps.PolylineOptions = {
+    strokeOpacity: 0.6,
+    strokeWeight: 3,
+    strokeColor: '#9c27b0',
+    icons: [
+      {
+        fixedRotation: false,
+        icon: {
+          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          fillOpacity: 1,
+          strokeOpacity: 1,
+          strokeWeight: 1,
+        },
+        repeat: '100px',
+        offset: '100%',
+      },
+    ],
+  };
 
   loading = true;
   isNew = true;
@@ -28,7 +52,9 @@ export class EditRouteComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private routeService: RouteService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public polylineService: PolylineService,
+    private poiService: PointOfInterestService
   ) {
     this.routeForm = new RouteForm();
   }
@@ -36,14 +62,23 @@ export class EditRouteComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
       const id = params.get('id');
-      let promise: Promise<void> = Promise.resolve();
       if (id) {
-        promise = this.getExistingRoute(id);
+        this.getExistingRoute(id).then(() => {
+          this.routeForm.updateFormControl();
+          this.loading = false;
+          this.updateMapPosition();
+        });
+      } else {
+        this.poiService
+          .getCenterOfPOIs('username')
+          .toPromise()
+          .then((coord) => {
+            this.map.center = {
+              lat: coord.latitude || 48.137154,
+              lng: coord.longitude || 11.576124,
+            };
+          });
       }
-      promise.then(() => {
-        this.routeForm.updateFormControl();
-        this.loading = false;
-      });
     });
   }
 
@@ -66,8 +101,29 @@ export class EditRouteComponent implements OnInit {
     this.router.navigate(['routes']);
   }
 
-  onPoisChange(pois: PointOfInterest[]): void {
-    console.log(pois);
+  getPolylinePath(): google.maps.LatLng[] {
+    return this.polylineService.toPath(this.routeForm.route.polyline);
+  }
+
+  async onPoisChange(pois: PointOfInterest[]): Promise<void> {
+    try {
+      this.routeForm.route.polyline = await this.polylineService.getPolyline(
+        pois
+      );
+      this.routeForm.route.pointOfInterests = pois;
+      this.updateMapPosition();
+    } catch (error) {
+      displayError(error, 'Route could not be calculated', this.snackBar);
+    }
+  }
+
+  private updateMapPosition(): void {
+    const bounds = new google.maps.LatLngBounds();
+    this.routeForm.route.pointOfInterests.forEach((p) =>
+      bounds.extend(toGoogleMaps(p))
+    );
+    this.map.fitBounds(bounds);
+    this.map.panBy(-260, 0);
   }
 
   private async getExistingRoute(id: string): Promise<void> {

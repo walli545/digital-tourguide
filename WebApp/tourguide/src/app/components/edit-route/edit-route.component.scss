@@ -13,9 +13,22 @@
 #card-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 80px);
   box-sizing: border-box;
+}
+
+::ng-deep .mat-tab-body-wrapper {
+  flex: 1 1 100%;
+  margin-top: 20px;
   overflow-y: auto;
+}
+
+::ng-deep .mat-tab-body-content {
+  overflow-y: auto !important;
+}
+
+::ng-deep .mat-tab-group {
+  height: 100%;
 }
 
 mat-card-actions {
