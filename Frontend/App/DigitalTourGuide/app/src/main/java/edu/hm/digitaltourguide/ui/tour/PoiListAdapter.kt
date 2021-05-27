@@ -1,4 +1,4 @@
-package edu.hm.digitaltourguide.ui.trip
+package edu.hm.digitaltourguide.ui.tour
 
 import android.app.Activity
 import android.view.LayoutInflater

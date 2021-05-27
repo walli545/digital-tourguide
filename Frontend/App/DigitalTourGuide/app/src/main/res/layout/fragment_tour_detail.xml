@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="Beschreibung"
+                android:text="@string/description_header"
                 android:textSize="@dimen/tour_detail_header_text_size"
                 app:layout_constraintTop_toBottomOf="@+id/trip_image_slider" />
 
@@ -47,14 +47,14 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description_header"
-                tools:text="Eine Tour welche die besten und schönsten Kirchen der Stadt besucht."/>
+                tools:text="@string/decription_dummy"/>
 
             <TextView
                 android:id="@+id/poi_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tour_detail_margin_top"
-                android:text="Points of Interest"
+                android:text="@string/points_of_interest_header"
                 android:textSize="@dimen/tour_detail_header_text_size"
                 app:layout_constraintTop_toBottomOf="@+id/tour_description" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tour_detail_margin_top"
-                android:text="@string/tour_preview_header"
+                android:text="@string/tour_preview"
                 android:textSize="@dimen/tour_detail_header_text_size"
                 app:layout_constraintTop_toBottomOf="@+id/poi_list_recycler" />
 

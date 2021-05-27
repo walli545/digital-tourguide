@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
         val navController = findNavController()
 
         binding.goToRegister.setOnClickListener { view: View ->
-            view.findNavController().navigate(LoginFragmentDirections.actionNavLoginToRegisterFragment())
+            view.findNavController().navigate(LoginFragmentDirections .actionNavLoginToRegisterFragment())
         }
 
         return binding.root

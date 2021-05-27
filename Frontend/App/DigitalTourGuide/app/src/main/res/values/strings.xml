@@ -18,7 +18,6 @@
     <string name="start_text">It\'s time to start a Tour!</string>
     <string name="button_select_a_tour_text">Select a Tour</string>
     <string name="menu_tour">Tour</string>
-    <string name="tour_preview_header">Tour Preview</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -37,4 +36,10 @@
     <string name="prompt_username">Username</string>
     <string name="register">Registrieren</string>
     <string name="login">Anmelden</string>
+
+    <!-- Strings related to TourDetail -->
+    <string name="description_header">Description</string>
+    <string name="points_of_interest_header">Points of Interest</string>
+    <string name="tour_preview">Tour Preview</string>
+    <string name="decription_dummy">Eine Tour welche die besten und schönsten Kirchen der Stadt besucht.</string>
 </resources>

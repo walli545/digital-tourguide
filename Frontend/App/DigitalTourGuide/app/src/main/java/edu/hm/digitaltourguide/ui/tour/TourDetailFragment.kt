@@ -1,4 +1,4 @@
-package edu.hm.digitaltourguide
+package edu.hm.digitaltourguide.ui.tour
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,18 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
+import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.databinding.FragmentTourDetailBinding
-import edu.hm.digitaltourguide.ui.trip.PoiListAdapter
+import edu.hm.digitaltourguide.ui.home.HomeViewModel
+import edu.hm.digitaltourguide.ui.tour.PoiListAdapter
 
 
 class TourDetailFragment : Fragment() {
 
+    private lateinit var tourDetailViewModel: TourDetailViewModel
     private lateinit var poiListAdapter: PoiListAdapter
 
     // Demo POI Information
@@ -29,6 +33,9 @@ class TourDetailFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+
+        tourDetailViewModel =
+            ViewModelProvider(this).get(TourDetailViewModel::class.java)
 
         val binding: FragmentTourDetailBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_tour_detail, container, false)
