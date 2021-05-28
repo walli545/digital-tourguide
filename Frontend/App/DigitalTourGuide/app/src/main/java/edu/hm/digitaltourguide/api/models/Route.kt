@@ -24,6 +24,7 @@ import com.squareup.moshi.Json
  * @param creatorName 
  * @param duration 
  * @param polyline 
+ * @param imageURL 
  */
 
 data class Route (
@@ -40,6 +41,8 @@ data class Route (
     @Json(name = "duration")
     val duration: kotlin.Float,
     @Json(name = "polyline")
-    val polyline: kotlin.String
+    val polyline: kotlin.String,
+    @Json(name = "imageURL")
+    val imageURL: kotlin.String
 )
 

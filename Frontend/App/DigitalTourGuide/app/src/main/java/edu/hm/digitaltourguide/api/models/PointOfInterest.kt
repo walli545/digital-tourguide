@@ -23,6 +23,7 @@ import com.squareup.moshi.Json
  * @param longitude 
  * @param averageRating 
  * @param numberOfRatings 
+ * @param imageURL 
  */
 
 data class PointOfInterest (
@@ -39,6 +40,8 @@ data class PointOfInterest (
     @Json(name = "averageRating")
     val averageRating: java.math.BigDecimal,
     @Json(name = "numberOfRatings")
-    val numberOfRatings: kotlin.Int
+    val numberOfRatings: kotlin.Int,
+    @Json(name = "imageURL")
+    val imageURL: kotlin.String
 )
 
