@@ -36,6 +36,15 @@ describe('PoiForm', () => {
     expect(descriptionControl.value).toEqual('');
   });
 
+  it('get imageUrlControl works', () => {
+    const imageUrlControl = form.imageUrlControl;
+
+    expect(imageUrlControl.dirty).toBeFalse();
+    expect(imageUrlControl.enabled).toBeTrue();
+    expect(imageUrlControl.valid).toBeFalse();
+    expect(imageUrlControl.value).toEqual('');
+  });
+
   it('get initial pointOfInterest works', () => {
     const poi = form.pointOfInterest;
 

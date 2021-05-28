@@ -12,7 +12,6 @@ import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toGoogleMaps } from '../../utils/poi';
 import { toPostRoute } from '../../utils/route';
-import { InputImageUrlComponent } from '../input-image-url/input-image-url.component';
 import { PoiOrderComponent } from '../poi/poi-order/poi-order.component';
 import { RouteForm } from './route-form';
 
@@ -24,7 +23,6 @@ import { RouteForm } from './route-form';
 export class EditRouteComponent implements OnInit {
   @ViewChild('map') map!: GoogleMap;
   @ViewChild('orderPois') orderPois!: PoiOrderComponent;
-  @ViewChild('inputImageUrl') inputImageUrl!: InputImageUrlComponent;
 
   mapOptions = mapOptions;
   polylineOptions: google.maps.PolylineOptions = {
@@ -101,10 +99,6 @@ export class EditRouteComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['routes']);
-  }
-
-  onImageUrlChange(url: string) {
-    //this.routeForm.route.imageURL = url;
   }
 
   getPolylinePath(): google.maps.LatLng[] {

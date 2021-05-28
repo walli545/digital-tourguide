@@ -22,6 +22,7 @@ export class RouteForm {
     name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
     duration: new FormControl(1, [Validators.required]),
+    imageUrl: new FormControl('', [Validators.required]),
   });
 
   public get nameControl(): AbstractControl {
@@ -34,6 +35,10 @@ export class RouteForm {
 
   public get durationControl(): AbstractControl {
     return this.routeForm.get('duration')!;
+  }
+
+  public get imageUrlControl(): AbstractControl {
+    return this.routeForm.get('imageUrl')!;
   }
 
   public get formGroup(): FormGroup {
@@ -54,6 +59,8 @@ export class RouteForm {
       name: this.data.name,
       description: this.data.description,
       duration: this.data.duration,
+      // TODO change
+      imageUrl: '',
     });
   }
 
@@ -61,5 +68,6 @@ export class RouteForm {
     this.data.name = this.nameControl.value;
     this.data.description = this.descriptionControl.value;
     this.data.duration = this.durationControl.value;
+    // TODO add image url
   }
 }

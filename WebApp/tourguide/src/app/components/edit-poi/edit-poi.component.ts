@@ -6,7 +6,6 @@ import { PointOfInterestService } from '../../api';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toGoogleMaps, toPostPoi } from '../../utils/poi';
-import { InputImageUrlComponent } from '../input-image-url/input-image-url.component';
 import { PoiForm } from './poi-form';
 
 @Component({
@@ -17,7 +16,6 @@ import { PoiForm } from './poi-form';
 export class EditPoiComponent implements OnInit {
   @ViewChild('map') map!: GoogleMap;
   @ViewChild(MapMarker) marker!: MapMarker;
-  @ViewChild('inputImageUrl') inputImageUrl!: InputImageUrlComponent;
 
   markerOptions: google.maps.MarkerOptions = { draggable: true };
   mapOptions = mapOptions;
@@ -81,10 +79,6 @@ export class EditPoiComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['pois']);
-  }
-
-  onImageUrlChange(url: string) {
-    //this.poiForm.pointOfInterest.imageURL = url;
   }
 
   private updateMap(): void {

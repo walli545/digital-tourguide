@@ -1,17 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import {
   AbstractControl,
+  ControlValueAccessor,
   FormControl,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
   ValidationErrors,
-  ValidatorFn,
+  Validator,
   Validators,
 } from '@angular/forms';
 
@@ -19,36 +15,67 @@ import {
   selector: 'app-input-image-url',
   templateUrl: './input-image-url.component.html',
   styleUrls: ['./input-image-url.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => InputImageUrlComponent),
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: forwardRef(() => InputImageUrlComponent),
+    },
+  ],
 })
-export class InputImageUrlComponent implements OnChanges {
-  @Input()
-  image = '';
+export class InputImageUrlComponent implements ControlValueAccessor, Validator {
+  formControl = new FormControl('', [
+    Validators.required,
+    this.validate.bind(this),
+  ]);
 
-  @Output()
-  urlChange = new EventEmitter<string>();
+  onChange?: (_: string) => void;
+  onTouched?: () => void;
 
-  formControl = new FormControl('', [Validators.required, this.urlValidator()]);
+  private touched = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.formControl.valueChanges.subscribe((newValue: string) => {
+      console.log('onchange', newValue);
+      if (this.onChange) {
+        this.onChange(newValue);
+      }
+      if (!this.touched && this.onTouched) {
+        this.onTouched();
+      }
+    });
+  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const newValue = changes.image?.currentValue;
-    if (newValue) {
-      this.formControl.setValue(newValue);
+  // Validator
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!this.isValidHttpUrl(value)) {
+      return { invalidUrl: { value } };
     }
+    if (!this.isImage(value)) {
+      return { noImageUrl: { value } };
+    }
+    return null;
   }
 
-  invalid(): boolean {
-    const value = this.formControl.value;
-    return !(this.isValidHttpUrl(value) && this.isImage(value));
+  // ControlValueAccessor
+
+  writeValue(obj: string): void {
+    this.formControl.setValue(obj);
   }
 
-  private urlValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-      const valid = this.isValidHttpUrl(value) && this.isImage(value);
-      return valid ? null : { invalidUrl: { value: control.value } };
-    };
+  registerOnChange(callback: (newValue: string) => void): void {
+    this.onChange = callback;
+  }
+
+  registerOnTouched(callback: () => void): void {
+    this.onTouched = callback;
   }
 
   private isValidHttpUrl(value: string): boolean {
