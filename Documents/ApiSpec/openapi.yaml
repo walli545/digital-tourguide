@@ -389,7 +389,6 @@ components:
         - name
         - pointOfInterests
         - polyline
-        - imageURL
       type: object
       properties:
         id:
@@ -412,8 +411,6 @@ components:
           format: float
         polyline:
           type: string
-        imageURL:
-          type: string
     Route:
       required:
         - creatorName
@@ -423,7 +420,6 @@ components:
         - pointOfInterests
         - id
         - polyline
-        - imageURL
       type: object
       properties:
         id:
@@ -445,6 +441,4 @@ components:
           type: number
           format: float
         polyline:
-          type: string
-        imageURL:
           type: string
