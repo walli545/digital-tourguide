@@ -11,17 +11,17 @@ namespace API.Models
   public class PostRoute
   {
     /// <summary>
-    /// Gets or Sets RouteID
+    /// Gets or Sets Id
     /// </summary>
-    [DataMember(Name = "routeID")]
-    public string RouteID { get; set; }
+    [DataMember(Name = "id")]
+    public string Id { get; set; }
 
     /// <summary>
     /// Gets or Sets PointOfInterests
     /// </summary>
     [Required]
     [DataMember(Name = "pointOfInterests")]
-    public List<int?> PointOfInterests { get; set; }
+    public List<string> PointOfInterests { get; set; }
 
     /// <summary>
     /// Gets or Sets Name
@@ -50,5 +50,12 @@ namespace API.Models
     [Required]
     [DataMember(Name = "duration")]
     public float? Duration { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Polyline
+    /// </summary>
+    [Required]
+    [DataMember(Name = "polyline")]
+    public string Polyline { get; set; }
   }
 }

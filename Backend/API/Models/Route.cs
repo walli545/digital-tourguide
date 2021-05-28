@@ -11,11 +11,11 @@ namespace API.Models
   public class Route
   {
     /// <summary>
-    /// Gets or Sets RouteID
+    /// Gets or Sets Id
     /// </summary>
     [Required]
-    [DataMember(Name = "routeID")]
-    public string RouteID { get; set; }
+    [DataMember(Name = "id")]
+    public string Id { get; set; }
 
     /// <summary>
     /// Gets or Sets PointOfInterests
@@ -53,10 +53,12 @@ namespace API.Models
     public float? Duration { get; set; }
 
     /// <summary>
-    /// Gets or Sets ImageUrl
+    /// Gets or Sets Polyline
     /// </summary>
     [Required]
-    [DataMember(Name = "imageUrl")]
-    public string ImageUrl { get; set; }
+    [DataMember(Name = "polyline")]
+    public string Polyline { get; set; }
+
+
   }
 }
