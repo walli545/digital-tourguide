@@ -58,6 +58,14 @@
                 id="input-description"
               ></textarea>
             </mat-form-field>
+
+            <app-input-image-url
+              [image]="
+                'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg'
+              "
+              (urlChange)="onImageUrlChange($event)"
+              #inputImageUrl
+            ></app-input-image-url>
           </mat-tab>
           <mat-tab label="Points of Interests">
             <app-poi-order
@@ -76,7 +84,11 @@
           mat-button
           mat-raised-button
           color="primary"
-          [disabled]="routeForm.formGroup.invalid || orderPois.invalid()"
+          [disabled]="
+            this.routeForm.formGroup.invalid ||
+            this.orderPois.invalid() ||
+            this.inputImageUrl.invalid()
+          "
         >
           <mat-icon inline="true">save</mat-icon>
           SAVE

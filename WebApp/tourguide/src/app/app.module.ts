@@ -50,6 +50,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
+import { InputImageUrlComponent } from './components/input-image-url/input-image-url.component';
 import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
 import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
@@ -111,15 +112,16 @@ export const apiConfigFactory = (): Configuration => {
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent,
-    SideNavComponent,
-    TestComponent,
-    ViewPoisComponent,
     EditPoiComponent,
-    ViewRoutesComponent,
     EditRouteComponent,
+    InputImageUrlComponent,
     PoiOrderComponent,
     PoiSelectComponent,
+    SideNavComponent,
+    TestComponent,
+    ToolbarComponent,
+    ViewPoisComponent,
+    ViewRoutesComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
