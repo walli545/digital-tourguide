@@ -94,5 +94,47 @@ namespace API.Tests
       Assert.Equal(polyline, testLine);
       Assert.Equal(name, testName);
     }
+
+    [Fact]
+    public async Task DeleteNotExistingRouteTest()
+    {
+      // arrange
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.DeleteRoute(It.IsAny<Guid>())).ReturnsAsync(0);
+      var controller = new RouteController(service.Object);
+
+      var result = await controller.DeleteRoute(Guid.NewGuid()) as StatusCodeResult;
+
+      Assert.Equal(404, result.StatusCode) ;
+    }
+
+    [Fact]
+    public async Task DeleteRouteExceptionTest()
+    {
+      // arrange
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.DeleteRoute(It.IsAny<Guid>())).Throws(new Exception());
+      var controller = new RouteController(service.Object);
+
+      var result = await controller.DeleteRoute(Guid.NewGuid()) as StatusCodeResult;
+
+      Assert.Equal(500, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteRouteTest()
+    {
+      // arrange
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.DeleteRoute(It.IsAny<Guid>())).ReturnsAsync(2);
+      var controller = new RouteController(service.Object);
+
+      var result = await controller.DeleteRoute(Guid.NewGuid()) as StatusCodeResult;
+
+      Assert.Equal(200, result.StatusCode);
+    }
   }
 }

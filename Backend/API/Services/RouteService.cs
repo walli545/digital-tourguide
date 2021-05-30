@@ -72,17 +72,45 @@ namespace API.Services
       throw new Exception(); // This path means no rows got affected after add
     }
 
-    public Task<int> DeleteRoute(int routeId)
+    /// <summary>
+    /// Deletes the given route from the database.
+    /// </summary>
+    /// <param name="routeId">The id from the route to delete</param>
+    /// <returns>Affected rows</returns>
+    public async Task<int> DeleteRoute(Guid routeId)
     {
-      throw new NotImplementedException();
+      var result = _dbContext.Route.Find(routeId);
+      if (result == null)
+        return 0;
+
+      var records = await _dbContext.ConnectionsRoutePoI.Where(route => route.RouteID == routeId).ToListAsync();
+      foreach(RoutePoIConnector record in records)
+      {
+        var connectorDeleteResult = _dbContext.ConnectionsRoutePoI.Remove(record);
+        if (connectorDeleteResult.State != EntityState.Deleted)
+        {
+          _logger.LogInformation($"Failed to delete record from the database! Item: {0} Given record:{1}", nameof(record), record, record);
+          throw new Exception();
+        }
+      }
+
+      var success = _dbContext.Route.Remove(result);
+      if (success.State != EntityState.Deleted)
+      {
+        _logger.LogInformation($"Failed to delete PoI from the database! Item: {0} Given poi:{1}", nameof(result), routeId, result);
+        throw new Exception();
+      }
+      return await _dbContext.SaveChangesAsync();
     }
+
+    
 
     public Task<List<Route>> GetAllRoutes(string username)
     {
       throw new NotImplementedException();
     }
 
-    public Task<Route> GetRoute(int routeId)
+    public Task<Route> GetRoute(Guid routeId)
     {
       throw new NotImplementedException();
     }

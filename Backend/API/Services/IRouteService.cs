@@ -10,9 +10,9 @@ namespace API.Services
   {
     public Task<Route> AddRoute(PostRoute route);
 
-    public Task<int> DeleteRoute(int routeId);
+    public Task<int> DeleteRoute(Guid routeId);
 
-    public Task<Route> GetRoute(int routeId);
+    public Task<Route> GetRoute(Guid routeId);
 
     public Task<List<Route>> GetAllRoutes(string username);
 

@@ -60,9 +60,19 @@ namespace API.Controllers
     [Route("/api/route/{routeID}")]
     [ValidateModelState]
     [SwaggerOperation("DeleteRoute")]
-    public virtual async Task<IActionResult> DeleteRoute([FromRoute][Required] string routeID)
+    public virtual async Task<IActionResult> DeleteRoute([FromRoute][Required] Guid routeID)
     {
-      throw new NotImplementedException();
+      try
+      {
+        var result = await _routeService.DeleteRoute(routeID);
+        if (result == 0)
+          return StatusCode(404);
+        return StatusCode(200);
+      }
+      catch (Exception)
+      {
+        return StatusCode(500);
+      }
     }
 
     /// <summary>
