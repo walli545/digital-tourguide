@@ -21,7 +21,7 @@ namespace API.Models
     /// </summary>
     [Required]
     [DataMember(Name = "pointOfInterests")]
-    public List<string> PointOfInterests { get; set; }
+    public List<Guid> PointOfInterests { get; set; }
 
     /// <summary>
     /// Gets or Sets Name

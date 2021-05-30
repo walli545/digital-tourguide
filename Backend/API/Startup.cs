@@ -32,6 +32,7 @@ namespace API
       services.AddDbContextPool<MariaDbContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
       services.AddScoped<IPointOfInterestService, PointOfInterestService>();
+      services.AddScoped<IRouteService, RouteService>();
 
       services.AddControllers();
       services.AddSwaggerGen(c =>

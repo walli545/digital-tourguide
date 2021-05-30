@@ -39,21 +39,24 @@ namespace API.Services
     {
       var record = new PointOfInterest
       {
-        Id = Guid.NewGuid(),
+        PoIID = Guid.NewGuid(),
         Description = poi.Description,
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
         Name = poi.Name,
         AverageRating = 0.0M,
-        NumberOfRatings = 0
+        NumberOfRatings = 0,
+        ImageUrl = poi.ImageUrl
       };
 
-      var success = _dbContext.Add(record);
+
+      var success = _dbContext.PointOfInterest.Add(record);
       if (success.State != EntityState.Added)
       {
         _logger.LogInformation($"Failed to add PoI to the database! Item: {0} Given body:{1}", nameof(record), poi, poi);
         throw new Exception(); //maybe choose other exception here
       }
+
       var result = await _dbContext.SaveChangesAsync();
       if (result > 0)
       {

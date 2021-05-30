@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -13,14 +14,14 @@ namespace API.Models
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
+    [Key]
     [Required]
-    [DataMember(Name = "id")]
-    public string Id { get; set; }
+    [DataMember(Name = "routeId")]
+    public Guid RouteID { get; set; }
 
     /// <summary>
-    /// Gets or Sets PointOfInterests
+    /// The PoIs that are on this route
     /// </summary>
-    [Required]
     [DataMember(Name = "pointOfInterests")]
     public List<PointOfInterest> PointOfInterests { get; set; }
 
@@ -58,7 +59,5 @@ namespace API.Models
     [Required]
     [DataMember(Name = "polyline")]
     public string Polyline { get; set; }
-
-
   }
 }

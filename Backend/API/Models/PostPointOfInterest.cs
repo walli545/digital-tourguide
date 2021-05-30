@@ -46,5 +46,12 @@ namespace API.Models
     [Required]
     [DataMember(Name = "longitude")]
     public decimal? Longitude { get; set; }
+
+    /// <summary>
+    /// Gets or Sets ImageUrl
+    /// </summary>
+    [Required]
+    [DataMember(Name = "imageUrl")]
+    public string ImageUrl { get; set; }
   }
 }

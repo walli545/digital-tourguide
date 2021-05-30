@@ -24,7 +24,7 @@ namespace API.Tests
     private List<PointOfInterest> GetFakeData(int size)
     {
       var pois = A.ListOf<PointOfInterest>(size);
-      pois.ForEach(x => x.Id = Guid.NewGuid());
+      pois.ForEach(x => x.PoIID = Guid.NewGuid());
       return pois;
     }
 
@@ -65,11 +65,10 @@ namespace API.Tests
       var service = new Mock<IPointOfInterestService>();
 
 
-
       int size = 10;
       var pois = GetFakeData(size);
       var poi = pois[0];
-      var searchID = poi.Id;
+      var searchID = poi.PoIID;
 
       var testname = "testName";
       var testdescription = "testDescription";
@@ -85,7 +84,7 @@ namespace API.Tests
       var returns = results.Value;
       var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
 
-      string guid = data["id"].Value<string>();
+      string guid = data["poiId"].Value<string>();
       Guid gu = Guid.Parse(guid);
       string name = data["name"].Value<string>();
       string description = data["description"].Value<string>();
@@ -104,16 +103,18 @@ namespace API.Tests
 
       var testname = "testName";
       var testdescription = "testDescription";
+      var testUrl = "testUrl";
       var lat = 10;
       var longi = 20;
       var id = Guid.NewGuid();
       var returnPoI = new PointOfInterest()
       {
-        Id = id,
+        PoIID = id,
         Name = testname,
         Description = testdescription,
         Latitude = lat,
-        Longitude = longi
+        Longitude = longi,
+        ImageUrl = testUrl
       };
 
       var postPoI = new PostPointOfInterest()
@@ -121,7 +122,8 @@ namespace API.Tests
         Name = testname,
         Description = testdescription,
         Latitude = lat,
-        Longitude = longi
+        Longitude = longi,
+        ImageUrl = testUrl
       };
 
       service.Setup(x => x.AddPoI(postPoI)).ReturnsAsync(returnPoI);
@@ -132,19 +134,21 @@ namespace API.Tests
       var returns = results.Value;
       var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
 
-      string guid = data["id"].Value<string>();
+      string guid = data["poiId"].Value<string>();
       Guid gu = Guid.Parse(guid);
       string name = data["name"].Value<string>();
       string description = data["description"].Value<string>();
       decimal latitude = data["latitude"].Value<decimal>();
       decimal longitude = data["longitude"].Value<decimal>();
+      string url = data["imageUrl"].Value<string>();
 
       // Assert
-      Assert.Equal(gu, returnPoI.Id);
+      Assert.Equal(gu, returnPoI.PoIID);
       Assert.Equal(name, returnPoI.Name);
       Assert.Equal(description, returnPoI.Description);
       Assert.Equal(latitude, returnPoI.Latitude);
       Assert.Equal(longitude, returnPoI.Longitude);
+      Assert.Equal(url, returnPoI.ImageUrl);
     }
   }
 }

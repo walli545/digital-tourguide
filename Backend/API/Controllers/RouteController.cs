@@ -1,6 +1,8 @@
 ﻿using API.Helper;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Swashbuckle.Swagger.Annotations;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,13 @@ namespace API.Controllers
   [ApiController]
   public class RouteController : Controller
   {
+    private readonly IRouteService _routeService;
+
+    public RouteController(IRouteService routeService)
+    {
+      _routeService = routeService ?? throw new ArgumentNullException("Context was null!", nameof(routeService));
+    }
+
     /// <summary>
     /// Add a new route to the database
     /// </summary>
@@ -24,9 +33,21 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("AddRoute")]
     [SwaggerResponse(statusCode: 200, type: typeof(Route), description: "Success")]
-    public virtual async Task<IActionResult> AddRoute([FromBody] PostRoute body)
+    public virtual async Task<IActionResult> AddRouteAsync([FromBody] PostRoute body)
     {
-      throw new NotImplementedException();
+      try
+      {
+        var result = await _routeService.AddRoute(body);
+        if (result == null)
+          return StatusCode(400);
+
+        var json = JsonConvert.SerializeObject(result);
+        return StatusCode(200, json);
+      }
+      catch (Exception)
+      {
+        return StatusCode(500);
+      }
     }
 
     /// <summary>
