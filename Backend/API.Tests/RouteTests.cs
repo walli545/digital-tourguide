@@ -232,5 +232,124 @@ namespace API.Tests
       Assert.Equal(polyline, testLine);
       Assert.Equal(name, testName);
     }
+
+    [Fact]
+    public async Task GetRouteFromExistingCreator()
+    {
+      var service = new Mock<IRouteService>();
+
+      string creator1 = "testCreator1";
+      string creator2 = "testCreator2";
+
+      var route1 = new Route()
+      {
+        CreatorName = creator1
+      };
+      var route2 = new Route()
+      {
+        CreatorName = creator2
+      };
+      var route3 = new Route()
+      {
+        CreatorName = creator1
+      };
+
+      var routes = new List<Route>()
+      {
+        route1,
+        route2,
+        route3
+      };
+
+      service.Setup(x => x.GetAllRoutes(creator1)).ReturnsAsync(routes.Where(route => route.CreatorName == creator1).ToList());
+
+      var controller = new RouteController(service.Object);
+
+      // Act
+      var results = await controller.GetRoutes(creator1) as ObjectResult;
+      var returns = results.Value;
+      var ob = JsonConvert.DeserializeObject(returns.ToString()) as JArray;
+
+      // Assert
+      Assert.Equal(2, ob.Count);
+    }
+
+    [Fact]
+    public async Task GetRouteFromNonExistingCreator()
+    {
+      var service = new Mock<IRouteService>();
+
+      string creator1 = "testCreator1";
+      string creator2 = "testCreator2";
+      string creator3 = "testCreator2";
+
+      var route1 = new Route()
+      {
+        CreatorName = creator1
+      };
+      var route2 = new Route()
+      {
+        CreatorName = creator2
+      };
+      var route3 = new Route()
+      {
+        CreatorName = creator1
+      };
+
+      var routes = new List<Route>()
+      {
+        route1,
+        route2,
+        route3
+      };
+
+      service.Setup(x => x.GetAllRoutes(creator3)).ReturnsAsync((List<Route>)null);
+
+      var controller = new RouteController(service.Object);
+
+      // Act
+      var results = await controller.GetRoutes(creator3) as StatusCodeResult;
+
+      Assert.Equal(404, results.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetRouteWithInternalError()
+    {
+      var service = new Mock<IRouteService>();
+
+      string creator1 = "testCreator1";
+      string creator2 = "testCreator2";
+      string creator3 = "testCreator2";
+
+      var route1 = new Route()
+      {
+        CreatorName = creator1
+      };
+      var route2 = new Route()
+      {
+        CreatorName = creator2
+      };
+      var route3 = new Route()
+      {
+        CreatorName = creator1
+      };
+
+      var routes = new List<Route>()
+      {
+        route1,
+        route2,
+        route3
+      };
+
+      service.Setup(x => x.GetAllRoutes(It.IsAny<string>())).Throws(new Exception());
+
+      var controller = new RouteController(service.Object);
+
+      // Act
+      var results = await controller.GetRoutes(creator3) as StatusCodeResult;
+
+      Assert.Equal(500, results.StatusCode);
+    }
   }
 }

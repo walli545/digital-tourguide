@@ -101,23 +101,34 @@ namespace API.Controllers
       {
         return StatusCode(500);
       }
-      
     }
 
     /// <summary>
     /// Get all routes from the given user
     /// </summary>
-    /// <param name="userName"></param>
+    /// <param name="creatorName"></param>
     /// <response code="200">Success</response>
     /// <response code="404">User not found</response>
     [HttpGet]
-    [Route("/api/routes/{userName}")]
+    [Route("/api/routes/{creatorName}")]
     [ValidateModelState]
     [SwaggerOperation("GetRoutes")]
     [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "Success")]
-    public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string userName)
+    public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string creatorName)
     {
-      throw new NotImplementedException();
+      try
+      {
+        var result = await _routeService.GetAllRoutes(creatorName);
+        if (result == null)
+          return StatusCode(404);
+
+        var json = JsonConvert.SerializeObject(result);
+        return StatusCode(200, json);
+      }
+      catch (Exception)
+      {
+        return StatusCode(500);
+      }
     }
 
     /// <summary>

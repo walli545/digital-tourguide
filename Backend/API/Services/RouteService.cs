@@ -103,9 +103,19 @@ namespace API.Services
       return await _dbContext.SaveChangesAsync();
     }
 
-    public Task<List<Route>> GetAllRoutes(string username)
+    public async Task<List<Route>> GetAllRoutes(string creatorName)
     {
-      throw new NotImplementedException();
+      var routesFromUser = await _dbContext.Route.Where(poi => poi.CreatorName == creatorName).Select(r => r.RouteID).ToListAsync();
+      if (routesFromUser == null)
+        return null;
+
+      var routes = new List<Route>();
+      foreach(Guid routeID in routesFromUser)
+      {
+        routes.Add(await GetRoute(routeID));
+      }
+
+      return routes;
     }
 
     public async Task<Route> GetRoute(Guid routeId)
