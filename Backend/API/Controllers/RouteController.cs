@@ -86,9 +86,22 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("GetRoute")]
     [SwaggerResponse(statusCode: 200, type: typeof(Route), description: "Success")]
-    public virtual async Task<IActionResult> GetRoute([FromRoute][Required] string routeID)
+    public virtual async Task<IActionResult> GetRoute([FromRoute][Required] Guid routeID)
     {
-      throw new NotImplementedException();
+      try
+      {
+        var result = await _routeService.GetRoute(routeID);
+        if (result == null)
+          return StatusCode(404);
+
+        var json = JsonConvert.SerializeObject(result);
+        return StatusCode(200, json);
+      }
+      catch(Exception)
+      {
+        return StatusCode(500);
+      }
+      
     }
 
     /// <summary>

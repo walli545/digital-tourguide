@@ -40,7 +40,6 @@ namespace API.Tests
       var service = new Mock<IRouteService>();
 
       var testID = Guid.NewGuid();
-
       var testName = "testName";
       var testCreator = "testCreator";
       var testDescription = "testDescription";
@@ -106,7 +105,7 @@ namespace API.Tests
 
       var result = await controller.DeleteRoute(Guid.NewGuid()) as StatusCodeResult;
 
-      Assert.Equal(404, result.StatusCode) ;
+      Assert.Equal(404, result.StatusCode);
     }
 
     [Fact]
@@ -135,6 +134,103 @@ namespace API.Tests
       var result = await controller.DeleteRoute(Guid.NewGuid()) as StatusCodeResult;
 
       Assert.Equal(200, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetNotExistingRoute()
+    {
+      // arrange
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.GetRoute(It.IsAny<Guid>())).ReturnsAsync((Route)null);
+      var controller = new RouteController(service.Object);
+
+      var result = await controller.GetRoute(Guid.NewGuid()) as StatusCodeResult;
+
+      Assert.Equal(404, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetRouteWithNotExistingPoI()
+    {
+      // arrange
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.GetRoute(It.IsAny<Guid>())).Throws(new Exception());
+      var controller = new RouteController(service.Object);
+
+      var result = await controller.GetRoute(Guid.NewGuid()) as StatusCodeResult;
+
+      Assert.Equal(500, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetExistingRoute()
+    {
+      var testID = Guid.NewGuid();
+      var testName = "testName";
+      var testCreator = "testCreator";
+      var testDescription = "testDescription";
+      float testDuration = 0.0f;
+      var testLine = "testPoly";
+
+      var poiId = Guid.NewGuid();
+      var returnPoI = new PointOfInterest()
+      {
+        PoIID = poiId,
+      };
+
+      var testList = new List<PointOfInterest>()
+      {
+        returnPoI
+      };
+
+      var testRoute = new Route()
+      {
+        RouteID = testID,
+        CreatorName = testCreator,
+        Description = testDescription,
+        Duration = testDuration,
+        Name = testName,
+        PointOfInterests = testList,
+        Polyline = testLine,
+      };
+
+
+      // arrange
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.GetRoute(testID)).ReturnsAsync(testRoute);
+      var controller = new RouteController(service.Object);
+
+      var result = await controller.GetRoute(testID) as ObjectResult;
+
+      var returns = result.Value;
+      var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
+
+      var guid = data["routeId"].Value<string>();
+      Guid id = Guid.Parse(guid);
+      var name = data["name"].Value<string>();
+      var description = data["description"].Value<string>();
+      var creatorName = data["creatorName"].Value<string>();
+      var duration = data["duration"].Value<float>();
+      var polyline = data["polyline"].Value<string>();
+
+      var poiArray = data.Children<JProperty>().FirstOrDefault(x => x.Name == "pointOfInterests").Value;
+
+      var item = poiArray.Children().FirstOrDefault();
+      var itemProperties = item.Children<JProperty>();
+      var poiID = itemProperties.FirstOrDefault(x => x.Name == "poiId");
+      var poiIDValue = poiID.Value;
+      Assert.Equal(Guid.Parse(poiIDValue.Value<string>()), poiId);
+
+      Assert.Equal(200, result.StatusCode);
+      Assert.Equal(id, testID);
+      Assert.Equal(creatorName, testCreator);
+      Assert.Equal(description, testDescription);
+      Assert.Equal(duration, testDuration);
+      Assert.Equal(polyline, testLine);
+      Assert.Equal(name, testName);
     }
   }
 }

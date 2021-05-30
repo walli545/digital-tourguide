@@ -103,16 +103,31 @@ namespace API.Services
       return await _dbContext.SaveChangesAsync();
     }
 
-    
-
     public Task<List<Route>> GetAllRoutes(string username)
     {
       throw new NotImplementedException();
     }
 
-    public Task<Route> GetRoute(Guid routeId)
+    public async Task<Route> GetRoute(Guid routeId)
     {
-      throw new NotImplementedException();
+      var result = await _dbContext.Route.FindAsync(routeId);
+      if (result == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+
+      var records = await _dbContext.ConnectionsRoutePoI.Where(route => route.RouteID == routeId).ToListAsync();
+
+      foreach(Guid poiId in records.Select(record => record.PoIID))
+      {
+        var poi = await _poiService.GetPoI(poiId);
+        if (poi == null)
+          throw new Exception(); // poi does not exist anymore!
+        pois.Add(poi);
+      }
+
+      result.PointOfInterests = pois;
+      return result;
     }
 
     public Task<int> PutRoute(PostRoute route)
