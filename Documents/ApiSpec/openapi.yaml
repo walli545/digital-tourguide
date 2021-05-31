@@ -26,7 +26,7 @@
           "PointOfInterest"
         ],
         "summary": "Add a new poi to the database",
-        "operationId": "AddPOIAsync",
+        "operationId": "AddPOI",
         "requestBody": {
           "description": "",
           "content": {
@@ -61,7 +61,7 @@
           "PointOfInterest"
         ],
         "summary": "Edits the poi to a given id",
-        "operationId": "PutPOIAsync",
+        "operationId": "PutPOI",
         "requestBody": {
           "description": "",
           "content": {
@@ -101,7 +101,7 @@
           "PointOfInterest"
         ],
         "summary": "Deletes the poi to a given id",
-        "operationId": "DeletePOIAsync",
+        "operationId": "DeletePOI",
         "parameters": [
           {
             "name": "poiID",
@@ -128,7 +128,7 @@
           "PointOfInterest"
         ],
         "summary": "Gets the poi to a given id",
-        "operationId": "GetPOIAsync",
+        "operationId": "GetPOI",
         "parameters": [
           {
             "name": "poiID",
@@ -157,7 +157,7 @@
           "PointOfInterest"
         ],
         "summary": "Get all poi's from the given user",
-        "operationId": "GetPOIsAsync",
+        "operationId": "GetPOIs",
         "parameters": [
           {
             "name": "userName",
@@ -185,7 +185,7 @@
           "Route"
         ],
         "summary": "Add a new route to the database",
-        "operationId": "AddRouteAsync",
+        "operationId": "AddRoute",
         "requestBody": {
           "description": "",
           "content": {
