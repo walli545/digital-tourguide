@@ -25,8 +25,8 @@ namespace API.Services
     /// <param name="dbContext">The desired db context.</param>
     public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext)
     {
-      _logger = logger ?? throw new ArgumentNullException("logger was null!", nameof(logger));
-      _dbContext = dbContext ?? throw new ArgumentNullException("Context was null!", nameof(dbContext));
+      _logger = logger ?? throw new ArgumentNullException(nameof(logger), "logger was null!");
+      _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
     }
 
     /// <summary>

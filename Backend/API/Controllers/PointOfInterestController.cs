@@ -20,7 +20,7 @@ namespace API.Controllers
 
     public PointOfInterestController(IPointOfInterestService poiService)
     {
-      _poiService = poiService ?? throw new ArgumentNullException("Context was null!", nameof(poiService));
+      _poiService = poiService ?? throw new ArgumentNullException(nameof(poiService), "Context was null!");
     }
 
     /// <summary>
