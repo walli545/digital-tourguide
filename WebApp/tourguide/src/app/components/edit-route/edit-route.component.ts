@@ -124,7 +124,7 @@ export class EditRouteComponent implements OnInit {
     this.routeForm.route.pointOfInterests.forEach((p) =>
       bounds.extend(toGoogleMaps(p))
     );
-    this.map.fitBounds(bounds, { left: 260 });
+    this.map.fitBounds(bounds, { left: 260, top: 50, right: 50, bottom: 50 });
     this.map.panBy(-260, 0);
   }
 

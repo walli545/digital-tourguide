@@ -1,6 +1,7 @@
 <google-map [options]="mapOptions" height="100%" width="100%" #map>
   <map-marker
     *ngFor="let poi of routeForm.route.pointOfInterests"
+    [title]="poi.name"
     [position]="{ lat: poi.latitude, lng: poi.longitude }"
     [options]="{ icon: 'assets/map-marker-yellow.png' }"
   ></map-marker>
