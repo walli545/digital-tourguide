@@ -58,6 +58,7 @@ import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
+import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
 import { LocalRouteService } from './services/local-api/LocalRouteService';
 
@@ -114,6 +115,7 @@ export const apiConfigFactory = (): Configuration => {
     AppComponent,
     EditPoiComponent,
     EditRouteComponent,
+    FirstOrLastPipe,
     InputImageUrlComponent,
     PoiOrderComponent,
     PoiSelectComponent,

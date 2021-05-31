@@ -41,7 +41,6 @@ export class InputImageUrlComponent implements ControlValueAccessor, Validator {
 
   constructor(private http: HttpClient) {
     this.formControl.valueChanges.subscribe((newValue: string) => {
-      console.log('onchange', newValue);
       if (this.onChange) {
         this.onChange(newValue);
       }

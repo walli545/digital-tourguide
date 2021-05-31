@@ -1,64 +1,114 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormControl,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators,
+} from '@angular/forms';
 import { PointOfInterest, PointOfInterestService } from '../../../api';
 
 @Component({
   selector: 'app-poi-order',
   templateUrl: './poi-order.component.html',
   styleUrls: ['./poi-order.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => PoiOrderComponent),
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: forwardRef(() => PoiOrderComponent),
+    },
+  ],
 })
-export class PoiOrderComponent {
-  @Input()
-  public pointsOfInterests: PointOfInterest[] = [];
+export class PoiOrderComponent implements ControlValueAccessor, Validator {
+  formControl = new FormControl(
+    [],
+    [Validators.required, this.validate.bind(this)]
+  );
 
-  @Output()
-  public poisChange = new EventEmitter<PointOfInterest[]>();
+  onChange?: (_: PointOfInterest[]) => void;
+  onTouched?: () => void;
+
+  private touched = false;
 
   constructor(public poiService: PointOfInterestService) {}
 
-  drop(event: CdkDragDrop<PointOfInterest[]>): void {
-    moveItemInArray(
-      this.pointsOfInterests,
-      event.previousIndex,
-      event.currentIndex
-    );
-    this.checkEmitEvent();
+  // Validator
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (value.length < 2) {
+      return { selectAtLeastTwo: { value } };
+    }
+    if (this.containsTwoInRow()) {
+      return { twoInRow: { value } };
+    }
+    return null;
   }
 
-  isFirstOrLast(i: number): boolean {
-    return i === 0 || i === this.pointsOfInterests.length - 1;
+  // ControlValueAccessor
+
+  writeValue(obj: PointOfInterest[]): void {
+    this.formControl.setValue(obj);
+  }
+
+  registerOnChange(callback: (newValue: PointOfInterest[]) => void): void {
+    this.onChange = callback;
+  }
+
+  registerOnTouched(callback: () => void): void {
+    this.onTouched = callback;
+  }
+
+  drop(event: CdkDragDrop<PointOfInterest[]>): void {
+    const current = this.formControl.value;
+    moveItemInArray(current, event.previousIndex, event.currentIndex);
+    this.formControl.setValue(current);
+    this.emitChangeEvent();
   }
 
   remove(i: number): void {
-    this.pointsOfInterests.splice(i, 1);
-    this.checkEmitEvent();
+    const current = this.formControl.value;
+    current.splice(i, 1);
+    this.formControl.setValue(current);
+    this.emitChangeEvent();
   }
 
   add(poi: PointOfInterest): void {
-    this.pointsOfInterests.push(poi);
-    this.checkEmitEvent();
-  }
-
-  invalid(): boolean {
-    return this.containsTwoInRow() || this.pointsOfInterests.length < 2;
+    const current = this.formControl.value;
+    current.push(poi);
+    this.formControl.setValue(current);
+    this.emitChangeEvent();
   }
 
   showDragList(): boolean {
-    return this.pointsOfInterests.length > 0;
+    return this.formControl.value.length > 0;
   }
 
-  containsTwoInRow(): boolean {
-    for (let i = 0; i < this.pointsOfInterests.length - 1; i++) {
-      if (this.pointsOfInterests[i].id === this.pointsOfInterests[i + 1].id) {
+  private containsTwoInRow(): boolean {
+    for (let i = 0; i < this.formControl.value.length - 1; i++) {
+      if (this.formControl.value[i].id === this.formControl.value[i + 1].id) {
         return true;
       }
     }
     return false;
   }
 
-  private checkEmitEvent(): void {
-    if (!this.invalid()) {
-      this.poisChange.emit(this.pointsOfInterests);
+  private emitChangeEvent(): void {
+    if (this.onChange) {
+      this.onChange(this.formControl.value);
+    }
+    if (!this.touched && this.onTouched) {
+      this.onTouched();
     }
   }
 }

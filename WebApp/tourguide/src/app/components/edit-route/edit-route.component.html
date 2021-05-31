@@ -64,11 +64,7 @@
             ></app-input-image-url>
           </mat-tab>
           <mat-tab label="Points of Interests">
-            <app-poi-order
-              #orderPois
-              [pointsOfInterests]="routeForm.route.pointOfInterests"
-              (poisChange)="onPoisChange($event)"
-            ></app-poi-order>
+            <app-poi-order formControlName="pointsOfInterests"></app-poi-order>
           </mat-tab>
         </mat-tab-group>
       </mat-card-content>
@@ -80,9 +76,7 @@
           mat-button
           mat-raised-button
           color="primary"
-          [disabled]="
-            this.routeForm.formGroup.invalid || this.orderPois.invalid()
-          "
+          [disabled]="this.routeForm.formGroup.invalid"
         >
           <mat-icon inline="true">save</mat-icon>
           SAVE
