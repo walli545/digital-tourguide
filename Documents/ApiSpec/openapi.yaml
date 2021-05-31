@@ -2,6 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "API",
+    "description": "API Spec für den digitalen Reiseführer",
     "version": "v1"
   },
   "paths": {
@@ -10,6 +11,7 @@
         "tags": [
           "Healthcheck"
         ],
+        "summary": "Return 200 ok.",
         "responses": {
           "200": {
             "description": "Success"
@@ -22,7 +24,9 @@
         "tags": [
           "PointOfInterest"
         ],
+        "summary": "Add a new poi to the database",
         "requestBody": {
+          "description": "",
           "content": {
             "application/json": {
               "schema": {
@@ -44,6 +48,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
           }
         }
       },
@@ -51,7 +58,9 @@
         "tags": [
           "PointOfInterest"
         ],
+        "summary": "Edits the poi to a given id",
         "requestBody": {
+          "description": "",
           "content": {
             "application/json": {
               "schema": {
@@ -73,6 +82,12 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -82,10 +97,12 @@
         "tags": [
           "PointOfInterest"
         ],
+        "summary": "Deletes the poi to a given id",
         "parameters": [
           {
             "name": "poiID",
             "in": "path",
+            "description": "the poiID to delete",
             "required": true,
             "schema": {
               "type": "string",
@@ -96,6 +113,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       },
@@ -103,10 +123,12 @@
         "tags": [
           "PointOfInterest"
         ],
+        "summary": "Gets the poi to a given id",
         "parameters": [
           {
             "name": "poiID",
             "in": "path",
+            "description": "",
             "required": true,
             "schema": {
               "type": "string",
@@ -117,6 +139,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -126,10 +151,12 @@
         "tags": [
           "PointOfInterest"
         ],
+        "summary": "Get all poi's from the given user",
         "parameters": [
           {
             "name": "userName",
             "in": "path",
+            "description": "",
             "required": true,
             "schema": {
               "type": "string"
@@ -139,6 +166,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -148,7 +178,9 @@
         "tags": [
           "Route"
         ],
+        "summary": "Add a new route to the database",
         "requestBody": {
+          "description": "",
           "content": {
             "application/json": {
               "schema": {
@@ -170,6 +202,12 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Given poi does not exist"
           }
         }
       },
@@ -177,7 +215,9 @@
         "tags": [
           "Route"
         ],
+        "summary": "Edits the route to a given id",
         "requestBody": {
+          "description": "",
           "content": {
             "application/json": {
               "schema": {
@@ -199,6 +239,12 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -208,10 +254,12 @@
         "tags": [
           "Route"
         ],
+        "summary": "Deletes the route to a given id",
         "parameters": [
           {
             "name": "routeID",
             "in": "path",
+            "description": "",
             "required": true,
             "schema": {
               "type": "string",
@@ -222,6 +270,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       },
@@ -229,10 +280,12 @@
         "tags": [
           "Route"
         ],
+        "summary": "Gets the route to a given id",
         "parameters": [
           {
             "name": "routeID",
             "in": "path",
+            "description": "",
             "required": true,
             "schema": {
               "type": "string",
@@ -243,6 +296,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -252,10 +308,12 @@
         "tags": [
           "Route"
         ],
+        "summary": "Get all routes from the given user",
         "parameters": [
           {
             "name": "creatorName",
             "in": "path",
+            "description": "",
             "required": true,
             "schema": {
               "type": "string"
@@ -265,6 +323,9 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -284,24 +345,79 @@
         "properties": {
           "id": {
             "type": "string",
+            "description": "Gets or Sets Id",
             "nullable": true
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Name"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Description"
           },
           "latitude": {
             "type": "number",
+            "description": "Gets or Sets Latitude",
             "format": "double"
           },
           "longitude": {
             "type": "number",
+            "description": "Gets or Sets Longitude",
             "format": "double"
           },
           "imageUrl": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets ImageUrl"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model class for posting a new poi"
+      },
+      "PostRoute": {
+        "required": [
+          "creatorName",
+          "description",
+          "duration",
+          "name",
+          "pointOfInterests",
+          "polyline"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or Sets Id",
+            "nullable": true
+          },
+          "pointOfInterests": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Gets or Sets PointOfInterests"
+          },
+          "name": {
+            "type": "string",
+            "description": "Gets or Sets Name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Gets or Sets Description"
+          },
+          "creatorName": {
+            "type": "string",
+            "description": "Gets or Sets CreatorName"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Gets or Sets Duration",
+            "format": "float"
+          },
+          "polyline": {
+            "type": "string",
+            "description": "Gets or Sets Polyline"
           }
         },
         "additionalProperties": false
@@ -318,65 +434,30 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Id"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Name"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Description"
           },
           "latitude": {
             "type": "number",
+            "description": "Gets or Sets Latitude",
             "format": "double"
           },
           "longitude": {
             "type": "number",
+            "description": "Gets or Sets Longitude",
             "format": "double"
           },
           "imageUrl": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PostRoute": {
-        "required": [
-          "creatorName",
-          "description",
-          "duration",
-          "name",
-          "pointOfInterests",
-          "polyline"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
             "type": "string",
-            "nullable": true
-          },
-          "pointOfInterests": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "creatorName": {
-            "type": "string"
-          },
-          "duration": {
-            "type": "number",
-            "format": "float"
-          },
-          "polyline": {
-            "type": "string"
+            "description": "Gets or Sets ImageUrl"
           }
         },
         "additionalProperties": false
@@ -394,30 +475,37 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Id"
           },
           "pointOfInterests": {
             "type": "array",
             "items": {
               "type": "string",
               "format": "uuid"
-            }
+            },
+            "description": "Gets or Sets PointOfInterests"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Name"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Description"
           },
           "creatorName": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets CreatorName"
           },
           "duration": {
             "type": "number",
+            "description": "Gets or Sets Duration",
             "format": "float"
           },
           "polyline": {
-            "type": "string"
+            "type": "string",
+            "description": "Gets or Sets Polyline"
           }
         },
         "additionalProperties": false
