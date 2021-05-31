@@ -12,6 +12,7 @@
           "Healthcheck"
         ],
         "summary": "Return 200 ok.",
+        "operationId": "Healthcheck_GET",
         "responses": {
           "200": {
             "description": "Success"
@@ -25,6 +26,7 @@
           "PointOfInterest"
         ],
         "summary": "Add a new poi to the database",
+        "operationId": "PointOfInterest_POST",
         "requestBody": {
           "description": "",
           "content": {
@@ -59,6 +61,7 @@
           "PointOfInterest"
         ],
         "summary": "Edits the poi to a given id",
+        "operationId": "PointOfInterest_PUT",
         "requestBody": {
           "description": "",
           "content": {
@@ -98,6 +101,7 @@
           "PointOfInterest"
         ],
         "summary": "Deletes the poi to a given id",
+        "operationId": "PointOfInterest_DELETE",
         "parameters": [
           {
             "name": "poiID",
@@ -124,6 +128,7 @@
           "PointOfInterest"
         ],
         "summary": "Gets the poi to a given id",
+        "operationId": "PointOfInterest_GET",
         "parameters": [
           {
             "name": "poiID",
@@ -152,6 +157,7 @@
           "PointOfInterest"
         ],
         "summary": "Get all poi's from the given user",
+        "operationId": "PointOfInterest_GET",
         "parameters": [
           {
             "name": "userName",
@@ -179,6 +185,7 @@
           "Route"
         ],
         "summary": "Add a new route to the database",
+        "operationId": "Route_POST",
         "requestBody": {
           "description": "",
           "content": {
@@ -216,6 +223,7 @@
           "Route"
         ],
         "summary": "Edits the route to a given id",
+        "operationId": "Route_PUT",
         "requestBody": {
           "description": "",
           "content": {
@@ -255,6 +263,7 @@
           "Route"
         ],
         "summary": "Deletes the route to a given id",
+        "operationId": "Route_DELETE",
         "parameters": [
           {
             "name": "routeID",
@@ -281,6 +290,7 @@
           "Route"
         ],
         "summary": "Gets the route to a given id",
+        "operationId": "Route_GET",
         "parameters": [
           {
             "name": "routeID",
@@ -309,6 +319,7 @@
           "Route"
         ],
         "summary": "Get all routes from the given user",
+        "operationId": "Route_GET",
         "parameters": [
           {
             "name": "creatorName",
