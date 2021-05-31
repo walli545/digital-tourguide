@@ -19,7 +19,7 @@ namespace API.Controllers
 
     public RouteController(IRouteService routeService)
     {
-      _routeService = routeService ?? throw new ArgumentNullException("Context was null!", nameof(routeService));
+      _routeService = routeService ?? throw new ArgumentNullException(nameof(routeService), "Context was null!");
     }
 
     /// <summary>
@@ -28,6 +28,7 @@ namespace API.Controllers
     /// <param name="body"></param>
     /// <response code="200">Success</response>
     /// <response code="400">Invalid input</response>
+    /// <response code="404">Given poi does not exist</response>
     [HttpPost]
     [Route("/api/route")]
     [ValidateModelState]
@@ -43,6 +44,10 @@ namespace API.Controllers
 
         var json = JsonConvert.SerializeObject(result);
         return StatusCode(200, json);
+      }
+      catch(ArgumentException)
+      {
+        return StatusCode(404);
       }
       catch (Exception)
       {
@@ -142,9 +147,13 @@ namespace API.Controllers
     [Route("/api/route")]
     [ValidateModelState]
     [SwaggerOperation("PutRoute")]
-    public virtual async Task<IActionResult> PutRoute([FromBody] PostRoute body)
+    public virtual async Task<IActionResult> PutRoute([FromBody] PutRoute body)
     {
-      throw new NotImplementedException();
+      var result = await _routeService.PutRoute(body);
+      if (result == 0)
+        return StatusCode(404);
+
+      return StatusCode(200);
     }
   }
 }

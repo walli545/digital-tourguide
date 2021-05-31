@@ -351,5 +351,34 @@ namespace API.Tests
 
       Assert.Equal(500, results.StatusCode);
     }
+
+    [Fact]
+    public async Task PutNotExistingRoute()
+    {
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.PutRoute(It.IsAny<PutRoute>())).ReturnsAsync(0);
+
+      var controller = new RouteController(service.Object);
+
+      var results = await controller.PutRoute(new PutRoute()) as StatusCodeResult;
+
+      Assert.Equal(404, results.StatusCode);
+    }
+
+
+    [Fact]
+    public async Task PutExistingRoute()
+    {
+      var service = new Mock<IRouteService>();
+
+      service.Setup(x => x.PutRoute(It.IsAny<PutRoute>())).ReturnsAsync(1);
+
+      var controller = new RouteController(service.Object);
+
+      var results = await controller.PutRoute(new PutRoute()) as StatusCodeResult;
+
+      Assert.Equal(200, results.StatusCode);
+    }
   }
 }

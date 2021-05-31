@@ -26,43 +26,38 @@ namespace API.Services
       _poiService = poiService ?? throw new ArgumentNullException(nameof(poiService), "Context was null!");
     }
 
-    public async Task<Route> AddRoute(PostRoute route)
+    public async Task<Route> AddRoute(PostRoute postRoute)
     {
       var record = new Route
       {
         RouteID = Guid.NewGuid(),
-        CreatorName = route.CreatorName,
-        Description = route.Description,
-        Duration = route.Duration,
-        Name = route.Name,
-        Polyline = route.Polyline,
+        CreatorName = postRoute.CreatorName,
+        Description = postRoute.Description,
+        Duration = postRoute.Duration,
+        Name = postRoute.Name,
+        Polyline = postRoute.Polyline,
         PointOfInterests = new List<PointOfInterest>()
       };
 
       var routeAddSuccess = _dbContext.Route.Add(record);
       if (routeAddSuccess.State != EntityState.Added)
       {
-        _logger.LogInformation($"Failed to add Route to the database! Item: {0} Given body:{1}", nameof(record), route, route);
+        _logger.LogInformation($"Failed to add Route to the database! Item: {0} Given body:{1}", nameof(record), postRoute, postRoute);
         throw new Exception(); //maybe choose other exception here
       }
 
-      foreach(Guid id in route.PointOfInterests)
+      var pois = new List<PointOfInterest>();
+      foreach (Guid id in postRoute.PointOfInterests)
       {
-        var poi = _poiService.GetPoI(id);
-        var connectorRecord = new RoutePoIConnector
-        {
-          PoIID = id,
-          RouteID = record.RouteID
-        };
-
-        var connectorAddSuccess = _dbContext.ConnectionsRoutePoI.Add(connectorRecord);
-        if (connectorAddSuccess.State != EntityState.Added)
-        {
-          _logger.LogInformation($"Failed to add connector to the database! Item: {0} Given body:{1}", nameof(connectorAddSuccess), connectorAddSuccess, connectorAddSuccess);
-          throw new Exception(); //maybe choose other exception here
-        }
-        record.PointOfInterests.Add(poi.Result);
+        var poi = await _poiService.GetPoI(id);
+        if (poi == null)
+          throw new ArgumentException("Given poiId does not exist!");
+        pois.Add(poi);
       }
+
+      ConnectPoIsToRoute(postRoute.PointOfInterests, record.RouteID);
+
+      record.PointOfInterests = pois;
 
       var result = await _dbContext.SaveChangesAsync();
       if (result > 0)
@@ -83,16 +78,9 @@ namespace API.Services
       if (result == null)
         return 0;
 
-      var records = await _dbContext.ConnectionsRoutePoI.Where(route => route.RouteID == routeId).ToListAsync();
-      foreach(RoutePoIConnector record in records)
-      {
-        var connectorDeleteResult = _dbContext.ConnectionsRoutePoI.Remove(record);
-        if (connectorDeleteResult.State != EntityState.Deleted)
-        {
-          _logger.LogInformation($"Failed to delete record from the database! Item: {0} Given record:{1}", nameof(record), record, record);
-          throw new Exception();
-        }
-      }
+      var connectionsDelete = await DeleteConnections(result.RouteID);
+      if (!connectionsDelete)
+        return 0;
 
       var success = _dbContext.Route.Remove(result);
       if (success.State != EntityState.Deleted)
@@ -110,7 +98,7 @@ namespace API.Services
         return null;
 
       var routes = new List<Route>();
-      foreach(Guid routeID in routesFromUser)
+      foreach (Guid routeID in routesFromUser)
       {
         routes.Add(await GetRoute(routeID));
       }
@@ -128,7 +116,7 @@ namespace API.Services
 
       var records = await _dbContext.ConnectionsRoutePoI.Where(route => route.RouteID == routeId).ToListAsync();
 
-      foreach(Guid poiId in records.Select(record => record.PoIID))
+      foreach (Guid poiId in records.Select(record => record.PoIID))
       {
         var poi = await _poiService.GetPoI(poiId);
         if (poi == null)
@@ -140,9 +128,91 @@ namespace API.Services
       return result;
     }
 
-    public Task<int> PutRoute(PostRoute route)
+    public async Task<int> PutRoute(PutRoute putRoute)
     {
-      throw new NotImplementedException();
+      var oldRoute = _dbContext.Route.AsNoTracking().Where(p => p.RouteID == Guid.Parse(putRoute.Id)).FirstOrDefault();
+      if (oldRoute == null)
+        return 0;
+
+      var newRoute = new Route
+      {
+        RouteID = oldRoute.RouteID,
+        CreatorName = putRoute.CreatorName,
+        Description = putRoute.Description,
+        Duration = putRoute.Duration,
+        Name = putRoute.Name,
+        Polyline = putRoute.Polyline,
+      };
+
+      await DeleteConnections(oldRoute.RouteID);
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid id in putRoute.PointOfInterests)
+      {
+        var poi = await _poiService.GetPoI(id);
+        if (poi == null)
+          throw new ArgumentException("Given poiId does not exist!");
+        pois.Add(poi);
+      }
+
+      ConnectPoIsToRoute(putRoute.PointOfInterests, newRoute.RouteID);
+
+      newRoute.PointOfInterests = pois;
+
+      try
+      {
+        var success = _dbContext.Route.Update(newRoute);
+        if (success.State != EntityState.Modified)
+          _logger.LogInformation($"Failed to update route from the database! Item: {0} Given route:{1}", nameof(putRoute), putRoute, putRoute);
+
+        return await _dbContext.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        return 0;
+      }
+    }
+
+    private async Task<bool> DeleteConnections(Guid routeId)
+    {
+      var records = await _dbContext.ConnectionsRoutePoI.Where(route => route.RouteID == routeId).ToListAsync();
+      if (!records.Any())
+        return false;
+      foreach (RoutePoIConnector record in records)
+      {
+        var connectorDeleteResult = _dbContext.ConnectionsRoutePoI.Remove(record);
+        if (connectorDeleteResult.State != EntityState.Deleted)
+        {
+          _logger.LogInformation($"Failed to delete record from the database! Item: {0} Given record:{1}", nameof(record), record, record);
+          throw new Exception();
+        }
+      }
+
+      return true;
+    }
+
+    /// <summary>
+    /// Connects the given pois to the given route
+    /// </summary>
+    /// <param name="pois">The ids from the pois to connect</param>
+    /// <param name="routeID">The route id to connect the pois to</param>
+    private void ConnectPoIsToRoute(List<Guid> pois, Guid routeID)
+    {
+      foreach (Guid id in pois)
+      {
+        var connectorRecord = new RoutePoIConnector
+        {
+          PoIID = id,
+          RouteID = routeID
+        };
+
+        var connectorAddSuccess = _dbContext.ConnectionsRoutePoI.Add(connectorRecord);
+        if (connectorAddSuccess.State != EntityState.Added)
+        {
+          _logger.LogInformation($"Failed to add connector to the database! Item: {0} Given body:{1}", nameof(connectorAddSuccess), connectorAddSuccess, connectorAddSuccess);
+          throw new Exception(); //maybe choose other exception here
+        }
+      }
     }
   }
 }
