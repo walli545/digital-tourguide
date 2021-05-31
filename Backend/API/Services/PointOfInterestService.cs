@@ -105,11 +105,26 @@ namespace API.Services
       return await _dbContext.PointOfInterest.FindAsync(poiID);
     }
     
-    public async Task<int> PutPoI(PointOfInterest poi)
+    public async Task<int> PutPoI(PutPointOfInterest poi)
     {
+      var oldPoI = _dbContext.PointOfInterest.AsNoTracking().Where(p => p.PoIID == Guid.Parse(poi.Id)).FirstOrDefault();
+      if (oldPoI == null)
+        return 0;
+      var newPoI = new PointOfInterest
+      {
+        PoIID = Guid.Parse(poi.Id),
+        Description = poi.Description,
+        Name = poi.Name,
+        ImageUrl = poi.ImageUrl,
+        Latitude = poi.Latitude,
+        Longitude = poi.Longitude,
+        AverageRating = oldPoI.AverageRating,
+        NumberOfRatings = oldPoI.NumberOfRatings
+      };
+
       try
       {
-        var success = _dbContext.Update(poi);
+        var success = _dbContext.PointOfInterest.Update(newPoI);
         if (success.State != EntityState.Modified)
           _logger.LogInformation($"Failed to update PoI from the database! Item: {0} Given poi:{1}", nameof(poi), poi, poi);
           

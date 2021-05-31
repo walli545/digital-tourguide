@@ -158,7 +158,7 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("PutPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
-    public virtual async Task<IActionResult> PutPOIAsync([FromBody] PointOfInterest body) //TODO: Which poi is the correct one
+    public virtual async Task<IActionResult> PutPOIAsync([FromBody] PutPointOfInterest body)
     {
       var result = await _poiService.PutPoI(body);
       if (result == 0)
