@@ -12,7 +12,6 @@ import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toGoogleMaps } from '../../utils/poi';
 import { toPostRoute } from '../../utils/route';
-import { PoiOrderComponent } from '../poi/poi-order/poi-order.component';
 import { RouteForm } from './route-form';
 
 @Component({
@@ -22,7 +21,6 @@ import { RouteForm } from './route-form';
 })
 export class EditRouteComponent implements OnInit {
   @ViewChild('map') map!: GoogleMap;
-  @ViewChild('orderPois') orderPois!: PoiOrderComponent;
 
   mapOptions = mapOptions;
   polylineOptions: google.maps.PolylineOptions = {
@@ -77,9 +75,13 @@ export class EditRouteComponent implements OnInit {
               lat: coord.latitude || 48.137154,
               lng: coord.longitude || 11.576124,
             };
+            this.loading = false;
           });
       }
     });
+    this.routeForm.pointsOfInterests.valueChanges.subscribe((p) =>
+      this.onPoisChange(p)
+    );
   }
 
   async onSave(): Promise<void> {
@@ -122,7 +124,7 @@ export class EditRouteComponent implements OnInit {
     this.routeForm.route.pointOfInterests.forEach((p) =>
       bounds.extend(toGoogleMaps(p))
     );
-    this.map.fitBounds(bounds);
+    this.map.fitBounds(bounds, { left: 260 });
     this.map.panBy(-260, 0);
   }
 
