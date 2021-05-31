@@ -16,6 +16,7 @@ export class PoiForm {
     name: '',
     numberOfRatings: 0,
     averageRating: 0,
+    imageURL: '',
   };
 
   private poiForm = new FormGroup({
@@ -53,14 +54,13 @@ export class PoiForm {
     this.poiForm.setValue({
       name: this.poi.name,
       description: this.poi.description,
-      //TODO change
-      imageUrl: '',
+      imageUrl: this.poi.imageURL,
     });
   }
 
   public updatePoi(): void {
     this.poi.name = this.nameControl.value;
     this.poi.description = this.descriptionControl.value;
-    // TODO add url
+    this.poi.imageURL = this.imageUrlControl.value;
   }
 }

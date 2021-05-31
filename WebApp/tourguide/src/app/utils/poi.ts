@@ -13,4 +13,5 @@ export const toPostPoi = (poi: PointOfInterest): PostPointOfInterest => ({
   description: poi.description,
   latitude: poi.latitude,
   longitude: poi.longitude,
+  imageURL: poi.imageURL,
 });
