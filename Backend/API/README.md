@@ -1,25 +1,5 @@
-# IO.Swagger - ASP.NET Core 2.0 Server
+Build docker: sudo docker build -t api .
 
-REST Api für den digitalen Reiseführer.
+Run docker: sudo docker run -it --rm -p 8080:80 --name api api
 
-## Run
-
-Linux/OS X:
-
-```
-sh build.sh
-```
-
-Windows:
-
-```
-build.bat
-```
-
-## Run in Docker
-
-```
-cd src/IO.Swagger
-docker build -t io.swagger .
-docker run -p 5000:5000 io.swagger
-```
+In project: dotnet add package Pomelo.EntityFrameworkCore.MySql

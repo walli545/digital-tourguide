@@ -94,7 +94,7 @@ describe('EditPoiComponent', () => {
   it('onCancel navigates to /poi', () => {
     component.onCancel();
 
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['poi']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['pois']);
   });
 
   describe('new poi', () => {

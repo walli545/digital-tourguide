@@ -23,17 +23,23 @@ export class LocalPointOfInterestService
   private currentId = 2;
 
   constructor() {
-    this.pois.set('1', {
-      latitude: 48.1373,
-      longitude: 11.57549,
+    this.addPOI({
+      id: '0',
+      name: 'SendlingerTor',
+      latitude: 48.13401718904898,
+      longitude: 11.56761646270752,
+      description:
+        'Das Sendlinger Tor ist das südliche Stadttor der historischen Altstadt in München. ',
+    });
+    this.addPOI({
       id: '1',
-      description: 'Hauptplatz in München\n\nabc',
       name: 'Marienplatz',
-      numberOfRatings: 10,
-      averageRating: 1,
+      latitude: 48.13739675056184,
+      longitude: 11.575448513031006,
+      description:
+        'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
     });
   }
-
   addPOI(
     poi: PostPointOfInterest,
     extraHttpRequestParams?: any
@@ -65,7 +71,7 @@ export class LocalPointOfInterestService
     extraHttpRequestParams?: any
   ): Observable<PointOfInterest> {
     if (this.pois.has(poiID)) {
-      return of(this.pois.get(poiID)!).pipe(delay(2_000));
+      return of({ ...this.pois.get(poiID)! }).pipe(delay(2_000));
     } else {
       return throwError(
         new HttpErrorResponse({ status: 404, statusText: 'Not found' })
