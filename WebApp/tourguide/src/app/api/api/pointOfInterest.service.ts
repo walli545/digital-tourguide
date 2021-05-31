@@ -221,7 +221,7 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<InlineResponse200>(`${this.configuration.basePath}/pointOfInterest/${encodeURIComponent(String(userName))}/center`,
+        return this.httpClient.get<InlineResponse200>(`${this.configuration.basePath}/pointOfInterests/${encodeURIComponent(String(userName))}/center`,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
@@ -311,7 +311,7 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<string>>(`${this.configuration.basePath}/pointOfInterest/${encodeURIComponent(String(userName))}`,
+        return this.httpClient.get<Array<string>>(`${this.configuration.basePath}/pointOfInterests/${encodeURIComponent(String(userName))}`,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
@@ -324,18 +324,14 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
 
     /**
      * Edits the poi to a given id
-     * @param poiID 
      * @param poi 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public putPOI(poiID: string, poi: PostPointOfInterest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<PointOfInterest>;
-    public putPOI(poiID: string, poi: PostPointOfInterest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<PointOfInterest>>;
-    public putPOI(poiID: string, poi: PostPointOfInterest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<PointOfInterest>>;
-    public putPOI(poiID: string, poi: PostPointOfInterest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
-        if (poiID === null || poiID === undefined) {
-            throw new Error('Required parameter poiID was null or undefined when calling putPOI.');
-        }
+    public putPOI(poi: PostPointOfInterest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<PointOfInterest>;
+    public putPOI(poi: PostPointOfInterest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<PointOfInterest>>;
+    public putPOI(poi: PostPointOfInterest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<PointOfInterest>>;
+    public putPOI(poi: PostPointOfInterest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (poi === null || poi === undefined) {
             throw new Error('Required parameter poi was null or undefined when calling putPOI.');
         }
@@ -368,7 +364,7 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.put<PointOfInterest>(`${this.configuration.basePath}/pointOfInterest/${encodeURIComponent(String(poiID))}`,
+        return this.httpClient.put<PointOfInterest>(`${this.configuration.basePath}/pointOfInterest`,
             poi,
             {
                 responseType: <any>responseType_,

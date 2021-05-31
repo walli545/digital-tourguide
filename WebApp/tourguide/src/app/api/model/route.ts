@@ -13,11 +13,12 @@ import { PointOfInterest } from './pointOfInterest';
 
 
 export interface Route { 
-    routeID: string;
+    id: string;
     pointOfInterests: Array<PointOfInterest>;
     name: string;
     description: string;
     creatorName: string;
     duration: number;
+    polyline: string;
 }
 

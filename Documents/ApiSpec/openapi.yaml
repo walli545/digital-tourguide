@@ -7,7 +7,7 @@ servers:
   - url: http://SERVER/v2
 tags:
   - name: route
-    description: api calls for the route 
+    description: api calls for the route
     externalDocs:
       description: Find out more
       url: http://swagger.io
@@ -37,6 +37,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Route"
+      x-codegen-request-body-name: route
+    put:
+      tags:
+        - route
+      summary: Edits the route to a given id
+      operationId: putRoute
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/PostRoute"
+        required: true
+      responses:
+        200:
+          description: Success
+        400:
+          description: Invalid input
+          content: {}
+        404:
+          description: Not found
       x-codegen-request-body-name: route
   /route/{routeID}:
     get:
@@ -78,33 +98,6 @@ paths:
           description: Success
         404:
           description: Not found
-    put:
-      tags:
-        - route
-      summary: Edits the route to a given id
-      operationId: putRoute
-      parameters:
-        - name: routeID
-          in: path
-          required: true
-          schema:
-            type: string
-            format: guid
-      requestBody:
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/PostRoute"
-        required: true
-      responses:
-        200:
-          description: Success
-        400:
-          description: Invalid input
-          content: {}
-        404:
-          description: Not found
-      x-codegen-request-body-name: route
   /routes/{userName}:
     get:
       tags:
@@ -152,6 +145,29 @@ paths:
           description: Invalid input
           content: {}
       x-codegen-request-body-name: poi
+    put:
+      tags:
+        - pointOfInterest
+      summary: Edits the poi to a given id
+      operationId: putPOI
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/PostPointOfInterest"
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PointOfInterest"
+        400:
+          description: Invalid input
+        404:
+          description: Not found
+      x-codegen-request-body-name: poi
 
   /pointOfInterest/{poiID}:
     get:
@@ -192,37 +208,7 @@ paths:
           description: Success
         404:
           description: Not found
-    put:
-      tags:
-        - pointOfInterest
-      summary: Edits the poi to a given id
-      operationId: putPOI
-      parameters:
-        - name: poiID
-          in: path
-          required: true
-          schema:
-            type: string
-            format: guid
-      requestBody:
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/PostPointOfInterest"
-        required: true
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PointOfInterest"
-        400:
-          description: Invalid input
-        404:
-          description: Not found
-      x-codegen-request-body-name: poi
-  /pointOfInterest/{userName}:
+  /pointOfInterests/{userName}:
     get:
       tags:
         - pointOfInterest
@@ -246,7 +232,7 @@ paths:
                   format: guid
         404:
           description: User not found
-  /pointOfInterest/{userName}/center:
+  /pointOfInterests/{userName}/center:
     get:
       tags:
         - pointOfInterest
@@ -320,6 +306,7 @@ components:
         - longitude
         - name
         - numberOfRatings
+        - imageURL
       type: object
       properties:
         id:
@@ -337,6 +324,8 @@ components:
           type: number
         numberOfRatings:
           type: integer
+        imageURL:
+          type: string
 
     PostPointOfInterest:
       required:
@@ -344,6 +333,7 @@ components:
         - latitude
         - longitude
         - name
+        - imageURL
       type: object
       properties:
         id:
@@ -357,6 +347,8 @@ components:
           type: number
         longitude:
           type: number
+        imageURL:
+          type: string
     Review:
       required:
         - content
@@ -396,15 +388,16 @@ components:
         - duration
         - name
         - pointOfInterests
+        - polyline
       type: object
       properties:
-        routeID:
+        id:
           type: string
           format: guid
         pointOfInterests:
           type: array
           items:
-            type: integer
+            type: string
         name:
           type: string
         description:
@@ -416,6 +409,8 @@ components:
           minimum: 0
           type: number
           format: float
+        polyline:
+          type: string
     Route:
       required:
         - creatorName
@@ -423,10 +418,11 @@ components:
         - duration
         - name
         - pointOfInterests
-        - routeID
+        - id
+        - polyline
       type: object
       properties:
-        routeID:
+        id:
           type: string
           format: guid
         pointOfInterests:
@@ -444,3 +440,5 @@ components:
           minimum: 0
           type: number
           format: float
+        polyline:
+          type: string
