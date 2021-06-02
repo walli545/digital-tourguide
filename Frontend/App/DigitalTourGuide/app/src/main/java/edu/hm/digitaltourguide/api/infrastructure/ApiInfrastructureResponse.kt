@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 enum class ResponseType {
     Success, Informational, Redirection, ClientError, ServerError

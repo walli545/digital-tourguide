@@ -9,9 +9,9 @@
 * https://openapi-generator.tech
 * Do not edit the class manually.
 */
-package org.openapitools.client.models
+package edu.hm.digitaltourguide.api.models
 
-import org.openapitools.client.models.PointOfInterest
+import edu.hm.digitaltourguide.api.models.PointOfInterest
 
 import com.squareup.moshi.Json
 
@@ -24,7 +24,6 @@ import com.squareup.moshi.Json
  * @param creatorName 
  * @param duration 
  * @param polyline 
- * @param imageURL 
  */
 
 data class Route (
@@ -41,8 +40,6 @@ data class Route (
     @Json(name = "duration")
     val duration: kotlin.Float,
     @Json(name = "polyline")
-    val polyline: kotlin.String,
-    @Json(name = "imageURL")
-    val imageURL: kotlin.String
+    val polyline: kotlin.String
 )
 
