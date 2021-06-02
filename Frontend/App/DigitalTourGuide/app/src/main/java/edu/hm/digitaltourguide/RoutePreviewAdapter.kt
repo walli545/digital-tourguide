@@ -61,7 +61,7 @@ class RoutePreviewAdapter(var routes: List<Route>) :
             }
         }
 
-        private fun setLocation(pointOfInterests: Array<PointOfInterest>) {
+        private fun setLocation(pointOfInterests: List<PointOfInterest>) {
             setLocation()
             with(map) {
                 val lats = mutableListOf<LatLng>()

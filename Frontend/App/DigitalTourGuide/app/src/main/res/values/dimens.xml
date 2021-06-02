@@ -12,4 +12,9 @@
     <dimen name="margin_huge">24dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_large">16dp</dimen>
+
+    <dimen name="poi_item_image_size">60dp</dimen>
+    <dimen name="poi_item_title_text_size">20sp</dimen>
+    <dimen name="tour_detail_header_text_size">22sp</dimen>
+    <dimen name="tour_detail_margin_top">15dp</dimen>
 </resources>

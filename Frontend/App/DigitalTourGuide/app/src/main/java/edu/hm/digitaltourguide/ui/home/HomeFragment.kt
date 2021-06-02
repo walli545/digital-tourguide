@@ -34,43 +34,45 @@ class HomeFragment : Fragment() {
         adapter = RoutePreviewAdapter(
             listOf(
                 Route(
-                    0,
-                    arrayOf(
+                    "0",
+                    listOf(
                         PointOfInterest(
-                            1,
+                            "1",
                             "Kirchsee",
                             "",
                             BigDecimal(47.8189),
                             BigDecimal(11.6180),
                             BigDecimal(0),
                             0,
+                            ""
 
-                            ),
+                        ),
                         PointOfInterest(
-                            2,
+                            "2",
                             "Besserer Kirchsee",
                             "",
                             BigDecimal(47.8235),
                             BigDecimal(11.6345),
                             BigDecimal(0),
                             0,
-
-                            ),
+                            ""
+                        ),
                         PointOfInterest(
-                            2,
+                            "2",
                             "Bester Kirchsee",
                             "",
                             BigDecimal(47.8199),
                             BigDecimal(11.6045),
                             BigDecimal(0),
                             0,
-
-                            )
+                            ""
+                        )
                     ),
                     "TestTour",
                     "",
                     "",
-                    1.0f
+                    1.0f,
+                    ""
                 )
             )
         )

@@ -10,6 +10,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_maps">Map</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tour">Tour</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -27,6 +29,12 @@
     <string name="prompt_username">Username</string>
     <string name="register">Registrieren</string>
     <string name="login">Anmelden</string>
+
+    <!-- Strings related to TourDetail -->
+    <string name="description_header">Description</string>
+    <string name="points_of_interest_header">Points of Interest</string>
+    <string name="tour_preview">Tour Preview</string>
+    <string name="decription_dummy">Eine Tour welche die besten und schönsten Kirchen der Stadt besucht.</string>
 
     <string name="last_tour_text">Last Tour</string>
     <string name="map_preview_description">Map Preview</string>

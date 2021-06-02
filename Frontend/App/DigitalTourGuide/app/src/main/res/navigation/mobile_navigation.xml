@@ -41,4 +41,9 @@
             android:id="@+id/action_registerFragment_to_nav_login"
             app:destination="@id/nav_login" />
     </fragment>
+    <fragment
+        android:id="@+id/tourDetailFragment"
+        android:name="edu.hm.digitaltourguide.ui.tour.TourDetailFragment"
+        android:label="Tour"
+        tools:layout="@layout/fragment_tour_detail" />
 </navigation>
