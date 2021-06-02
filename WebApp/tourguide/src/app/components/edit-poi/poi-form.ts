@@ -16,11 +16,13 @@ export class PoiForm {
     name: '',
     numberOfRatings: 0,
     averageRating: 0,
+    imageURL: '',
   };
 
   private poiForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
+    imageUrl: new FormControl('', [Validators.required]),
   });
 
   public get nameControl(): AbstractControl {
@@ -29,6 +31,10 @@ export class PoiForm {
 
   public get descriptionControl(): AbstractControl {
     return this.poiForm.get('description')!;
+  }
+
+  public get imageUrlControl(): AbstractControl {
+    return this.poiForm.get('imageUrl')!;
   }
 
   public get formGroup(): FormGroup {
@@ -48,11 +54,13 @@ export class PoiForm {
     this.poiForm.setValue({
       name: this.poi.name,
       description: this.poi.description,
+      imageUrl: this.poi.imageURL,
     });
   }
 
   public updatePoi(): void {
     this.poi.name = this.nameControl.value;
     this.poi.description = this.descriptionControl.value;
+    this.poi.imageURL = this.imageUrlControl.value;
   }
 }

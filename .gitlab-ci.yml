@@ -16,10 +16,6 @@ build_website:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR/WebApp/tourguide --dockerfile $CI_PROJECT_DIR/WebApp/tourguide/Dockerfile --destination $IMAGE_TAG
-  only:
-    changes:  
-      - WebApp/*
-
 
 build_api:
   stage: website_build-and-test
@@ -45,9 +41,6 @@ lint_format_test_website:
     - npm run lint
     - npm run prettier:check
     - npm run test:ci
-  only:
-    changes: 
-      - WebApp/*
   artifacts:
     name: "test-and-coverage"
     reports:
@@ -55,7 +48,6 @@ lint_format_test_website:
         - WebApp/tourguide/artifacts/tests/junit-test-results.xml
       cobertura:
         - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
-
 
 app_lintDebug:
   image: jangrewe/gitlab-ci-android
@@ -65,9 +57,9 @@ app_lintDebug:
     - cd ./Frontend/App/DigitalTourGuide/
     - chmod +x ./gradlew
   script:
-  - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
   only:
-    changes: 
+    changes:
       - Frontend/App/*
 
 app_build:
@@ -80,7 +72,7 @@ app_build:
   script:
     - ./gradlew assembleDebug
   only:
-    changes: 
+    changes:
       - Frontend/App/*
   artifacts:
     paths:
@@ -94,11 +86,10 @@ app_testDebug:
     - cd ./Frontend/App/DigitalTourGuide/
     - chmod +x ./gradlew
   script:
-  - ./gradlew -Pci --console=plain :app:testDebug
+    - ./gradlew -Pci --console=plain :app:testDebug
   only:
-    changes: 
+    changes:
       - Frontend/App/*
-  
 
 openapi_gen:
   image: jeshan/swagger-codegen-cli
