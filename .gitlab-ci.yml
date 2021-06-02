@@ -1,11 +1,12 @@
 stages:
-  - build-and-test
+  - website_build-and-test
+  - app_build-and-test
   - openapi_gen
   - openapi_deploy
   - deploy-k8s
 
 build_website:
-  stage: build-and-test
+  stage: website_build-and-test
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/website:$CI_COMMIT_SHA
   image:
@@ -17,7 +18,7 @@ build_website:
     - /kaniko/executor --context $CI_PROJECT_DIR/WebApp/tourguide --dockerfile $CI_PROJECT_DIR/WebApp/tourguide/Dockerfile --destination $IMAGE_TAG
 
 build_api:
-  stage: build-and-test
+  stage: website_build-and-test
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
   image:
@@ -29,7 +30,7 @@ build_api:
     - /kaniko/executor --context $CI_PROJECT_DIR/Backend/API --dockerfile $CI_PROJECT_DIR/Backend/API/Dockerfile --destination $IMAGE_TAG
 
 lint_format_test_website:
-  stage: build-and-test
+  stage: website_build-and-test
   image: buildkite/puppeteer
   tags:
     - docker
@@ -47,6 +48,48 @@ lint_format_test_website:
         - WebApp/tourguide/artifacts/tests/junit-test-results.xml
       cobertura:
         - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
+
+app_lintDebug:
+  image: jangrewe/gitlab-ci-android
+  stage: app_build-and-test
+  before_script:
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - cd ./Frontend/App/DigitalTourGuide/
+    - chmod +x ./gradlew
+  script:
+    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+  only:
+    changes:
+      - Frontend/App/*
+
+app_build:
+  image: jangrewe/gitlab-ci-android
+  stage: app_build-and-test
+  before_script:
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - cd ./Frontend/App/DigitalTourGuide/
+    - chmod +x ./gradlew
+  script:
+    - ./gradlew assembleDebug
+  only:
+    changes:
+      - Frontend/App/*
+  artifacts:
+    paths:
+      - ./Frontend/App/DigitalTourGuide/app/build/outputs/apk
+
+app_testDebug:
+  image: jangrewe/gitlab-ci-android
+  stage: app_build-and-test
+  before_script:
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - cd ./Frontend/App/DigitalTourGuide/
+    - chmod +x ./gradlew
+  script:
+    - ./gradlew -Pci --console=plain :app:testDebug
+  only:
+    changes:
+      - Frontend/App/*
 
 openapi_gen:
   image: jeshan/swagger-codegen-cli

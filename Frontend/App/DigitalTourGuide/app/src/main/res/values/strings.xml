@@ -10,6 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_maps">Map</string>
     <string name="menu_slideshow">Slideshow</string>
+
     <string name="last_tour_text">Last Tour</string>
     <string name="map_preview_description">Map Preview</string>
     <string name="tour_estimate_dummy">1 h</string>
