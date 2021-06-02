@@ -1,0 +1,19 @@
+#form-field {
+  width: 100%;
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 1.34375em;
+  }
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#image {
+  max-width: 30%;
+  margin-left: 15px;
+}

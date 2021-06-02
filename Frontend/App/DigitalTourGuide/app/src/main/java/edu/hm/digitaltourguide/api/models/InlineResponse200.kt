@@ -16,26 +16,14 @@ import com.squareup.moshi.Json
 
 /**
  * 
- * @param name 
- * @param description 
  * @param latitude 
  * @param longitude 
- * @param imageURL 
- * @param id 
  */
 
-data class PostPointOfInterest (
-    @Json(name = "name")
-    val name: kotlin.String,
-    @Json(name = "description")
-    val description: kotlin.String,
+data class InlineResponse200 (
     @Json(name = "latitude")
-    val latitude: java.math.BigDecimal,
+    val latitude: java.math.BigDecimal? = null,
     @Json(name = "longitude")
-    val longitude: java.math.BigDecimal,
-    @Json(name = "imageURL")
-    val imageURL: kotlin.String,
-    @Json(name = "id")
-    val id: kotlin.String? = null
+    val longitude: java.math.BigDecimal? = null
 )
 

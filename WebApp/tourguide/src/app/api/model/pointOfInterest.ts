@@ -19,5 +19,6 @@ export interface PointOfInterest {
     longitude: number;
     averageRating: number;
     numberOfRatings: number;
+    imageURL: string;
 }
 

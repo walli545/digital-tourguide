@@ -1,4 +1,4 @@
-package io.swagger.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 /**
  * Provides enumerated HTTP verbs
