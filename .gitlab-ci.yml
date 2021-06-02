@@ -99,7 +99,7 @@ openapi_gen:
     - apk add --update openssl
     - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
   script:
-    - "java -jar openapi-generator-cli.jar generate -g kotlin -i Documents/ApiSpec/openapi.yaml -o openapi-kotlin-client"
+    - "java -jar openapi-generator-cli.jar generate -g kotlin -i Documents/ApiSpec/openapi.yaml -o openapi-kotlin-client --package-name edu.hm.digitaltourguide.api"
   only:
     refs:
       - develop
