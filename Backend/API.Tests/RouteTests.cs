@@ -133,7 +133,7 @@ namespace API.Tests
 
       var result = await controller.DeleteRoute(Guid.NewGuid()) as StatusCodeResult;
 
-      Assert.Equal(200, result.StatusCode);
+      Assert.Equal(204, result.StatusCode);
     }
 
     [Fact]
@@ -378,7 +378,7 @@ namespace API.Tests
 
       var results = await controller.PutRoute(new PutRoute()) as StatusCodeResult;
 
-      Assert.Equal(200, results.StatusCode);
+      Assert.Equal(204, results.StatusCode);
     }
   }
 }
