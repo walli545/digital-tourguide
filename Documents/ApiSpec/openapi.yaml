@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Digitaler Reiseführer
+  title: Digitaler Reiseführer 
   description: "REST Api für den digitalen Reiseführer."
   version: 1.0.0
 servers:
