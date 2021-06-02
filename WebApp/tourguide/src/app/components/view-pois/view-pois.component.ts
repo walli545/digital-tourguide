@@ -1,16 +1,16 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Router } from '@angular/router';
-import { finalize, map } from 'rxjs/operators';
 import { PointOfInterest, PointOfInterestService } from 'src/app/api';
 import { customStyle } from 'src/app/utils/custom-style';
+import { toGoogleMaps } from '../../utils/poi';
 
 @Component({
   selector: 'app-view-pois',
   templateUrl: './view-pois.component.html',
   styleUrls: ['./view-pois.component.scss'],
 })
-export class ViewPoisComponent implements OnInit, AfterViewInit {
+export class ViewPoisComponent implements OnInit {
   @ViewChild('map') map!: GoogleMap;
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
 
@@ -26,7 +26,7 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
     backgroundColor: '#424242',
     center: { lat: 48.137154, lng: 11.576124 },
   };
-  pois = new Map<number, PointOfInterest>();
+  pois = new Map<string, PointOfInterest>();
   username = '';
 
   loading = true;
@@ -35,31 +35,15 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.poiService
-      .getPOIs(this.username)
-      .pipe(
-        map((pois) => {
-          if (pois.length === 0) {
-            this.loading = false;
-          }
-          pois.map((id) => {
-            this.poiService
-              .getPOI(id)
-              .pipe(
-                map((p) => {
-                  this.pois.set(parseInt(id, 3), p);
-                }),
-                finalize(() => (this.loading = false))
-              )
-              .subscribe();
-          });
-        })
-      )
-      .subscribe();
-  }
-
-  ngAfterViewInit(): void {
+  async ngOnInit(): Promise<void> {
+    const pois = await this.poiService.getPOIs(this.username).toPromise();
+    const bounds = new google.maps.LatLngBounds();
+    for (const p of pois) {
+      this.pois.set(p.poIID, p);
+      bounds.extend(toGoogleMaps(p));
+    }
+    this.loading = false;
+    this.map.fitBounds(bounds, { left: 260, top: 25, right: 25, bottom: 25 });
     // pan map in eastern direction because of overlay card
     this.map.panBy(-260, 0);
   }
@@ -101,12 +85,12 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
   }
 
   onDelete(poi: PointOfInterest): void {
-    this.poiService.deletePOI(poi.id);
-    this.pois.delete(parseInt(poi.id, 2));
+    this.poiService.deletePOI(poi.poIID);
+    this.pois.delete(poi.poIID);
   }
 
   onEdit(poi: PointOfInterest): void {
-    this.router.navigate(['poi', poi.id]);
+    this.router.navigate(['poi', poi.poIID]);
   }
 
   onNew(): void {

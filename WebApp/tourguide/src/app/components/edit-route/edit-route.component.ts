@@ -11,7 +11,7 @@ import { PolylineService } from '../../services/polyline.service';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toGoogleMaps } from '../../utils/poi';
-import { toPostRoute } from '../../utils/route';
+import { toPostRoute, toPutRoute } from '../../utils/route';
 import { RouteForm } from './route-form';
 
 @Component({
@@ -121,7 +121,7 @@ export class EditRouteComponent implements OnInit {
 
   private updateMapPosition(): void {
     const bounds = new google.maps.LatLngBounds();
-    this.routeForm.route.pointOfInterests.forEach((p) =>
+    this.routeForm.route.pointOfInterests?.forEach((p) =>
       bounds.extend(toGoogleMaps(p))
     );
     this.map.fitBounds(bounds, { left: 260, top: 50, right: 50, bottom: 50 });
@@ -142,12 +142,12 @@ export class EditRouteComponent implements OnInit {
     const newRoute = await this.routeService
       .addRoute(toPostRoute(this.routeForm.route))
       .toPromise();
-    this.router.navigate(['route', newRoute.id]);
+    this.router.navigate(['route', newRoute.routeID]);
   }
 
   private async saveExistingRoute(): Promise<void> {
     const updatedRoute = await this.routeService
-      .putRoute(toPostRoute(this.routeForm.route))
+      .putRoute(toPutRoute(this.routeForm.route))
       .toPromise();
     this.routeForm.route = updatedRoute;
   }

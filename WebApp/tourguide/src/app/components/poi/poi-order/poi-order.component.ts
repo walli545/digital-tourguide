@@ -96,7 +96,9 @@ export class PoiOrderComponent implements ControlValueAccessor, Validator {
 
   private containsTwoInRow(): boolean {
     for (let i = 0; i < this.formControl.value.length - 1; i++) {
-      if (this.formControl.value[i].id === this.formControl.value[i + 1].id) {
+      if (
+        this.formControl.value[i].poIID === this.formControl.value[i + 1].poIID
+      ) {
         return true;
       }
     }

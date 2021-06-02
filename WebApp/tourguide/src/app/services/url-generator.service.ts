@@ -23,7 +23,7 @@ export class UrlGeneratorService {
     const reSemi = /\;/gi;
     const marker =
       route.pointOfInterests
-        .map((p) => '|' + p.latitude + ';' + p.longitude)
+        ?.map((p) => '|' + p.latitude + ';' + p.longitude)
         .toString()
         .replace(reComma, '')
         .replace(reSemi, ',') + '|';

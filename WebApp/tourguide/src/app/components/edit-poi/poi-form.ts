@@ -11,12 +11,12 @@ export class PoiForm {
   private poi: PointOfInterest = {
     latitude: 0,
     longitude: 0,
-    id: 'new',
+    poIID: 'new',
     description: '',
     name: '',
     numberOfRatings: 0,
     averageRating: 0,
-    imageURL: '',
+    imageUrl: '',
   };
 
   private poiForm = new FormGroup({
@@ -54,13 +54,13 @@ export class PoiForm {
     this.poiForm.setValue({
       name: this.poi.name,
       description: this.poi.description,
-      imageUrl: this.poi.imageURL,
+      imageUrl: this.poi.imageUrl,
     });
   }
 
   public updatePoi(): void {
     this.poi.name = this.nameControl.value;
     this.poi.description = this.descriptionControl.value;
-    this.poi.imageURL = this.imageUrlControl.value;
+    this.poi.imageUrl = this.imageUrlControl.value;
   }
 }
