@@ -117,7 +117,7 @@ openapi_deploy:
     - apk add --update openssl
   script:
     - rm -r Frontend/App/DigitalTourGuide/app/src/main/java/edu/hm/digitaltourguide/api
-    - mv openapi-kotlin-client/src/main/kotlin/org/openapitools/client Frontend/App/DigitalTourGuide/app/src/main/java/edu/hm/digitaltourguide/api
+    - mv openapi-kotlin-client/src/main/kotlin/edu/hm/digitaltourguide/api Frontend/App/DigitalTourGuide/app/src/main/java/edu/hm/digitaltourguide/api
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - git pull .
