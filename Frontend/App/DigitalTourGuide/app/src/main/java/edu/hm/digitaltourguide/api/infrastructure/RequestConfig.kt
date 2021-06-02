@@ -1,7 +1,5 @@
 package edu.hm.digitaltourguide.api.infrastructure
 
-import io.swagger.client.infrastructure.RequestMethod
-
 /**
  * Defines a config object for a given request.
  * NOTE: This object doesn't include 'body' because it
@@ -11,8 +9,9 @@ import io.swagger.client.infrastructure.RequestMethod
  *       multi-valued headers as csv-only.
  */
 data class RequestConfig(
-        val method: RequestMethod,
-        val path: String,
-        val headers: Map<String, String> = mapOf(),
-        val query: Map<String, List<String>> = mapOf()
+    val method: RequestMethod,
+    val path: String,
+    val headers: MutableMap<String, String> = mutableMapOf(),
+    val query: MutableMap<String, List<String>> = mutableMapOf(),
+    val body: kotlin.Any? = null
 )
