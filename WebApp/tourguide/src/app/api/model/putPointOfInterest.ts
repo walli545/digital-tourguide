@@ -11,14 +11,11 @@
  */
 
 
-/**
- * Model class for a PointOfInterest
- */
-export interface PointOfInterest { 
+export interface PutPointOfInterest { 
     /**
      * Gets or Sets Id
      */
-    poIID: string;
+    id: string;
     /**
      * Gets or Sets Name
      */
@@ -35,14 +32,6 @@ export interface PointOfInterest {
      * Gets or Sets Longitude
      */
     longitude: number;
-    /**
-     * Gets or Sets AverageRating
-     */
-    averageRating: number;
-    /**
-     * Gets or Sets NumberOfRatings
-     */
-    numberOfRatings: number;
     /**
      * Gets or Sets ImageUrl
      */
