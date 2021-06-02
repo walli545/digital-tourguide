@@ -56,9 +56,8 @@ export interface RouteServiceInterface {
     /**
      * Edits the route to a given id
      * 
-     * @param routeID 
      * @param route 
      */
-    putRoute(routeID: string, route: PostRoute, extraHttpRequestParams?: any): Observable<{}>;
+    putRoute(route: PostRoute, extraHttpRequestParams?: any): Observable<{}>;
 
 }

@@ -1,0 +1,52 @@
+<div
+  cdkDropList
+  class="poi-list"
+  (cdkDropListDropped)="drop($event)"
+  [ngClass]="{ error: !formControl.valid }"
+  *ngIf="showDragList()"
+>
+  <div
+    class="poi"
+    *ngFor="let poi of formControl.value; index as i"
+    cdkDragHandle
+    cdkDrag
+  >
+    <div class="drag-handle">
+      <mat-icon class="drag-indicator">drag_indicator</mat-icon>
+      <mat-icon
+        *ngIf="i | isFirstOrLast: formControl.value.length"
+        color="primary"
+        >place</mat-icon
+      >
+      <mat-icon
+        *ngIf="!(i | isFirstOrLast: formControl.value.length)"
+        color="primary"
+        >trip_origin</mat-icon
+      >
+      <mat-icon class="dots">more_vert</mat-icon>
+    </div>
+
+    <mat-form-field appearance="outline" class="poi-name">
+      <input type="text" matInput [value]="poi.name" disabled />
+      <button
+        mat-icon-button
+        matSuffix
+        aria-label="Remove"
+        (click)="remove(i)"
+        type="button"
+      >
+        <mat-icon inline="true">close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+
+<mat-error *ngIf="formControl.errors?.selectAtLeastTwo" class="min-error"
+  >Select at least two Points of Interests</mat-error
+>
+<mat-error *ngIf="formControl.errors?.twoInRow" class="min-error"
+  >Route can`t contain the same Point Of Interest directly followed by
+  itself</mat-error
+>
+
+<app-poi-select (poiSelect)="add($event)"></app-poi-select>

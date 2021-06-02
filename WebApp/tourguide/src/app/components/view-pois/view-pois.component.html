@@ -6,7 +6,7 @@
     [clickable]="true"
     [position]="toGoogle(poi)"
     [title]="poi.name"
-    [label]="toString(i)"
+    [label]="toString(i + 1)"
     (mapMouseover)="openInfoWindow(marker, poi)"
     (mapMouseout)="closeInfoWindow()"
     (mapClick)="onEdit(poi)"
@@ -17,14 +17,12 @@
 
 <mat-card id="card" class="scrollable-content">
   <mat-card-header>
-    <mat-card-title>Meine Points Of Interests</mat-card-title>
-    <mat-card-subtitle
-      >zum Bearbeiten auf den Eintrag oder Marker klicken</mat-card-subtitle
-    >
+    <mat-card-title>My Points Of Interests</mat-card-title>
+    <mat-card-subtitle>click on the entry or marker to edit</mat-card-subtitle>
   </mat-card-header>
   <ng-container *ngIf="!loading">
     <mat-card id="card-poi" *ngIf="!hasPois()"
-      ><mat-card-content>Keine Pois vorhanden!</mat-card-content></mat-card
+      ><mat-card-content>No PoI's available!</mat-card-content></mat-card
     >
     <mat-card-content id="card-content" *ngIf="hasPois()">
       <mat-card
@@ -34,12 +32,14 @@
         ><mat-card-header>
           <mat-card-title>{{ poi.name }}</mat-card-title>
           <mat-card-subtitle
-            >Marker: {{ i }}
+            >Marker: {{ i + 1 }}
             <button
               mat-button
               (click)="onDelete(poi)"
-              matTooltip="lösche diesen PoI"
-              aria-label="Poi delete button"
+              matTooltip="delete this PoI"
+              matTooltipClass="tooltip"
+              matTooltipPosition="right"
+              aria-label="poi delete button"
             >
               <mat-icon inline="true" color="warn">delete</mat-icon>
             </button>
@@ -49,14 +49,14 @@
       </mat-card>
     </mat-card-content>
   </ng-container>
-  <mat-spinner *ngIf="loading"></mat-spinner>
+  <mat-spinner id="spinner" *ngIf="loading"></mat-spinner>
 </mat-card>
 <button
   id="btn-new"
   mat-fab
   color="accent"
   (click)="onNew()"
-  matTooltip="neuen PoI hinzufügen"
+  matTooltip="add new PoI"
   matTooltipPosition="above"
   aria-label="Poi add button"
 >
