@@ -26,7 +26,7 @@ namespace API.Services
       _poiService = poiService ?? throw new ArgumentNullException(nameof(poiService), "Context was null!");
     }
 
-    public async Task<Route> AddRoute(PostRoute postRoute)
+    public async Task<Route> AddRoute(PostRoute postRoute) // TODO: Check at least 2 pois | not the same
     {
       var record = new Route
       {

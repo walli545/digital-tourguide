@@ -28,7 +28,7 @@ namespace API.Tests
       service.Setup(x => x.AddRoute(post)).ReturnsAsync((Route)null);
       var controller = new RouteController(service.Object);
 
-      var result = await controller.AddRouteAsync(post) as StatusCodeResult;
+      var result = await controller.AddRoute(post) as StatusCodeResult;
 
       Assert.Equal(400, result.StatusCode);
     }
@@ -71,7 +71,7 @@ namespace API.Tests
       service.Setup(x => x.AddRoute(It.IsAny<PostRoute>())).ReturnsAsync(returnRoute);
       var controller = new RouteController(service.Object);
 
-      var results = await controller.AddRouteAsync(new PostRoute()) as ObjectResult;
+      var results = await controller.AddRoute(new PostRoute()) as ObjectResult;
 
 
       var returns = results.Value;

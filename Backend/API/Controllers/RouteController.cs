@@ -1,6 +1,7 @@
 ﻿using API.Helper;
 using API.Models;
 using API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.Swagger.Annotations;
@@ -26,15 +27,15 @@ namespace API.Controllers
     /// Add a new route to the database
     /// </summary>
     /// <param name="body"></param>
-    /// <response code="200">Success</response>
-    /// <response code="400">Invalid input</response>
-    /// <response code="404">Given poi does not exist</response>
     [HttpPost]
     [Route("/api/route")]
     [ValidateModelState]
-    [SwaggerOperation("AddRoute")]
-    [SwaggerResponse(statusCode: 200, type: typeof(Route), description: "Success")]
-    public virtual async Task<IActionResult> AddRouteAsync([FromBody] PostRoute body)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Route))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public virtual async Task<IActionResult> AddRoute([FromBody][Required] PostRoute body)
     {
       try
       {
@@ -45,7 +46,7 @@ namespace API.Controllers
         var json = JsonConvert.SerializeObject(result);
         return StatusCode(200, json);
       }
-      catch(ArgumentException)
+      catch (ArgumentException)
       {
         return StatusCode(404);
       }
@@ -59,20 +60,20 @@ namespace API.Controllers
     /// Deletes the route to a given id
     /// </summary>
     /// <param name="routeID"></param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Not found</response>
     [HttpDelete]
     [Route("/api/route/{routeID}")]
     [ValidateModelState]
-    [SwaggerOperation("DeleteRoute")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual async Task<IActionResult> DeleteRoute([FromRoute][Required] Guid routeID)
     {
       try
       {
         var result = await _routeService.DeleteRoute(routeID);
         if (result == 0)
-          return StatusCode(404);
-        return StatusCode(200);
+          return NotFound();
+        return NoContent();
       }
       catch (Exception)
       {
@@ -84,13 +85,13 @@ namespace API.Controllers
     /// Gets the route to a given id
     /// </summary>
     /// <param name="routeID"></param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Not found</response>
     [HttpGet]
     [Route("/api/route/{routeID}")]
     [ValidateModelState]
-    [SwaggerOperation("GetRoute")]
-    [SwaggerResponse(statusCode: 200, type: typeof(Route), description: "Success")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Route))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual async Task<IActionResult> GetRoute([FromRoute][Required] Guid routeID)
     {
       try
@@ -102,7 +103,7 @@ namespace API.Controllers
         var json = JsonConvert.SerializeObject(result);
         return StatusCode(200, json);
       }
-      catch(Exception)
+      catch (Exception)
       {
         return StatusCode(500);
       }
@@ -112,13 +113,13 @@ namespace API.Controllers
     /// Get all routes from the given user
     /// </summary>
     /// <param name="creatorName"></param>
-    /// <response code="200">Success</response>
-    /// <response code="404">User not found</response>
     [HttpGet]
     [Route("/api/routes/{creatorName}")]
     [ValidateModelState]
-    [SwaggerOperation("GetRoutes")]
-    [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "Success")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Route>))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string creatorName)
     {
       try
@@ -140,20 +141,18 @@ namespace API.Controllers
     /// Edits the route to a given id
     /// </summary>
     /// <param name="body"></param>
-    /// <response code="200">Success</response>
-    /// <response code="400">Invalid input</response>
-    /// <response code="404">Not found</response>
     [HttpPut]
     [Route("/api/route")]
     [ValidateModelState]
-    [SwaggerOperation("PutRoute")]
-    public virtual async Task<IActionResult> PutRoute([FromBody] PutRoute body)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual async Task<IActionResult> PutRoute([FromBody][Required] PutRoute body)
     {
       var result = await _routeService.PutRoute(body);
       if (result == 0)
         return StatusCode(404);
 
-      return StatusCode(200);
+      return NoContent();
     }
   }
 }

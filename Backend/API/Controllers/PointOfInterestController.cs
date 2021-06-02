@@ -1,6 +1,7 @@
 ﻿using API.Helper;
 using API.Models;
 using API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -27,14 +28,14 @@ namespace API.Controllers
     /// Add a new poi to the database
     /// </summary>
     /// <param name="body"></param>
-    /// <response code="200">Success</response>
-    /// <response code="400">Invalid input</response>
     [HttpPost]
     [Route("/api/pointOfInterest")]
     [ValidateModelState]
-    [SwaggerOperation("AddPOI")]
-    [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
-    public virtual async Task<IActionResult> AddPOIAsync([FromBody] PostPointOfInterest body)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PointOfInterest))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public virtual async Task<IActionResult> AddPOI([FromBody][Required] PostPointOfInterest body)
     {
       try
       {
@@ -55,20 +56,20 @@ namespace API.Controllers
     /// Deletes the poi to a given id
     /// </summary>
     /// <param name="poiID">the poiID to delete</param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Not found</response>
     [HttpDelete]
     [Route("/api/pointOfInterest/{poiID}")]
     [ValidateModelState]
-    [SwaggerOperation("DeletePOI")]
-    public virtual async Task<IActionResult> DeletePOIAsync([FromRoute][Required] Guid poiID)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public virtual async Task<IActionResult> DeletePOI([FromRoute][Required] Guid poiID)
     {
       try
       {
         var result = await _poiService.DeletePoI(poiID);
         if (result == 0)
           return StatusCode(404);
-        return StatusCode(200);
+        return NoContent();
       }
       catch (Exception)
       {
@@ -107,14 +108,13 @@ namespace API.Controllers
     /// Gets the poi to a given id
     /// </summary>
     /// <param name="poiID"></param>
-    /// <response code="200">Success</response>
-    /// <response code="404">Not found</response>
     [HttpGet]
     [Route("/api/pointOfInterest/{poiID}")]
     [ValidateModelState]
-    [SwaggerOperation("GetPOI")]
-    [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
-    public virtual async Task<IActionResult> GetPOIAsync([FromRoute][Required] Guid poiID)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PointOfInterest))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual async Task<IActionResult> GetPOI([FromRoute][Required] Guid poiID)
     {
       var result = await _poiService.GetPoI(poiID);
       if (result == null)
@@ -128,14 +128,13 @@ namespace API.Controllers
     /// Get all poi&#x27;s from the given user
     /// </summary>
     /// <param name="userName"></param>
-    /// <response code="200">Success</response>
-    /// <response code="404">User not found</response>
     [HttpGet]
     [Route("/api/pointOfInterest/getUserPoIs/{userName}")]
     [ValidateModelState]
-    [SwaggerOperation("GetPOIs")]
-    [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "Success")]
-    public virtual async Task<IActionResult> GetPOIsAsync([FromRoute][Required] string userName)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PointOfInterest>))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual async Task<IActionResult> GetPOIs([FromRoute][Required] string userName)
     {
       var results = await _poiService.GetAllPoIs(userName);
       if (results.Count == 0)
@@ -149,16 +148,12 @@ namespace API.Controllers
     /// Edits the poi to a given id
     /// </summary>
     /// <param name="body"></param>
-    /// <param name="poiID"></param>
-    /// <response code="200">Success</response>
-    /// <response code="400">Invalid input</response>
-    /// <response code="404">Not found</response>
     [HttpPut]
     [Route("/api/pointOfInterest")]
     [ValidateModelState]
     [SwaggerOperation("PutPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
-    public virtual async Task<IActionResult> PutPOIAsync([FromBody] PutPointOfInterest body)
+    public virtual async Task<IActionResult> PutPOI([FromBody][Required] PutPointOfInterest body)
     {
       var result = await _poiService.PutPoI(body);
       if (result == 0)

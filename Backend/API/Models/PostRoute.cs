@@ -10,11 +10,6 @@ namespace API.Models
   [DataContract]
   public class PostRoute
   {
-    /// <summary>
-    /// Gets or Sets Id
-    /// </summary>
-    [DataMember(Name = "id")]
-    public string Id { get; set; }
 
     /// <summary>
     /// Gets or Sets PointOfInterests

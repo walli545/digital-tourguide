@@ -13,11 +13,6 @@ namespace API.Models
   [DataContract]
   public partial class PostPointOfInterest
   {
-    /// <summary>
-    /// Gets or Sets Id
-    /// </summary>
-    [DataMember(Name = "id")]
-    public string Id { get; set; }
 
     /// <summary>
     /// Gets or Sets Name

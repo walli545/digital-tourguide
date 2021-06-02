@@ -50,7 +50,7 @@ namespace API.Tests
       var controller = new PointOfInterestController(service.Object);
 
       // Act
-      var results = await controller.GetPOIsAsync(usernameA) as ObjectResult;
+      var results = await controller.GetPOIs(usernameA) as ObjectResult;
       var returns = results.Value;
       var ob = JsonConvert.DeserializeObject(returns.ToString()) as JArray;
 
@@ -80,7 +80,7 @@ namespace API.Tests
       var controller = new PointOfInterestController(service.Object);
 
       // Act
-      var results = await controller.GetPOIAsync(searchID) as ObjectResult;
+      var results = await controller.GetPOI(searchID) as ObjectResult;
       var returns = results.Value;
       var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
 
@@ -130,7 +130,7 @@ namespace API.Tests
       var controller = new PointOfInterestController(service.Object);
 
       // Act
-      var results = await controller.AddPOIAsync(postPoI) as ObjectResult;
+      var results = await controller.AddPOI(postPoI) as ObjectResult;
       var returns = results.Value;
       var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
 
