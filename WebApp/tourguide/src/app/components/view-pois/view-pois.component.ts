@@ -26,7 +26,7 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
     backgroundColor: '#424242',
     center: { lat: 48.137154, lng: 11.576124 },
   };
-  pois = new Map<number, PointOfInterest>();
+  pois = new Map<string, PointOfInterest>();
   username = '';
 
   loading = true;
@@ -48,7 +48,7 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
               .getPOI(id)
               .pipe(
                 map((p) => {
-                  this.pois.set(parseInt(id, 3), p);
+                  this.pois.set(id, p);
                 }),
                 finalize(() => (this.loading = false))
               )
@@ -66,12 +66,13 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
 
   openInfoWindow(marker: MapMarker, poi: PointOfInterest): void {
     this.infoWindow.options = {
-      content: `<h4>${poi.name}</h4><br>
-      <h5>${poi.description}<br>
-      <b>Latitude:</b> ${poi.latitude}<br>
-      <b>Longitude:</b> ${poi.longitude}<br>
-      <b>Average Rating:</b> ${poi.averageRating}<br>
-      <b>Number of Ratings:</b> ${poi.numberOfRatings}</h5>`,
+      content: `<p><h4>${poi.name}</h4></p>
+      <p><img src=${poi.imageURL}></p>
+      <p><h5>${poi.description}</p>
+      <p><b>Latitude:</b> ${poi.latitude}<br>
+      <b>Longitude:</b> ${poi.longitude}</p>
+      <p><b>Average Rating:</b> ${poi.averageRating}<br>
+      <b>Number of Ratings:</b> ${poi.numberOfRatings}</h5></p>`,
     };
     this.infoWindow.open(marker);
     this.mapOptions.center = this.toGoogle(poi);
@@ -102,7 +103,7 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
 
   onDelete(poi: PointOfInterest): void {
     this.poiService.deletePOI(poi.id);
-    this.pois.delete(parseInt(poi.id, 2));
+    this.pois.delete(poi.id);
   }
 
   onEdit(poi: PointOfInterest): void {
