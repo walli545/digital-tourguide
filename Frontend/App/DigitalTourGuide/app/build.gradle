@@ -6,7 +6,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "edu.hm.digitaltourguide"
@@ -59,6 +59,8 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'com.google.maps.android:android-maps-utils:0.4'
 
     /* Slideshow dependencies */
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
