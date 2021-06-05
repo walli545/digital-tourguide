@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 /**
  * Defines a config object for a given request.

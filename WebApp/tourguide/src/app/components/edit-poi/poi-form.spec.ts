@@ -36,6 +36,15 @@ describe('PoiForm', () => {
     expect(descriptionControl.value).toEqual('');
   });
 
+  it('get imageUrlControl works', () => {
+    const imageUrlControl = form.imageUrlControl;
+
+    expect(imageUrlControl.dirty).toBeFalse();
+    expect(imageUrlControl.enabled).toBeTrue();
+    expect(imageUrlControl.valid).toBeFalse();
+    expect(imageUrlControl.value).toEqual('');
+  });
+
   it('get initial pointOfInterest works', () => {
     const poi = form.pointOfInterest;
 
@@ -46,6 +55,7 @@ describe('PoiForm', () => {
     expect(poi.longitude).toEqual(0);
     expect(poi.numberOfRatings).toEqual(0);
     expect(poi.averageRating).toEqual(0);
+    expect(poi.imageURL).toEqual('');
   });
 
   it('set pointOfInterest updates form values', () => {
@@ -58,45 +68,53 @@ describe('PoiForm', () => {
       latitude: 12.345678,
       longitude: 98.765432,
       name: 'Marienplatz',
+      imageURL: 'https://google.png',
     };
 
     form.pointOfInterest = newPoi;
 
     expect(form.nameControl.value).toEqual(newPoi.name);
     expect(form.descriptionControl.value).toEqual(newPoi.description);
+    expect(form.imageUrlControl.value).toEqual(newPoi.imageURL);
   });
 
   it('updateFormControl updates form with changed values in poi', () => {
     const newName = 'Marienplatz';
     const newDescription =
       'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone.';
-
+    const newImageUrl = 'http://google.png';
     form.pointOfInterest.name = newName;
     form.pointOfInterest.description = newDescription;
+    form.pointOfInterest.imageURL = newImageUrl;
 
     expect(form.nameControl.value).toEqual('');
     expect(form.descriptionControl.value).toEqual('');
+    expect(form.imageUrlControl.value).toEqual('');
 
     form.updateFormControl();
 
     expect(form.nameControl.value).toEqual(newName);
     expect(form.descriptionControl.value).toEqual(newDescription);
+    expect(form.imageUrlControl.value).toEqual(newImageUrl);
   });
 
   it('updatePoi updates poi with changed values from form', () => {
     const newName = 'Marienplatz';
     const newDescription =
       'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone.';
-
+    const newImageUrl = 'http://google.png';
     form.nameControl.setValue(newName);
     form.descriptionControl.setValue(newDescription);
+    form.imageUrlControl.setValue(newImageUrl);
 
     expect(form.pointOfInterest.name).toEqual('');
     expect(form.pointOfInterest.description).toEqual('');
+    expect(form.pointOfInterest.imageURL).toEqual('');
 
     form.updatePoi();
 
     expect(form.pointOfInterest.name).toEqual(newName);
     expect(form.pointOfInterest.description).toEqual(newDescription);
+    expect(form.pointOfInterest.imageURL).toEqual(newImageUrl);
   });
 });

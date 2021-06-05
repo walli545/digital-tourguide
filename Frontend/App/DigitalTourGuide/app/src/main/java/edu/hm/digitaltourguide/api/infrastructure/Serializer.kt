@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

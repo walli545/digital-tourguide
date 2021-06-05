@@ -9,9 +9,9 @@
 * https://openapi-generator.tech
 * Do not edit the class manually.
 */
-package org.openapitools.client.models
+package edu.hm.digitaltourguide.api.models
 
-import org.openapitools.client.models.PointOfInterest
+import edu.hm.digitaltourguide.api.models.PointOfInterest
 
 import com.squareup.moshi.Json
 

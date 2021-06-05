@@ -1,0 +1,25 @@
+<mat-form-field appearance="outline" id="formfield">
+  <mat-label>Add Point of Interest to Route</mat-label>
+  <input
+    type="text"
+    matInput
+    placeholder="Enter Point of Interest Name"
+    aria-label="Add PoI"
+    [matAutocomplete]="auto"
+    [formControl]="selectPoiControl"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onOptionSelected($event)"
+  >
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+      {{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-spinner
+    id="spinner"
+    matSuffix
+    diameter="30"
+    *ngIf="!selectPoiControl.enabled"
+  ></mat-spinner>
+</mat-form-field>

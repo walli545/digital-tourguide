@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

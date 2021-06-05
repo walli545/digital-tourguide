@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 import okhttp3.Credentials
 import okhttp3.OkHttpClient

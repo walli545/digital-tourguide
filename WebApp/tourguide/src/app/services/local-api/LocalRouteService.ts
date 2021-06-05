@@ -30,6 +30,8 @@ export class LocalRouteService implements RouteServiceInterface {
       longitude: 11.56761646270752,
       description:
         'Das Sendlinger Tor ist das südliche Stadttor der historischen Altstadt in München. ',
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
     },
     {
       id: '1',
@@ -40,6 +42,8 @@ export class LocalRouteService implements RouteServiceInterface {
         'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
       averageRating: 0,
       numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
     },
     {
       id: '2',
@@ -50,6 +54,128 @@ export class LocalRouteService implements RouteServiceInterface {
         'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
       averageRating: 0,
       numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '3',
+      name: 'A',
+      latitude: 48.14,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '4',
+      name: 'B',
+      latitude: 48.15,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '5',
+      name: 'C',
+      latitude: 48.16,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '6',
+      name: 'D',
+      latitude: 48.17,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '7',
+      name: 'E',
+      latitude: 48.18,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '8',
+      name: 'F',
+      latitude: 48.19,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '9',
+      name: 'G',
+      latitude: 48.2,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '10',
+      name: 'H',
+      latitude: 48.21,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '11',
+      name: 'I',
+      latitude: 48.22,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
+    },
+    {
+      id: '12',
+      name: 'J',
+      latitude: 48.23,
+      longitude: 11.565833,
+      description:
+        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
+      averageRating: 0,
+      numberOfRatings: 10,
+      imageURL:
+        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
     },
   ];
 
@@ -79,7 +205,7 @@ export class LocalRouteService implements RouteServiceInterface {
     const newRoute = {
       id: `${this.currentId}`,
       pointOfInterests: route.pointOfInterests.map((p) => {
-        return { ...this.pois[parseInt(p, 3)] };
+        return { ...this.pois[parseInt(p, 10)] };
       }),
       name: route.name,
       description: route.description,
@@ -89,7 +215,7 @@ export class LocalRouteService implements RouteServiceInterface {
     } as Route;
     this.routes.set(newRoute.id, newRoute);
     this.currentId++;
-    return of(newRoute).pipe(delay(1_000));
+    return of(newRoute).pipe(delay(300));
   }
 
   deleteRoute(routeID: string, extraHttpRequestParams?: any): Observable<{}> {
@@ -105,7 +231,7 @@ export class LocalRouteService implements RouteServiceInterface {
 
   getRoute(routeID: string, extraHttpRequestParams?: any): Observable<Route> {
     if (this.routes.has(routeID)) {
-      return of({ ...this.routes.get(routeID)! }).pipe(delay(1_000));
+      return of({ ...this.routes.get(routeID)! }).pipe(delay(300));
     } else {
       return throwError(
         new HttpErrorResponse({ status: 404, statusText: 'Not found' })
@@ -118,7 +244,7 @@ export class LocalRouteService implements RouteServiceInterface {
     extraHttpRequestParams?: any
   ): Observable<string[]> {
     return of(Array.from(this.routes.values()).map((p) => p.id)).pipe(
-      delay(1_000)
+      delay(300)
     );
   }
 
@@ -128,7 +254,7 @@ export class LocalRouteService implements RouteServiceInterface {
         id: route.id,
         pointOfInterests: route.pointOfInterests.map((p) => {
           // this.pois[parseInt(p,3)].id = p;
-          return { ...this.pois[parseInt(p, 3)] };
+          return { ...this.pois[parseInt(p, 10)] };
         }),
         name: route.name,
         description: route.description,

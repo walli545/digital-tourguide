@@ -9,26 +9,26 @@
 * https://openapi-generator.tech
 * Do not edit the class manually.
 */
-package org.openapitools.client.apis
+package edu.hm.digitaltourguide.api.apis
 
 
-import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ClientException
-import org.openapitools.client.infrastructure.ClientError
-import org.openapitools.client.infrastructure.ServerException
-import org.openapitools.client.infrastructure.ServerError
-import org.openapitools.client.infrastructure.MultiValueMap
-import org.openapitools.client.infrastructure.RequestConfig
-import org.openapitools.client.infrastructure.RequestMethod
-import org.openapitools.client.infrastructure.ResponseType
-import org.openapitools.client.infrastructure.Success
-import org.openapitools.client.infrastructure.toMultiValue
+import edu.hm.digitaltourguide.api.infrastructure.ApiClient
+import edu.hm.digitaltourguide.api.infrastructure.ClientException
+import edu.hm.digitaltourguide.api.infrastructure.ClientError
+import edu.hm.digitaltourguide.api.infrastructure.ServerException
+import edu.hm.digitaltourguide.api.infrastructure.ServerError
+import edu.hm.digitaltourguide.api.infrastructure.MultiValueMap
+import edu.hm.digitaltourguide.api.infrastructure.RequestConfig
+import edu.hm.digitaltourguide.api.infrastructure.RequestMethod
+import edu.hm.digitaltourguide.api.infrastructure.ResponseType
+import edu.hm.digitaltourguide.api.infrastructure.Success
+import edu.hm.digitaltourguide.api.infrastructure.toMultiValue
 
 class PromotedApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://SERVER/v2")
+            System.getProperties().getProperty("edu.hm.digitaltourguide.api.baseUrl", "http://SERVER/v2")
         }
     }
 

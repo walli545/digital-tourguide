@@ -9,7 +9,7 @@
 * https://openapi-generator.tech
 * Do not edit the class manually.
 */
-package org.openapitools.client.models
+package edu.hm.digitaltourguide.api.models
 
 
 import com.squareup.moshi.Json
@@ -20,6 +20,7 @@ import com.squareup.moshi.Json
  * @param description 
  * @param latitude 
  * @param longitude 
+ * @param imageURL 
  * @param id 
  */
 
@@ -32,6 +33,8 @@ data class PostPointOfInterest (
     val latitude: java.math.BigDecimal,
     @Json(name = "longitude")
     val longitude: java.math.BigDecimal,
+    @Json(name = "imageURL")
+    val imageURL: kotlin.String,
     @Json(name = "id")
     val id: kotlin.String? = null
 )
