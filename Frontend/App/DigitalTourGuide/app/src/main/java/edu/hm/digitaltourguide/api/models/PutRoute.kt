@@ -16,6 +16,7 @@ import com.squareup.moshi.Json
 
 /**
  * 
+ * @param id Gets or Sets Id
  * @param pointOfInterests Gets or Sets PointOfInterests
  * @param name Gets or Sets Name
  * @param description Gets or Sets Description
@@ -24,7 +25,10 @@ import com.squareup.moshi.Json
  * @param polyline Gets or Sets Polyline
  */
 
-data class PostRoute (
+data class PutRoute (
+    /* Gets or Sets Id */
+    @Json(name = "id")
+    val id: kotlin.String,
     /* Gets or Sets PointOfInterests */
     @Json(name = "pointOfInterests")
     val pointOfInterests: kotlin.collections.List<java.util.UUID>,
