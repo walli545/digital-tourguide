@@ -13,11 +13,6 @@ namespace API.Models
   [DataContract]
   public partial class PostPointOfInterest
   {
-    /// <summary>
-    /// Gets or Sets Id
-    /// </summary>
-    [DataMember(Name = "id")]
-    public string Id { get; set; }
 
     /// <summary>
     /// Gets or Sets Name
@@ -46,5 +41,12 @@ namespace API.Models
     [Required]
     [DataMember(Name = "longitude")]
     public decimal? Longitude { get; set; }
+
+    /// <summary>
+    /// Gets or Sets ImageUrl
+    /// </summary>
+    [Required]
+    [DataMember(Name = "imageUrl")]
+    public string ImageUrl { get; set; }
   }
 }

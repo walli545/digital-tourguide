@@ -4,7 +4,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { CommonModule } from '@angular/common';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -39,6 +39,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import {
   ApiModule,
   Configuration,
@@ -103,12 +104,28 @@ const materialModules = [
   ReactiveFormsModule,
 ];
 
-export const apiConfigFactory = (): Configuration => {
+const apiConfigFactory = (): Configuration => {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   };
   return new Configuration(params);
 };
+
+const initializeKeycloak = (
+  keycloak: KeycloakService
+): (() => Promise<boolean>) => (): Promise<boolean> =>
+  keycloak.init({
+    config: {
+      url: '/auth',
+      realm: 'tourguide',
+      clientId: 'angular',
+    },
+    initOptions: {
+      onLoad: 'check-sso',
+      silentCheckSsoRedirectUri:
+        window.location.origin + '/assets/silent-check-sso.html',
+    },
+  });
 
 @NgModule({
   declarations: [
@@ -133,9 +150,16 @@ export const apiConfigFactory = (): Configuration => {
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,
+    KeycloakAngularModule,
     ...materialModules,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
     { provide: PointOfInterestService, useClass: LocalPointOfInterestService },
     { provide: RouteService, useClass: LocalRouteService },
   ],

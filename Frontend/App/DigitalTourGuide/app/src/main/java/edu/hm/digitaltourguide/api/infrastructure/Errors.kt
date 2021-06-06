@@ -1,5 +1,5 @@
 @file:Suppress("unused")
-package org.openapitools.client.infrastructure
+package edu.hm.digitaltourguide.api.infrastructure
 
 import java.lang.RuntimeException
 

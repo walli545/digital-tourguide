@@ -25,8 +25,8 @@ namespace API.Services
     /// <param name="dbContext">The desired db context.</param>
     public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext)
     {
-      _logger = logger ?? throw new ArgumentNullException("logger was null!", nameof(logger));
-      _dbContext = dbContext ?? throw new ArgumentNullException("Context was null!", nameof(dbContext));
+      _logger = logger ?? throw new ArgumentNullException(nameof(logger), "logger was null!");
+      _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
     }
 
     /// <summary>
@@ -39,21 +39,24 @@ namespace API.Services
     {
       var record = new PointOfInterest
       {
-        Id = Guid.NewGuid(),
+        PoIID = Guid.NewGuid(),
         Description = poi.Description,
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
         Name = poi.Name,
         AverageRating = 0.0M,
-        NumberOfRatings = 0
+        NumberOfRatings = 0,
+        ImageUrl = poi.ImageUrl
       };
 
-      var success = _dbContext.Add(record);
+
+      var success = _dbContext.PointOfInterest.Add(record);
       if (success.State != EntityState.Added)
       {
         _logger.LogInformation($"Failed to add PoI to the database! Item: {0} Given body:{1}", nameof(record), poi, poi);
         throw new Exception(); //maybe choose other exception here
       }
+
       var result = await _dbContext.SaveChangesAsync();
       if (result > 0)
       {
@@ -102,11 +105,26 @@ namespace API.Services
       return await _dbContext.PointOfInterest.FindAsync(poiID);
     }
     
-    public async Task<int> PutPoI(PointOfInterest poi)
+    public async Task<int> PutPoI(PutPointOfInterest poi)
     {
+      var oldPoI = _dbContext.PointOfInterest.AsNoTracking().Where(p => p.PoIID == Guid.Parse(poi.Id)).FirstOrDefault();
+      if (oldPoI == null)
+        return 0;
+      var newPoI = new PointOfInterest
+      {
+        PoIID = Guid.Parse(poi.Id),
+        Description = poi.Description,
+        Name = poi.Name,
+        ImageUrl = poi.ImageUrl,
+        Latitude = poi.Latitude,
+        Longitude = poi.Longitude,
+        AverageRating = oldPoI.AverageRating,
+        NumberOfRatings = oldPoI.NumberOfRatings
+      };
+
       try
       {
-        var success = _dbContext.Update(poi);
+        var success = _dbContext.PointOfInterest.Update(newPoI);
         if (success.State != EntityState.Modified)
           _logger.LogInformation($"Failed to update PoI from the database! Item: {0} Given poi:{1}", nameof(poi), poi, poi);
           
