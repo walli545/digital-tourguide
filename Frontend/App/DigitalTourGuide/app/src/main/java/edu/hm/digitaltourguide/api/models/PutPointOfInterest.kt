@@ -15,21 +15,19 @@ package edu.hm.digitaltourguide.api.models
 import com.squareup.moshi.Json
 
 /**
- * Model class for a PointOfInterest
- * @param poIID Gets or Sets Id
+ * 
+ * @param id Gets or Sets Id
  * @param name Gets or Sets Name
  * @param description Gets or Sets Description
  * @param latitude Gets or Sets Latitude
  * @param longitude Gets or Sets Longitude
- * @param averageRating Gets or Sets AverageRating
- * @param numberOfRatings Gets or Sets NumberOfRatings
  * @param imageUrl Gets or Sets ImageUrl
  */
 
-data class PointOfInterest (
+data class PutPointOfInterest (
     /* Gets or Sets Id */
-    @Json(name = "poIID")
-    val poIID: java.util.UUID,
+    @Json(name = "id")
+    val id: kotlin.String,
     /* Gets or Sets Name */
     @Json(name = "name")
     val name: kotlin.String,
@@ -42,12 +40,6 @@ data class PointOfInterest (
     /* Gets or Sets Longitude */
     @Json(name = "longitude")
     val longitude: kotlin.Double,
-    /* Gets or Sets AverageRating */
-    @Json(name = "averageRating")
-    val averageRating: kotlin.Double,
-    /* Gets or Sets NumberOfRatings */
-    @Json(name = "numberOfRatings")
-    val numberOfRatings: kotlin.Int,
     /* Gets or Sets ImageUrl */
     @Json(name = "imageUrl")
     val imageUrl: kotlin.String

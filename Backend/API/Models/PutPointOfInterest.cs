@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-  /// <summary>
-  /// Model class for posting a new poi
-  /// </summary>
   [DataContract]
-  public partial class PostPointOfInterest
+  public class PutPointOfInterest
   {
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
+    [Required]
+    [DataMember(Name = "id")]
+    public string Id { get; set; }
 
     /// <summary>
     /// Gets or Sets Name

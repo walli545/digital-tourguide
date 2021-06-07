@@ -7,12 +7,22 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-  /// <summary>
-  /// Model class for posting a new poi
-  /// </summary>
   [DataContract]
-  public partial class PostPointOfInterest
+  public class PutRoute
   {
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
+    [Required]
+    [DataMember(Name = "id")]
+    public string Id { get; set; }
+
+    /// <summary>
+    /// Gets or Sets PointOfInterests
+    /// </summary>
+    [Required]
+    [DataMember(Name = "pointOfInterests")]
+    public List<Guid> PointOfInterests { get; set; }
 
     /// <summary>
     /// Gets or Sets Name
@@ -29,24 +39,24 @@ namespace API.Models
     public string Description { get; set; }
 
     /// <summary>
-    /// Gets or Sets Latitude
+    /// Gets or Sets CreatorName
     /// </summary>
     [Required]
-    [DataMember(Name = "latitude")]
-    public decimal? Latitude { get; set; }
+    [DataMember(Name = "creatorName")]
+    public string CreatorName { get; set; }
 
     /// <summary>
-    /// Gets or Sets Longitude
+    /// Gets or Sets Duration
     /// </summary>
     [Required]
-    [DataMember(Name = "longitude")]
-    public decimal? Longitude { get; set; }
+    [DataMember(Name = "duration")]
+    public float? Duration { get; set; }
 
     /// <summary>
-    /// Gets or Sets ImageUrl
+    /// Gets or Sets Polyline
     /// </summary>
     [Required]
-    [DataMember(Name = "imageUrl")]
-    public string ImageUrl { get; set; }
+    [DataMember(Name = "polyline")]
+    public string Polyline { get; set; }
   }
 }

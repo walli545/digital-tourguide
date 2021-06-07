@@ -11,18 +11,18 @@ using System.Runtime.Serialization;
 namespace API.Models
 {
   /// <summary>
-  /// 
+  /// Model class for a PointOfInterest
   /// </summary>
   [DataContract]
   public partial class PointOfInterest
   {
-
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
+    [Key]
     [Required]
-    [DataMember(Name = "id")]
-    public Guid Id { get; set; }
+    [DataMember(Name = "poiId")]
+    public Guid PoIID { get; set; }
 
     /// <summary>
     /// Gets or Sets Name
@@ -66,5 +66,11 @@ namespace API.Models
     [DataMember(Name = "numberOfRatings")]
     public int? NumberOfRatings { get; set; }
 
+    /// <summary>
+    /// Gets or Sets ImageUrl
+    /// </summary>
+    [Required]
+    [DataMember(Name = "imageUrl")]
+    public string ImageUrl { get; set; }
   }
 }
