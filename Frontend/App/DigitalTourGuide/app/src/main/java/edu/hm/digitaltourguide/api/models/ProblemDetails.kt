@@ -15,6 +15,10 @@ import edu.hm.digitaltourguide.api.models.AnyType
 
 import com.squareup.moshi.Json
 
+class AnyType {
+
+}
+
 /**
  * 
  * @param type 

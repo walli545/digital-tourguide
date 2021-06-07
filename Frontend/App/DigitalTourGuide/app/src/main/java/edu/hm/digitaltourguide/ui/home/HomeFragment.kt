@@ -15,6 +15,7 @@ import edu.hm.digitaltourguide.RoutePreviewAdapter
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
 import java.math.BigDecimal
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -34,45 +35,45 @@ class HomeFragment : Fragment() {
         adapter = RoutePreviewAdapter(
             listOf(
                 Route(
-                    "0",
+                    UUID.randomUUID(),
+                    "TestTour",
+                    "",
+                    "",
+                    1.0f,
+                    "",
                     listOf(
                         PointOfInterest(
-                            "1",
+                            UUID.randomUUID(),
                             "Kirchsee",
                             "",
-                            BigDecimal(47.8189),
-                            BigDecimal(11.6180),
-                            BigDecimal(0),
+                            47.8189,
+                            11.6180,
+                            0.5,
                             0,
                             ""
 
                         ),
                         PointOfInterest(
-                            "2",
+                            UUID.randomUUID(),
                             "Besserer Kirchsee",
                             "",
-                            BigDecimal(47.8235),
-                            BigDecimal(11.6345),
-                            BigDecimal(0),
+                            47.8235,
+                            11.6345,
+                            0.5,
                             0,
                             ""
                         ),
                         PointOfInterest(
-                            "2",
+                            UUID.randomUUID(),
                             "Bester Kirchsee",
                             "",
-                            BigDecimal(47.8199),
-                            BigDecimal(11.6045),
-                            BigDecimal(0),
+                            47.8199,
+                            11.6045,
+                            0.5,
                             0,
                             ""
                         )
-                    ),
-                    "TestTour",
-                    "",
-                    "",
-                    1.0f,
-                    ""
+                ),
                 )
             )
         )
