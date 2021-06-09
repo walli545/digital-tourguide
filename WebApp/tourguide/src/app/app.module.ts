@@ -53,6 +53,7 @@ import { DropdownAccountComponent } from './components/dropdown-account/dropdown
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
 import { InputImageUrlComponent } from './components/input-image-url/input-image-url.component';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
 import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
@@ -145,7 +146,7 @@ const initializeKeycloak = (
     ViewRoutesComponent,
     DropdownAccountComponent,
     DisplayRolePipe,
-    NotFoundComponent,
+    NotAuthorizedComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
