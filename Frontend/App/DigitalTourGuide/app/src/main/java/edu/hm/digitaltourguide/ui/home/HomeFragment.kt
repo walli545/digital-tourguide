@@ -10,15 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.maps.android.PolyUtil
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.RoutePreviewAdapter
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
 import java.math.BigDecimal
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -36,66 +33,53 @@ class HomeFragment : Fragment() {
 
         val recyclerView: RecyclerView = root.findViewById(R.id.home_last_recycler)
         adapter = RoutePreviewAdapter(
-            listOf(getLastRoute())
+            listOf(
+                Route(
+                    UUID.randomUUID(),
+                    "TestTour",
+                    "",
+                    "",
+                    1.0f,
+                    "",
+                    listOf(
+                        PointOfInterest(
+                            UUID.randomUUID(),
+                            "Kirchsee",
+                            "",
+                            47.8189,
+                            11.6180,
+                            0.5,
+                            0,
+                            ""
+
+                        ),
+                        PointOfInterest(
+                            UUID.randomUUID(),
+                            "Besserer Kirchsee",
+                            "",
+                            47.8235,
+                            11.6345,
+                            0.5,
+                            0,
+                            ""
+                        ),
+                        PointOfInterest(
+                            UUID.randomUUID(),
+                            "Bester Kirchsee",
+                            "",
+                            47.8199,
+                            11.6045,
+                            0.5,
+                            0,
+                            ""
+                        )
+                ),
+                )
+            )
         )
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         return root
-    }
-
-    private fun getLastRoute(): Route {
-        val pois = listOf(
-            PointOfInterest(
-                "1",
-                "Kirchsee",
-                "",
-                BigDecimal(47.8189),
-                BigDecimal(11.6180),
-                BigDecimal(0),
-                0,
-                ""
-
-            ),
-            PointOfInterest(
-                "2",
-                "Besserer Kirchsee",
-                "",
-                BigDecimal(47.8235),
-                BigDecimal(11.6345),
-                BigDecimal(0),
-                0,
-                ""
-            ),
-            PointOfInterest(
-                "2",
-                "Bester Kirchsee",
-                "",
-                BigDecimal(47.8199),
-                BigDecimal(11.6045),
-                BigDecimal(0),
-                0,
-                ""
-            )
-        )
-
-        val lats = mutableListOf<LatLng>()
-        pois.forEach {
-            val coordinates = LatLng(
-                it.latitude.toDouble(),
-                it.longitude.toDouble()
-            )
-            lats.add(coordinates)
-        }
-
-        return Route(
-                "0",
-                pois,
-                "TestTour",
-                "",
-                "",
-                1.0f,
-                PolyUtil.encode(lats)
-            )
     }
 }

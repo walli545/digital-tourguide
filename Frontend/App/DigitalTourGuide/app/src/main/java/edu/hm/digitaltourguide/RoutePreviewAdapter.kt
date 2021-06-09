@@ -38,8 +38,8 @@ class RoutePreviewAdapter(var routes: List<Route>) :
                 String.format("%.2f h", route.duration)
 
             latLng = LatLng(
-                route.pointOfInterests[0].latitude.toDouble(),
-                route.pointOfInterests[0].longitude.toDouble()
+                route.pointOfInterests!!.elementAt(0).latitude,
+                route.pointOfInterests!!.elementAt(0).longitude
             )
 
             this.route = route
@@ -48,7 +48,7 @@ class RoutePreviewAdapter(var routes: List<Route>) :
         override fun onMapReady(gMap: GoogleMap) {
             MapsInitializer.initialize(itemView.context)
             map = gMap ?: return
-            setLocation(route.pointOfInterests)
+            route.pointOfInterests?.let { setLocation(it) }
         }
 
         private fun setLocation() {
