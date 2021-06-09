@@ -32,7 +32,7 @@ class TourDetailFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         tourDetailViewModel =
             ViewModelProvider(this).get(TourDetailViewModel::class.java)
@@ -58,7 +58,11 @@ class TourDetailFragment : Fragment() {
         poiList.layoutManager = LinearLayoutManager(context)
 
         // Demo description text
-        descriptionText.text = "Eine Tour welche die besten und schönsten Kirchen der Stadt besucht."
+        descriptionText.text = "Eine Tour, welche die besten und schönsten Kirchen der Stadt besucht."
+
+        binding.startTourIcon.setOnClickListener {
+
+        }
 
         return binding.root
     }
