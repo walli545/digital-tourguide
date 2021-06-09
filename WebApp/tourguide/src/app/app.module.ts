@@ -55,7 +55,6 @@ import { InputImageUrlComponent } from './components/input-image-url/input-image
 import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
 import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
-import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
@@ -137,7 +136,6 @@ const initializeKeycloak = (
     PoiOrderComponent,
     PoiSelectComponent,
     SideNavComponent,
-    TestComponent,
     ToolbarComponent,
     ViewPoisComponent,
     ViewRoutesComponent,
