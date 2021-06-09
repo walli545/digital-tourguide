@@ -61,6 +61,7 @@ import { ViewRoutesComponent } from './components/view-routes/view-routes.compon
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
 import { LocalRouteService } from './services/local-api/LocalRouteService';
+import { DisplayRolePipe } from './pipes/display-role.pipe';
 
 const materialModules = [
   BrowserModule,
@@ -139,6 +140,7 @@ const initializeKeycloak = (
     ToolbarComponent,
     ViewPoisComponent,
     ViewRoutesComponent,
+    DisplayRolePipe,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
