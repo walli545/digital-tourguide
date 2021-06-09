@@ -31,21 +31,20 @@
         *ngFor="let poi of toArray(); index as i"
         ><mat-card-header>
           <mat-card-title>{{ poi.name }}</mat-card-title>
-          <mat-card-subtitle
-            >Marker: {{ i + 1 }}
-            <button
-              mat-button
-              (click)="onDelete(poi)"
-              matTooltip="delete this PoI"
-              matTooltipClass="tooltip"
-              matTooltipPosition="right"
-              aria-label="poi delete button"
-            >
-              <mat-icon inline="true" color="warn">delete</mat-icon>
-            </button>
-          </mat-card-subtitle>
+          <mat-card-subtitle>Marker: {{ i + 1 }} </mat-card-subtitle>
         </mat-card-header>
-        <mat-card-actions> </mat-card-actions>
+        <mat-card-content>
+          <button
+            mat-button
+            (click)="onDelete(poi)"
+            matTooltip="delete this PoI"
+            matTooltipClass="tooltip"
+            matTooltipPosition="right"
+            aria-label="poi delete button"
+          >
+            <mat-icon inline="true" color="warn">delete</mat-icon>
+          </button>
+        </mat-card-content>
       </mat-card>
     </mat-card-content>
   </ng-container>
