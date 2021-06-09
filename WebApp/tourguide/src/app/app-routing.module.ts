@@ -4,13 +4,20 @@ import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: ViewPoisComponent,
+    redirectTo: 'pois',
+    pathMatch: 'full',
   },
-  { path: 'pois', component: ViewPoisComponent },
+  {
+    path: 'pois',
+    component: ViewPoisComponent,
+    canActivate: [AuthGuard],
+    data: { rolesAny: ['content-creator'] },
+  },
   {
     path: 'poi/new',
     component: EditPoiComponent,
