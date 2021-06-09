@@ -71,6 +71,9 @@ mat-icon {
     display: none;
   }
   -ms-overflow-style: none;
+  img {
+    max-width: 30%;
+  }
 }
 ::ng-deep .tooltip {
   background: #303030;
