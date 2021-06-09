@@ -49,20 +49,21 @@ import {
 } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DropdownAccountComponent } from './components/dropdown-account/dropdown-account.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
 import { InputImageUrlComponent } from './components/input-image-url/input-image-url.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
 import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
+import { DisplayRolePipe } from './pipes/display-role.pipe';
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
 import { LocalRouteService } from './services/local-api/LocalRouteService';
-import { DropdownAccountComponent } from './components/dropdown-account/dropdown-account.component';
-import { DisplayRolePipe } from './pipes/display-role.pipe';
 
 const materialModules = [
   BrowserModule,
@@ -135,6 +136,7 @@ const initializeKeycloak = (
     EditRouteComponent,
     FirstOrLastPipe,
     InputImageUrlComponent,
+    NotFoundComponent,
     PoiOrderComponent,
     PoiSelectComponent,
     SideNavComponent,
@@ -143,6 +145,7 @@ const initializeKeycloak = (
     ViewRoutesComponent,
     DropdownAccountComponent,
     DisplayRolePipe,
+    NotFoundComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
