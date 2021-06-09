@@ -1,9 +1,10 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { CommonModule } from '@angular/common';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -38,25 +39,35 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import {
   ApiModule,
   Configuration,
   ConfigurationParameters,
   PointOfInterestService,
+  RouteService,
 } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
+import { EditRouteComponent } from './components/edit-route/edit-route.component';
+import { InputImageUrlComponent } from './components/input-image-url/input-image-url.component';
+import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
+import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
+import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
+import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
+import { LocalRouteService } from './services/local-api/LocalRouteService';
 
 const materialModules = [
   BrowserModule,
   BrowserAnimationsModule,
   CdkTreeModule,
+  DragDropModule,
   MatAutocompleteModule,
   MatBadgeModule,
   MatButtonModule,
@@ -93,21 +104,43 @@ const materialModules = [
   ReactiveFormsModule,
 ];
 
-export const apiConfigFactory = (): Configuration => {
+const apiConfigFactory = (): Configuration => {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   };
   return new Configuration(params);
 };
 
+const initializeKeycloak = (
+  keycloak: KeycloakService
+): (() => Promise<boolean>) => (): Promise<boolean> =>
+  keycloak.init({
+    config: {
+      url: '/auth',
+      realm: 'tourguide',
+      clientId: 'angular',
+    },
+    initOptions: {
+      onLoad: 'check-sso',
+      silentCheckSsoRedirectUri:
+        window.location.origin + '/assets/silent-check-sso.html',
+    },
+  });
+
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent,
+    EditPoiComponent,
+    EditRouteComponent,
+    FirstOrLastPipe,
+    InputImageUrlComponent,
+    PoiOrderComponent,
+    PoiSelectComponent,
     SideNavComponent,
     TestComponent,
+    ToolbarComponent,
     ViewPoisComponent,
-    EditPoiComponent,
+    ViewRoutesComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
@@ -117,10 +150,18 @@ export const apiConfigFactory = (): Configuration => {
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,
+    KeycloakAngularModule,
     ...materialModules,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
     { provide: PointOfInterestService, useClass: LocalPointOfInterestService },
+    { provide: RouteService, useClass: LocalRouteService },
   ],
   bootstrap: [AppComponent],
 })

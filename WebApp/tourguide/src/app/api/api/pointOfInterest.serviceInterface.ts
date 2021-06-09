@@ -64,9 +64,8 @@ export interface PointOfInterestServiceInterface {
     /**
      * Edits the poi to a given id
      * 
-     * @param poiID 
      * @param poi 
      */
-    putPOI(poiID: string, poi: PostPointOfInterest, extraHttpRequestParams?: any): Observable<PointOfInterest>;
+    putPOI(poi: PostPointOfInterest, extraHttpRequestParams?: any): Observable<PointOfInterest>;
 
 }

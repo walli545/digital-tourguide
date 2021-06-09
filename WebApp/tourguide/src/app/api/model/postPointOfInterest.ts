@@ -17,5 +17,6 @@ export interface PostPointOfInterest {
     description: string;
     latitude: number;
     longitude: number;
+    imageURL: string;
 }
 

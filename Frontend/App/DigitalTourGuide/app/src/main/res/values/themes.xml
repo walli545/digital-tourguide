@@ -13,6 +13,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryDark</item>
         <!-- Customize your theme here. -->
+
+        <item name="materialCardViewStyle">@style/Widget.digitaltourguide.materialCardView</item>
     </style>
 
     <style name="Theme.DigitalTourGuide.NoActionBar">
@@ -23,4 +25,14 @@
     <style name="Theme.DigitalTourGuide.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.DigitalTourGuide.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Widget.digitaltourguide.materialCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.digitaltourguide.MaterialCardView</item>
+        <item name="elevation">1px</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.digitaltourguide.MaterialCardView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

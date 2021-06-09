@@ -27,7 +27,6 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
     center: { lat: 48.137154, lng: 11.576124 },
   };
   pois = new Map<number, PointOfInterest>();
-  index = 0;
   username = '';
 
   loading = true;
@@ -41,12 +40,15 @@ export class ViewPoisComponent implements OnInit, AfterViewInit {
       .getPOIs(this.username)
       .pipe(
         map((pois) => {
+          if (pois.length === 0) {
+            this.loading = false;
+          }
           pois.map((id) => {
             this.poiService
               .getPOI(id)
               .pipe(
                 map((p) => {
-                  this.pois.set(parseInt(id, 2), p);
+                  this.pois.set(parseInt(id, 3), p);
                 }),
                 finalize(() => (this.loading = false))
               )

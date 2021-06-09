@@ -28,6 +28,8 @@
     "@angular/platform-browser-dynamic": "~11.2.7",
     "@angular/router": "~11.2.7",
     "@types/googlemaps": "^3.43.3",
+    "keycloak-angular": "^8.2.0",
+    "keycloak-js": "^13.0.1",
     "puppeteer": "^7.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
