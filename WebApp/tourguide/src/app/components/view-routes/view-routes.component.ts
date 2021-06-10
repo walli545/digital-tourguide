@@ -11,7 +11,7 @@ import { UrlGeneratorService } from 'src/app/services/url-generator.service';
 export class ViewRoutesComponent implements OnInit {
   loading = true;
   routes = new Map<string, Route>();
-  username = '';
+  username = 'TestUserNameChangeMe';
 
   constructor(
     private routeService: RouteService,
@@ -20,11 +20,16 @@ export class ViewRoutesComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const routes = await this.routeService.getRoutes(this.username).toPromise();
-    for (const r of routes) {
-      this.routes.set(r.routeID, r);
+    try {
+      const routes = await this.routeService
+        .getRoutes(this.username)
+        .toPromise();
+      for (const r of routes) {
+        this.routes.set(r.routeID, r);
+      }
+    } finally {
+      this.loading = false;
     }
-    this.loading = false;
   }
 
   toArray(): Route[] {

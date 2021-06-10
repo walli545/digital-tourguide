@@ -27,7 +27,7 @@ export class ViewPoisComponent implements OnInit {
     center: { lat: 48.137154, lng: 11.576124 },
   };
   pois = new Map<string, PointOfInterest>();
-  username = '';
+  username = 'TestUserNameChangeMe';
 
   loading = true;
   constructor(
@@ -36,16 +36,20 @@ export class ViewPoisComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const pois = await this.poiService.getPOIs(this.username).toPromise();
-    const bounds = new google.maps.LatLngBounds();
-    for (const p of pois) {
-      this.pois.set(p.poIID, p);
-      bounds.extend(toGoogleMaps(p));
+    try {
+      const pois = await this.poiService.getPOIs(this.username).toPromise();
+      const bounds = new google.maps.LatLngBounds();
+      for (const p of pois) {
+        this.pois.set(p.poIID, p);
+        bounds.extend(toGoogleMaps(p));
+      }
+      this.map.fitBounds(bounds, { left: 260, top: 25, right: 25, bottom: 25 });
+      // pan map in eastern direction because of overlay card
+      this.map.panBy(-260, 0);
+    } catch (error) {
+    } finally {
+      this.loading = false;
     }
-    this.loading = false;
-    this.map.fitBounds(bounds, { left: 260, top: 25, right: 25, bottom: 25 });
-    // pan map in eastern direction because of overlay card
-    this.map.panBy(-260, 0);
   }
 
   openInfoWindow(marker: MapMarker, poi: PointOfInterest): void {

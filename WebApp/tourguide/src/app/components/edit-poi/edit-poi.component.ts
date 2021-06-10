@@ -99,7 +99,7 @@ export class EditPoiComponent implements OnInit {
     let coords;
     try {
       coords = await this.poiService
-        .getCenterOfPOIs('default-username')
+        .getCenterOfPOIs('TestUserNameChangeMe')
         .toPromise();
     } catch (error) {
       console.error(

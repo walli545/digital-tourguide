@@ -23,7 +23,9 @@ export class PoiSelectComponent implements OnInit {
   constructor(private poiService: PointOfInterestService) {}
 
   async ngOnInit(): Promise<void> {
-    this.options = await this.poiService.getPOIs('username').toPromise();
+    this.options = await this.poiService
+      .getPOIs('TestUserNameChangeMe')
+      .toPromise();
     this.selectPoiControl.enable();
     this.filteredOptions = this.selectPoiControl.valueChanges.pipe(
       startWith(''),
