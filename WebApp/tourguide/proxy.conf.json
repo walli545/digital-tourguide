@@ -1,18 +1,10 @@
 {
-    "/route": {
-        "target": "http://localhost:3000",
+    "/api": {
+        "target": "http://localhost:5000",
         "secure": false
     },
-    "/routes/": {
-        "target": "http://localhost:3000",
-        "secure": false
-    },
-    "/pointOfInterest": {
-        "target": "http://localhost:3000",
-        "secure": false
-    },
-    "/promoted": {
-        "target": "http://localhost:3000",
+    "/auth": {
+        "target": "http://localhost:8080",
         "secure": false
     }
 }
