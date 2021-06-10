@@ -17,16 +17,17 @@ export class UrlGeneratorService {
   private apikey = 'AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ';
 
   buildStaticMapUrl(route: Route): string {
-    // eslint-disable-next-line no-useless-escape
-    const reComma = /\,/gi;
-    // eslint-disable-next-line no-useless-escape
-    const reSemi = /\;/gi;
+    const pois = route.pointOfInterests || [];
     const marker =
-      route.pointOfInterests
-        ?.map((p) => '|' + p.latitude + ';' + p.longitude)
-        .toString()
-        .replace(reComma, '')
-        .replace(reSemi, ',') + '|';
+      '|' +
+      pois[0].latitude +
+      ',' +
+      pois[0].longitude +
+      '|' +
+      pois[pois.length - 1].latitude +
+      ',' +
+      pois[pois.length - 1].longitude +
+      '|';
     const url =
       this.mapUrl +
       '&path=color:0xffc107|enc:' +

@@ -54,12 +54,13 @@ export class ViewPoisComponent implements OnInit {
 
   openInfoWindow(marker: MapMarker, poi: PointOfInterest): void {
     this.infoWindow.options = {
-      content: `<h4>${poi.name}</h4><br>
-      <h5>${poi.description}<br>
-      <b>Latitude:</b> ${poi.latitude}<br>
-      <b>Longitude:</b> ${poi.longitude}<br>
-      <b>Average Rating:</b> ${poi.averageRating}<br>
-      <b>Number of Ratings:</b> ${poi.numberOfRatings}</h5>`,
+      content: `<p><h4>${poi.name}</h4></p>
+      <p><img src=${poi.imageUrl}></p>
+      <p><h5>${poi.description}</p>
+      <p><b>Latitude:</b> ${poi.latitude}<br>
+      <b>Longitude:</b> ${poi.longitude}</p>
+      <p><b>Average Rating:</b> ${poi.averageRating}<br>
+      <b>Number of Ratings:</b> ${poi.numberOfRatings}</h5></p>`,
     };
     this.infoWindow.open(marker);
     this.mapOptions.center = this.toGoogle(poi);
