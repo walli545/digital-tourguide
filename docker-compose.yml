@@ -38,7 +38,10 @@ services:
             - "8080:8080"
         depends_on:
             - keycloak-db
+        volumes:
+            - ${PWD}/keycloak-local-conf.json:/tmp/conf.json
         environment:
+            KEYCLOAK_IMPORT: /tmp/conf.json
             KEYCLOAK_LOGLEVEL: WARN
             ROOT_LOGLEVEL: WARN
             KEYCLOAK_USER: admin
