@@ -630,7 +630,8 @@
             "alwaysDisplayInConsole": false,
             "clientAuthenticatorType": "client-secret",
             "redirectUris": [
-                "http://localhost:4200/*"
+                "http://localhost:4200/*",
+                "http://localhost/*"
             ],
             "webOrigins": [],
             "notBefore": 0,
