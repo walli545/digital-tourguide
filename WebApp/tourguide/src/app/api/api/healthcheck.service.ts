@@ -1,6 +1,6 @@
 /**
  * API
- * API Spec für den digitalen Reiseführer
+ * API Spec f�r den digitalen Reisef�hrer
  *
  * The version of the OpenAPI document: v1
  * 
@@ -115,7 +115,7 @@ export class HealthcheckService implements HealthcheckServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/Healthcheck`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/Healthcheck`,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
