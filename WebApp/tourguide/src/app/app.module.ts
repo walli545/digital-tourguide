@@ -65,6 +65,7 @@ import { DisplayRolePipe } from './pipes/display-role.pipe';
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
 import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
 import { LocalRouteService } from './services/local-api/LocalRouteService';
+import { OneOfRequiredRolePipe } from './pipes/one-of-required-role.pipe';
 
 const materialModules = [
   BrowserModule,
@@ -147,6 +148,7 @@ const initializeKeycloak = (
     DropdownAccountComponent,
     DisplayRolePipe,
     NotAuthorizedComponent,
+    OneOfRequiredRolePipe,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),

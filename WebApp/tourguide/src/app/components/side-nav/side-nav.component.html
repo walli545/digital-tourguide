@@ -8,6 +8,7 @@
   >
     <mat-nav-list>
       <a
+        *ngIf="[contentCreator] | oneOfRequiredRole | async"
         mat-list-item
         (click)="toggle()"
         [routerLink]="['pois']"
@@ -18,6 +19,7 @@
         My PoI's
       </a>
       <a
+        *ngIf="[contentCreator] | oneOfRequiredRole | async"
         mat-list-item
         (click)="toggle()"
         [routerLink]="['routes']"
