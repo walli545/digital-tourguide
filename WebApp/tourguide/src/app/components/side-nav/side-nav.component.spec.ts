@@ -12,6 +12,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { OneOfRequiredRolePipe } from '../../pipes/one-of-required-role.pipe';
+import { AuthService } from '../../services/auth.service';
+import { DropdownAccountComponent } from '../dropdown-account/dropdown-account.component';
 import { SideNavComponent } from './side-nav.component';
 
 describe('SideNavComponent', () => {
@@ -19,8 +22,14 @@ describe('SideNavComponent', () => {
   let fixture: ComponentFixture<SideNavComponent>;
 
   beforeEach(async () => {
+    const authServiceMock = jasmine.createSpyObj('AuthService', ['getRole']);
+    authServiceMock.getRole.and.returnValue(Promise.resolve('content-creator'));
     await TestBed.configureTestingModule({
-      declarations: [SideNavComponent],
+      declarations: [
+        SideNavComponent,
+        OneOfRequiredRolePipe,
+        DropdownAccountComponent,
+      ],
       imports: [
         MatSidenavModule,
         NoopAnimationsModule,
@@ -29,6 +38,7 @@ describe('SideNavComponent', () => {
         MatListModule,
         RouterTestingModule.withRoutes([]),
       ],
+      providers: [{ provide: AuthService, useValue: authServiceMock }],
     }).compileComponents();
   });
 
