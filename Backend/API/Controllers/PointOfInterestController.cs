@@ -43,8 +43,7 @@ namespace API.Controllers
         if (result == null)
           return StatusCode(400);
 
-        var json = JsonConvert.SerializeObject(result);
-        return StatusCode(200, json);
+        return Ok(result);
       }
       catch (Exception)
       {
@@ -120,8 +119,7 @@ namespace API.Controllers
       if (result == null)
         return StatusCode(404);
 
-      var json = JsonConvert.SerializeObject(result);
-      return StatusCode(200, json);
+      return Ok(result);
     }
 
     /// <summary>
@@ -140,8 +138,7 @@ namespace API.Controllers
       if (results.Count == 0)
         return StatusCode(404);
 
-      var json = JsonConvert.SerializeObject(results);
-      return StatusCode(200, json);
+      return Ok(results);
     }
 
     /// <summary>
