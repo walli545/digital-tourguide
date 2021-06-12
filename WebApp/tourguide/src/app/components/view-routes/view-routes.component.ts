@@ -53,7 +53,8 @@ export class ViewRoutesComponent implements OnInit {
   }
 
   onDelete(route: Route): void {
-    this.routeService.deleteRoute(route.routeID);
-    this.routes.delete(route.routeID);
+    this.routeService
+      .deleteRoute(route.routeID)
+      .subscribe({ next: () => this.routes.delete(route.routeID) });
   }
 }

@@ -90,8 +90,11 @@ export class ViewPoisComponent implements OnInit {
   }
 
   onDelete(poi: PointOfInterest): void {
-    this.poiService.deletePOI(poi.poIID);
-    this.pois.delete(poi.poIID);
+    this.poiService.deletePOI(poi.poIID).subscribe({
+      next: () => {
+        this.pois.delete(poi.poIID);
+      },
+    });
   }
 
   onEdit(poi: PointOfInterest): void {

@@ -25,14 +25,21 @@
       ><mat-card-content>No PoI's available!</mat-card-content></mat-card
     >
     <mat-card-content id="card-content" *ngIf="hasPois()">
-      <mat-card
-        id="card-poi"
-        (click)="onEdit(poi)"
-        *ngFor="let poi of toArray(); index as i"
+      <mat-card id="card-poi" *ngFor="let poi of toArray(); index as i"
         ><mat-card-header>
           <mat-card-title>{{ poi.name }}</mat-card-title>
           <mat-card-subtitle
             >Marker: {{ i + 1 }}
+            <button
+              mat-button
+              (click)="onEdit(poi)"
+              matTooltip="edit this PoI"
+              matTooltipClass="tooltip"
+              matTooltipPosition="right"
+              aria-label="poi edit button"
+            >
+              <mat-icon inline="true" color="primary">edit</mat-icon>
+            </button>
             <button
               mat-button
               (click)="onDelete(poi)"

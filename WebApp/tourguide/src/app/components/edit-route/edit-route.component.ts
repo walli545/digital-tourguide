@@ -46,6 +46,9 @@ export class EditRouteComponent implements OnInit {
   isNew = true;
   routeForm: RouteForm;
 
+  private fallbackLat = 48.137154;
+  private fallbackLng = 11.576124;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -72,9 +75,17 @@ export class EditRouteComponent implements OnInit {
           .toPromise()
           .then((coord) => {
             this.map.center = {
-              lat: coord.latitude || 48.137154,
-              lng: coord.longitude || 11.576124,
+              lat: coord.latitude || this.fallbackLat,
+              lng: coord.longitude || this.fallbackLng,
             };
+          })
+          .catch(() => {
+            this.map.center = {
+              lat: this.fallbackLat,
+              lng: this.fallbackLng,
+            };
+          })
+          .finally(() => {
             this.loading = false;
           });
       }
@@ -87,6 +98,7 @@ export class EditRouteComponent implements OnInit {
   async onSave(): Promise<void> {
     this.loading = true;
     this.routeForm.updateRoute();
+    this.routeForm.route.creatorName = 'TestUserNameChangeMe';
     try {
       if (this.isNew) {
         await this.saveNewRoute();

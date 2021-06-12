@@ -20,7 +20,7 @@ export class RouteForm {
 
   private routeForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    description: new FormControl(''),
+    description: new FormControl('', [Validators.required]),
     duration: new FormControl(1, [Validators.required]),
     pointsOfInterests: new FormControl([], []),
   });

@@ -21,7 +21,7 @@ export class PoiForm {
 
   private poiForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    description: new FormControl(''),
+    description: new FormControl('', [Validators.required]),
     imageUrl: new FormControl('', [Validators.required]),
   });
 
