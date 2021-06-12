@@ -32,7 +32,7 @@ describe('PoiForm', () => {
 
     expect(descriptionControl.dirty).toBeFalse();
     expect(descriptionControl.enabled).toBeTrue();
-    expect(descriptionControl.valid).toBeTrue();
+    expect(descriptionControl.valid).toBeFalse();
     expect(descriptionControl.value).toEqual('');
   });
 
