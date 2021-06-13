@@ -19,6 +19,7 @@ namespace API.Services
     /// </summary>
     /// <param name="logger">Logger for fails.</param>
     /// <param name="dbContext">The desired db context.</param>
+    /// <param name="poiService">Serviceclass for the poi's</param>
     public RouteService(ILogger<RouteService> logger, MariaDbContext dbContext, IPointOfInterestService poiService)
     {
       _logger = logger ?? throw new ArgumentNullException(nameof(logger), "Logger was null!");
@@ -26,8 +27,35 @@ namespace API.Services
       _poiService = poiService ?? throw new ArgumentNullException(nameof(poiService), "Context was null!");
     }
 
-    public async Task<Route> AddRoute(PostRoute postRoute) // TODO: Check at least 2 pois | not the same
+    private bool CheckRoutePoIs(List<Guid> pois)
     {
+      if (pois.Count > 1) // at least 2 pois are needed for a route
+      {
+        //check if two consecutive pois are the same.
+        for (int i = 0; i < pois.Count - 1; i++)
+        {
+          Guid next = Guid.Empty;
+          Guid current = pois[i];
+
+          if (i + 1 < pois.Count)
+            next = pois[i + 1];
+
+          if (current.Equals(next))
+            return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+      return true;
+    }
+
+    public async Task<Route> AddRoute(PostRoute postRoute)
+    {
+      if (!CheckRoutePoIs(postRoute.PointOfInterests))
+        throw new InvalidOperationException("PostRoute body is not valid! At least two pois needed and no consecutive pois allowed");
+
       var record = new Route
       {
         RouteID = Guid.NewGuid(),
@@ -49,7 +77,7 @@ namespace API.Services
       var pois = new List<PointOfInterest>();
       foreach (Guid id in postRoute.PointOfInterests)
       {
-        var poi = await _poiService.GetPoI(id);
+        var poi = await _poiService.GetPoI(id); // check that the poi exists
         if (poi == null)
           throw new ArgumentException("Given poiId does not exist!");
         pois.Add(poi);
@@ -130,6 +158,9 @@ namespace API.Services
 
     public async Task<int> PutRoute(PutRoute putRoute)
     {
+      if (!CheckRoutePoIs(putRoute.PointOfInterests))
+        throw new InvalidOperationException("PutRoute body is not valid! At least two pois needed and no consecutive pois allowed");
+
       var oldRoute = _dbContext.Route.AsNoTracking().Where(p => p.RouteID == Guid.Parse(putRoute.Id)).FirstOrDefault();
       if (oldRoute == null)
         return 0;
