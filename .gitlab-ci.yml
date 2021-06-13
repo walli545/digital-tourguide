@@ -29,7 +29,7 @@ build_api:
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR/Backend/API --dockerfile $CI_PROJECT_DIR/Backend/API/Dockerfile --destination $IMAGE_TAG
 
-lint_format_test_website:
+lint_website:
   stage: website_build-and-test
   image: buildkite/puppeteer
   tags:
@@ -39,7 +39,27 @@ lint_format_test_website:
     - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
     - npm install --prefer-offline --no-audit
     - npm run lint
+
+format_website:
+  stage: website_build-and-test
+  image: buildkite/puppeteer
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install --prefer-offline --no-audit
     - npm run prettier:check
+
+test_website:
+  stage: website_build-and-test
+  image: buildkite/puppeteer
+  tags:
+    - docker
+  script:
+    - cd WebApp/tourguide
+    - npm config set @here:registry https://repo.platform.here.com/artifactory/api/npm/maps-api-for-javascript/
+    - npm install --prefer-offline --no-audit
     - npm run test:ci
   artifacts:
     name: "test-and-coverage"

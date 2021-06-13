@@ -2,8 +2,8 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
+import { HealthcheckService } from './api/healthcheck.service';
 import { PointOfInterestService } from './api/pointOfInterest.service';
-import { PromotedService } from './api/promoted.service';
 import { RouteService } from './api/route.service';
 
 @NgModule({
