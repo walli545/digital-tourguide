@@ -49,7 +49,6 @@ namespace API.Services
         ImageUrl = poi.ImageUrl
       };
 
-
       var success = _dbContext.PointOfInterest.Add(record);
       if (success.State != EntityState.Added)
       {
@@ -92,7 +91,7 @@ namespace API.Services
     /// <returns>The poi's from the given user</returns>
     public async Task<List<PointOfInterest>> GetAllPoIs(string username)
     {
-      return await _dbContext.PointOfInterest.Where(poi => poi.Name == username).ToListAsync();
+      return await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).ToListAsync();
     }
 
     /// <summary>
