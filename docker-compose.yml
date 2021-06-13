@@ -1,0 +1,64 @@
+version: "3.3"
+services:
+    web:
+        build:
+            context: ./WebApp/tourguide/
+        depends_on:
+            - api
+            - keycloak
+        ports:
+            - "80:80"
+
+    api:
+        build:
+            context: ./Backend/API/
+        depends_on:
+            - api-db
+            - keycloak
+        ports:
+            - "5000:80"
+        environment:
+            ConnectionStrings__MariaDbConnectionString: "server=api-db; user=api; password=Gruppe02; database=api"
+
+    api-db:
+        image: mariadb
+        ports:
+            - "3306:3306"
+        volumes:
+            - api-volume:/var/lib/mysql
+        environment:
+            MARIADB_ROOT_PASSWORD: Gruppe02
+            MARIADB_PASSWORD: Gruppe02
+            MARIADB_USER: api
+            MARIADB_DATABASE: api
+
+    keycloak:
+        image: jboss/keycloak:13.0.1
+        ports:
+            - "8080:8080"
+        depends_on:
+            - keycloak-db
+        volumes:
+            - ${PWD}/keycloak-local-conf.json:/tmp/conf.json
+        environment:
+            KEYCLOAK_IMPORT: /tmp/conf.json
+            KEYCLOAK_LOGLEVEL: WARN
+            ROOT_LOGLEVEL: WARN
+            KEYCLOAK_USER: admin
+            KEYCLOAK_PASSWORD: Gruppe02
+            DB_VENDOR: mariadb
+            DB_ADDR: keycloak-db
+
+    keycloak-db:
+        image: mariadb
+        volumes:
+            - keycloak-volume:/var/lib/mysql
+        environment:
+            MARIADB_ROOT_PASSWORD: password
+            MARIADB_PASSWORD: password
+            MARIADB_USER: keycloak
+            MARIADB_DATABASE: keycloak
+
+volumes:
+    api-volume:
+    keycloak-volume:

@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PointOfInterestService } from '../../api';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
-import { toGoogleMaps, toPostPoi } from '../../utils/poi';
+import { toGoogleMaps, toPostPoi, toPutPoi } from '../../utils/poi';
 import { PoiForm } from './poi-form';
 
 @Component({
@@ -99,7 +99,7 @@ export class EditPoiComponent implements OnInit {
     let coords;
     try {
       coords = await this.poiService
-        .getCenterOfPOIs('default-username')
+        .getCenterOfPOIs('TestUserNameChangeMe')
         .toPromise();
     } catch (error) {
       console.error(
@@ -126,14 +126,15 @@ export class EditPoiComponent implements OnInit {
     const newPoi = await this.poiService
       .addPOI(toPostPoi(this.poiForm.pointOfInterest))
       .toPromise();
-    this.router.navigate(['poi', newPoi.id]);
+    this.router.navigate(['poi', newPoi.poIID]);
   }
 
   private async saveExistingPoi(): Promise<void> {
-    const updatedPoi = await this.poiService
-      .putPOI(this.poiForm.pointOfInterest)
+    await this.poiService
+      .putPOI(toPutPoi(this.poiForm.pointOfInterest))
       .toPromise();
-    this.poiForm.pointOfInterest = updatedPoi;
+    await this.getExistingPoi(this.poiForm.pointOfInterest.poIID);
+    this.poiForm.updateFormControl();
     this.updateMap();
   }
 }

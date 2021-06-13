@@ -40,13 +40,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import {
-  ApiModule,
-  Configuration,
-  ConfigurationParameters,
-  PointOfInterestService,
-  RouteService,
-} from './api';
+import { ApiModule, Configuration, ConfigurationParameters } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DropdownAccountComponent } from './components/dropdown-account/dropdown-account.component';
@@ -63,8 +57,6 @@ import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
 import { DisplayRolePipe } from './pipes/display-role.pipe';
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
-import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
-import { LocalRouteService } from './services/local-api/LocalRouteService';
 import { OneOfRequiredRolePipe } from './pipes/one-of-required-role.pipe';
 
 const materialModules = [
@@ -110,6 +102,7 @@ const materialModules = [
 
 const apiConfigFactory = (): Configuration => {
   const params: ConfigurationParameters = {
+    basePath: '',
     // set configuration parameters here.
   };
   return new Configuration(params);
@@ -168,8 +161,6 @@ const initializeKeycloak = (
       multi: true,
       deps: [KeycloakService],
     },
-    { provide: PointOfInterestService, useClass: LocalPointOfInterestService },
-    { provide: RouteService, useClass: LocalRouteService },
   ],
   bootstrap: [AppComponent],
 })
