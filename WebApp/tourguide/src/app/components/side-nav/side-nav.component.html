@@ -8,16 +8,7 @@
   >
     <mat-nav-list>
       <a
-        mat-list-item
-        (click)="toggle()"
-        [routerLink]="['']"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <mat-icon matListIcon>home</mat-icon>
-        Home
-      </a>
-      <a
+        *ngIf="[contentCreator] | oneOfRequiredRole | async"
         mat-list-item
         (click)="toggle()"
         [routerLink]="['pois']"
@@ -28,6 +19,7 @@
         My PoI's
       </a>
       <a
+        *ngIf="[contentCreator] | oneOfRequiredRole | async"
         mat-list-item
         (click)="toggle()"
         [routerLink]="['routes']"

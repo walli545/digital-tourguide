@@ -158,9 +158,11 @@ export class EditRouteComponent implements OnInit {
   }
 
   private async saveExistingRoute(): Promise<void> {
-    const updatedRoute = await this.routeService
+    await this.routeService
       .putRoute(toPutRoute(this.routeForm.route))
       .toPromise();
-    this.routeForm.route = updatedRoute;
+    await this.getExistingRoute(this.routeForm.route.routeID);
+    this.routeForm.updateFormControl();
+    this.updateMapPosition();
   }
 }

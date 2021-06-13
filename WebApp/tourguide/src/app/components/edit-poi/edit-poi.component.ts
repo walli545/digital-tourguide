@@ -130,10 +130,11 @@ export class EditPoiComponent implements OnInit {
   }
 
   private async saveExistingPoi(): Promise<void> {
-    const updatedPoi = await this.poiService
+    await this.poiService
       .putPOI(toPutPoi(this.poiForm.pointOfInterest))
       .toPromise();
-    this.poiForm.pointOfInterest = updatedPoi;
+    await this.getExistingPoi(this.poiForm.pointOfInterest.poIID);
+    this.poiForm.updateFormControl();
     this.updateMap();
   }
 }

@@ -43,17 +43,21 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { ApiModule, Configuration, ConfigurationParameters } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DropdownAccountComponent } from './components/dropdown-account/dropdown-account.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
 import { InputImageUrlComponent } from './components/input-image-url/input-image-url.component';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
 import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
-import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
+import { DisplayRolePipe } from './pipes/display-role.pipe';
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
+import { OneOfRequiredRolePipe } from './pipes/one-of-required-role.pipe';
 
 const materialModules = [
   BrowserModule,
@@ -127,13 +131,17 @@ const initializeKeycloak = (
     EditRouteComponent,
     FirstOrLastPipe,
     InputImageUrlComponent,
+    NotFoundComponent,
     PoiOrderComponent,
     PoiSelectComponent,
     SideNavComponent,
-    TestComponent,
     ToolbarComponent,
     ViewPoisComponent,
     ViewRoutesComponent,
+    DropdownAccountComponent,
+    DisplayRolePipe,
+    NotAuthorizedComponent,
+    OneOfRequiredRolePipe,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),

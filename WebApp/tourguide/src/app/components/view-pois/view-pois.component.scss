@@ -28,6 +28,11 @@
   margin-top: 10px;
 }
 
+#card-poi mat-card-content {
+  margin-left: auto;
+  align-self: center;
+}
+
 #btn-new {
   position: fixed;
   z-index: 10;
