@@ -103,6 +103,8 @@ namespace API.Services
     public async Task<CenterResult> GetCenter(string username)
     {
       var pois = await GetAllPoIs(username);
+      if (!pois.Any())
+        return null;
       decimal? totalLong = 0, totalLat = 0;
       foreach (PointOfInterest poi in pois)
       {
