@@ -22,8 +22,12 @@ describe('SideNavComponent', () => {
   let fixture: ComponentFixture<SideNavComponent>;
 
   beforeEach(async () => {
-    const authServiceMock = jasmine.createSpyObj('AuthService', ['getRole']);
+    const authServiceMock = jasmine.createSpyObj('AuthService', [
+      'getRole',
+      'getUsername',
+    ]);
     authServiceMock.getRole.and.returnValue(Promise.resolve('content-creator'));
+    authServiceMock.getUsername.and.returnValue(Promise.resolve('ABC'));
     await TestBed.configureTestingModule({
       declarations: [
         SideNavComponent,
