@@ -11,7 +11,7 @@ build_website:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/website:$CI_COMMIT_SHA
   image:
     name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+    entrypoint: ['']
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
@@ -23,11 +23,23 @@ build_api:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
   image:
     name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+    entrypoint: ['']
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR/Backend/API --dockerfile $CI_PROJECT_DIR/Backend/API/Dockerfile --destination $IMAGE_TAG
+
+build_keycloak:
+  stage: website_build-and-test
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE/keycloak:$CI_COMMIT_SHA
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: ['']
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/Keycloak --dockerfile $CI_PROJECT_DIR/Keycloak/Dockerfile --destination $IMAGE_TAG
 
 lint_website:
   stage: website_build-and-test
@@ -62,7 +74,7 @@ test_website:
     - npm install --prefer-offline --no-audit
     - npm run test:ci
   artifacts:
-    name: "test-and-coverage"
+    name: 'test-and-coverage'
     reports:
       junit:
         - WebApp/tourguide/artifacts/tests/junit-test-results.xml
@@ -119,15 +131,15 @@ openapi_gen:
     - apk add --update openssl
     - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
   script:
-    - "java -jar openapi-generator-cli.jar generate -g kotlin -i Documents/ApiSpec/openapi.yaml -o openapi-kotlin-client --package-name edu.hm.digitaltourguide.api"
+    - 'java -jar openapi-generator-cli.jar generate -g kotlin -i Documents/ApiSpec/openapi.yaml -o openapi-kotlin-client --package-name edu.hm.digitaltourguide.api'
   only:
     refs:
       - develop
     changes:
       - Documents/ApiSpec/openapi.yaml
   artifacts:
-    name: "${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}"
-    paths: ["openapi-kotlin-client"]
+    name: '${CI_JOB_NAME}_${CI_COMMIT_REF_NAME}'
+    paths: ['openapi-kotlin-client']
 
 openapi_deploy:
   stage: openapi_deploy
@@ -153,7 +165,7 @@ openapi_deploy:
 deploy_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
   stage: deploy-k8s
   variables:
     URL: $CI_ENVIRONMENT_SLUG.cityguide.sart.solutions
@@ -177,7 +189,7 @@ deploy_review:
 stop_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
   stage: deploy-k8s
   variables:
     GIT_STRATEGY: none
@@ -196,7 +208,7 @@ stop_review:
 deploy_production:
   image:
     name: lachlanevenson/k8s-kubectl:latest
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
   stage: deploy-k8s
   variables:
     URL: cityguide.sart.solutions
