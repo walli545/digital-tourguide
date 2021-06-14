@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
+import { HomeComponent } from './components/home/home.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
     path: '',
     canActivate: [AuthGuard],
     runGuardsAndResolvers: 'always',
+    component: HomeComponent,
     children: [
       {
         path: 'pois',
