@@ -25,6 +25,15 @@ spec:
         image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/keycloak:__CI_COMMIT_SHA__
         ports:
         - containerPort: 8080
+        env:
+        - name: KEYCLOAK_USER
+          value: admin
+        - name: KEYCLOAK_PASSWORD
+          value: Gruppe02
+        - name: DB_VENDOR
+          value: mariadb
+        - name: DB_ADDR
+          value: keycloak-db-service
       imagePullSecrets:
       - name: image-pull-secret
 
@@ -67,3 +76,77 @@ spec:
             name: keycloak-service
             port:
               number: 80
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name:  keycloak-db-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: microk8s-hostpath
+  resources:
+    requests:
+      storage: 500M
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-db-deployment
+  annotations:
+    app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
+    app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
+  labels:
+    app: keycloak-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-db
+  template:
+    metadata:
+      labels:
+        app: keycloak-db
+      annotations:
+        app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
+        app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
+    spec:
+      volumes:
+        - name: keycloak-db-storage
+          persistentVolumeClaim:
+            claimName: keycloak-db-volume-claim
+      containers:
+      - name: keycloak-db
+        image: mariadb
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+          - mountPath: "/var/lib/mysql"
+            name: keycloak-db-storage
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: password
+        - name: MARIADB_PASSWORD
+          value: password
+        - name: MARIADB_USER
+          value: keycloak
+        - name: MARIADB_DATABASE
+          value: keycloak
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-db-service
+spec:
+  selector:
+    app: keycloak-db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
