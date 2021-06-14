@@ -7,9 +7,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
 import { AuthGuard } from './guards/auth.guard';
-import { CONTENT_CREATOR } from './services/auth.service';
+import { CONTENT_CREATOR, PROMOTER } from './services/auth.service';
 
-const rolesPoI = [CONTENT_CREATOR];
+const rolesPoI = [CONTENT_CREATOR, PROMOTER];
 const rolesRoute = [CONTENT_CREATOR];
 
 const routes: Routes = [
