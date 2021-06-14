@@ -120,7 +120,7 @@ spec:
         - containerPort: 3306
         volumeMounts:
           - mountPath: "/var/lib/mysql"
-          name: api-db-storage
+            name: api-db-storage
         env:
         - name: MARIADB_ROOT_PASSWORD
           value: Gruppe02
