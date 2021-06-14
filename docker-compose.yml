@@ -3,6 +3,7 @@ services:
     web:
         build:
             context: ./WebApp/tourguide/
+            dockerfile: DockerfileLocalDev
         depends_on:
             - api
             - keycloak
