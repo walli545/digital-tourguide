@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: angular-deployment
+  name: keycloak-deployment
   annotations:
     app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
     app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
   labels:
-    app: angular
+    app: keycloak
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: angular
+      app: keycloak
   template:
     metadata:
       labels:
-        app: angular
+        app: keycloak
       annotations:
         app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
         app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
     spec:
       containers:
-      - name: angular
-        image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/website:__CI_COMMIT_SHA__
+      - name: keycloak
+        image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/keycloak:__CI_COMMIT_SHA__
         ports:
-        - containerPort: 80
+        - containerPort: 8080
       imagePullSecrets:
       - name: image-pull-secret
 
@@ -33,21 +33,21 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: angular-service
+  name: keycloak-service
 spec:
   selector:
-    app: angular
+    app: keycloak
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8080
 
 ---
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: angular-ingress
+  name: keycloak-ingress
   annotations:
     cert-manager.io/cluster-issuer: http-fh-issuer
     kubernetes.io/ingress.class: "public"
@@ -60,10 +60,10 @@ spec:
   - host: __URL__
     http:
       paths:
-      - path: /
+      - path: /auth/
         pathType: Prefix
         backend:
           service:
-            name: angular-service
+            name: keycloak-service
             port:
               number: 80
