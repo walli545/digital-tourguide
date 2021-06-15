@@ -1,0 +1,33 @@
+#card {
+  width: 50%;
+  height: 250px;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 10px;
+  mat-card-header {
+    justify-content: center;
+  }
+  #waiting {
+    color: accent;
+  }
+  button {
+    vertical-align: middle;
+    margin-left: 10px;
+    float: right;
+  }
+  a {
+    float: right;
+  }
+  #card-content {
+    height: 50px;
+    background-color: #696969cb;
+    margin-top: 10px;
+  }
+}
+#container {
+  display: flex;
+  margin: 10px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
