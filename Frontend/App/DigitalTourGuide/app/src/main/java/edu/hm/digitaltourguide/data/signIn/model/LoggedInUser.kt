@@ -7,6 +7,6 @@ import edu.hm.digitaltourguide.keycloak.AccessToken
  */
 data class LoggedInUser(
     val accessToken: AccessToken,
-    //val userId: String,
-    val displayName: String
+    val displayName: String,
+    val roles: Array<String>?
 )

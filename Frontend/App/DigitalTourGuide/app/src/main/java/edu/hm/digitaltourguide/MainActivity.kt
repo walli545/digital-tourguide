@@ -1,5 +1,6 @@
 package edu.hm.digitaltourguide
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
@@ -18,10 +19,17 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import edu.hm.digitaltourguide.data.signIn.LoginDataSource
+import edu.hm.digitaltourguide.data.signIn.LoginRepository
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    companion object {
+        lateinit var preferences: SharedPreferences
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -33,15 +41,8 @@ class MainActivity : AppCompatActivity() {
                     .penaltyLog()
                     .build()
             )
-//            StrictMode.setVmPolicy(
-//                VmPolicy.Builder()
-//                    .detectLeakedSqlLiteObjects()
-//                    .detectLeakedClosableObjects()
-//                    .penaltyLog()
-//                    .penaltyDeath()
-//                    .build()
-//            )
 
+        preferences = getSharedPreferences("sharedPrefsUser", MODE_PRIVATE)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -78,6 +79,9 @@ class MainActivity : AppCompatActivity() {
             navController.navigateUp()
             navController.navigate(R.id.nav_login)
             drawerLayout.closeDrawers();
+
+            val loginRepo = LoginRepository(dataSource = LoginDataSource())
+            loginRepo.logout()
 
             Toast.makeText(applicationContext, "User logged out", Toast.LENGTH_LONG).show()
         }
