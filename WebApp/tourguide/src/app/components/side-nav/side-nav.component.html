@@ -8,7 +8,7 @@
   >
     <mat-nav-list>
       <a
-        *ngIf="[contentCreator] | oneOfRequiredRole | async"
+        *ngIf="[contentCreator, promoter] | oneOfRequiredRole | async"
         mat-list-item
         (click)="toggle()"
         [routerLink]="['pois']"

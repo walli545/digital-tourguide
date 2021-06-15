@@ -58,6 +58,7 @@ import { ViewRoutesComponent } from './components/view-routes/view-routes.compon
 import { DisplayRolePipe } from './pipes/display-role.pipe';
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
 import { OneOfRequiredRolePipe } from './pipes/one-of-required-role.pipe';
+import { HomeComponent } from './components/home/home.component';
 
 const materialModules = [
   BrowserModule,
@@ -142,6 +143,7 @@ const initializeKeycloak = (
     DisplayRolePipe,
     NotAuthorizedComponent,
     OneOfRequiredRolePipe,
+    HomeComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
