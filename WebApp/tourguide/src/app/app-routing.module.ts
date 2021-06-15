@@ -4,13 +4,16 @@ import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { RoleRequestComponent } from './components/role-request/role-request.component';
+import { RoleVerifyComponent } from './components/role-verify/role-verify.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
 import { AuthGuard } from './guards/auth.guard';
-import { CONTENT_CREATOR } from './services/auth.service';
+import { ADMIN, CONTENT_CREATOR } from './services/auth.service';
 
 const rolesPoI = [CONTENT_CREATOR];
 const rolesRoute = [CONTENT_CREATOR];
+const rolesVerify = [ADMIN];
 
 const routes: Routes = [
   {
@@ -47,6 +50,15 @@ const routes: Routes = [
         path: 'route/:id',
         component: EditRouteComponent,
         data: { anyRole: rolesRoute },
+      },
+      {
+        path: 'role/verify',
+        component: RoleVerifyComponent,
+        data: { anyRole: rolesVerify },
+      },
+      {
+        path: 'role/request',
+        component: RoleRequestComponent,
       },
       {
         path: 'not-authorized',
