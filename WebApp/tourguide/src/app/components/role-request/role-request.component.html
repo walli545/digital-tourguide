@@ -11,10 +11,11 @@
           <b>Your current Role:</b> {{ currentRole | displayRole }}
           <button
             mat-raised-button
+            [disabled]="selectDisabled || currentRole == contentCreator"
             (click)="onGiveBack()"
             color="accent"
-            matTooltip="give back role"
-            matTooltipPosition="above"
+            matTooltip="changes to role: Content-Creator"
+            matTooltipPosition="left"
             matTooltipClass="tooltip"
             aria-label="role give back button"
           >
@@ -47,14 +48,14 @@
             (click)="onRequest()"
             color="accent"
             matTooltip="request role"
-            matTooltipPosition="above"
+            matTooltipPosition="left"
             matTooltipClass="tooltip"
             aria-label="role drequest button"
           >
             REQUEST
           </button>
 
-          <a *ngIf="selectDisabled" id="waiting">waiting for verification...</a>
+          <a *ngIf="selectDisabled">waiting for verification...</a>
         </mat-card-content>
       </mat-card>
     </mat-card-content>

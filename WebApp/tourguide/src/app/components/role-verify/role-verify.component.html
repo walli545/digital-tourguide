@@ -1,1 +1,29 @@
-<p>role-verify works!</p>
+<div id="container">
+  <mat-card id="card"
+    ><mat-card-header>
+      <mat-card-title
+        >Verify user role requests</mat-card-title
+      ></mat-card-header
+    >
+
+    <mat-card-content>
+      <mat-spinner *ngIf="loading" id="spinner"></mat-spinner>
+      <mat-card id="card-content" *ngFor="let req of requests">
+        <mat-card-content>
+          User: <b>{{ req.creatorName }}</b
+          ><br />
+          Role:
+          <b> {{ req.requestedRole }}</b>
+          <mat-card-actions>
+            <button mat-raised-button color="warn" (click)="onDeny(req)">
+              DENY
+            </button>
+            <button mat-raised-button color="accent" (click)="onAccept(req)">
+              ACCEPT
+            </button>
+          </mat-card-actions>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>

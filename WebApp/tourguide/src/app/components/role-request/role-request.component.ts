@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
+import { Role, VerificationService } from 'src/app/api';
 import { AuthService } from 'src/app/services/auth.service';
 import { ADMIN, CONTENT_CREATOR, PROMOTER } from '../../services/auth.service';
 
@@ -15,23 +16,38 @@ export class RoleRequestComponent implements OnInit {
   promoter = PROMOTER;
   admin = ADMIN;
   currentRole = '';
-  setRole = '';
+  setRole!: Role;
   roles = [this.admin, this.contentCreator, this.promoter];
   selectDisabled = false;
-  constructor(private authService: AuthService) {}
+  userName = '';
+  constructor(
+    private authService: AuthService,
+    private verificationService: VerificationService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.currentRole = await this.authService.getRole();
+    this.userName = await this.authService.getUsername();
+    this.roles = this.roles.filter(
+      (r) => r !== this.currentRole && r !== this.contentCreator
+    );
   }
 
   onRequest(): void {
-    console.log('request: ' + this.setRole);
     this.selectDisabled = true;
+    const res = this.verificationService.requestRole({
+      creatorName: this.userName,
+      requestedRole: this.setRole,
+    });
+    console.log(
+      'request: ' + this.userName + ' ' + this.setRole + ' ' + res.subscribe()
+    );
   }
 
   onGiveBack(): void {
     console.log('giveBack');
   }
+
   selectedValue(event: MatSelectChange): void {
     this.setRole = event.value;
   }
