@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-  public class VerificationController : ControllerBase
+  [ApiController]
+  public class VerificationController : Controller
   {
 
     /// <summary>
