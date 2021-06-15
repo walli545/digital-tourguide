@@ -1,4 +1,8 @@
-import { PointOfInterest, PostPointOfInterest } from '../api';
+import {
+  PointOfInterest,
+  PostPointOfInterest,
+  PutPointOfInterest,
+} from '../api';
 
 export const toGoogleMaps = (
   poi: PointOfInterest
@@ -8,10 +12,18 @@ export const toGoogleMaps = (
 });
 
 export const toPostPoi = (poi: PointOfInterest): PostPointOfInterest => ({
-  id: poi.id,
   name: poi.name,
   description: poi.description,
   latitude: poi.latitude,
   longitude: poi.longitude,
-  imageURL: poi.imageURL,
+  imageUrl: poi.imageUrl,
+});
+
+export const toPutPoi = (poi: PointOfInterest): PutPointOfInterest => ({
+  id: poi.poIID,
+  name: poi.name,
+  description: poi.description,
+  latitude: poi.latitude,
+  longitude: poi.longitude,
+  imageUrl: poi.imageUrl,
 });

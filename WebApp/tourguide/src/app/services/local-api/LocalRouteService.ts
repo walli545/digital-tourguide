@@ -7,9 +7,11 @@ import {
   PointOfInterest,
   PointOfInterestService,
   PostRoute,
+  PutRoute,
   Route,
   RouteServiceInterface,
 } from '../../api';
+import { LocalPointOfInterestService } from './LocalPointOfInterestService';
 
 @Injectable()
 export class LocalRouteService implements RouteServiceInterface {
@@ -20,168 +22,11 @@ export class LocalRouteService implements RouteServiceInterface {
   private currentId = 1;
   private polyline = 'sdxdHshreAcT}o@';
   private polyline1 = 'sdxdHshreAw^dJrIc{@';
-  private pois: PointOfInterest[] = [
-    {
-      id: '0',
-      averageRating: 0,
-      numberOfRatings: 0,
-      name: 'SendlingerTor',
-      latitude: 48.13401718904898,
-      longitude: 11.56761646270752,
-      description:
-        'Das Sendlinger Tor ist das südliche Stadttor der historischen Altstadt in München. ',
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '1',
-      name: 'Marienplatz',
-      latitude: 48.13739675056184,
-      longitude: 11.575448513031006,
-      description:
-        'Der Marienplatz ist der zentrale Platz der Münchner Innenstadt und Beginn der Fußgängerzone. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '2',
-      name: 'Stachus',
-      latitude: 48.139167,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '3',
-      name: 'A',
-      latitude: 48.14,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '4',
-      name: 'B',
-      latitude: 48.15,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '5',
-      name: 'C',
-      latitude: 48.16,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '6',
-      name: 'D',
-      latitude: 48.17,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '7',
-      name: 'E',
-      latitude: 48.18,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '8',
-      name: 'F',
-      latitude: 48.19,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '9',
-      name: 'G',
-      latitude: 48.2,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '10',
-      name: 'H',
-      latitude: 48.21,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '11',
-      name: 'I',
-      latitude: 48.22,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-    {
-      id: '12',
-      name: 'J',
-      latitude: 48.23,
-      longitude: 11.565833,
-      description:
-        'Der Stachus, offiziell Karlsplatz, ist ein Platz im Zentrum Münchens. ',
-      averageRating: 0,
-      numberOfRatings: 10,
-      imageURL:
-        'https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg',
-    },
-  ];
 
   constructor(private poiService: PointOfInterestService) {
+    const pois = this.getPois();
     this.addRoute({
-      pointOfInterests: [this.pois[0].id, this.pois[1].id, this.pois[2].id],
+      pointOfInterests: [pois[0].poIID, pois[1].poIID, pois[2].poIID],
       polyline: this.polyline1,
       name: 'Innenstadt München',
       description: 'Vom Marienplatz über den Stachus zum Sendlinger Tor',
@@ -193,7 +38,7 @@ export class LocalRouteService implements RouteServiceInterface {
         name: 'ROUTENAME',
         description:
           'DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION DESCRIPTION',
-        pointOfInterests: [this.pois[0].id, this.pois[1].id],
+        pointOfInterests: [pois[0].poIID, pois[1].poIID],
         creatorName: 'Mr.X',
         duration: 2,
         polyline: this.polyline,
@@ -203,9 +48,9 @@ export class LocalRouteService implements RouteServiceInterface {
 
   addRoute(route: PostRoute, extraHttpRequestParams?: any): Observable<Route> {
     const newRoute = {
-      id: `${this.currentId}`,
+      routeID: `${this.currentId}`,
       pointOfInterests: route.pointOfInterests.map((p) => {
-        return { ...this.pois[parseInt(p, 10)] };
+        return { ...this.getPois()[parseInt(p, 10)] };
       }),
       name: route.name,
       description: route.description,
@@ -213,7 +58,7 @@ export class LocalRouteService implements RouteServiceInterface {
       duration: route.duration,
       creatorName: route.creatorName,
     } as Route;
-    this.routes.set(newRoute.id, newRoute);
+    this.routes.set(newRoute.routeID, newRoute);
     this.currentId++;
     return of(newRoute).pipe(delay(300));
   }
@@ -242,26 +87,23 @@ export class LocalRouteService implements RouteServiceInterface {
   getRoutes(
     userName: string,
     extraHttpRequestParams?: any
-  ): Observable<string[]> {
-    return of(Array.from(this.routes.values()).map((p) => p.id)).pipe(
-      delay(300)
-    );
+  ): Observable<Route[]> {
+    return of(Array.from(this.routes.values())).pipe(delay(300));
   }
 
-  putRoute(route: PostRoute, extraHttpRequestParams?: any): Observable<{}> {
+  putRoute(route: PutRoute, extraHttpRequestParams?: any): Observable<{}> {
     if (route.id && this.routes.has(route.id)) {
       const updated = {
-        id: route.id,
+        routeID: route.id,
         pointOfInterests: route.pointOfInterests.map((p) => {
-          // this.pois[parseInt(p,3)].id = p;
-          return { ...this.pois[parseInt(p, 10)] };
+          return { ...this.getPois()[parseInt(p, 10)] };
         }),
         name: route.name,
         description: route.description,
         polyline: route.polyline,
         duration: route.duration,
         creatorName: route.creatorName,
-      };
+      } as Route;
       this.routes.set(route.id, updated);
       return of(updated).pipe(delay(1_000));
     } else {
@@ -269,5 +111,11 @@ export class LocalRouteService implements RouteServiceInterface {
         new HttpErrorResponse({ status: 404, statusText: 'Not found' })
       );
     }
+  }
+
+  private getPois(): PointOfInterest[] {
+    return Array.from(
+      ((this.poiService as any) as LocalPointOfInterestService).pois.values()
+    );
   }
 }

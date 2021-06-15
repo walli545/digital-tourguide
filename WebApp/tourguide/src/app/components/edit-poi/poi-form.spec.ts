@@ -32,7 +32,7 @@ describe('PoiForm', () => {
 
     expect(descriptionControl.dirty).toBeFalse();
     expect(descriptionControl.enabled).toBeTrue();
-    expect(descriptionControl.valid).toBeTrue();
+    expect(descriptionControl.valid).toBeFalse();
     expect(descriptionControl.value).toEqual('');
   });
 
@@ -50,17 +50,17 @@ describe('PoiForm', () => {
 
     expect(poi.name).toEqual('');
     expect(poi.description).toEqual('');
-    expect(poi.id).toEqual('new');
+    expect(poi.poIID).toEqual('new');
     expect(poi.latitude).toEqual(0);
     expect(poi.longitude).toEqual(0);
     expect(poi.numberOfRatings).toEqual(0);
     expect(poi.averageRating).toEqual(0);
-    expect(poi.imageURL).toEqual('');
+    expect(poi.imageUrl).toEqual('');
   });
 
   it('set pointOfInterest updates form values', () => {
     const newPoi: PointOfInterest = {
-      id: '1',
+      poIID: '1',
       averageRating: 0,
       numberOfRatings: 0,
       description:
@@ -68,14 +68,14 @@ describe('PoiForm', () => {
       latitude: 12.345678,
       longitude: 98.765432,
       name: 'Marienplatz',
-      imageURL: 'https://google.png',
+      imageUrl: 'https://google.png',
     };
 
     form.pointOfInterest = newPoi;
 
     expect(form.nameControl.value).toEqual(newPoi.name);
     expect(form.descriptionControl.value).toEqual(newPoi.description);
-    expect(form.imageUrlControl.value).toEqual(newPoi.imageURL);
+    expect(form.imageUrlControl.value).toEqual(newPoi.imageUrl);
   });
 
   it('updateFormControl updates form with changed values in poi', () => {
@@ -85,7 +85,7 @@ describe('PoiForm', () => {
     const newImageUrl = 'http://google.png';
     form.pointOfInterest.name = newName;
     form.pointOfInterest.description = newDescription;
-    form.pointOfInterest.imageURL = newImageUrl;
+    form.pointOfInterest.imageUrl = newImageUrl;
 
     expect(form.nameControl.value).toEqual('');
     expect(form.descriptionControl.value).toEqual('');
@@ -109,12 +109,12 @@ describe('PoiForm', () => {
 
     expect(form.pointOfInterest.name).toEqual('');
     expect(form.pointOfInterest.description).toEqual('');
-    expect(form.pointOfInterest.imageURL).toEqual('');
+    expect(form.pointOfInterest.imageUrl).toEqual('');
 
     form.updatePoi();
 
     expect(form.pointOfInterest.name).toEqual(newName);
     expect(form.pointOfInterest.description).toEqual(newDescription);
-    expect(form.pointOfInterest.imageURL).toEqual(newImageUrl);
+    expect(form.pointOfInterest.imageUrl).toEqual(newImageUrl);
   });
 });

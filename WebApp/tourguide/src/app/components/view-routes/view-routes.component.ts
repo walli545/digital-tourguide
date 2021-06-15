@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize, map } from 'rxjs/operators';
 import { Route, RouteService } from 'src/app/api';
 import { UrlGeneratorService } from 'src/app/services/url-generator.service';
 
@@ -12,7 +11,7 @@ import { UrlGeneratorService } from 'src/app/services/url-generator.service';
 export class ViewRoutesComponent implements OnInit {
   loading = true;
   routes = new Map<string, Route>();
-  username = '';
+  username = 'TestUserNameChangeMe';
 
   constructor(
     private routeService: RouteService,
@@ -20,29 +19,17 @@ export class ViewRoutesComponent implements OnInit {
     private urlGen: UrlGeneratorService
   ) {}
 
-  ngOnInit(): void {
-    this.routeService
-      .getRoutes(this.username)
-      .pipe(
-        map((routes) => {
-          if (routes.length === 0) {
-            this.loading = false;
-          }
-          console.log(routes.length);
-          routes.map((id) => {
-            this.routeService
-              .getRoute(id)
-              .pipe(
-                map((r) => {
-                  this.routes.set(id, r);
-                }),
-                finalize(() => (this.loading = false))
-              )
-              .subscribe();
-          });
-        })
-      )
-      .subscribe();
+  async ngOnInit(): Promise<void> {
+    try {
+      const routes = await this.routeService
+        .getRoutes(this.username)
+        .toPromise();
+      for (const r of routes) {
+        this.routes.set(r.routeID, r);
+      }
+    } finally {
+      this.loading = false;
+    }
   }
 
   toArray(): Route[] {
@@ -62,11 +49,12 @@ export class ViewRoutesComponent implements OnInit {
   }
 
   onEdit(route: Route): void {
-    this.router.navigate(['route', route.id]);
+    this.router.navigate(['route', route.routeID]);
   }
 
   onDelete(route: Route): void {
-    this.routeService.deleteRoute(route.id);
-    this.routes.delete(route.id);
+    this.routeService
+      .deleteRoute(route.routeID)
+      .subscribe({ next: () => this.routes.delete(route.routeID) });
   }
 }

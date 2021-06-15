@@ -21,7 +21,7 @@ namespace API.Models
     /// </summary>
     [Key]
     [Required]
-    [DataMember(Name = "poiId")]
+    [DataMember(Name = "poIID")]
     public Guid PoIID { get; set; }
 
     /// <summary>
