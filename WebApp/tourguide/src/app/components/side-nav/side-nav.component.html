@@ -29,6 +29,27 @@
         <mat-icon matListIcon>follow_the_signs</mat-icon>
         My Routes
       </a>
+      <a
+        *ngIf="[admin] | oneOfRequiredRole | async"
+        mat-list-item
+        (click)="toggle()"
+        [routerLink]="['role/verify']"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListIcon>verified_user</mat-icon>
+        Verify Role-Requests
+      </a>
+      <a
+        mat-list-item
+        (click)="toggle()"
+        [routerLink]="['role/request']"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListIcon>policy</mat-icon>
+        Request Role
+      </a>
 
       <mat-divider></mat-divider>
     </mat-nav-list>
