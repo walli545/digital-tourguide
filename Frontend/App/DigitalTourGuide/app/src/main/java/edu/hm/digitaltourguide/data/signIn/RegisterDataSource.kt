@@ -11,6 +11,10 @@ import java.io.IOException
  */
 class RegisterDataSource {
 
+    val ADMIN_CLIENT = "admin-cli"
+    val ADMIN_CLIENT_SECRET = "4d69abf9-fcb4-4b09-9ba9-1f3a262a678a"
+    val ADMIN_CLIENT_GRAND_TYPE = "client_credentials"
+
     fun register(username: String, password: String): Result<String> {
         try {
             if (createNewUser(username, password))
@@ -27,11 +31,9 @@ class RegisterDataSource {
             RetrofitClientInstance().getRetrofitInstance().create(GetDataService::class.java)
 
         // Request admin access token
-        val call = service.getAdminAccessToken("admin-cli", "client_credentials", "4d69abf9-fcb4-4b09-9ba9-1f3a262a678a")
+        val call = service.getAdminAccessToken(ADMIN_CLIENT, ADMIN_CLIENT_GRAND_TYPE, ADMIN_CLIENT_SECRET)
         val response2 = call!!.execute()
         val accessToken = response2.body()!!.accessToken
-
-        //"enabled":"true","credentials":[{"type":"password","value":"test123","temporary":false}]}'
 
         val credentialsArray = JsonArray()
         val credentials = JsonObject()
