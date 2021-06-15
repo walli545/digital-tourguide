@@ -8,6 +8,8 @@ api/pointOfInterest.service.ts
 api/pointOfInterest.serviceInterface.ts
 api/route.service.ts
 api/route.serviceInterface.ts
+api/verification.service.ts
+api/verification.serviceInterface.ts
 configuration.ts
 encoder.ts
 git_push.sh
@@ -19,5 +21,7 @@ model/postRoute.ts
 model/problemDetails.ts
 model/putPointOfInterest.ts
 model/putRoute.ts
+model/role.ts
+model/roleModel.ts
 model/route.ts
 variables.ts

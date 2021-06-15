@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { HealthcheckService } from './api/healthcheck.service';
 import { PointOfInterestService } from './api/pointOfInterest.service';
 import { RouteService } from './api/route.service';
+import { VerificationService } from './api/verification.service';
 
 @NgModule({
   imports:      [],

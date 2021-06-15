@@ -10,7 +10,7 @@ export const toPostRoute = (route: Route): PostRoute => ({
 });
 
 export const toPutRoute = (route: Route): PutRoute => ({
-  id: route.routeID,
+  id: route.routeId,
   name: route.name,
   description: route.description,
   pointOfInterests: route.pointOfInterests?.map((p) => p.poIID) || [],
