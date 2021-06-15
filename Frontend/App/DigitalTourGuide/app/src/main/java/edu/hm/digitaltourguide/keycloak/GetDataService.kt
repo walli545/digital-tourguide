@@ -1,5 +1,6 @@
 package edu.hm.digitaltourguide.keycloak
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.*
@@ -41,6 +42,14 @@ interface GetDataService {
     fun createNewUser(
         @Header("Authorization") auth_header: String,
         @Body body: JsonObject
+    ): Call<Void>
+
+    @Headers("Content-Type: application/json")
+    @POST("/auth/admin/realms/tourguide/users/{userID}/role-mappings/realm")
+    fun setUserRole(
+        @Path("userID") userID: String,
+        @Header("Authorization") auth_header: String,
+        @Body body: JsonArray
     ): Call<Void>
 
     @FormUrlEncoded

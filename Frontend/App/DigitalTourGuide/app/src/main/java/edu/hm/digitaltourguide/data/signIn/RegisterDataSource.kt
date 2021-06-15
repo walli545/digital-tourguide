@@ -14,6 +14,8 @@ class RegisterDataSource {
     val ADMIN_CLIENT = "admin-cli"
     val ADMIN_CLIENT_SECRET = "4d69abf9-fcb4-4b09-9ba9-1f3a262a678a"
     val ADMIN_CLIENT_GRAND_TYPE = "client_credentials"
+    val ROLE_NAME = "user"
+    val ROLE_ID = "96b0f359-1c08-4b21-8029-edc37e5103ec"
 
     fun register(username: String, password: String): Result<String> {
         try {
@@ -35,6 +37,7 @@ class RegisterDataSource {
         val response2 = call!!.execute()
         val accessToken = response2.body()!!.accessToken
 
+        // Create credentials for new user
         val credentialsArray = JsonArray()
         val credentials = JsonObject()
         credentials.addProperty("type", "password")
@@ -49,8 +52,22 @@ class RegisterDataSource {
 
         // Create new user
         val call2 = service.createNewUser("Bearer " + accessToken, bodyData)
-        val response = call2!!.execute().isSuccessful
+        val responseCreateUser = call2!!.execute()
 
-        return response
+        // get user id from response header
+        val userID2 = responseCreateUser.headers().get("Location")
+        val userID3 = userID2?.split("/")
+        val userID = userID3?.last()
+
+        val rolesArray = JsonArray()
+        val bodyDataRole = JsonObject()
+        bodyDataRole.addProperty("id", ROLE_ID)
+        bodyDataRole.addProperty("name", ROLE_NAME)
+        rolesArray.add(bodyDataRole)
+
+        val call3 = service.setUserRole(userID!!, "Bearer " + accessToken, rolesArray)
+        val responseSetRole = call3!!.execute()
+
+        return responseCreateUser.isSuccessful
     }
 }
