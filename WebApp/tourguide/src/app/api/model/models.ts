@@ -6,5 +6,7 @@ export * from './problemDetails';
 export * from './putPointOfInterest';
 export * from './putRoute';
 export * from './review';
+export * from './role';
+export * from './roleModel';
 export * from './route';
 export * from './user';

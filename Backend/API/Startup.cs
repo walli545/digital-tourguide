@@ -15,6 +15,8 @@ using API.Services;
 using System.Reflection;
 using System.IO;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Newtonsoft.Json.Converters;
+using FluentValidation.AspNetCore;
 
 namespace API
 {
@@ -37,7 +39,12 @@ namespace API
       services.AddScoped<IPointOfInterestService, PointOfInterestService>();
       services.AddScoped<IRouteService, RouteService>();
 
-      services.AddControllers();
+      services.AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+          options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        })
+        .AddFluentValidation();
       services.AddSwaggerGen(c =>
       {
         c.CustomOperationIds(apiDesc =>
@@ -49,7 +56,7 @@ namespace API
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         c.IncludeXmlComments(xmlPath);
-      });
+      }).AddSwaggerGenNewtonsoftSupport();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +65,7 @@ namespace API
 
       app.UseDeveloperExceptionPage();
       app.UseSwagger();
-      app.UseSwaggerUI(c => c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "API v1"));
+      app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
       app.UseRouting();
 

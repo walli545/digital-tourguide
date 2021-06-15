@@ -16,7 +16,7 @@ export interface Route {
     /**
      * Gets or Sets Id
      */
-    routeID: string;
+    routeId: string;
     /**
      * The PoIs that are on this route
      */
