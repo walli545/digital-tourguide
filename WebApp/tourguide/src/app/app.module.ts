@@ -46,6 +46,7 @@ import { AppComponent } from './app.component';
 import { DropdownAccountComponent } from './components/dropdown-account/dropdown-account.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
+import { HomeComponent } from './components/home/home.component';
 import { InputImageUrlComponent } from './components/input-image-url/input-image-url.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
