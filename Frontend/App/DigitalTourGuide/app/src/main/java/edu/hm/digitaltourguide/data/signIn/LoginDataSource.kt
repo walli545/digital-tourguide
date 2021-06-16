@@ -85,5 +85,3 @@ class LoginDataSource {
     }
 }
 
-class BodyData internal constructor(val username: String, val enabled: String)
-
