@@ -34,11 +34,8 @@ namespace API.Services
         //check if two consecutive pois are the same.
         for (int i = 0; i < pois.Count - 1; i++)
         {
-          Guid next = Guid.Empty;
+          Guid next = pois[i + 1];
           Guid current = pois[i];
-
-          if (i + 1 < pois.Count)
-            next = pois[i + 1];
 
           if (current.Equals(next))
             return false;
