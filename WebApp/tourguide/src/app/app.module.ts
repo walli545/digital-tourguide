@@ -51,6 +51,8 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
 import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
+import { RoleRequestComponent } from './components/role-request/role-request.component';
+import { RoleVerifyComponent } from './components/role-verify/role-verify.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
@@ -58,8 +60,6 @@ import { ViewRoutesComponent } from './components/view-routes/view-routes.compon
 import { DisplayRolePipe } from './pipes/display-role.pipe';
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
 import { OneOfRequiredRolePipe } from './pipes/one-of-required-role.pipe';
-import { RoleRequestComponent } from './components/role-request/role-request.component';
-import { RoleVerifyComponent } from './components/role-verify/role-verify.component';
 
 const materialModules = [
   BrowserModule,
@@ -146,6 +146,7 @@ const initializeKeycloak = (
     OneOfRequiredRolePipe,
     RoleRequestComponent,
     RoleVerifyComponent,
+    HomeComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),

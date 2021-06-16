@@ -27,11 +27,11 @@
     "oauth2DevicePollingInterval": 5,
     "enabled": true,
     "sslRequired": "external",
-    "registrationAllowed": false,
+    "registrationAllowed": true,
     "registrationEmailAsUsername": false,
     "rememberMe": false,
     "verifyEmail": false,
-    "loginWithEmailAllowed": true,
+    "loginWithEmailAllowed": false,
     "duplicateEmailsAllowed": false,
     "resetPasswordAllowed": false,
     "editUsernameAllowed": false,
@@ -59,6 +59,9 @@
                 "description": "${role_default-roles}",
                 "composite": true,
                 "composites": {
+                    "realm": [
+                        "user"
+                    ],
                     "client": {
                         "account": [
                             "manage-account",
@@ -1327,6 +1330,7 @@
         "strictTransportSecurity": "max-age=31536000; includeSubDomains"
     },
     "smtpServer": {},
+    "loginTheme": "tourguide-theme",
     "eventsEnabled": false,
     "eventsListeners": [
         "jboss-logging"

@@ -26,7 +26,6 @@ export class AuthService {
     const roles = this.keycloak.getUserRoles();
 
     for (const role of this.allRoles) {
-      console.log(role, roles);
       if (roles.includes(role)) {
         return role;
       }

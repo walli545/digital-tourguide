@@ -24,7 +24,7 @@
     <mat-card id="card-poi" *ngIf="!hasPois()"
       ><mat-card-content>No PoI's available!</mat-card-content></mat-card
     >
-    <mat-card-content id="card-content" *ngIf="hasPois()">
+    <mat-card-content id="card-content" *ngIf="hasPois()" class="with-pois">
       <mat-card id="card-poi" *ngFor="let poi of toArray(); index as i"
         ><mat-card-header>
           <mat-card-title>{{ poi.name }}</mat-card-title>
