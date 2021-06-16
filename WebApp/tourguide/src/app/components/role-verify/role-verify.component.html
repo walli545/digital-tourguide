@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="loading" id="spinner"></mat-spinner>
-<div id="container" *ngIf="requests.size > 0">
+<div id="container">
   <mat-card id="card"
     ><mat-card-header>
       <mat-card-title
@@ -8,6 +8,9 @@
     >
 
     <mat-card-content>
+      <mat-card *ngIf="requests.size < 1" id="card-content"
+        ><mat-card-content>No Requests available...</mat-card-content></mat-card
+      >
       <mat-card id="card-content" *ngFor="let req of toArray()">
         <mat-card-content>
           User: <b>{{ req.creatorName }}</b
@@ -27,6 +30,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-<mat-card *ngIf="requests.size < 1 && !loading" id="card"
-  ><mat-card-title>No Requests available...</mat-card-title></mat-card
->
