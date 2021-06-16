@@ -3,6 +3,7 @@ import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Router } from '@angular/router';
 import { PointOfInterest, PointOfInterestService } from 'src/app/api';
 import { customStyle } from 'src/app/utils/custom-style';
+import { AuthService } from '../../services/auth.service';
 import { toGoogleMaps } from '../../utils/poi';
 
 @Component({
@@ -27,17 +28,19 @@ export class ViewPoisComponent implements OnInit {
     center: { lat: 48.137154, lng: 11.576124 },
   };
   pois = new Map<string, PointOfInterest>();
-  username = 'TestUserNameChangeMe';
 
   loading = true;
   constructor(
     private poiService: PointOfInterestService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   async ngOnInit(): Promise<void> {
     try {
-      const pois = await this.poiService.getPOIs(this.username).toPromise();
+      const pois = await this.poiService
+        .getPOIs(await this.authService.getUsername())
+        .toPromise();
       const bounds = new google.maps.LatLngBounds();
       for (const p of pois) {
         this.pois.set(p.poIID, p);

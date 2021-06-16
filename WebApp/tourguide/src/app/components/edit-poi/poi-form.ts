@@ -12,6 +12,7 @@ export class PoiForm {
     latitude: 0,
     longitude: 0,
     poIID: 'new',
+    userName: '',
     description: '',
     name: '',
     numberOfRatings: 0,
