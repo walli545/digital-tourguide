@@ -14,7 +14,7 @@ namespace API.Services
 
     public Task<Route> GetRoute(Guid routeId);
 
-    public Task<List<Route>> GetAllRoutes(string creatorName);
+    public Task<List<Route>> GetAllRoutes(string userName);
 
     public Task<int> PutRoute(PutRoute route);
   }

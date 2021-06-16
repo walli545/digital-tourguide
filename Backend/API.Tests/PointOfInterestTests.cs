@@ -42,11 +42,11 @@ namespace API.Tests
       var usernameB = "testUserB";
       int size = 10;
       var pois = GetFakeData(size);
-      pois[0].Name = usernameA;
-      pois[1].Name = usernameB;
-      pois[2].Name = usernameA;
+      pois[0].UserName = usernameA;
+      pois[1].UserName = usernameB;
+      pois[2].UserName = usernameA;
       
-      service.Setup(x => x.GetAllPoIs(usernameA)).ReturnsAsync(pois.Where(poi => poi.Name == usernameA).ToList());
+      service.Setup(x => x.GetAllPoIs(usernameA)).ReturnsAsync(pois.Where(poi => poi.UserName == usernameA).ToList());
       var controller = new PointOfInterestController(service.Object);
 
       // Act
