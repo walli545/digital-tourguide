@@ -1,0 +1,31 @@
+#card {
+  height: 250px;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 10px;
+  mat-card-header {
+    justify-content: center;
+  }
+  #card-content {
+    height: 55px;
+    background-color: #696969cb;
+    margin-top: 10px;
+    button {
+      vertical-align: middle;
+      margin-left: 10px;
+      float: right;
+    }
+    a {
+      float: right;
+      margin-left: 10px;
+    }
+  }
+}
+#container {
+  display: flex;
+  margin: 10px;
+  justify-content: center;
+}
+::ng-deep .tooltip {
+  background: #303030;
+}

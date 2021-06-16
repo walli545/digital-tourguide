@@ -25,7 +25,7 @@ export class ViewRoutesComponent implements OnInit {
         .getRoutes(this.username)
         .toPromise();
       for (const r of routes) {
-        this.routes.set(r.routeID, r);
+        this.routes.set(r.routeId, r);
       }
     } finally {
       this.loading = false;
@@ -49,12 +49,12 @@ export class ViewRoutesComponent implements OnInit {
   }
 
   onEdit(route: Route): void {
-    this.router.navigate(['route', route.routeID]);
+    this.router.navigate(['route', route.routeId]);
   }
 
   onDelete(route: Route): void {
     this.routeService
-      .deleteRoute(route.routeID)
-      .subscribe({ next: () => this.routes.delete(route.routeID) });
+      .deleteRoute(route.routeId)
+      .subscribe({ next: () => this.routes.delete(route.routeId) });
   }
 }

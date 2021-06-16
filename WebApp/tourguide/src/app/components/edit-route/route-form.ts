@@ -9,7 +9,7 @@ import { Route } from '../../api';
 
 export class RouteForm {
   private data: Route = {
-    routeID: 'new',
+    routeId: 'new',
     pointOfInterests: [],
     name: '',
     description: '',
