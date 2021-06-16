@@ -12,26 +12,12 @@ import edu.hm.digitaltourguide.data.signIn.model.LoggedInUser
 
 class LoginRepository(val dataSource: LoginDataSource) {
 
-
-    // in-memory cache of the loggedInUser object
-    var user: LoggedInUser? = null
-        private set
-
-    val isLoggedIn: Boolean
-        get() = user != null
-
-    init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
-        user = null
-    }
+    val editor = MainActivity.preferences.edit()
 
     fun logout() {
-        //MainActivity.preferences.getString()
-        user = null
         dataSource.logout()
 
-        val editor = MainActivity.preferences.edit()
+        // Delete User Information in shared preferences
         editor.apply{
             putString("USERNAME", null)
             putString("ACCESS_TOKEN", null)
@@ -40,6 +26,7 @@ class LoginRepository(val dataSource: LoginDataSource) {
             putString("REFRESH_TOKEN_EXPIRES_IN", null)
             putString("SCOPE", null)
             putString("SESSION_STATE", null)
+            putString("ROLES", null)
         }.apply()
     }
 
@@ -55,7 +42,8 @@ class LoginRepository(val dataSource: LoginDataSource) {
     }
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
-        val editor = MainActivity.preferences.edit()
+
+        // Store user information in shared preferences
         editor.apply{
             putString("USERNAME", loggedInUser.displayName)
             putString("ACCESS_TOKEN", loggedInUser.accessToken.accessToken)
@@ -66,10 +54,5 @@ class LoginRepository(val dataSource: LoginDataSource) {
             putString("SESSION_STATE", loggedInUser.accessToken.sessionState)
             putStringSet("ROLES", HashSet(loggedInUser.roles?.asList()))
         }.apply()
-
-
-        this.user = loggedInUser
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
     }
 }
