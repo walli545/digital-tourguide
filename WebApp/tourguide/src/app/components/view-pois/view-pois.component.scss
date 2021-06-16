@@ -1,11 +1,9 @@
 #spinner {
-  left: 35%;
+  margin: auto;
 }
 #card {
-  width: auto;
-  min-width: 300px;
-  height: auto; //calc(100% - 145px);
-  max-height: calc(100% - 145px);
+  width: 500px;
+  height: calc(100% - 145px);
   position: fixed;
   z-index: 10;
   left: 10px;
@@ -26,11 +24,20 @@
 #card-poi {
   background-color: #696969cb;
   margin-top: 10px;
-}
+  display: flex;
 
-#card-poi mat-card-content.with-pois {
-  margin-left: auto;
-  align-self: center;
+  mat-card-header {
+    max-width: 70%;
+  }
+
+  mat-card-content {
+    margin-left: auto;
+
+    .with-pois {
+      margin-left: auto;
+      align-self: center;
+    }
+  }
 }
 
 #btn-new {
@@ -44,9 +51,6 @@
   }
 }
 
-#card-poi {
-  display: flex;
-}
 mat-card-actions {
   display: flex;
   flex-direction: row-reverse;

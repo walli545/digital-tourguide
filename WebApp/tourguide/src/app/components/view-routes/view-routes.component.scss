@@ -5,27 +5,27 @@
   position: fixed;
 }
 #container {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 10px;
-  column-gap: 10px;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 20px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   padding: 10px;
+
+  @media only screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 #cardNoRoutes {
-  margin-top: 10px;
-  margin-left: 10px;
+  margin: 10px;
 }
 #card {
-  width: 400px;
-  height: 400px;
-  position: relative;
+  max-height: 500px;
   box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
-  display: flex;
-  flex-wrap: wrap;
+
   mat-card-actions {
     display: flex;
     flex-direction: row-reverse;
@@ -47,7 +47,7 @@
   img {
     border: 0px solid #ddd;
     border-radius: 4px;
-    max-width: 98%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
