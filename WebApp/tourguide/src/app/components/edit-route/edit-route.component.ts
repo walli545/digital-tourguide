@@ -154,14 +154,14 @@ export class EditRouteComponent implements OnInit {
     const newRoute = await this.routeService
       .addRoute(toPostRoute(this.routeForm.route))
       .toPromise();
-    this.router.navigate(['route', newRoute.routeID]);
+    this.router.navigate(['route', newRoute.routeId]);
   }
 
   private async saveExistingRoute(): Promise<void> {
     await this.routeService
       .putRoute(toPutRoute(this.routeForm.route))
       .toPromise();
-    await this.getExistingRoute(this.routeForm.route.routeID);
+    await this.getExistingRoute(this.routeForm.route.routeId);
     this.routeForm.updateFormControl();
     this.updateMapPosition();
   }

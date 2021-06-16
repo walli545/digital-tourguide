@@ -17,7 +17,7 @@ import com.squareup.moshi.Json
 
 /**
  * 
- * @param routeID Gets or Sets Id
+ * @param routeId Gets or Sets Id
  * @param name Gets or Sets Name
  * @param description Gets or Sets Description
  * @param creatorName Gets or Sets CreatorName
@@ -28,8 +28,8 @@ import com.squareup.moshi.Json
 
 data class Route (
     /* Gets or Sets Id */
-    @Json(name = "routeID")
-    val routeID: java.util.UUID,
+    @Json(name = "routeId")
+    val routeId: java.util.UUID,
     /* Gets or Sets Name */
     @Json(name = "name")
     val name: kotlin.String,

@@ -28,6 +28,11 @@ namespace API
     public virtual DbSet<PointOfInterest> PointOfInterest { get; set; }
 
     /// <summary>
+    /// The DbSets of the role requests
+    /// </summary>
+    public virtual DbSet<RoleModel> RoleRequests { get; set; }
+
+    /// <summary>
     /// The DbSets of the connections between routes and pois
     /// </summary>
     public virtual DbSet<RoutePoIConnector> ConnectionsRoutePoI{ get; set; }
@@ -37,6 +42,7 @@ namespace API
       modelBuilder.Entity<PointOfInterest>().ToTable("PointOfInterest");
       modelBuilder.Entity<Route>().ToTable("Route");
       modelBuilder.Entity<RoutePoIConnector>().ToTable("ConnectionsRoutePoI");
+      modelBuilder.Entity<RoleModel>().ToTable("RoleRequests");
 
       modelBuilder.Entity<Route>().Ignore(r => r.PointOfInterests);
 
