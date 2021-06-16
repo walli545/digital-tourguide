@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.databinding.FragmentTourDetailBinding
-import edu.hm.digitaltourguide.ui.home.HomeViewModel
-import edu.hm.digitaltourguide.ui.tour.PoiListAdapter
+import java.util.*
 
 
 class TourDetailFragment : Fragment() {
@@ -61,7 +61,9 @@ class TourDetailFragment : Fragment() {
         descriptionText.text = "Eine Tour, welche die besten und schönsten Kirchen der Stadt besucht."
 
         binding.startTourIcon.setOnClickListener {
-
+            // TODO get route UUID
+            findNavController().navigate(TourDetailFragmentDirections.actionTourDetailFragmentToTourPreviewFragment(
+                UUID.randomUUID()))
         }
 
         return binding.root
