@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Role, VerificationService } from 'src/app/api';
-import { AuthService } from 'src/app/services/auth.service';
-import { ADMIN, CONTENT_CREATOR, PROMOTER } from '../../services/auth.service';
+import { AuthService, USER } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-role-request',
@@ -12,12 +11,10 @@ import { ADMIN, CONTENT_CREATOR, PROMOTER } from '../../services/auth.service';
 })
 export class RoleRequestComponent implements OnInit {
   roleControl = new FormControl('', Validators.required);
-  contentCreator = CONTENT_CREATOR;
-  promoter = PROMOTER;
-  admin = ADMIN;
+  user = USER;
   currentRole = '';
   setRole!: Role;
-  roles = [this.admin, this.contentCreator, this.promoter];
+  roles!: string[];
   selectDisabled = false;
   userName = '';
   constructor(
@@ -28,8 +25,8 @@ export class RoleRequestComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.currentRole = await this.authService.getRole();
     this.userName = await this.authService.getUsername();
-    this.roles = this.roles.filter(
-      (r) => r !== this.currentRole && r !== this.contentCreator
+    this.roles = this.authService.allRoles.filter(
+      (r) => r !== this.currentRole && r !== this.user
     );
   }
 

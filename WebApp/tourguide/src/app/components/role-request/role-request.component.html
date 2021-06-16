@@ -11,10 +11,10 @@
           <b>Your current Role:</b> {{ currentRole | displayRole }}
           <button
             mat-raised-button
-            [disabled]="selectDisabled || currentRole == contentCreator"
+            [disabled]="selectDisabled || currentRole == user"
             (click)="onGiveBack()"
             color="accent"
-            matTooltip="changes to role: Content-Creator"
+            matTooltip="changes to role: User"
             matTooltipPosition="left"
             matTooltipClass="tooltip"
             aria-label="role give back button"
