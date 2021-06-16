@@ -55,9 +55,7 @@ class RegisterDataSource {
         val responseCreateUser = call2!!.execute()
 
         // get user id from response header
-        val userID2 = responseCreateUser.headers().get("Location")
-        val userID3 = userID2?.split("/")
-        val userID = userID3?.last()
+        val userID = responseCreateUser.headers().get("Location")?.split("/")?.last()
 
         val rolesArray = JsonArray()
         val bodyDataRole = JsonObject()
