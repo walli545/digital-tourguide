@@ -45,6 +45,7 @@ namespace API.Models
     /// <summary>
     /// Gets or Sets CreatorName
     /// </summary>
+    [Key]
     [Required]
     [DataMember(Name = "creatorName")]
     public string CreatorName { get; set; }

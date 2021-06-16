@@ -1,5 +1,6 @@
 ﻿using API.Helper;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,12 @@ namespace API.Controllers
   [ApiController]
   public class VerificationController : Controller
   {
+    private readonly IRoleRequestService _requestService;
+
+    public VerificationController(IRoleRequestService routeService)
+    {
+      _requestService = routeService ?? throw new ArgumentNullException(nameof(routeService), "Context was null!");
+    }
 
     /// <summary>
     /// Add a new role request
@@ -21,13 +28,23 @@ namespace API.Controllers
     [HttpPost]
     [Route("/api/verification")]
     [ValidateModelState]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual async Task<IActionResult> RequestRole([FromBody][Required] RoleModel body)
     {
-      throw new NotImplementedException();
+      try
+      {
+        bool success = await _requestService.AddRequest(body);
+        if (!success)
+          return BadRequest(); // already exists.
+
+        return NoContent();
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
     }
 
     /// <summary>
@@ -41,7 +58,15 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual async Task<IActionResult> GetRequests()
     {
-      throw new NotImplementedException();
+      try
+      {
+        var results = await _requestService.GetRequests();
+        return Ok(results);
+      }
+      catch (Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
     }
 
     /// <summary>
@@ -50,13 +75,24 @@ namespace API.Controllers
     [HttpPost]
     [Route("/api/verification/accept/{userName}")]
     [ValidateModelState]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual async Task<IActionResult> AcceptRequest([FromRoute][Required] string userName)
     {
-      throw new NotImplementedException();
+      try
+      {
+        var result = await _requestService.Accept(userName);
+        if (result == 0)
+          return NotFound();
+
+        return NoContent();
+      }
+      catch (Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
     }
 
     /// <summary>
@@ -71,7 +107,18 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual async Task<IActionResult> DenyRequest([FromRoute][Required] string userName)
     {
-      throw new NotImplementedException();
+      try
+      {
+        var result = await _requestService.Deny(userName);
+        if (result == 0)
+          return NotFound();
+
+        return NoContent();
+      }
+      catch (Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
     }
   }
 }
