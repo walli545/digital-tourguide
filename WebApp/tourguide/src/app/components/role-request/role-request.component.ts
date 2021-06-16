@@ -26,7 +26,7 @@ export class RoleRequestComponent implements OnInit {
     this.currentRole = await this.authService.getRole();
     this.userName = await this.authService.getUsername();
     this.roles = this.authService.allRoles.filter(
-      (r) => r !== this.currentRole && r !== this.user
+      (r) => r !== this.currentRole
     );
   }
 
@@ -39,10 +39,6 @@ export class RoleRequestComponent implements OnInit {
     console.log(
       'request: ' + this.userName + ' ' + this.setRole + ' ' + res.subscribe()
     );
-  }
-
-  onGiveBack(): void {
-    console.log('giveBack');
   }
 
   selectedValue(event: MatSelectChange): void {

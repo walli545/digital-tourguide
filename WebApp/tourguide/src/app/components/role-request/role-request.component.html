@@ -8,19 +8,7 @@
     <mat-card-content>
       <mat-card id="card-content">
         <mat-card-content>
-          <b>Your current Role:</b> {{ currentRole | displayRole }}
-          <button
-            mat-raised-button
-            [disabled]="selectDisabled || currentRole == user"
-            (click)="onGiveBack()"
-            color="accent"
-            matTooltip="changes to role: User"
-            matTooltipPosition="left"
-            matTooltipClass="tooltip"
-            aria-label="role give back button"
-          >
-            Give Back
-          </button>
+          Your current Role: <b>{{ currentRole | displayRole }} </b>
         </mat-card-content>
       </mat-card>
       <mat-card id="card-content">
