@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 namespace API.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
   public class HealthcheckController : ControllerBase
   {
 
@@ -32,7 +31,7 @@ namespace API.Controllers
     /// </summary>
     /// <response code="200">Success</response>
     [HttpGet]
-    [ValidateModelState] // what is that ? 
+    [Route("/api/Healthcheck")]
     public ActionResult Healthcheck()
     {
       return Ok("Hi from the Backend");

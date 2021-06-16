@@ -21,7 +21,7 @@ namespace API.Models
     /// </summary>
     [Key]
     [Required]
-    [DataMember(Name = "poiId")]
+    [DataMember(Name = "poIID")]
     public Guid PoIID { get; set; }
 
     /// <summary>
@@ -30,6 +30,13 @@ namespace API.Models
     [Required]
     [DataMember(Name = "name")]
     public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or Sets username
+    /// </summary>
+    [Required]
+    [DataMember(Name = "userName")]
+    public string UserName { get; set; }
 
     /// <summary>
     /// Gets or Sets Description

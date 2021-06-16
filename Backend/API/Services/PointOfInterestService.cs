@@ -44,11 +44,11 @@ namespace API.Services
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
         Name = poi.Name,
+        UserName = poi.UserName,
         AverageRating = 0.0M,
         NumberOfRatings = 0,
         ImageUrl = poi.ImageUrl
       };
-
 
       var success = _dbContext.PointOfInterest.Add(record);
       if (success.State != EntityState.Added)
@@ -92,7 +92,33 @@ namespace API.Services
     /// <returns>The poi's from the given user</returns>
     public async Task<List<PointOfInterest>> GetAllPoIs(string username)
     {
-      return await _dbContext.PointOfInterest.Where(poi => poi.Name == username).ToListAsync();
+      return await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).ToListAsync();
+    }
+
+    /// <summary>
+    /// Returns the center of the points from the given user.
+    /// </summary>
+    /// <param name="username">The name of the creator of the pois</param>
+    /// <returns>Center coordinate</returns>
+    public async Task<CenterResult> GetCenter(string username)
+    {
+      var pois = await GetAllPoIs(username);
+      if (!pois.Any())
+        return null;
+      decimal? totalLong = 0, totalLat = 0;
+      foreach (PointOfInterest poi in pois)
+      {
+        totalLong += poi.Longitude;
+        totalLat += poi.Latitude;
+      }
+      decimal? centerLong = totalLong / pois.Count;
+      decimal? centerLat = totalLat / pois.Count;
+
+      return new CenterResult()
+      {
+        Latitude = centerLat,
+        Longitude = centerLong
+      };
     }
 
     /// <summary>
@@ -104,7 +130,7 @@ namespace API.Services
     {
       return await _dbContext.PointOfInterest.FindAsync(poiID);
     }
-    
+
     public async Task<int> PutPoI(PutPointOfInterest poi)
     {
       var oldPoI = _dbContext.PointOfInterest.AsNoTracking().Where(p => p.PoIID == Guid.Parse(poi.Id)).FirstOrDefault();
@@ -115,6 +141,7 @@ namespace API.Services
         PoIID = Guid.Parse(poi.Id),
         Description = poi.Description,
         Name = poi.Name,
+        UserName = poi.UserName,
         ImageUrl = poi.ImageUrl,
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
@@ -127,7 +154,7 @@ namespace API.Services
         var success = _dbContext.PointOfInterest.Update(newPoI);
         if (success.State != EntityState.Modified)
           _logger.LogInformation($"Failed to update PoI from the database! Item: {0} Given poi:{1}", nameof(poi), poi, poi);
-          
+
         return await _dbContext.SaveChangesAsync();
       }
       catch (DbUpdateConcurrencyException)

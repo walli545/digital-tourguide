@@ -1,6 +1,6 @@
 /**
 * API
-* API Spec für den digitalen Reiseführer
+* API Spec f�r den digitalen Reisef�hrer
 *
 * The version of the OpenAPI document: v1
 * 
@@ -75,7 +75,7 @@ class HealthcheckApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
         
         val localVariableConfig = RequestConfig(
             method = RequestMethod.GET,
-            path = "/Healthcheck",
+            path = "/api/Healthcheck",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

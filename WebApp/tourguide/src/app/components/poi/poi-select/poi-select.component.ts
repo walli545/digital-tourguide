@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { PointOfInterestService } from '../../../api';
 import { PointOfInterest } from '../../../api/model/pointOfInterest';
-import { PointOfInterestRetrieverService } from '../../../services/point-of-interest-retriever.service';
 
 @Component({
   selector: 'app-poi-select',
@@ -20,10 +20,12 @@ export class PoiSelectComponent implements OnInit {
   filteredOptions!: Observable<PointOfInterest[]>;
   private options: PointOfInterest[] = [];
 
-  constructor(private poiRetriever: PointOfInterestRetrieverService) {}
+  constructor(private poiService: PointOfInterestService) {}
 
   async ngOnInit(): Promise<void> {
-    this.options = await this.poiRetriever.getPoisFromUser('username');
+    this.options = await this.poiService
+      .getPOIs('TestUserNameChangeMe')
+      .toPromise();
     this.selectPoiControl.enable();
     this.filteredOptions = this.selectPoiControl.valueChanges.pipe(
       startWith(''),

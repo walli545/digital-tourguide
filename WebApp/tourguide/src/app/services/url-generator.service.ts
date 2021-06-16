@@ -17,15 +17,16 @@ export class UrlGeneratorService {
   private apikey = 'AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ';
 
   buildStaticMapUrl(route: Route): string {
+    const pois = route.pointOfInterests || [];
     const marker =
       '|' +
-      route.pointOfInterests[0].latitude +
+      pois[0].latitude +
       ',' +
-      route.pointOfInterests[0].longitude +
+      pois[0].longitude +
       '|' +
-      route.pointOfInterests[route.pointOfInterests.length - 1].latitude +
+      pois[pois.length - 1].latitude +
       ',' +
-      route.pointOfInterests[route.pointOfInterests.length - 1].longitude +
+      pois[pois.length - 1].longitude +
       '|';
     const url =
       this.mapUrl +

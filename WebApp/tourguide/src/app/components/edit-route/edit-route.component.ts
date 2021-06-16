@@ -11,7 +11,7 @@ import { PolylineService } from '../../services/polyline.service';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toGoogleMaps } from '../../utils/poi';
-import { toPostRoute } from '../../utils/route';
+import { toPostRoute, toPutRoute } from '../../utils/route';
 import { RouteForm } from './route-form';
 
 @Component({
@@ -46,6 +46,9 @@ export class EditRouteComponent implements OnInit {
   isNew = true;
   routeForm: RouteForm;
 
+  private fallbackLat = 48.137154;
+  private fallbackLng = 11.576124;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -72,9 +75,17 @@ export class EditRouteComponent implements OnInit {
           .toPromise()
           .then((coord) => {
             this.map.center = {
-              lat: coord.latitude || 48.137154,
-              lng: coord.longitude || 11.576124,
+              lat: coord.latitude || this.fallbackLat,
+              lng: coord.longitude || this.fallbackLng,
             };
+          })
+          .catch(() => {
+            this.map.center = {
+              lat: this.fallbackLat,
+              lng: this.fallbackLng,
+            };
+          })
+          .finally(() => {
             this.loading = false;
           });
       }
@@ -87,6 +98,7 @@ export class EditRouteComponent implements OnInit {
   async onSave(): Promise<void> {
     this.loading = true;
     this.routeForm.updateRoute();
+    this.routeForm.route.creatorName = 'TestUserNameChangeMe';
     try {
       if (this.isNew) {
         await this.saveNewRoute();
@@ -121,7 +133,7 @@ export class EditRouteComponent implements OnInit {
 
   private updateMapPosition(): void {
     const bounds = new google.maps.LatLngBounds();
-    this.routeForm.route.pointOfInterests.forEach((p) =>
+    this.routeForm.route.pointOfInterests?.forEach((p) =>
       bounds.extend(toGoogleMaps(p))
     );
     this.map.fitBounds(bounds, { left: 260, top: 50, right: 50, bottom: 50 });
@@ -142,13 +154,15 @@ export class EditRouteComponent implements OnInit {
     const newRoute = await this.routeService
       .addRoute(toPostRoute(this.routeForm.route))
       .toPromise();
-    this.router.navigate(['route', newRoute.id]);
+    this.router.navigate(['route', newRoute.routeID]);
   }
 
   private async saveExistingRoute(): Promise<void> {
-    const updatedRoute = await this.routeService
-      .putRoute(toPostRoute(this.routeForm.route))
+    await this.routeService
+      .putRoute(toPutRoute(this.routeForm.route))
       .toPromise();
-    this.routeForm.route = updatedRoute;
+    await this.getExistingRoute(this.routeForm.route.routeID);
+    this.routeForm.updateFormControl();
+    this.updateMapPosition();
   }
 }
