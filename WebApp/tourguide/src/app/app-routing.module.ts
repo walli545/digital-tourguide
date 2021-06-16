@@ -21,8 +21,11 @@ const routes: Routes = [
     path: '',
     canActivate: [AuthGuard],
     runGuardsAndResolvers: 'always',
-    component: HomeComponent,
     children: [
+      {
+        path: '',
+        component: HomeComponent,
+      },
       {
         path: 'pois',
         component: ViewPoisComponent,
