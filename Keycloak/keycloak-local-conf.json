@@ -626,16 +626,16 @@
         {
             "id": "2d35bbc2-376d-4418-a337-5a51586e75f3",
             "clientId": "angular",
-            "rootUrl": "http://localhost:4200",
-            "baseUrl": "http://localhost:4200",
+            "rootUrl": "",
+            "baseUrl": "",
             "surrogateAuthRequired": false,
             "enabled": true,
             "alwaysDisplayInConsole": false,
             "clientAuthenticatorType": "client-secret",
             "redirectUris": [
-                "https://*",
-                "http://*"
-            ],
+                "/*",
+                "/"
+              ],
             "webOrigins": [],
             "notBefore": 0,
             "bearerOnly": false,

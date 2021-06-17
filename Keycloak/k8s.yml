@@ -25,7 +25,9 @@ spec:
         image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/keycloak:__CI_COMMIT_SHA__
         ports:
         - containerPort: 8080
-        env:
+        env:        
+        - name:  PROXY_ADDRESS_FORWARDING
+          value: "true"
         - name: KEYCLOAK_USER
           value: admin
         - name: KEYCLOAK_PASSWORD
@@ -34,6 +36,10 @@ spec:
           value: mariadb
         - name: DB_ADDR
           value: keycloak-db-service
+        readinessProbe:
+          httpGet:
+            path: /auth/realms/master
+            port: 8080
       imagePullSecrets:
       - name: image-pull-secret
 
