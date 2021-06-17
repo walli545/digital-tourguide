@@ -198,6 +198,7 @@ stop_review:
   script:
     - kubectl version
     - kubectl delete all --all
+    - kubectl delete pvc --all
   when: manual
   environment:
     name: review/$CI_COMMIT_REF_SLUG
