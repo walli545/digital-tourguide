@@ -29,7 +29,7 @@ spec:
         - name: ConnectionStrings__MariaDbConnectionString
           value: 'server=api-db-service; user=api; password=Gruppe02; database=api'
         - name: JwtBearer__Authority
-          value: 'http://__URL__/auth/realms/tourguide'
+          value: 'https://__URL__/auth/realms/tourguide'
         - name: JwtBearer__RequireHttpsMetadata
           value: 'true'
       imagePullSecrets:
