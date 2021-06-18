@@ -35,6 +35,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator)]
     public virtual async Task<IActionResult> AddRoute([FromBody][Required] PostRoute body)
     {
       try
@@ -69,6 +70,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator)]
     public virtual async Task<IActionResult> DeleteRoute([FromRoute][Required] Guid routeID)
     {
       try
@@ -95,6 +97,7 @@ namespace API.Controllers
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator,Roles.User)]
     public virtual async Task<IActionResult> GetRoute([FromRoute][Required] Guid routeID)
     {
       try
@@ -122,6 +125,7 @@ namespace API.Controllers
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator,Roles.User)]
     public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string userName)
     {
       try
@@ -147,6 +151,7 @@ namespace API.Controllers
     [ValidateModelState]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [AuthorizedRoles(Roles.Creator)]
     public virtual async Task<IActionResult> PutRoute([FromBody][Required] PutRoute body)
     {
       var result = await _routeService.PutRoute(body);
