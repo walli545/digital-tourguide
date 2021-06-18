@@ -16,5 +16,10 @@ namespace API.Models
     /// Foreign key from the route
     /// </summary>
     public Guid RouteID { get; set; }
+
+    /// <summary>
+    /// The order of the poi on the route
+    /// </summary>
+    public int Order { get; set; }
   }
 }
