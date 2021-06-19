@@ -42,6 +42,11 @@ namespace API
     /// </summary>
     public virtual DbSet<RouteReview> RouteReviews { get; set; }
 
+    /// <summary>
+    /// The DbSets of the poi reviews
+    /// </summary>
+    public virtual DbSet<PoIReview> PoIReviews { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<PointOfInterest>().ToTable("PointOfInterest");
@@ -49,6 +54,7 @@ namespace API
       modelBuilder.Entity<RoutePoIConnector>().ToTable("ConnectionsRoutePoI");
       modelBuilder.Entity<RoleModel>().ToTable("RoleRequests");
       modelBuilder.Entity<RouteReview>().ToTable("RouteReview");
+      modelBuilder.Entity<PoIReview>().ToTable("PoIReview");
 
       modelBuilder.Entity<Route>().Ignore(r => r.PointOfInterests);
 

@@ -12,31 +12,31 @@ using System.Threading.Tasks;
 namespace API.Controllers
 {
   [ApiController]
-  public class RouteReviewController : Controller
+  public class PoIReviewController : Controller
   {
-    private readonly IRouteReviewService _routeReviewService;
+    private readonly IPointOfInterestReviewService _poiReviewService;
 
-    public RouteReviewController(IRouteReviewService routeReviewService)
+    public PoIReviewController(IPointOfInterestReviewService poiReviewService)
     {
-      _routeReviewService = routeReviewService ?? throw new ArgumentNullException(nameof(routeReviewService), "Context was null!");
+      _poiReviewService = poiReviewService ?? throw new ArgumentNullException(nameof(poiReviewService), "Context was null!");
     }
 
     /// <summary>
-    /// Add a new review for a route
+    /// Add a new review for a poi
     /// </summary>
     /// <param name="body"></param>
     [HttpPost]
-    [Route("/api/routereview")]
+    [Route("/api/poireview")]
     [ValidateModelState]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual async Task<IActionResult> AddRoleReview([FromBody][Required] PostRouteReview body)
+    public virtual async Task<IActionResult> AddRoleReview([FromBody][Required] PostPoIReview body)
     {
       try
       {
-        var result = await _routeReviewService.AddRouteReview(body);
+        var result = await _poiReviewService.AddPoIReview(body);
         if (result == 0)
           return NotFound();
 
@@ -44,7 +44,7 @@ namespace API.Controllers
       }
       catch (Exception)
       {
-        return StatusCode(StatusCodes.Status500InternalServerError);
+        return StatusCode(500);
       }
     }
   }
