@@ -31,7 +31,7 @@ spec:
         - name: KEYCLOAK_USER
           value: admin
         - name: KEYCLOAK_PASSWORD
-          value: Gruppe02
+          value: __PW__
         - name: DB_VENDOR
           value: mariadb
         - name: DB_ADDR
