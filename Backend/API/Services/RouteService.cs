@@ -13,6 +13,7 @@ namespace API.Services
     private readonly ILogger<RouteService> _logger;
     private readonly MariaDbContext _dbContext;
     private readonly IPointOfInterestService _poiService;
+    private readonly IRouteReviewService _routeReviewService;
 
     /// <summary>
     /// Ctor.
@@ -20,11 +21,13 @@ namespace API.Services
     /// <param name="logger">Logger for fails.</param>
     /// <param name="dbContext">The desired db context.</param>
     /// <param name="poiService">Serviceclass for the poi's</param>
-    public RouteService(ILogger<RouteService> logger, MariaDbContext dbContext, IPointOfInterestService poiService)
+    /// /// <param name="routeReviewService">Serviceclass for the route reviews</param>
+    public RouteService(ILogger<RouteService> logger, MariaDbContext dbContext, IPointOfInterestService poiService, IRouteReviewService routeReviewService)
     {
       _logger = logger ?? throw new ArgumentNullException(nameof(logger), "Logger was null!");
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
       _poiService = poiService ?? throw new ArgumentNullException(nameof(poiService), "Context was null!");
+      _routeReviewService = routeReviewService ?? throw new ArgumentNullException(nameof(routeReviewService), "Context was null!");
     }
 
     private bool CheckRoutePoIs(List<Guid> pois)
@@ -61,7 +64,9 @@ namespace API.Services
         Duration = postRoute.Duration,
         Name = postRoute.Name,
         Polyline = postRoute.Polyline,
-        PointOfInterests = new List<PointOfInterest>()
+        PointOfInterests = new List<PointOfInterest>(),
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
 
       var routeAddSuccess = _dbContext.Route.Add(record);
@@ -107,6 +112,10 @@ namespace API.Services
       if (!connectionsDelete)
         return 0;
 
+      var reviewsDelete = _routeReviewService.DeleteRouteReviews(result.RouteID);
+      if (!reviewsDelete)
+        return 0;
+
       var success = _dbContext.Route.Remove(result);
       if (success.State != EntityState.Deleted)
       {
@@ -140,6 +149,7 @@ namespace API.Services
       var pois = new List<PointOfInterest>();
 
       var records = await _dbContext.ConnectionsRoutePoI.Where(route => route.RouteID == routeId).ToListAsync();
+      records = records.OrderBy(r => r.Order).ToList();
 
       foreach (Guid poiId in records.Select(record => record.PoIID))
       {
@@ -149,6 +159,20 @@ namespace API.Services
         pois.Add(poi);
       }
 
+      var reviews = _dbContext.RouteReviews.Where(route => route.Route.RouteID == routeId).ToListAsync().Result;
+
+      if (reviews.Count > 0)
+      {
+        double? sumRatings = 0;
+        foreach (RouteReview review in reviews)
+          sumRatings += review.Rating;
+
+        result.AverageRating = sumRatings / reviews.Count;
+      }
+      else
+        result.AverageRating = 0;
+
+      result.NumberOfRatings = reviews.Count;
       result.PointOfInterests = pois;
       return result;
     }
@@ -156,10 +180,14 @@ namespace API.Services
     public async Task<int> PutRoute(PutRoute putRoute)
     {
       if (!CheckRoutePoIs(putRoute.PointOfInterests))
-        throw new InvalidOperationException("PutRoute body is not valid! At least two pois needed and no consecutive pois allowed");
+        throw new ArgumentException("PutRoute body is not valid! At least two pois needed and no consecutive pois allowed");
 
       var oldRoute = _dbContext.Route.AsNoTracking().Where(p => p.RouteID == Guid.Parse(putRoute.Id)).FirstOrDefault();
       if (oldRoute == null)
+        return 0;
+
+      var result = await DeleteRoute(oldRoute.RouteID);
+      if (result == 0)
         return 0;
 
       var newRoute = new Route
@@ -170,6 +198,8 @@ namespace API.Services
         Duration = putRoute.Duration,
         Name = putRoute.Name,
         Polyline = putRoute.Polyline,
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
 
       await DeleteConnections(oldRoute.RouteID);
@@ -187,18 +217,17 @@ namespace API.Services
 
       newRoute.PointOfInterests = pois;
 
-      try
+      var routeAddSuccess = _dbContext.Route.Add(newRoute);
+      if (routeAddSuccess.State != EntityState.Added)
       {
-        var success = _dbContext.Route.Update(newRoute);
-        if (success.State != EntityState.Modified)
-          _logger.LogInformation($"Failed to update route from the database! Item: {0} Given route:{1}", nameof(putRoute), putRoute, putRoute);
+        _logger.LogInformation($"Failed to add Route to the database! Item: {0} Given body:{1}", nameof(newRoute), putRoute, putRoute);
+        throw new Exception(); //maybe choose other exception here
+      }
 
-        return await _dbContext.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        return 0;
-      }
+      var addResult = await _dbContext.SaveChangesAsync();
+      if (addResult > 0)
+        return 1;
+      throw new Exception(); // This path means no rows got affected after add
     }
 
     private async Task<bool> DeleteConnections(Guid routeId)
@@ -226,12 +255,14 @@ namespace API.Services
     /// <param name="routeID">The route id to connect the pois to</param>
     private void ConnectPoIsToRoute(List<Guid> pois, Guid routeID)
     {
+      int i = 1;
       foreach (Guid id in pois)
       {
         var connectorRecord = new RoutePoIConnector
         {
           PoIID = id,
-          RouteID = routeID
+          RouteID = routeID,
+          Order = i++
         };
 
         var connectorAddSuccess = _dbContext.ConnectionsRoutePoI.Add(connectorRecord);

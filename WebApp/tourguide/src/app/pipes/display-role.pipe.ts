@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {
   ADMIN,
   CONTENT_CREATOR,
+  MODERATOR,
   PROMOTER,
   USER,
 } from '../services/auth.service';
@@ -20,6 +21,8 @@ export class DisplayRolePipe implements PipeTransform {
         return 'Promoter';
       case USER:
         return 'User';
+      case MODERATOR:
+        return 'Moderator';
       case '':
         return '';
       default:

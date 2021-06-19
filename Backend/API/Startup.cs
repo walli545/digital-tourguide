@@ -17,6 +17,8 @@ using System.IO;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Newtonsoft.Json.Converters;
+using FluentValidation.AspNetCore;
 
 namespace API
 {
@@ -38,20 +40,29 @@ namespace API
 
             services.AddScoped<IPointOfInterestService, PointOfInterestService>();
             services.AddScoped<IRouteService, RouteService>();
+            services.AddScoped<IRoleRequestService, RoleRequestService>();
+            services.AddScoped<IRouteReviewService, RouteReviewService>();
+            services.AddScoped<IPointOfInterestReviewService, PointOfInterestReviewService>();
 
-            services.AddControllers();
+            services.AddControllers()
+              .AddNewtonsoftJson(options =>
+              {
+                  options.SerializerSettings.Converters.Add(new StringEnumConverter());
+              })
+              .AddFluentValidation();
             services.AddSwaggerGen(c =>
             {
                 c.CustomOperationIds(apiDesc =>
-          {
-                  return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
-              });
+                  {
+                      return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
+                  });
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1", Description = "API Spec f�r den digitalen Reisef�hrer" });
                 c.EnableAnnotations();
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
-            });
+            }).AddSwaggerGenNewtonsoftSupport();
+
 
             var jwtOptions = Configuration.GetSection("JwtBearer").Get<JwtBearerOptions>();
             services
@@ -77,7 +88,7 @@ namespace API
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
 

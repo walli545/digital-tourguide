@@ -64,7 +64,7 @@ namespace API.Models
     /// </summary>
     [Required]
     [DataMember(Name = "averageRating")]
-    public decimal? AverageRating { get; set; }
+    public double? AverageRating { get; set; }
 
     /// <summary>
     /// Gets or Sets NumberOfRatings

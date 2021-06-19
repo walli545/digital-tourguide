@@ -30,6 +30,11 @@
         "requestBody": {
           "description": "",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPointOfInterest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PostPointOfInterest"
@@ -83,6 +88,11 @@
         "requestBody": {
           "description": "",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutPointOfInterest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PutPointOfInterest"
@@ -253,6 +263,11 @@
         "requestBody": {
           "description": "",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRoute"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PostRoute"
@@ -316,6 +331,11 @@
         "requestBody": {
           "description": "",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutRoute"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PutRoute"
@@ -490,6 +510,250 @@
             "description": "Not Found",
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/verification": {
+      "post": {
+        "tags": [
+          "Verification"
+        ],
+        "summary": "Add a new role request",
+        "operationId": "RequestRole",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/verification/requests": {
+      "get": {
+        "tags": [
+          "Verification"
+        ],
+        "summary": "Fetch all open role requests",
+        "operationId": "GetRequests",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoleModel"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/verification/accept/{userName}": {
+      "post": {
+        "tags": [
+          "Verification"
+        ],
+        "summary": "Accept the role request of a specific user",
+        "operationId": "AcceptRequest",
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/verification/deny/{userName}": {
+      "post": {
+        "tags": [
+          "Verification"
+        ],
+        "summary": "Reject the role request of a specific user",
+        "operationId": "DenyRequest",
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -753,6 +1017,33 @@
         },
         "additionalProperties": false
       },
+      "Role": {
+        "enum": [
+          "contentCreator",
+          "moderator",
+          "admin",
+          "promoter"
+        ],
+        "type": "string",
+        "description": "Gets or Sets Role"
+      },
+      "RoleModel": {
+        "required": [
+          "creatorName",
+          "requestedRole"
+        ],
+        "type": "object",
+        "properties": {
+          "creatorName": {
+            "type": "string",
+            "description": "Gets or Sets CreatorName"
+          },
+          "requestedRole": {
+            "$ref": "#/components/schemas/Role"
+          }
+        },
+        "additionalProperties": false
+      },
       "Route": {
         "required": [
           "creatorName",
@@ -760,11 +1051,11 @@
           "duration",
           "name",
           "polyline",
-          "routeID"
+          "routeId"
         ],
         "type": "object",
         "properties": {
-          "routeID": {
+          "routeId": {
             "type": "string",
             "description": "Gets or Sets Id",
             "format": "uuid"
