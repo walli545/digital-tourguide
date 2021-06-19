@@ -39,6 +39,7 @@ namespace API
       services.AddScoped<IPointOfInterestService, PointOfInterestService>();
       services.AddScoped<IRouteService, RouteService>();
       services.AddScoped<IRoleRequestService, RoleRequestService>();
+      services.AddScoped<IRouteReviewService, RouteReviewService>();
 
       services.AddControllers()
         .AddNewtonsoftJson(options =>
