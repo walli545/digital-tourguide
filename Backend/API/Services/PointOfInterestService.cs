@@ -17,16 +17,19 @@ namespace API.Services
   {
     private readonly ILogger<PointOfInterestService> _logger;
     private readonly MariaDbContext _dbContext;
+    private readonly IPointOfInterestReviewService _poiReviewService;
 
     /// <summary>
     /// Ctor.
     /// </summary>
     /// <param name="logger">Logger for fails.</param>
     /// <param name="dbContext">The desired db context.</param>
-    public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext)
+    /// /// <param name="poiReviewService">Serviceclass for the poi reviews.</param>
+    public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext, IPointOfInterestReviewService poiReviewService)
     {
       _logger = logger ?? throw new ArgumentNullException(nameof(logger), "logger was null!");
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
+      _poiReviewService = poiReviewService ?? throw new ArgumentNullException(nameof(poiReviewService), "Context was null!");
     }
 
     /// <summary>
@@ -74,6 +77,10 @@ namespace API.Services
     {
       var result = _dbContext.PointOfInterest.Find(poiID);
       if (result == null)
+        return 0;
+
+      var reviewsDelete = _poiReviewService.DeletePoIReviews(result.PoIID);
+      if (!reviewsDelete)
         return 0;
 
       var success = _dbContext.PointOfInterest.Remove(result);
@@ -176,6 +183,10 @@ namespace API.Services
         AverageRating = 0.0,
         NumberOfRatings = 0
       };
+
+      var reviewsDelete = _poiReviewService.DeletePoIReviews(newPoI.PoIID);
+      if (!reviewsDelete)
+        return 0;
 
       try
       {

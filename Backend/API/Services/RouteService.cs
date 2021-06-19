@@ -13,6 +13,7 @@ namespace API.Services
     private readonly ILogger<RouteService> _logger;
     private readonly MariaDbContext _dbContext;
     private readonly IPointOfInterestService _poiService;
+    private readonly IRouteReviewService _routeReviewService;
 
     /// <summary>
     /// Ctor.
@@ -20,11 +21,13 @@ namespace API.Services
     /// <param name="logger">Logger for fails.</param>
     /// <param name="dbContext">The desired db context.</param>
     /// <param name="poiService">Serviceclass for the poi's</param>
-    public RouteService(ILogger<RouteService> logger, MariaDbContext dbContext, IPointOfInterestService poiService)
+    /// /// <param name="routeReviewService">Serviceclass for the route reviews</param>
+    public RouteService(ILogger<RouteService> logger, MariaDbContext dbContext, IPointOfInterestService poiService, IRouteReviewService routeReviewService)
     {
       _logger = logger ?? throw new ArgumentNullException(nameof(logger), "Logger was null!");
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
       _poiService = poiService ?? throw new ArgumentNullException(nameof(poiService), "Context was null!");
+      _routeReviewService = routeReviewService ?? throw new ArgumentNullException(nameof(routeReviewService), "Context was null!");
     }
 
     private bool CheckRoutePoIs(List<Guid> pois)
@@ -107,6 +110,10 @@ namespace API.Services
 
       var connectionsDelete = await DeleteConnections(result.RouteID);
       if (!connectionsDelete)
+        return 0;
+
+      var reviewsDelete = _routeReviewService.DeleteRouteReviews(result.RouteID);
+      if (!reviewsDelete)
         return 0;
 
       var success = _dbContext.Route.Remove(result);

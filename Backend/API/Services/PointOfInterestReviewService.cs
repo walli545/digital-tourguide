@@ -60,5 +60,32 @@ namespace API.Services
       }
       throw new Exception(); // This path means no rows got affected after add
     }
+
+    /// <summary>
+    /// Deletes all reviews from the given poi
+    /// </summary>
+    /// <param name="poiId">The poi Id</param>
+    /// <returns>True: Successfully deleted or no reviews. False: poiId not found</returns>
+    public bool DeletePoIReviews(Guid poiId)
+    {
+      var result = _dbContext.PointOfInterest.AsNoTracking().Where(poi => poi.PoIID == poiId).FirstOrDefault(); // as the id is the PK, there is only one entry (FirstOrDefault) or none
+      if (result == null)
+        return false;
+      
+      var reviews = _dbContext.PoIReviews.Where(poi => poi.PointOfInterest.PoIID == poiId).ToListAsync().Result;
+      if (!reviews.Any())
+        return true;
+      foreach (PoIReview review in reviews)
+      {
+        var reviewDeleteResult = _dbContext.PoIReviews.Remove(review);
+        if (reviewDeleteResult.State != EntityState.Deleted)
+        {
+          _logger.LogInformation($"Failed to delete review from the database! Item: {0} Given record:{1}", nameof(review), review, review);
+          throw new Exception();
+        }
+      }
+
+      return true;
+    }
   }
 }

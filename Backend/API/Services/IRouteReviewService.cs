@@ -9,5 +9,7 @@ namespace API.Services
   public interface IRouteReviewService
   {
     public Task<int> AddRouteReview(PostRouteReview body);
+
+    public bool DeleteRouteReviews(Guid RouteID);
   }
 }

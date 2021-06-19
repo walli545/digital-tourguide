@@ -9,5 +9,7 @@ namespace API.Services
   public interface IPointOfInterestReviewService
   {
     public Task<int> AddPoIReview(PostPoIReview body);
+
+    public bool DeletePoIReviews(Guid poiId);
   }
 }

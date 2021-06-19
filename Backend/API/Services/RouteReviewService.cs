@@ -60,5 +60,32 @@ namespace API.Services
       }
       throw new Exception(); // This path means no rows got affected after add
     }
+
+    /// <summary>
+    /// Deletes all reviews from the given route
+    /// </summary>
+    /// <param name="routeId">The route Id</param>
+    /// <returns>True: Successfully deleted or no reviews. False: RouteId not found</returns>
+    public bool DeleteRouteReviews(Guid routeId)
+    {
+      var result = _dbContext.Route.AsNoTracking().Where(route => route.RouteID == routeId).FirstOrDefault(); // as the id is the PK, there is only one entry (FirstOrDefault) or none
+      if (result == null)
+        return false;
+
+      var reviews = _dbContext.RouteReviews.Where(route => route.Route.RouteID == routeId).ToListAsync().Result;
+      if (!reviews.Any())
+        return true;
+      foreach (RouteReview review in reviews)
+      {
+        var reviewDeleteResult = _dbContext.RouteReviews.Remove(review);
+        if (reviewDeleteResult.State != EntityState.Deleted)
+        {
+          _logger.LogInformation($"Failed to delete review from the database! Item: {0} Given record:{1}", nameof(review), review, review);
+          throw new Exception();
+        }
+      }
+
+      return true;
+    }
   }
 }
