@@ -61,7 +61,9 @@ namespace API.Services
         Duration = postRoute.Duration,
         Name = postRoute.Name,
         Polyline = postRoute.Polyline,
-        PointOfInterests = new List<PointOfInterest>()
+        PointOfInterests = new List<PointOfInterest>(),
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
 
       var routeAddSuccess = _dbContext.Route.Add(record);
@@ -150,6 +152,20 @@ namespace API.Services
         pois.Add(poi);
       }
 
+      var reviews = _dbContext.RouteReviews.Where(route => route.Route.RouteID == routeId).ToListAsync().Result;
+
+      if (reviews.Count > 0)
+      {
+        double? sumRatings = 0;
+        foreach (RouteReview review in reviews)
+          sumRatings += review.Rating;
+
+        result.AverageRating = sumRatings / reviews.Count;
+      }
+      else
+        result.AverageRating = 0;
+
+      result.NumberOfRatings = reviews.Count;
       result.PointOfInterests = pois;
       return result;
     }
@@ -175,6 +191,8 @@ namespace API.Services
         Duration = putRoute.Duration,
         Name = putRoute.Name,
         Polyline = putRoute.Polyline,
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
 
       await DeleteConnections(oldRoute.RouteID);

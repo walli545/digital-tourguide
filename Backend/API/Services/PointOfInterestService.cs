@@ -45,7 +45,7 @@ namespace API.Services
         Longitude = poi.Longitude,
         Name = poi.Name,
         UserName = poi.UserName,
-        AverageRating = 0.0M,
+        AverageRating = 0.0,
         NumberOfRatings = 0,
         ImageUrl = poi.ImageUrl
       };
@@ -92,7 +92,17 @@ namespace API.Services
     /// <returns>The poi's from the given user</returns>
     public async Task<List<PointOfInterest>> GetAllPoIs(string username)
     {
-      return await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).ToListAsync();
+      var poiIDsFromUser = await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).Select(r => r.PoIID).ToListAsync();
+      if (poiIDsFromUser == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid poiID in poiIDsFromUser)
+      {
+        pois.Add(await GetPoI(poiID));
+      }
+
+      return pois;
     }
 
     /// <summary>
@@ -128,7 +138,25 @@ namespace API.Services
     /// <returns>The found poi</returns>
     public async Task<PointOfInterest> GetPoI(Guid poiID)
     {
-      return await _dbContext.PointOfInterest.FindAsync(poiID);
+      var result = await _dbContext.PointOfInterest.FindAsync(poiID);
+      if (result == null)
+        return null;
+
+      var reviews = _dbContext.PoIReviews.Where(rev => rev.PointOfInterest.PoIID == poiID).ToListAsync().Result;
+
+      if (reviews.Count > 0)
+      {
+        double? sumRatings = 0;
+        foreach (PoIReview review in reviews)
+          sumRatings += review.Rating;
+
+        result.AverageRating = sumRatings / reviews.Count;
+      }
+      else
+        result.AverageRating = 0;
+
+      result.NumberOfRatings = reviews.Count;
+      return result;
     }
 
     public async Task<int> PutPoI(PutPointOfInterest poi)
@@ -145,8 +173,8 @@ namespace API.Services
         ImageUrl = poi.ImageUrl,
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
-        AverageRating = oldPoI.AverageRating,
-        NumberOfRatings = oldPoI.NumberOfRatings
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
 
       try
