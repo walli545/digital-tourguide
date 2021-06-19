@@ -13,6 +13,10 @@
   flex-direction: column;
 }
 
+#card-poi .mat-card-content.no-pois {
+  margin-left: 0px;
+}
+
 #card-content {
   display: flex;
   flex-direction: column;

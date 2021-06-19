@@ -5,6 +5,7 @@ import { PointOfInterest, PointOfInterestService } from 'src/app/api';
 import { customStyle } from 'src/app/utils/custom-style';
 import { AuthService } from '../../services/auth.service';
 import { toGoogleMaps } from '../../utils/poi';
+import { sortPois } from '../../utils/sort';
 
 @Component({
   selector: 'app-view-pois',
@@ -38,9 +39,11 @@ export class ViewPoisComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      const pois = await this.poiService
-        .getPOIs(await this.authService.getUsername())
-        .toPromise();
+      const pois = (
+        await this.poiService
+          .getPOIs(await this.authService.getUsername())
+          .toPromise()
+      ).sort(sortPois);
       const bounds = new google.maps.LatLngBounds();
       for (const p of pois) {
         this.pois.set(p.poIID, p);

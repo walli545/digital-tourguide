@@ -6,6 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 import { PointOfInterestService } from '../../../api';
 import { PointOfInterest } from '../../../api/model/pointOfInterest';
 import { AuthService } from '../../../services/auth.service';
+import { sortPois } from '../../../utils/sort';
 
 @Component({
   selector: 'app-poi-select',
@@ -27,9 +28,11 @@ export class PoiSelectComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.options = await this.poiService
-      .getPOIs(await this.authService.getUsername())
-      .toPromise();
+    this.options = (
+      await this.poiService
+        .getPOIs(await this.authService.getUsername())
+        .toPromise()
+    ).sort(sortPois);
     this.selectPoiControl.enable();
     this.filteredOptions = this.selectPoiControl.valueChanges.pipe(
       startWith(''),
