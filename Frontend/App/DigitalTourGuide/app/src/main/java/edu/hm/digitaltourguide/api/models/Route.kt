@@ -14,6 +14,9 @@ package edu.hm.digitaltourguide.api.models
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * 
@@ -25,6 +28,7 @@ import com.squareup.moshi.Json
  * @param polyline Gets or Sets Polyline
  * @param pointOfInterests The PoIs that are on this route
  */
+@Parcelize
 
 data class Route (
     /* Gets or Sets Id */
@@ -48,5 +52,5 @@ data class Route (
     /* The PoIs that are on this route */
     @Json(name = "pointOfInterests")
     val pointOfInterests: kotlin.collections.List<PointOfInterest>? = null
-)
+) : Parcelable
 
