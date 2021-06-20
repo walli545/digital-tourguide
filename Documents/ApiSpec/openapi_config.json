@@ -1,3 +1,4 @@
 {
-"serializableModel" : true
+    "packageName": "edu.hm.digitaltourguide.api",
+    "serializableModel" : true
 }
