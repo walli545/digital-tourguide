@@ -13,6 +13,7 @@ package edu.hm.digitaltourguide.api.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * Model class for posting a new poi
@@ -39,5 +40,10 @@ data class PostPointOfInterest (
     /* Gets or Sets ImageUrl */
     @Json(name = "imageUrl")
     val imageUrl: kotlin.String
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

@@ -14,6 +14,7 @@ package edu.hm.digitaltourguide.api.models
 import edu.hm.digitaltourguide.api.models.Role
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -27,5 +28,10 @@ data class RoleModel (
     val creatorName: kotlin.String,
     @Json(name = "requestedRole")
     val requestedRole: Role
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

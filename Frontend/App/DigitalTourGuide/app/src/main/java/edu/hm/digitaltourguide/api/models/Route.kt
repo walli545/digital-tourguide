@@ -14,6 +14,7 @@ package edu.hm.digitaltourguide.api.models
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -48,5 +49,10 @@ data class Route (
     /* The PoIs that are on this route */
     @Json(name = "pointOfInterests")
     val pointOfInterests: kotlin.collections.List<PointOfInterest>? = null
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

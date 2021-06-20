@@ -13,6 +13,7 @@ package edu.hm.digitaltourguide.api.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -47,5 +48,10 @@ data class PutRoute (
     /* Gets or Sets Polyline */
     @Json(name = "polyline")
     val polyline: kotlin.String
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 
