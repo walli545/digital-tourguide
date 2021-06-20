@@ -40,10 +40,6 @@ data class ProblemDetails (
 ) : kotlin.collections.HashMap<String, AnyType>(), Parcelable
 
 class AnyType {
-
 }
 
-class AnyType {
-
-}
 

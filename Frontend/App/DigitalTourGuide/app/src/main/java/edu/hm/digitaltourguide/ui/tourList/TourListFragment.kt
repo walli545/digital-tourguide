@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import edu.hm.digitaltourguide.R
+import edu.hm.digitaltourguide.api.apis.RouteApi
+import edu.hm.digitaltourguide.api.infrastructure.ApiClient
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
 import edu.hm.digitaltourguide.databinding.FragmentTourListBinding
@@ -33,16 +36,14 @@ class TourListFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_list, container, false)
 
-        val list: List<Route> = listOf(Route(UUID.randomUUID(), "Route1", "Das ist eine Test Route", "Tobias", 1.0f, "", listOf<PointOfInterest>(PointOfInterest(UUID.randomUUID(), "Poi1", "Test POI", 12.2323, 32.2332,2.4,2,"https://upload.wikimedia.org/wikipedia/commons/0/0c/Kirchsee_in_der_Abendsonne.jpg"))))
+        recipeListViewModel = ViewModelProvider(
+            this).get(TourListViewModel::class.java)
+
+        val list: List<Route> = recipeListViewModel.getAllRoutes()
 
         listener = TourItemListener(this)
         tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list, it, listener) }!!
         binding.tourList.adapter = tourAdapter
-
-//        val dataSource = RecipeDatabase.getInstance(requireActivity().applicationContext).recipeDatabaseDao
-//        val viewModelFactory = RecipeListViewModelFactory(dataSource)
-//        recipeListViewModel = ViewModelProvider(
-//            this, viewModelFactory).get(RecipeListViewModel::class.java)
 
         return binding.root
     }
@@ -50,8 +51,7 @@ class TourListFragment : Fragment() {
 
 class TourItemListener(val fragment: Fragment){
     fun onClick(route: Route){
-        //val action = RecipeListFragmentDirections.actionRecipeListFragmentToRecipeViewFragment(route)
-
-        //NavHostFragment.findNavController(fragment).navigate(action)
+        val action = TourListFragmentDirections.actionTourListFragmentToTourDetailFragment(route)
+        NavHostFragment.findNavController(fragment).navigate(action)
     }
 }
