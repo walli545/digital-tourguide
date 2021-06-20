@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.denzcoskun.imageslider.models.SlideModel
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.Route
@@ -63,6 +64,15 @@ class TourDetailFragment : Fragment() {
             slideModels.add(SlideModel(poi.imageUrl, poi.name))
         }
         imageSlider.setImageList(slideModels, true)
+
+        var urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=600x400&path="+ route.polyline +"&key=AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ"
+
+        context?.let {
+            Glide.with(it)
+                .load(urlStaticMap)
+                .into(binding.tourPreviewImage)
+        }
+
 
         return binding.root
     }

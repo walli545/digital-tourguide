@@ -56,7 +56,6 @@ class RoutePreviewAdapter(var routes: List<Route>) :
                 moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f))
                 mapType = GoogleMap.MAP_TYPE_NORMAL
                 setOnMapClickListener {
-
                 }
             }
         }
