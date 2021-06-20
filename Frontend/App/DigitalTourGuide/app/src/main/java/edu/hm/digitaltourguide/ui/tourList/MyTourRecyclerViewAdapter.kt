@@ -28,7 +28,7 @@ class MyTourRecyclerViewAdapter(private val values: List<Route>, private val con
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.route = item
+        holder.bind(item, listener)
         holder.title.text = item.name
         holder.description.text = item.description
 
@@ -43,12 +43,17 @@ class MyTourRecyclerViewAdapter(private val values: List<Route>, private val con
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentTourListItemBinding) :
+    inner class ViewHolder(val binding: FragmentTourListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        var route: Route? = binding.route
         val title: TextView = binding.itemTitle
         val description: TextView = binding.itemDescription
         val imageView: ImageView = binding.itemImage
+
+        fun bind(route: Route, listener: TourItemListener) {
+            binding.route = route
+            binding.root.parent
+            binding.clickListener = listener
+        }
     }
 
 }

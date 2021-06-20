@@ -7,10 +7,10 @@
             name="route"
             type="edu.hm.digitaltourguide.api.models.Route"
             />
-<!--        <variable-->
-<!--            name="clickListener"-->
-<!--            type="edu.hm.cookingmate.ui.recipeList.RecipeItemListener"-->
-<!--            />-->
+        <variable
+            name="clickListener"
+            type="edu.hm.digitaltourguide.ui.tourList.TourItemListener"
+            />
     </data>
 
     <LinearLayout
@@ -24,8 +24,8 @@
             android:id="@+id/card_view"
             android:layout_margin="5dp"
             card_view:cardBackgroundColor="@color/secondaryLightColor"
-            card_view:cardCornerRadius="15dp">
-<!--            android:onClick="@{() -> clickListener.onClick(route)}">-->
+            card_view:cardCornerRadius="15dp"
+            android:onClick="@{() -> clickListener.onClick(route)}">
 
             <LinearLayout
                 android:layout_width="match_parent"
