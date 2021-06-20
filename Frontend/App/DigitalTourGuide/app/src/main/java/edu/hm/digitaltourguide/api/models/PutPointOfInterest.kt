@@ -13,7 +13,9 @@ package edu.hm.digitaltourguide.api.models
 
 
 import com.squareup.moshi.Json
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * 
@@ -24,6 +26,7 @@ import java.io.Serializable
  * @param longitude Gets or Sets Longitude
  * @param imageUrl Gets or Sets ImageUrl
  */
+@Parcelize
 
 data class PutPointOfInterest (
     /* Gets or Sets Id */
@@ -44,10 +47,5 @@ data class PutPointOfInterest (
     /* Gets or Sets ImageUrl */
     @Json(name = "imageUrl")
     val imageUrl: kotlin.String
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
-
-}
+) : Parcelable
 

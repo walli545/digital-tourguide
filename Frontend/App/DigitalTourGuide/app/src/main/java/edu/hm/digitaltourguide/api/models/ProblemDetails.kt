@@ -14,7 +14,9 @@ package edu.hm.digitaltourguide.api.models
 import edu.hm.digitaltourguide.api.models.AnyType
 
 import com.squareup.moshi.Json
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * 
@@ -24,6 +26,7 @@ import java.io.Serializable
  * @param detail 
  * @param instance 
  */
+@Parcelize
 
 data class ProblemDetails (
     @Json(name = "type")
@@ -36,10 +39,5 @@ data class ProblemDetails (
     val detail: kotlin.String? = null,
     @Json(name = "instance")
     val instance: kotlin.String? = null
-) : kotlin.collections.HashMap<String, AnyType>(), Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
-
-}
+) : kotlin.collections.HashMap<String, AnyType>(), Parcelable
 

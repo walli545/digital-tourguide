@@ -14,7 +14,9 @@ package edu.hm.digitaltourguide.api.models
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 
 import com.squareup.moshi.Json
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * 
@@ -26,6 +28,7 @@ import java.io.Serializable
  * @param polyline Gets or Sets Polyline
  * @param pointOfInterests The PoIs that are on this route
  */
+@Parcelize
 
 data class Route (
     /* Gets or Sets Id */
@@ -49,10 +52,5 @@ data class Route (
     /* The PoIs that are on this route */
     @Json(name = "pointOfInterests")
     val pointOfInterests: kotlin.collections.List<PointOfInterest>? = null
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
-
-}
+) : Parcelable
 

@@ -13,7 +13,9 @@ package edu.hm.digitaltourguide.api.models
 
 
 import com.squareup.moshi.Json
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * 
@@ -25,6 +27,7 @@ import java.io.Serializable
  * @param duration Gets or Sets Duration
  * @param polyline Gets or Sets Polyline
  */
+@Parcelize
 
 data class PutRoute (
     /* Gets or Sets Id */
@@ -48,10 +51,5 @@ data class PutRoute (
     /* Gets or Sets Polyline */
     @Json(name = "polyline")
     val polyline: kotlin.String
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
-
-}
+) : Parcelable
 

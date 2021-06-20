@@ -13,7 +13,9 @@ package edu.hm.digitaltourguide.api.models
 
 
 import com.squareup.moshi.Json
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * Model class for posting a new poi
@@ -23,6 +25,7 @@ import java.io.Serializable
  * @param longitude Gets or Sets Longitude
  * @param imageUrl Gets or Sets ImageUrl
  */
+@Parcelize
 
 data class PostPointOfInterest (
     /* Gets or Sets Name */
@@ -40,10 +43,5 @@ data class PostPointOfInterest (
     /* Gets or Sets ImageUrl */
     @Json(name = "imageUrl")
     val imageUrl: kotlin.String
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
-
-}
+) : Parcelable
 
