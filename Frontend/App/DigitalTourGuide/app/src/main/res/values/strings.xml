@@ -43,4 +43,6 @@
     <string name="start_tour_text">Start</string>
     <string name="start_the_tour">Start the Tour</string>
     <string name="logout_text">Logout</string>
+    <string name="hint_title">Titel</string>
+    <string name="hint_description">Beschreibung</string>
 </resources>

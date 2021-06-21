@@ -47,8 +47,8 @@
         android:label="Tour"
         tools:layout="@layout/fragment_tour_detail" >
         <action
-            android:id="@+id/action_tourDetailFragment_to_tourPreviewFragment"
-            app:destination="@id/tourPreviewFragment" />
+            android:name="route"
+            app:argType="edu.hm.digitaltourguide.api.models.Route" />
     </fragment>
     <fragment
         android:id="@+id/tourPreviewFragment"
@@ -57,5 +57,14 @@
         <argument
             android:name="tourID"
             app:argType="java.util.UUID" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourListFragment"
+        android:name="edu.hm.digitaltourguide.ui.tourList.TourListFragment"
+        android:label="fragment_tour_list"
+        tools:layout="@layout/fragment_tour_list" >
+        <action
+            android:id="@+id/action_tourListFragment_to_tourDetailFragment"
+            app:destination="@id/tourDetailFragment" />
     </fragment>
 </navigation>

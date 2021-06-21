@@ -9,8 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.hm.digitaltourguide.R
+import edu.hm.digitaltourguide.api.models.PointOfInterest
+import edu.hm.digitaltourguide.api.models.Route
 
-class PoiListAdapter(private val context: Activity, private val poiList: Array<String>, private val imageList: Array<String>) :
+class PoiListAdapter(private val context: Activity, private val poiList: List<PointOfInterest>) :
     RecyclerView.Adapter<PoiListAdapter.ViewHolder>() {
 
     /**
@@ -40,9 +42,9 @@ class PoiListAdapter(private val context: Activity, private val poiList: Array<S
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.itemTitle.text = poiList[position]
+        viewHolder.itemTitle.text = poiList[position].name
         Glide.with(context)
-            .load(imageList[position])
+            .load(poiList[position].imageUrl)
             .into(viewHolder.itemImage)
     }
 

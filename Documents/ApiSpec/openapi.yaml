@@ -12,7 +12,7 @@
           "Healthcheck"
         ],
         "summary": "Return 200 ok.",
-        "operationId": "Healthcheck",
+        "operationId": "Healthcheck", 
         "responses": {
           "200": {
             "description": "Success"
