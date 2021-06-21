@@ -50,7 +50,7 @@ class RegisterDataSource {
 
         // Create new user
         val call2 = service.createNewUser("Bearer " + accessToken, bodyData)
-        val responseCreateUser = call2!!.execute()
+        val responseCreateUser = call2.execute()
 
         return responseCreateUser.isSuccessful
     }
