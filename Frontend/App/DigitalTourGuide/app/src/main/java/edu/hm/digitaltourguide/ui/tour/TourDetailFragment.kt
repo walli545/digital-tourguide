@@ -63,7 +63,7 @@ class TourDetailFragment : Fragment() {
         }
         imageSlider.setImageList(slideModels, true)
 
-        val urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=1000x300&path="+ route.polyline + "&markers=color:red|"+ poiLocationsString + "&key=" + BuildConfig.API_KEY
+        val urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=1000x300&path=enc:" + route.polyline + "&markers=color:red|" + poiLocationsString + "&key=" + BuildConfig.API_KEY
 
         context?.let {
             Glide.with(it)
