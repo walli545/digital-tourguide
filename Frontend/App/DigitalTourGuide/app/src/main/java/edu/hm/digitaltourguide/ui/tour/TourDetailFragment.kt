@@ -11,12 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.denzcoskun.imageslider.models.SlideModel
+import edu.hm.digitaltourguide.BuildConfig
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.Route
 import edu.hm.digitaltourguide.databinding.FragmentTourDetailBinding
-import edu.hm.digitaltourguide.ui.home.HomeViewModel
-import edu.hm.digitaltourguide.ui.tour.PoiListAdapter
-
 
 class TourDetailFragment : Fragment() {
 
@@ -58,7 +56,7 @@ class TourDetailFragment : Fragment() {
         }
         imageSlider.setImageList(slideModels, true)
 
-        var urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=1000x300&path="+ route.polyline +"&key=AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ"
+        var urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=1000x300&path="+ route.polyline + BuildConfig.API_KEY
 
         context?.let {
             Glide.with(it)

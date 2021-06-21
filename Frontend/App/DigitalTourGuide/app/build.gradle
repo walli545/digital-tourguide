@@ -20,7 +20,13 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField("String", "API_KEY", "\"AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ\"")
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:5000\"")
+        }
         release {
+            buildConfigField("String", "API_KEY", "\"AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ\"")
+            buildConfigField("String", "BASE_URL", "\"http://prod_Url\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
