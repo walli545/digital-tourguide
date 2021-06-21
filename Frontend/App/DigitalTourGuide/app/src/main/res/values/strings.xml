@@ -46,4 +46,6 @@
     <string name="hint_title">Titel</string>
     <string name="hint_description">Beschreibung</string>
     <string name="menu_routs">Routen</string>
+
+    <string name="menu_tour_list">Touren</string>
 </resources>
