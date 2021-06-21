@@ -105,13 +105,13 @@ class PoiFragment : Fragment() {
     }
 
     /**
-     * Method to open dialog to edit timer value
+     * Method to add a poi review
      */
     private fun openAddPoiReviewDialog(){
         val d = AlertDialog.Builder(requireContext())
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.poi_dialog_rating, null)
-        d.setTitle("Edit Shopping Item")
+        d.setTitle("PoI bewerten")
         d.setView(dialogView)
         val ratingBar = dialogView.findViewById<RatingBar>(R.id.review_ratingBar)
         val comment = dialogView.findViewById<EditText>(R.id.review_comment)
