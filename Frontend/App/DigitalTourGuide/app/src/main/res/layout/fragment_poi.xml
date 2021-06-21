@@ -38,7 +38,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/trip_image_slider" />
 
             <TextView
-                android:id="@+id/tour_description"
+                android:id="@+id/poi_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -50,38 +50,39 @@
                 tools:text="@string/decription_dummy"/>
 
             <TextView
-                android:id="@+id/poi_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tour_detail_margin_top"
-                android:text="@string/points_of_interest_header"
-                android:textSize="@dimen/tour_detail_header_text_size"
-                app:layout_constraintTop_toBottomOf="@+id/tour_description" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/poi_list_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxHeight="300dp"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/poi_header" />
-
-            <TextView
                 android:id="@+id/map_preview_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tour_detail_margin_top"
-                android:text="@string/tour_preview"
+                android:text="@string/poi_preview"
                 android:textSize="@dimen/tour_detail_header_text_size"
-                app:layout_constraintTop_toBottomOf="@+id/poi_list_recycler" />
+                app:layout_constraintTop_toBottomOf="@+id/poi_description" />
 
             <ImageView
-                android:id="@+id/tour_preview_image"
+                android:id="@+id/poi_preview_image"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/map_preview_header" />
+
+            <TextView
+                android:id="@+id/poi_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tour_detail_margin_top"
+                android:text="@string/rating_header"
+                android:textSize="@dimen/tour_detail_header_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/poi_preview_image" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/poi_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
