@@ -11,8 +11,6 @@
 */
 package edu.hm.digitaltourguide.api.models
 
-import edu.hm.digitaltourguide.api.models.AnyType
-
 import com.squareup.moshi.Json
 
 /**
@@ -37,3 +35,6 @@ data class ProblemDetails (
     val instance: kotlin.String? = null
 ) : kotlin.collections.HashMap<String, AnyType>()
 
+
+class AnyType {
+}
