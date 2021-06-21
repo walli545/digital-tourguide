@@ -51,12 +51,15 @@ class TourDetailFragment : Fragment() {
 
         // Route Poi Pictures
         val slideModels = arrayListOf<SlideModel>()
+        var poiLocationsString = ""
         for (poi in route.pointOfInterests!!){
             slideModels.add(SlideModel(poi.imageUrl, poi.name))
+            poiLocationsString += "|" + poi.latitude.toString() + "," + poi.longitude.toString()
         }
         imageSlider.setImageList(slideModels, true)
 
-        var urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=1000x300&path="+ route.polyline + BuildConfig.API_KEY
+        val urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=1000x300&path="+ route.polyline + "&markers=color:red|"+ poiLocationsString + "&key=" + BuildConfig.API_KEY
+
 
         context?.let {
             Glide.with(it)
