@@ -43,4 +43,9 @@
     <string name="tour_name_dummy">Tour Name</string>
     <string name="start_text">It\'s time to start a Tour!</string>
     <string name="button_select_a_tour_text">Select a Tour</string>
+    <string name="hint_title">Titel</string>
+    <string name="hint_description">Beschreibung</string>
+    <string name="menu_routs">Routen</string>
+
+    <string name="menu_tour_list">Touren</string>
 </resources>

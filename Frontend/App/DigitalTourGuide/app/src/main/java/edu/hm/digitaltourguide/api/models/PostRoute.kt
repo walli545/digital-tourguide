@@ -13,6 +13,9 @@ package edu.hm.digitaltourguide.api.models
 
 
 import com.squareup.moshi.Json
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * 
@@ -23,6 +26,7 @@ import com.squareup.moshi.Json
  * @param duration Gets or Sets Duration
  * @param polyline Gets or Sets Polyline
  */
+@Parcelize
 
 data class PostRoute (
     /* Gets or Sets PointOfInterests */
@@ -43,5 +47,5 @@ data class PostRoute (
     /* Gets or Sets Polyline */
     @Json(name = "polyline")
     val polyline: kotlin.String
-)
+) : Parcelable
 
