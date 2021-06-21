@@ -1,6 +1,6 @@
 /**
  * API
- * API Spec für den digitalen Reiseführer
+ * API Spec f�r den digitalen Reisef�hrer
  *
  * The version of the OpenAPI document: v1
  * 
@@ -17,7 +17,8 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { InlineResponse200, PointOfInterest } from '../model/models';
+import { CenterResult } from '../model/models';
+import { PointOfInterest } from '../model/models';
 import { PostPointOfInterest } from '../model/models';
 import { ProblemDetails } from '../model/models';
 import { PutPointOfInterest } from '../model/models';
@@ -121,6 +122,7 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
             'application/json',
             'text/json',
             'application/_*+json'
@@ -200,9 +202,9 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCenterOfPOIs(userName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<InlineResponse200>;
-    public getCenterOfPOIs(userName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<InlineResponse200>>;
-    public getCenterOfPOIs(userName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<InlineResponse200>>;
+    public getCenterOfPOIs(userName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<CenterResult>;
+    public getCenterOfPOIs(userName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<CenterResult>>;
+    public getCenterOfPOIs(userName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<CenterResult>>;
     public getCenterOfPOIs(userName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (userName === null || userName === undefined) {
             throw new Error('Required parameter userName was null or undefined when calling getCenterOfPOIs.');
@@ -228,7 +230,7 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<InlineResponse200>(`${this.configuration.basePath}/pointOfInterests/${encodeURIComponent(String(userName))}/center`,
+        return this.httpClient.get<CenterResult>(`${this.configuration.basePath}/api/pointOfInterest/${encodeURIComponent(String(userName))}/center`,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
@@ -359,6 +361,7 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
             'application/json',
             'text/json',
             'application/_*+json'

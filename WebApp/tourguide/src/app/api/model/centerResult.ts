@@ -12,21 +12,9 @@
 
 
 /**
- * Model class for posting a new poi
+ * Model class for a centerResult
  */
-export interface PostPointOfInterest { 
-    /**
-     * Gets or Sets Name
-     */
-    name: string;
-    /**
-     * Gets or Sets username
-     */
-    userName: string;
-    /**
-     * Gets or Sets Description
-     */
-    description: string;
+export interface CenterResult { 
     /**
      * Gets or Sets Latitude
      */
@@ -35,9 +23,5 @@ export interface PostPointOfInterest {
      * Gets or Sets Longitude
      */
     longitude: number;
-    /**
-     * Gets or Sets ImageUrl
-     */
-    imageUrl: string;
 }
 
