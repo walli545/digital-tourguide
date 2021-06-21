@@ -48,6 +48,7 @@
             {
                 "id": "c1843f3d-0f64-4fa6-a62a-789556c81730",
                 "name": "content-creator",
+                "description": "User that can also create and manage pois and routes",
                 "composite": false,
                 "clientRole": false,
                 "containerId": "tourguide",
@@ -76,6 +77,7 @@
             {
                 "id": "ee4bf91e-6488-420e-9bf4-905135716dc9",
                 "name": "admin",
+                "description": "Admins can manage the roles of users",
                 "composite": false,
                 "clientRole": false,
                 "containerId": "tourguide",
@@ -91,8 +93,18 @@
                 "attributes": {}
             },
             {
+              "id": "789aa02d-9c43-4bdc-9a67-bed81ee38aa7",
+              "name": "moderator",
+              "description": "User that can also delete reviews",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "tourguide",
+              "attributes": {}
+            },
+            {
                 "id": "fa8e0bef-cfff-467d-ae48-3cb8ec89fd16",
                 "name": "promoter",
+                "description": "Individuals or companies who want to advertise by being shown on the map",
                 "composite": false,
                 "clientRole": false,
                 "containerId": "tourguide",
@@ -110,6 +122,7 @@
             {
                 "id": "96b0f359-1c08-4b21-8029-edc37e5103ec",
                 "name": "user",
+                "description": "The default user can view pois and routes and is able to create reviews",
                 "composite": false,
                 "clientRole": false,
                 "containerId": "tourguide",
