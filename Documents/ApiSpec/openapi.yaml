@@ -20,6 +20,37 @@
         }
       }
     },
+    "/api/me": {
+      "get": {
+        "tags": [
+          "Healthcheck"
+        ],
+        "summary": "Return 200 ok.",
+        "operationId": "GetMe",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/pointOfInterest": {
       "post": {
         "tags": [
@@ -208,6 +239,48 @@
         }
       }
     },
+    "/api/pointOfInterest/{userName}/center": {
+      "get": {
+        "tags": [
+          "PointOfInterest"
+        ],
+        "summary": "Get the center of all poi's from the given user",
+        "operationId": "GetCenterOfPOIsAsync",
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CenterResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/pointOfInterest/getUserPoIs/{userName}": {
       "get": {
         "tags": [
@@ -249,6 +322,89 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/poireview": {
+      "post": {
+        "tags": [
+          "PoIReview"
+        ],
+        "summary": "Add a new review for a poi",
+        "operationId": "AddRoleReview",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
           }
         }
       }
@@ -377,6 +533,29 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
           }
         }
       }
@@ -483,9 +662,17 @@
         "operationId": "GetRoutes",
         "parameters": [
           {
-            "name": "creatorName",
+            "name": "userName",
             "in": "path",
             "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "creatorName",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "string"
@@ -510,6 +697,89 @@
             "description": "Not Found",
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/routereview": {
+      "post": {
+        "tags": [
+          "RouteReview"
+        ],
+        "summary": "Add a new review for a route",
+        "operationId": "AddRoleReview",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -556,31 +826,11 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -650,7 +900,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
@@ -769,6 +1019,48 @@
   },
   "components": {
     "schemas": {
+      "CenterResult": {
+        "required": [
+          "latitude",
+          "longitude"
+        ],
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "description": "Gets or Sets Latitude",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "Gets or Sets Longitude",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model class for a centerResult"
+      },
+      "Me": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PointOfInterest": {
         "required": [
           "averageRating",
@@ -778,7 +1070,8 @@
           "longitude",
           "name",
           "numberOfRatings",
-          "poIID"
+          "poIID",
+          "userName"
         ],
         "type": "object",
         "properties": {
@@ -790,6 +1083,10 @@
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -829,13 +1126,18 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name"
+          "name",
+          "userName"
         ],
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -858,6 +1160,36 @@
         },
         "additionalProperties": false,
         "description": "Model class for posting a new poi"
+      },
+      "PostPoIReview": {
+        "required": [
+          "content",
+          "poIID",
+          "rating",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "poIID": {
+            "type": "string",
+            "description": "Gets or Sets Id",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
+          }
+        },
+        "additionalProperties": false
       },
       "PostRoute": {
         "required": [
@@ -902,6 +1234,36 @@
         },
         "additionalProperties": false
       },
+      "PostRouteReview": {
+        "required": [
+          "content",
+          "rating",
+          "routeID",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "routeID": {
+            "type": "string",
+            "description": "Gets or Sets Id",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
+          }
+        },
+        "additionalProperties": false
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -936,7 +1298,8 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name"
+          "name",
+          "userName"
         ],
         "type": "object",
         "properties": {
@@ -947,6 +1310,10 @@
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -1046,10 +1413,12 @@
       },
       "Route": {
         "required": [
+          "averageRating",
           "creatorName",
           "description",
           "duration",
           "name",
+          "numberOfRatings",
           "polyline",
           "routeId"
         ],
@@ -1088,6 +1457,16 @@
           "polyline": {
             "type": "string",
             "description": "Gets or Sets Polyline"
+          },
+          "averageRating": {
+            "type": "number",
+            "description": "Gets or Sets AverageRating",
+            "format": "double"
+          },
+          "numberOfRatings": {
+            "type": "integer",
+            "description": "Gets or Sets NumberOfRatings",
+            "format": "int32"
           }
         },
         "additionalProperties": false
