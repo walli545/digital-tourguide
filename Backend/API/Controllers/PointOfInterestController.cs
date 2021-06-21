@@ -111,7 +111,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PointOfInterest))]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.User)]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.User, Roles.Moderator)]
     public virtual async Task<IActionResult> GetPOI([FromRoute][Required] Guid poiID)
     {
       var result = await _poiService.GetPoI(poiID);

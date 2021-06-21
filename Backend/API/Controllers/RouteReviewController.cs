@@ -32,6 +32,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.User, Roles.Moderator, Roles.Creator)]
     public virtual async Task<IActionResult> AddRoleReview([FromBody][Required] PostRouteReview body)
     {
       try
@@ -47,5 +48,7 @@ namespace API.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
     }
+    
+    //TODO: missing at least a delete for the moderators. 
   }
 }

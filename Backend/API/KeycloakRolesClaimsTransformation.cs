@@ -46,12 +46,10 @@ namespace API
     /// <seealso cref="IClaimsTransformation" />
     public class KeycloakRolesClaimsTransformation : IClaimsTransformation
     {
-        private readonly string _roleClaimType;
         private readonly ILogger<Startup> _logger;
 
-        public KeycloakRolesClaimsTransformation(string roleClaimType, IServiceProvider sp)
+        public KeycloakRolesClaimsTransformation(IServiceProvider sp)
         {
-            _roleClaimType = roleClaimType;
             _logger = sp.GetService<ILogger<Startup>>();
         }
 
@@ -88,7 +86,7 @@ namespace API
                 var value = role.GetString();
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    identity.AddClaim(new Claim(_roleClaimType, value));
+                    identity.AddClaim(new Claim(Roles.ClaimType, value));
                 }
             }
 

@@ -54,6 +54,7 @@ namespace API.Controllers
       var me = new Me();
       me.id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
       me.name = User.FindFirst(ClaimTypes.GivenName).Value;
+      me.roles = User.FindAll(Roles.ClaimType).ToList().Select(element => element.Value).ToList();
 
       return Ok(me);
     }
@@ -61,6 +62,7 @@ namespace API.Controllers
     private class Me{
       public string id { get; set; }
       public string name { get; set; }
+      public List<string> roles { get; set; }
     }
 
   }

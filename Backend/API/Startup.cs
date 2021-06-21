@@ -73,10 +73,10 @@ namespace API
                     options.Audience = jwtOptions.Audience;
                     options.RequireHttpsMetadata = jwtOptions.RequireHttpsMetadata;
                     options.TokenValidationParameters.NameClaimType = "preferred_username";
-                    options.TokenValidationParameters.RoleClaimType = "role";
+                    options.TokenValidationParameters.RoleClaimType = Roles.ClaimType;
                 });
 
-            services.AddTransient<IClaimsTransformation>(sp => new KeycloakRolesClaimsTransformation("role", sp));
+            services.AddTransient<IClaimsTransformation>(sp => new KeycloakRolesClaimsTransformation(sp));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -97,7 +97,7 @@ namespace API.Controllers
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [AuthorizedRoles(Roles.Creator,Roles.User)]
+    [AuthorizedRoles(Roles.Creator, Roles.User, Roles.Moderator)]
     public virtual async Task<IActionResult> GetRoute([FromRoute][Required] Guid routeID)
     {
       try
@@ -125,7 +125,7 @@ namespace API.Controllers
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [AuthorizedRoles(Roles.Creator,Roles.User)]
+    [AuthorizedRoles(Roles.Creator, Roles.User, Roles.Moderator)]
     public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string userName)
     {
       try
