@@ -20,11 +20,17 @@
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
+  padding-right: 10px;
 }
 
 #card-poi {
   background-color: #696969cb;
   margin-top: 10px;
+}
+
+#card-poi mat-card-content.with-pois {
+  margin-left: auto;
+  align-self: center;
 }
 
 #btn-new {
@@ -39,7 +45,6 @@
 }
 
 #card-poi {
-  cursor: pointer;
   display: flex;
 }
 mat-card-actions {
@@ -71,6 +76,9 @@ mat-icon {
     display: none;
   }
   -ms-overflow-style: none;
+  img {
+    max-width: 30%;
+  }
 }
 ::ng-deep .tooltip {
   background: #303030;

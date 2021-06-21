@@ -12,6 +12,8 @@ namespace API.Services
 
     public Task<int> DeletePoI(Guid poi);
 
+    public Task<CenterResult> GetCenter(string username);
+
     public Task<PointOfInterest> GetPoI(Guid poi);
 
     public Task<List<PointOfInterest>> GetAllPoIs(string username);

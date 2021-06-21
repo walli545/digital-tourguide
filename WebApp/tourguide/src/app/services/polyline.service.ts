@@ -8,7 +8,7 @@ import { toGoogleMaps } from '../utils/poi';
 export class PolylineService {
   async getPolyline(pois: PointOfInterest[]): Promise<string> {
     const results = Promise.all(
-      this.sepperateIntoChunks(pois).map((p) => this.doDirectionsRequest(p))
+      this.separateIntoChunks(pois).map((p) => this.doDirectionsRequest(p))
     );
     const polyline = new google.maps.Polyline();
     (await results).map((r) => this.addToPolyline(r, polyline));
@@ -21,7 +21,7 @@ export class PolylineService {
     return google.maps.geometry.encoding.decodePath(polyline);
   }
 
-  private sepperateIntoChunks(pois: PointOfInterest[]): PointOfInterest[][] {
+  private separateIntoChunks(pois: PointOfInterest[]): PointOfInterest[][] {
     const chunks = [];
     let chunk = 10;
     for (let i = 0; i < pois.length; i += chunk) {
@@ -52,7 +52,6 @@ export class PolylineService {
       } as google.maps.DirectionsRequest;
       directionsService.route(request, (result, status) => {
         if (status === 'OK') {
-          console.log(result);
           resolve(result);
         } else {
           reject(`Failed to get direction: ${result}`);

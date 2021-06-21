@@ -55,7 +55,7 @@ spec:
   tls:
   - hosts:
     - __URL__
-    secretName: angular-certificate-tls
+    secretName: tls-certificate
   rules:
   - host: __URL__
     http:

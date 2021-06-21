@@ -28,24 +28,25 @@ export class AuthGuard extends KeycloakAuthGuard {
       });
     }
 
-    if (!this.checkRolesEvery(route)) {
-      return false;
-    }
-    return this.checkRolesAny(route);
-  }
-
-  private checkRolesEvery(route: ActivatedRouteSnapshot): boolean {
-    const requiredRoles = route.data.everyRole;
-
-    if (!(requiredRoles instanceof Array) || requiredRoles.length === 0) {
+    if (this.checkRolesAny(route)) {
       return true;
+    } else {
+      return this.router.parseUrl('/not-authorized');
     }
-
-    return requiredRoles.every((role) => this.roles.includes(role));
   }
+
+  // private checkRolesEvery(route: ActivatedRouteSnapshot): boolean {
+  //   const requiredRoles = route.data.everyRole;
+
+  //   if (!(requiredRoles instanceof Array) || requiredRoles.length === 0) {
+  //     return true;
+  //   }
+
+  //   return requiredRoles.every((role) => this.roles.includes(role));
+  // }
 
   private checkRolesAny(route: ActivatedRouteSnapshot): boolean {
-    const requiredRoles = route.data.anyRole;
+    const requiredRoles = route.firstChild?.data.anyRole;
 
     if (!(requiredRoles instanceof Array) || requiredRoles.length === 0) {
       return true;

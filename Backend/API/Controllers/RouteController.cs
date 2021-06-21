@@ -41,14 +41,17 @@ namespace API.Controllers
       {
         var result = await _routeService.AddRoute(body);
         if (result == null)
-          return StatusCode(400);
+          return BadRequest();
 
-        var json = JsonConvert.SerializeObject(result);
-        return StatusCode(200, json);
+        return Ok(result);
+      }
+      catch(InvalidOperationException)
+      {
+        return BadRequest();
       }
       catch (ArgumentException)
       {
-        return StatusCode(404);
+        return NotFound();
       }
       catch (Exception)
       {
@@ -100,8 +103,7 @@ namespace API.Controllers
         if (result == null)
           return StatusCode(404);
 
-        var json = JsonConvert.SerializeObject(result);
-        return StatusCode(200, json);
+        return Ok(result);
       }
       catch (Exception)
       {
@@ -112,7 +114,7 @@ namespace API.Controllers
     /// <summary>
     /// Get all routes from the given user
     /// </summary>
-    /// <param name="creatorName"></param>
+    /// <param name="userName"></param>
     [HttpGet]
     [Route("/api/routes/{creatorName}")]
     [ValidateModelState]
@@ -120,16 +122,15 @@ namespace API.Controllers
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string creatorName)
+    public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string userName)
     {
       try
       {
-        var result = await _routeService.GetAllRoutes(creatorName);
+        var result = await _routeService.GetAllRoutes(userName);
         if (result == null)
           return StatusCode(404);
 
-        var json = JsonConvert.SerializeObject(result);
-        return StatusCode(200, json);
+        return Ok(result);
       }
       catch (Exception)
       {

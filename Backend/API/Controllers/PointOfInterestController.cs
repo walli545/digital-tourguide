@@ -43,8 +43,7 @@ namespace API.Controllers
         if (result == null)
           return StatusCode(400);
 
-        var json = JsonConvert.SerializeObject(result);
-        return StatusCode(200, json);
+        return Ok(result);
       }
       catch (Exception)
       {
@@ -77,32 +76,26 @@ namespace API.Controllers
       }
     }
 
-    /////// <summary>
-    /////// Get the center of all poi&#x27;s from the given user
-    /////// </summary>
-    /////// <param name="userName"></param>
-    /////// <response code="200">Success</response>
-    /////// <response code="404">User not found</response>
-    ////[HttpGet]
-    ////[Route("/v2/pointOfInterest/{userName}/center")]
-    ////[ValidateModelState]
-    ////[SwaggerOperation("GetCenterOfPOIs")]
-    ////[SwaggerResponse(statusCode: 200, type: typeof(InlineResponse200), description: "Success")]
-    ////public virtual IActionResult GetCenterOfPOIs([FromRoute][Required] string userName)
-    ////{
-    ////  //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-    ////  // return StatusCode(200, default(InlineResponse200));
+    /// <summary>
+    /// Get the center of all poi&#x27;s from the given user
+    /// </summary>
+    /// <param name="userName"></param>
+    /// <response code="200">Success</response> 
+    /// <response code="404">User not found</response>
+    [HttpGet]
+    [Route("/api/pointOfInterest/{userName}/center")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CenterResult))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual async Task<IActionResult> GetCenterOfPOIsAsync([FromRoute][Required] string userName)
+    {
+      var result = await _poiService.GetCenter(userName);
+      if (result == null)
+        return NotFound();
 
-    ////  //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-    ////  // return StatusCode(404);
-    ////  string exampleJson = null;
-    ////  exampleJson = "{\n  \"latitude\" : 0.8008281904610115,\n  \"longitude\" : 6.027456183070403\n}";
-
-    ////  var example = exampleJson != null
-    ////  ? JsonConvert.DeserializeObject<InlineResponse200>(exampleJson)
-    ////  : default(InlineResponse200);            //TODO: Change the data returned
-    ////  return new ObjectResult(example);
-    ////}
+      return Ok(result);
+    }
 
     /// <summary>
     /// Gets the poi to a given id
@@ -120,8 +113,7 @@ namespace API.Controllers
       if (result == null)
         return StatusCode(404);
 
-      var json = JsonConvert.SerializeObject(result);
-      return StatusCode(200, json);
+      return Ok(result);
     }
 
     /// <summary>
@@ -140,8 +132,7 @@ namespace API.Controllers
       if (results.Count == 0)
         return StatusCode(404);
 
-      var json = JsonConvert.SerializeObject(results);
-      return StatusCode(200, json);
+      return Ok(results);
     }
 
     /// <summary>

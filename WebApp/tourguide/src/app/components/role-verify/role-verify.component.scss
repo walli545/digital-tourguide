@@ -1,0 +1,29 @@
+#card {
+  mat-card-header {
+    justify-content: center;
+  }
+  #card-content {
+    display: flex;
+    height: 55px;
+    width: 300px;
+    background-color: #696969cb;
+    margin-top: 10px;
+    flex-direction: column;
+
+    mat-card-actions {
+      float: right;
+    }
+  }
+}
+#container {
+  display: flex;
+  margin: 10px;
+  justify-content: center;
+}
+
+#spinner {
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  position: fixed;
+}

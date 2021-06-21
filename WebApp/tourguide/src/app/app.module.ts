@@ -40,28 +40,27 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import {
-  ApiModule,
-  Configuration,
-  ConfigurationParameters,
-  PointOfInterestService,
-  RouteService,
-} from './api';
+import { ApiModule, Configuration, ConfigurationParameters } from './api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DropdownAccountComponent } from './components/dropdown-account/dropdown-account.component';
 import { EditPoiComponent } from './components/edit-poi/edit-poi.component';
 import { EditRouteComponent } from './components/edit-route/edit-route.component';
+import { HomeComponent } from './components/home/home.component';
 import { InputImageUrlComponent } from './components/input-image-url/input-image-url.component';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PoiOrderComponent } from './components/poi/poi-order/poi-order.component';
 import { PoiSelectComponent } from './components/poi/poi-select/poi-select.component';
+import { RoleRequestComponent } from './components/role-request/role-request.component';
+import { RoleVerifyComponent } from './components/role-verify/role-verify.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
-import { TestComponent } from './components/test/test.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ViewPoisComponent } from './components/view-pois/view-pois.component';
 import { ViewRoutesComponent } from './components/view-routes/view-routes.component';
+import { DisplayRolePipe } from './pipes/display-role.pipe';
 import { FirstOrLastPipe } from './pipes/first-or-last.pipe';
-import { LocalPointOfInterestService } from './services/local-api/LocalPointOfInterestService';
-import { LocalRouteService } from './services/local-api/LocalRouteService';
+import { OneOfRequiredRolePipe } from './pipes/one-of-required-role.pipe';
 
 const materialModules = [
   BrowserModule,
@@ -106,6 +105,7 @@ const materialModules = [
 
 const apiConfigFactory = (): Configuration => {
   const params: ConfigurationParameters = {
+    basePath: '',
     // set configuration parameters here.
   };
   return new Configuration(params);
@@ -134,13 +134,20 @@ const initializeKeycloak = (
     EditRouteComponent,
     FirstOrLastPipe,
     InputImageUrlComponent,
+    NotFoundComponent,
     PoiOrderComponent,
     PoiSelectComponent,
     SideNavComponent,
-    TestComponent,
     ToolbarComponent,
     ViewPoisComponent,
     ViewRoutesComponent,
+    DropdownAccountComponent,
+    DisplayRolePipe,
+    NotAuthorizedComponent,
+    OneOfRequiredRolePipe,
+    RoleRequestComponent,
+    RoleVerifyComponent,
+    HomeComponent,
   ],
   imports: [
     ApiModule.forRoot(apiConfigFactory),
@@ -160,8 +167,6 @@ const initializeKeycloak = (
       multi: true,
       deps: [KeycloakService],
     },
-    { provide: PointOfInterestService, useClass: LocalPointOfInterestService },
-    { provide: RouteService, useClass: LocalRouteService },
   ],
   bootstrap: [AppComponent],
 })

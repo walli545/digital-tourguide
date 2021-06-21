@@ -15,6 +15,8 @@ using API.Services;
 using System.Reflection;
 using System.IO;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Newtonsoft.Json.Converters;
+using FluentValidation.AspNetCore;
 
 namespace API
 {
@@ -36,20 +38,26 @@ namespace API
 
       services.AddScoped<IPointOfInterestService, PointOfInterestService>();
       services.AddScoped<IRouteService, RouteService>();
+      services.AddScoped<IRoleRequestService, RoleRequestService>();
 
-      services.AddControllers();
+      services.AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+          options.SerializerSettings.Converters.Add(new StringEnumConverter());
+        })
+        .AddFluentValidation();
       services.AddSwaggerGen(c =>
       {
         c.CustomOperationIds(apiDesc =>
         {
           return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
         });
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1", Description = "API Spec für den digitalen Reiseführer" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1", Description = "API Spec fï¿½r den digitalen Reisefï¿½hrer" });
         c.EnableAnnotations();
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         c.IncludeXmlComments(xmlPath);
-      });
+      }).AddSwaggerGenNewtonsoftSupport();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

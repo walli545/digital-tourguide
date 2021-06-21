@@ -1,0 +1,51 @@
+<div id="container">
+  <mat-card id="card"
+    ><mat-card-header>
+      <mat-card-title
+        >Place request for a role, or give it back</mat-card-title
+      ></mat-card-header
+    >
+    <mat-card-content>
+      <mat-card id="card-content">
+        <mat-card-content>
+          Your current Role: <b>{{ currentRole | displayRole }} </b>
+        </mat-card-content>
+      </mat-card>
+      <mat-card id="card-content">
+        <mat-card-content>
+          <mat-form-field appearance="fill">
+            <mat-label>Request role:</mat-label>
+            <mat-select
+              (selectionChange)="selectedValue($event)"
+              [disabled]="selectDisabled"
+              [formControl]="roleControl"
+              required
+            >
+              <mat-option *ngFor="let setRole of roles" [value]="setRole">
+                {{ setRole | displayRole }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="roleControl.hasError('required')"
+              >Please choose a role</mat-error
+            >
+          </mat-form-field>
+          <button
+            mat-raised-button
+            *ngIf="!selectDisabled"
+            [disabled]="roleControl.hasError('required')"
+            (click)="onRequest()"
+            color="accent"
+            matTooltip="request role"
+            matTooltipPosition="left"
+            matTooltipClass="tooltip"
+            aria-label="role drequest button"
+          >
+            REQUEST
+          </button>
+
+          <a *ngIf="selectDisabled">waiting for verification...</a>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>
