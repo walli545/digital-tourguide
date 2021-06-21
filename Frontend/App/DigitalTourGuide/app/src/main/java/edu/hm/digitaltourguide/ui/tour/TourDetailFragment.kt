@@ -65,7 +65,7 @@ class TourDetailFragment : Fragment() {
         }
         imageSlider.setImageList(slideModels, true)
 
-        var urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=600x400&path="+ route.polyline +"&key=AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ"
+        var urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=1000x300&path="+ route.polyline +"&key=AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ"
 
         context?.let {
             Glide.with(it)
