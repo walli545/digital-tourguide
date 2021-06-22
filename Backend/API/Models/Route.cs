@@ -59,5 +59,19 @@ namespace API.Models
     [Required]
     [DataMember(Name = "polyline")]
     public string Polyline { get; set; }
+
+    /// <summary>
+    /// Gets or Sets AverageRating
+    /// </summary>
+    [Required]
+    [DataMember(Name = "averageRating")]
+    public double? AverageRating { get; set; }
+
+    /// <summary>
+    /// Gets or Sets NumberOfRatings
+    /// </summary>
+    [Required]
+    [DataMember(Name = "numberOfRatings")]
+    public int? NumberOfRatings { get; set; }
   }
 }

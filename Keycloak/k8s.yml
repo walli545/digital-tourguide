@@ -25,15 +25,21 @@ spec:
         image: gitlab.lrz.de:5005/swe2_ss2021/gruppe02/keycloak:__CI_COMMIT_SHA__
         ports:
         - containerPort: 8080
-        env:
+        env:        
+        - name:  PROXY_ADDRESS_FORWARDING
+          value: "true"
         - name: KEYCLOAK_USER
           value: admin
         - name: KEYCLOAK_PASSWORD
-          value: Gruppe02
+          value: __PW__
         - name: DB_VENDOR
           value: mariadb
         - name: DB_ADDR
           value: keycloak-db-service
+        readinessProbe:
+          httpGet:
+            path: /auth/realms/master
+            port: 8080
       imagePullSecrets:
       - name: image-pull-secret
 
@@ -60,6 +66,9 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: http-fh-issuer
     kubernetes.io/ingress.class: "public"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
 spec:
   tls:
   - hosts:

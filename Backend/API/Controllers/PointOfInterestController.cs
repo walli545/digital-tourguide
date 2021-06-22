@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -35,6 +36,7 @@ namespace API.Controllers
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter)]
     public virtual async Task<IActionResult> AddPOI([FromBody][Required] PostPointOfInterest body)
     {
       try
@@ -61,6 +63,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter)]
     public virtual async Task<IActionResult> DeletePOI([FromRoute][Required] Guid poiID)
     {
       try
@@ -83,11 +86,12 @@ namespace API.Controllers
     /// <response code="200">Success</response> 
     /// <response code="404">User not found</response>
     [HttpGet]
-    [Route("/api/pointOfInterest/{userName}/center")]
+    [Route("/api/pointOfInterest/{userName}/center")] // warum muss ich username übergeben das will ich nur für mich selber wissen oder ? 
     [ValidateModelState]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CenterResult))]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter)]
     public virtual async Task<IActionResult> GetCenterOfPOIsAsync([FromRoute][Required] string userName)
     {
       var result = await _poiService.GetCenter(userName);
@@ -107,6 +111,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PointOfInterest))]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.User, Roles.Moderator)]
     public virtual async Task<IActionResult> GetPOI([FromRoute][Required] Guid poiID)
     {
       var result = await _poiService.GetPoI(poiID);
@@ -126,6 +131,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PointOfInterest>))]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.Moderator, Roles.User)]
     public virtual async Task<IActionResult> GetPOIs([FromRoute][Required] string userName)
     {
       var results = await _poiService.GetAllPoIs(userName);
@@ -144,6 +150,7 @@ namespace API.Controllers
     [ValidateModelState]
     [SwaggerOperation("PutPOI")]
     [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter)]
     public virtual async Task<IActionResult> PutPOI([FromBody][Required] PutPointOfInterest body)
     {
       var result = await _poiService.PutPoI(body);

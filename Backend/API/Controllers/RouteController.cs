@@ -35,6 +35,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator)]
     public virtual async Task<IActionResult> AddRoute([FromBody][Required] PostRoute body)
     {
       try
@@ -45,7 +46,7 @@ namespace API.Controllers
 
         return Ok(result);
       }
-      catch(InvalidOperationException)
+      catch (InvalidOperationException)
       {
         return BadRequest();
       }
@@ -69,6 +70,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator)]
     public virtual async Task<IActionResult> DeleteRoute([FromRoute][Required] Guid routeID)
     {
       try
@@ -95,6 +97,7 @@ namespace API.Controllers
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator, Roles.User, Roles.Moderator)]
     public virtual async Task<IActionResult> GetRoute([FromRoute][Required] Guid routeID)
     {
       try
@@ -116,12 +119,13 @@ namespace API.Controllers
     /// </summary>
     /// <param name="userName"></param>
     [HttpGet]
-    [Route("/api/routes/{creatorName}")]
+    [Route("/api/routes/{userName}")]
     [ValidateModelState]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Route>))]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator, Roles.User, Roles.Moderator)]
     public virtual async Task<IActionResult> GetRoutes([FromRoute][Required] string userName)
     {
       try
@@ -147,13 +151,28 @@ namespace API.Controllers
     [ValidateModelState]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator)]
     public virtual async Task<IActionResult> PutRoute([FromBody][Required] PutRoute body)
     {
-      var result = await _routeService.PutRoute(body);
-      if (result == 0)
-        return StatusCode(404);
+      try
+      {
+        var result = await _routeService.PutRoute(body);
+        if (result == 0)
+          return StatusCode(404);
 
-      return NoContent();
+        return NoContent();
+      }
+      catch(ArgumentException)
+      {
+        return BadRequest();
+      }
+      catch(Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
     }
   }
 }
+

@@ -51,9 +51,9 @@ export interface RouteServiceInterface {
     /**
      * Get all routes from the given user
      * 
-     * @param creatorName 
+     * @param userName 
      */
-    getRoutes(creatorName: string, extraHttpRequestParams?: any): Observable<Array<Route>>;
+    getRoutes(userName: string, extraHttpRequestParams?: any): Observable<Array<Route>>;
 
     /**
      * Edits the route to a given id
