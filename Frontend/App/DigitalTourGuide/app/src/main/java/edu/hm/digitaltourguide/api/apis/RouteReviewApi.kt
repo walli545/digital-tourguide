@@ -11,7 +11,8 @@
 */
 package edu.hm.digitaltourguide.api.apis
 
-import edu.hm.digitaltourguide.api.models.Me
+import edu.hm.digitaltourguide.api.models.PostRouteReview
+import edu.hm.digitaltourguide.api.models.ProblemDetails
 
 import edu.hm.digitaltourguide.api.infrastructure.ApiClient
 import edu.hm.digitaltourguide.api.infrastructure.ClientException
@@ -25,7 +26,7 @@ import edu.hm.digitaltourguide.api.infrastructure.ResponseType
 import edu.hm.digitaltourguide.api.infrastructure.Success
 import edu.hm.digitaltourguide.api.infrastructure.toMultiValue
 
-class HealthcheckApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+class RouteReviewApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -34,69 +35,17 @@ class HealthcheckApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     }
 
     /**
-    * Return 200 ok.
+    * Add a new review for a route
     * 
-    * @return Me
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMe() : Me {
-        val localVariableConfig = getMeRequestConfig()
-
-        val localVarResponse = request<Me>(
-            localVariableConfig
-        )
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as Me
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-    * To obtain the request config of the operation getMe
-    *
-    * @return RequestConfig
-    */
-    fun getMeRequestConfig() : RequestConfig {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
-        val localVariableConfig = RequestConfig(
-            method = RequestMethod.GET,
-            path = "/api/me",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            body = localVariableBody
-        )
-
-        return localVariableConfig
-    }
-
-    /**
-    * Return 200 ok.
-    * 
+    * @param postRouteReview  
     * @return void
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun healthcheck() : Unit {
-        val localVariableConfig = healthcheckRequestConfig()
+    fun addRouteReview(postRouteReview: PostRouteReview) : Unit {
+        val localVariableConfig = addRouteReviewRequestConfig(postRouteReview = postRouteReview)
 
         val localVarResponse = request<Any?>(
             localVariableConfig
@@ -118,18 +67,19 @@ class HealthcheckApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     }
 
     /**
-    * To obtain the request config of the operation healthcheck
+    * To obtain the request config of the operation addRouteReview
     *
+    * @param postRouteReview  
     * @return RequestConfig
     */
-    fun healthcheckRequestConfig() : RequestConfig {
-        val localVariableBody: kotlin.Any? = null
+    fun addRouteReviewRequestConfig(postRouteReview: PostRouteReview) : RequestConfig {
+        val localVariableBody: kotlin.Any? = postRouteReview
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val localVariableConfig = RequestConfig(
-            method = RequestMethod.GET,
-            path = "/api/Healthcheck",
+            method = RequestMethod.POST,
+            path = "/api/routereview",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

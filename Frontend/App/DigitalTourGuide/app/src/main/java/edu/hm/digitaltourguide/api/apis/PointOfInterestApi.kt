@@ -157,8 +157,8 @@ class PointOfInterestApi(basePath: kotlin.String = defaultBasePath) : ApiClient(
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getCenterOfPOIs(userName: kotlin.String) : CenterResult {
-        val localVariableConfig = getCenterOfPOIsRequestConfig(userName = userName)
+    fun getCenterOfPOIsAsync(userName: kotlin.String) : CenterResult {
+        val localVariableConfig = getCenterOfPOIsAsyncRequestConfig(userName = userName)
 
         val localVarResponse = request<CenterResult>(
             localVariableConfig
@@ -180,12 +180,12 @@ class PointOfInterestApi(basePath: kotlin.String = defaultBasePath) : ApiClient(
     }
 
     /**
-    * To obtain the request config of the operation getCenterOfPOIs
+    * To obtain the request config of the operation getCenterOfPOIsAsync
     *
     * @param userName  
     * @return RequestConfig
     */
-    fun getCenterOfPOIsRequestConfig(userName: kotlin.String) : RequestConfig {
+    fun getCenterOfPOIsAsyncRequestConfig(userName: kotlin.String) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
