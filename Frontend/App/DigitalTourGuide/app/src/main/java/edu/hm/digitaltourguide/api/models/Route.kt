@@ -26,6 +26,8 @@ import kotlinx.parcelize.Parcelize
  * @param creatorName Gets or Sets CreatorName
  * @param duration Gets or Sets Duration
  * @param polyline Gets or Sets Polyline
+ * @param averageRating Gets or Sets AverageRating
+ * @param numberOfRatings Gets or Sets NumberOfRatings
  * @param pointOfInterests The PoIs that are on this route
  */
 @Parcelize
@@ -49,6 +51,12 @@ data class Route (
     /* Gets or Sets Polyline */
     @Json(name = "polyline")
     val polyline: kotlin.String,
+    /* Gets or Sets AverageRating */
+    @Json(name = "averageRating")
+    val averageRating: kotlin.Double,
+    /* Gets or Sets NumberOfRatings */
+    @Json(name = "numberOfRatings")
+    val numberOfRatings: kotlin.Int,
     /* The PoIs that are on this route */
     @Json(name = "pointOfInterests")
     val pointOfInterests: kotlin.collections.List<PointOfInterest>? = null

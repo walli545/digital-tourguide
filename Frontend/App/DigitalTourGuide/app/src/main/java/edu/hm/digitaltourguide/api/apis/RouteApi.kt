@@ -203,7 +203,7 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     /**
     * Get all routes from the given user
     * 
-    * @param creatorName  
+    * @param userName  
     * @return kotlin.collections.List<Route>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -211,8 +211,8 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getRoutes(creatorName: kotlin.String) : kotlin.collections.List<Route> {
-        val localVariableConfig = getRoutesRequestConfig(creatorName = creatorName)
+    fun getRoutes(userName: kotlin.String) : kotlin.collections.List<Route> {
+        val localVariableConfig = getRoutesRequestConfig(userName = userName)
 
         val localVarResponse = request<kotlin.collections.List<Route>>(
             localVariableConfig
@@ -236,17 +236,17 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     /**
     * To obtain the request config of the operation getRoutes
     *
-    * @param creatorName  
+    * @param userName  
     * @return RequestConfig
     */
-    fun getRoutesRequestConfig(creatorName: kotlin.String) : RequestConfig {
+    fun getRoutesRequestConfig(userName: kotlin.String) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val localVariableConfig = RequestConfig(
             method = RequestMethod.GET,
-            path = "/api/routes/{creatorName}".replace("{"+"creatorName"+"}", "$creatorName"),
+            path = "/api/routes/{userName}".replace("{"+"userName"+"}", "$userName"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

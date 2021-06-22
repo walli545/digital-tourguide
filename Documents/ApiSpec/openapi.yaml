@@ -1,1155 +1,978 @@
-{
-  "openapi": "3.0.1",
-  "info": {
-    "title": "API",
-    "description": "API Spec f�r den digitalen Reisef�hrer",
-    "version": "v1"
-  },
-  "paths": {
-    "/api/Healthcheck": {
-      "get": {
-        "tags": [
-          "Healthcheck"
-        ],
-        "summary": "Return 200 ok.",
-        "operationId": "Healthcheck", 
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/pointOfInterest": {
-      "post": {
-        "tags": [
-          "PointOfInterest"
-        ],
-        "summary": "Add a new poi to the database",
-        "operationId": "AddPOI",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostPointOfInterest"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostPointOfInterest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostPointOfInterest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostPointOfInterest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PointOfInterest"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "PointOfInterest"
-        ],
-        "summary": "Edits the poi to a given id",
-        "operationId": "PutPOI",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutPointOfInterest"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutPointOfInterest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutPointOfInterest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutPointOfInterest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/pointOfInterest/{poiID}": {
-      "delete": {
-        "tags": [
-          "PointOfInterest"
-        ],
-        "summary": "Deletes the poi to a given id",
-        "operationId": "DeletePOI",
-        "parameters": [
-          {
-            "name": "poiID",
-            "in": "path",
-            "description": "the poiID to delete",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "PointOfInterest"
-        ],
-        "summary": "Gets the poi to a given id",
-        "operationId": "GetPOI",
-        "parameters": [
-          {
-            "name": "poiID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PointOfInterest"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/pointOfInterest/{userName}/center": {
-      "get": {
-        "tags": [
-          "PointOfInterest"
-        ],
-        "summary": "Get the center of all poi's from the given user",
-        "operationId": "GetCenterOfPOIs",
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CenterResult"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/pointOfInterest/getUserPoIs/{userName}": {
-      "get": {
-        "tags": [
-          "PointOfInterest"
-        ],
-        "summary": "Get all poi's from the given user",
-        "operationId": "GetPOIs",
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PointOfInterest"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/route": {
-      "post": {
-        "tags": [
-          "Route"
-        ],
-        "summary": "Add a new route to the database",
-        "operationId": "AddRoute",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostRoute"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostRoute"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostRoute"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostRoute"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Route"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Route"
-        ],
-        "summary": "Edits the route to a given id",
-        "operationId": "PutRoute",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutRoute"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutRoute"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutRoute"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PutRoute"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/route/{routeID}": {
-      "delete": {
-        "tags": [
-          "Route"
-        ],
-        "summary": "Deletes the route to a given id",
-        "operationId": "DeleteRoute",
-        "parameters": [
-          {
-            "name": "routeID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Route"
-        ],
-        "summary": "Gets the route to a given id",
-        "operationId": "GetRoute",
-        "parameters": [
-          {
-            "name": "routeID",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Route"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      }
-    },
-    "/api/routes/{userName}": {
-      "get": {
-        "tags": [
-          "Route"
-        ],
-        "summary": "Get all routes from the given user",
-        "operationId": "GetRoutes",
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Route"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      }
-    },
-    "/api/verification": {
-      "post": {
-        "tags": [
-          "Verification"
-        ],
-        "summary": "Add a new role request",
-        "operationId": "RequestRole",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RoleModel"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RoleModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RoleModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RoleModel"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      }
-    },
-    "/api/verification/requests": {
-      "get": {
-        "tags": [
-          "Verification"
-        ],
-        "summary": "Fetch all open role requests",
-        "operationId": "GetRequests",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RoleModel"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      }
-    },
-    "/api/verification/accept/{userName}": {
-      "post": {
-        "tags": [
-          "Verification"
-        ],
-        "summary": "Accept the role request of a specific user",
-        "operationId": "AcceptRequest",
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      }
-    },
-    "/api/verification/deny/{userName}": {
-      "post": {
-        "tags": [
-          "Verification"
-        ],
-        "summary": "Reject the role request of a specific user",
-        "operationId": "DenyRequest",
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "CenterResult": {
-        "required": [
-          "latitude",
-          "longitude"
-        ],
-        "type": "object",
-        "properties": {
-          "latitude": {
-            "type": "number",
-            "description": "Gets or Sets Latitude",
-            "format": "double"
-          },
-          "longitude": {
-            "type": "number",
-            "description": "Gets or Sets Longitude",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Model class for a centerResult"
-      },
-      "PointOfInterest": {
-        "required": [
-          "averageRating",
-          "description",
-          "imageUrl",
-          "latitude",
-          "longitude",
-          "name",
-          "numberOfRatings",
-          "poIID",
-          "userName"
-        ],
-        "type": "object",
-        "properties": {
-          "poIID": {
-            "type": "string",
-            "description": "Gets or Sets Id",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "description": "Gets or Sets Name"
-          },
-          "userName": {
-            "type": "string",
-            "description": "Gets or Sets username"
-          },
-          "description": {
-            "type": "string",
-            "description": "Gets or Sets Description"
-          },
-          "latitude": {
-            "type": "number",
-            "description": "Gets or Sets Latitude",
-            "format": "double"
-          },
-          "longitude": {
-            "type": "number",
-            "description": "Gets or Sets Longitude",
-            "format": "double"
-          },
-          "averageRating": {
-            "type": "number",
-            "description": "Gets or Sets AverageRating",
-            "format": "double"
-          },
-          "numberOfRatings": {
-            "type": "integer",
-            "description": "Gets or Sets NumberOfRatings",
-            "format": "int32"
-          },
-          "imageUrl": {
-            "type": "string",
-            "description": "Gets or Sets ImageUrl"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Model class for a PointOfInterest"
-      },
-      "PostPointOfInterest": {
-        "required": [
-          "description",
-          "imageUrl",
-          "latitude",
-          "longitude",
-          "name",
-          "userName"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Gets or Sets Name"
-          },
-          "userName": {
-            "type": "string",
-            "description": "Gets or Sets username"
-          },
-          "description": {
-            "type": "string",
-            "description": "Gets or Sets Description"
-          },
-          "latitude": {
-            "type": "number",
-            "description": "Gets or Sets Latitude",
-            "format": "double"
-          },
-          "longitude": {
-            "type": "number",
-            "description": "Gets or Sets Longitude",
-            "format": "double"
-          },
-          "imageUrl": {
-            "type": "string",
-            "description": "Gets or Sets ImageUrl"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Model class for posting a new poi"
-      },
-      "PostRoute": {
-        "required": [
-          "creatorName",
-          "description",
-          "duration",
-          "name",
-          "pointOfInterests",
-          "polyline"
-        ],
-        "type": "object",
-        "properties": {
-          "pointOfInterests": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "description": "Gets or Sets PointOfInterests"
-          },
-          "name": {
-            "type": "string",
-            "description": "Gets or Sets Name"
-          },
-          "description": {
-            "type": "string",
-            "description": "Gets or Sets Description"
-          },
-          "creatorName": {
-            "type": "string",
-            "description": "Gets or Sets CreatorName"
-          },
-          "duration": {
-            "type": "number",
-            "description": "Gets or Sets Duration",
-            "format": "float"
-          },
-          "polyline": {
-            "type": "string",
-            "description": "Gets or Sets Polyline"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": { }
-      },
-      "PutPointOfInterest": {
-        "required": [
-          "description",
-          "id",
-          "imageUrl",
-          "latitude",
-          "longitude",
-          "name",
-          "userName"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Gets or Sets Id"
-          },
-          "name": {
-            "type": "string",
-            "description": "Gets or Sets Name"
-          },
-          "userName": {
-            "type": "string",
-            "description": "Gets or Sets username"
-          },
-          "description": {
-            "type": "string",
-            "description": "Gets or Sets Description"
-          },
-          "latitude": {
-            "type": "number",
-            "description": "Gets or Sets Latitude",
-            "format": "double"
-          },
-          "longitude": {
-            "type": "number",
-            "description": "Gets or Sets Longitude",
-            "format": "double"
-          },
-          "imageUrl": {
-            "type": "string",
-            "description": "Gets or Sets ImageUrl"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PutRoute": {
-        "required": [
-          "creatorName",
-          "description",
-          "duration",
-          "id",
-          "name",
-          "pointOfInterests",
-          "polyline"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Gets or Sets Id"
-          },
-          "pointOfInterests": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "description": "Gets or Sets PointOfInterests"
-          },
-          "name": {
-            "type": "string",
-            "description": "Gets or Sets Name"
-          },
-          "description": {
-            "type": "string",
-            "description": "Gets or Sets Description"
-          },
-          "creatorName": {
-            "type": "string",
-            "description": "Gets or Sets CreatorName"
-          },
-          "duration": {
-            "type": "number",
-            "description": "Gets or Sets Duration",
-            "format": "float"
-          },
-          "polyline": {
-            "type": "string",
-            "description": "Gets or Sets Polyline"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Role": {
-        "enum": [
-          "contentCreator",
-          "moderator",
-          "admin",
-          "promoter"
-        ],
-        "type": "string",
-        "description": "Gets or Sets Role"
-      },
-      "RoleModel": {
-        "required": [
-          "creatorName",
-          "requestedRole"
-        ],
-        "type": "object",
-        "properties": {
-          "creatorName": {
-            "type": "string",
-            "description": "Gets or Sets CreatorName"
-          },
-          "requestedRole": {
-            "$ref": "#/components/schemas/Role"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Route": {
-        "required": [
-          "creatorName",
-          "description",
-          "duration",
-          "name",
-          "polyline",
-          "routeId"
-        ],
-        "type": "object",
-        "properties": {
-          "routeId": {
-            "type": "string",
-            "description": "Gets or Sets Id",
-            "format": "uuid"
-          },
-          "pointOfInterests": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PointOfInterest"
-            },
-            "description": "The PoIs that are on this route",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "description": "Gets or Sets Name"
-          },
-          "description": {
-            "type": "string",
-            "description": "Gets or Sets Description"
-          },
-          "creatorName": {
-            "type": "string",
-            "description": "Gets or Sets CreatorName"
-          },
-          "duration": {
-            "type": "number",
-            "description": "Gets or Sets Duration",
-            "format": "float"
-          },
-          "polyline": {
-            "type": "string",
-            "description": "Gets or Sets Polyline"
-          }
-        },
-        "additionalProperties": false
-      }
-    }
-  }
-}
+openapi: 3.0.1
+info:
+  title: API
+  description: API Spec f�r den digitalen Reisef�hrer
+  version: v1
+paths:
+  /api/Healthcheck:
+    get:
+      tags:
+        - Healthcheck
+      summary: Return 200 ok.
+      operationId: Healthcheck
+      responses:
+        '200':
+          description: Success
+  /api/me:
+    get:
+      tags:
+        - Healthcheck
+      summary: Return 200 ok.
+      operationId: GetMe
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Me'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+  /api/pointOfInterest:
+    post:
+      tags:
+        - PointOfInterest
+      summary: Add a new poi to the database
+      operationId: AddPOI
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PostPointOfInterest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostPointOfInterest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PostPointOfInterest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PostPointOfInterest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointOfInterest'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+    put:
+      tags:
+        - PointOfInterest
+      summary: Edits the poi to a given id
+      operationId: PutPOI
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PutPointOfInterest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutPointOfInterest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PutPointOfInterest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PutPointOfInterest'
+        required: true
+      responses:
+        '200':
+          description: Success
+  '/api/pointOfInterest/{poiID}':
+    delete:
+      tags:
+        - PointOfInterest
+      summary: Deletes the poi to a given id
+      operationId: DeletePOI
+      parameters:
+        - name: poiID
+          in: path
+          description: the poiID to delete
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+    get:
+      tags:
+        - PointOfInterest
+      summary: Gets the poi to a given id
+      operationId: GetPOI
+      parameters:
+        - name: poiID
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointOfInterest'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/api/pointOfInterest/{userName}/center':
+    get:
+      tags:
+        - PointOfInterest
+      summary: Get the center of all poi's from the given user
+      operationId: GetCenterOfPOIsAsync
+      parameters:
+        - name: userName
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CenterResult'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/api/pointOfInterest/getUserPoIs/{userName}':
+    get:
+      tags:
+        - PointOfInterest
+      summary: Get all poi's from the given user
+      operationId: GetPOIs
+      parameters:
+        - name: userName
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PointOfInterest'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /api/poireview:
+    post:
+      tags:
+        - PoIReview
+      summary: Add a new review for a poi
+      operationId: AddPoIReview
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PostPoIReview'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostPoIReview'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PostPoIReview'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PostPoIReview'
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/route:
+    post:
+      tags:
+        - Route
+      summary: Add a new route to the database
+      operationId: AddRoute
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PostRoute'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRoute'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PostRoute'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PostRoute'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+    put:
+      tags:
+        - Route
+      summary: Edits the route to a given id
+      operationId: PutRoute
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PutRoute'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutRoute'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PutRoute'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PutRoute'
+        required: true
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  '/api/route/{routeID}':
+    delete:
+      tags:
+        - Route
+      summary: Deletes the route to a given id
+      operationId: DeleteRoute
+      parameters:
+        - name: routeID
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+    get:
+      tags:
+        - Route
+      summary: Gets the route to a given id
+      operationId: GetRoute
+      parameters:
+        - name: routeID
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  '/api/routes/{userName}':
+    get:
+      tags:
+        - Route
+      summary: Get all routes from the given user
+      operationId: GetRoutes
+      parameters:
+        - name: userName
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Route'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/routereview:
+    post:
+      tags:
+        - RouteReview
+      summary: Add a new review for a route
+      operationId: AddRouteReview
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PostRouteReview'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRouteReview'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PostRouteReview'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PostRouteReview'
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/verification:
+    post:
+      tags:
+        - Verification
+      summary: Add a new role request
+      operationId: RequestRole
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/RoleModel'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RoleModel'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/RoleModel'
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  /api/verification/requests:
+    get:
+      tags:
+        - Verification
+      summary: Fetch all open role requests
+      operationId: GetRequests
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleModel'
+        '500':
+          description: Server Error
+  '/api/verification/accept/{userName}':
+    post:
+      tags:
+        - Verification
+      summary: Accept the role request of a specific user
+      operationId: AcceptRequest
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+  '/api/verification/deny/{userName}':
+    post:
+      tags:
+        - Verification
+      summary: Reject the role request of a specific user
+      operationId: DenyRequest
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Server Error
+components:
+  schemas:
+    CenterResult:
+      required:
+        - latitude
+        - longitude
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: Gets or Sets Latitude
+          format: double
+        longitude:
+          type: number
+          description: Gets or Sets Longitude
+          format: double
+      additionalProperties: false
+      description: Model class for a centerResult
+    Me:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        roles:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    PointOfInterest:
+      required:
+        - averageRating
+        - description
+        - imageUrl
+        - latitude
+        - longitude
+        - name
+        - numberOfRatings
+        - poIID
+        - userName
+      type: object
+      properties:
+        poIID:
+          type: string
+          description: Gets or Sets Id
+          format: uuid
+        name:
+          type: string
+          description: Gets or Sets Name
+        userName:
+          type: string
+          description: Gets or Sets username
+        description:
+          type: string
+          description: Gets or Sets Description
+        latitude:
+          type: number
+          description: Gets or Sets Latitude
+          format: double
+        longitude:
+          type: number
+          description: Gets or Sets Longitude
+          format: double
+        averageRating:
+          type: number
+          description: Gets or Sets AverageRating
+          format: double
+        numberOfRatings:
+          type: integer
+          description: Gets or Sets NumberOfRatings
+          format: int32
+        imageUrl:
+          type: string
+          description: Gets or Sets ImageUrl
+      additionalProperties: false
+      description: Model class for a PointOfInterest
+    PostPointOfInterest:
+      required:
+        - description
+        - imageUrl
+        - latitude
+        - longitude
+        - name
+        - userName
+      type: object
+      properties:
+        name:
+          type: string
+          description: Gets or Sets Name
+        userName:
+          type: string
+          description: Gets or Sets username
+        description:
+          type: string
+          description: Gets or Sets Description
+        latitude:
+          type: number
+          description: Gets or Sets Latitude
+          format: double
+        longitude:
+          type: number
+          description: Gets or Sets Longitude
+          format: double
+        imageUrl:
+          type: string
+          description: Gets or Sets ImageUrl
+      additionalProperties: false
+      description: Model class for posting a new poi
+    PostPoIReview:
+      required:
+        - content
+        - poIID
+        - rating
+        - userName
+      type: object
+      properties:
+        poIID:
+          type: string
+          description: Gets or Sets Id
+          format: uuid
+        content:
+          type: string
+          description: Gets or Sets Content
+        rating:
+          type: integer
+          description: Gets or Sets Rating
+          format: int32
+        userName:
+          type: string
+          description: Gets or Sets username
+      additionalProperties: false
+    PostRoute:
+      required:
+        - creatorName
+        - description
+        - duration
+        - name
+        - pointOfInterests
+        - polyline
+      type: object
+      properties:
+        pointOfInterests:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Gets or Sets PointOfInterests
+        name:
+          type: string
+          description: Gets or Sets Name
+        description:
+          type: string
+          description: Gets or Sets Description
+        creatorName:
+          type: string
+          description: Gets or Sets CreatorName
+        duration:
+          type: number
+          description: Gets or Sets Duration
+          format: float
+        polyline:
+          type: string
+          description: Gets or Sets Polyline
+      additionalProperties: false
+    PostRouteReview:
+      required:
+        - content
+        - rating
+        - routeID
+        - userName
+      type: object
+      properties:
+        routeID:
+          type: string
+          description: Gets or Sets Id
+          format: uuid
+        content:
+          type: string
+          description: Gets or Sets Content
+        rating:
+          type: integer
+          description: Gets or Sets Rating
+          format: int32
+        userName:
+          type: string
+          description: Gets or Sets username
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: { }
+    PutPointOfInterest:
+      required:
+        - description
+        - id
+        - imageUrl
+        - latitude
+        - longitude
+        - name
+        - userName
+      type: object
+      properties:
+        id:
+          type: string
+          description: Gets or Sets Id
+        name:
+          type: string
+          description: Gets or Sets Name
+        userName:
+          type: string
+          description: Gets or Sets username
+        description:
+          type: string
+          description: Gets or Sets Description
+        latitude:
+          type: number
+          description: Gets or Sets Latitude
+          format: double
+        longitude:
+          type: number
+          description: Gets or Sets Longitude
+          format: double
+        imageUrl:
+          type: string
+          description: Gets or Sets ImageUrl
+      additionalProperties: false
+    PutRoute:
+      required:
+        - creatorName
+        - description
+        - duration
+        - id
+        - name
+        - pointOfInterests
+        - polyline
+      type: object
+      properties:
+        id:
+          type: string
+          description: Gets or Sets Id
+        pointOfInterests:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Gets or Sets PointOfInterests
+        name:
+          type: string
+          description: Gets or Sets Name
+        description:
+          type: string
+          description: Gets or Sets Description
+        creatorName:
+          type: string
+          description: Gets or Sets CreatorName
+        duration:
+          type: number
+          description: Gets or Sets Duration
+          format: float
+        polyline:
+          type: string
+          description: Gets or Sets Polyline
+      additionalProperties: false
+    Role:
+      enum:
+        - contentCreator
+        - moderator
+        - admin
+        - promoter
+      type: string
+      description: Gets or Sets Role
+    RoleModel:
+      required:
+        - creatorName
+        - requestedRole
+      type: object
+      properties:
+        creatorName:
+          type: string
+          description: Gets or Sets CreatorName
+        requestedRole:
+          $ref: '#/components/schemas/Role'
+      additionalProperties: false
+    Route:
+      required:
+        - averageRating
+        - creatorName
+        - description
+        - duration
+        - name
+        - numberOfRatings
+        - polyline
+        - routeId
+      type: object
+      properties:
+        routeId:
+          type: string
+          description: Gets or Sets Id
+          format: uuid
+        pointOfInterests:
+          type: array
+          items:
+            $ref: '#/components/schemas/PointOfInterest'
+          description: The PoIs that are on this route
+          nullable: true
+        name:
+          type: string
+          description: Gets or Sets Name
+        description:
+          type: string
+          description: Gets or Sets Description
+        creatorName:
+          type: string
+          description: Gets or Sets CreatorName
+        duration:
+          type: number
+          description: Gets or Sets Duration
+          format: float
+        polyline:
+          type: string
+          description: Gets or Sets Polyline
+        averageRating:
+          type: number
+          description: Gets or Sets AverageRating
+          format: double
+        numberOfRatings:
+          type: integer
+          description: Gets or Sets NumberOfRatings
+          format: int32
+      additionalProperties: false

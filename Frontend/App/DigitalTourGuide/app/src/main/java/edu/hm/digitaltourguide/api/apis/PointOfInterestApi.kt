@@ -11,6 +11,7 @@
 */
 package edu.hm.digitaltourguide.api.apis
 
+import edu.hm.digitaltourguide.api.models.CenterResult
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.PostPointOfInterest
 import edu.hm.digitaltourguide.api.models.ProblemDetails
@@ -137,6 +138,61 @@ class PointOfInterestApi(basePath: kotlin.String = defaultBasePath) : ApiClient(
         val localVariableConfig = RequestConfig(
             method = RequestMethod.DELETE,
             path = "/api/pointOfInterest/{poiID}".replace("{"+"poiID"+"}", "$poiID"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
+    * Get the center of all poi&#39;s from the given user
+    * 
+    * @param userName  
+    * @return CenterResult
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getCenterOfPOIsAsync(userName: kotlin.String) : CenterResult {
+        val localVariableConfig = getCenterOfPOIsAsyncRequestConfig(userName = userName)
+
+        val localVarResponse = request<CenterResult>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CenterResult
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation getCenterOfPOIsAsync
+    *
+    * @param userName  
+    * @return RequestConfig
+    */
+    fun getCenterOfPOIsAsyncRequestConfig(userName: kotlin.String) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/api/pointOfInterest/{userName}/center".replace("{"+"userName"+"}", "$userName"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

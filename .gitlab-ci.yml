@@ -176,6 +176,7 @@ deploy_review:
     - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
     - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
     - sed -i "s/__URL__/${URL}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
+    - sed -i "s/__PW__/${PW}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
     - kubectl apply -f Keycloak/k8s.yml
     - kubectl apply -f Backend/API/k8s.yml
     - kubectl apply -f WebApp/tourguide/k8s.yml
@@ -198,6 +199,7 @@ stop_review:
   script:
     - kubectl version
     - kubectl delete all --all
+    - kubectl delete pvc --all
   when: manual
   environment:
     name: review/$CI_COMMIT_REF_SLUG

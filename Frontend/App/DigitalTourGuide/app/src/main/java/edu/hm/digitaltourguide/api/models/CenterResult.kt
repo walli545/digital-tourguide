@@ -18,34 +18,18 @@ import kotlinx.parcelize.Parcelize
 
 
 /**
- * Model class for posting a new poi
- * @param name Gets or Sets Name
- * @param userName Gets or Sets username
- * @param description Gets or Sets Description
+ * Model class for a centerResult
  * @param latitude Gets or Sets Latitude
  * @param longitude Gets or Sets Longitude
- * @param imageUrl Gets or Sets ImageUrl
  */
 @Parcelize
 
-data class PostPointOfInterest (
-    /* Gets or Sets Name */
-    @Json(name = "name")
-    val name: kotlin.String,
-    /* Gets or Sets username */
-    @Json(name = "userName")
-    val userName: kotlin.String,
-    /* Gets or Sets Description */
-    @Json(name = "description")
-    val description: kotlin.String,
+data class CenterResult (
     /* Gets or Sets Latitude */
     @Json(name = "latitude")
     val latitude: kotlin.Double,
     /* Gets or Sets Longitude */
     @Json(name = "longitude")
-    val longitude: kotlin.Double,
-    /* Gets or Sets ImageUrl */
-    @Json(name = "imageUrl")
-    val imageUrl: kotlin.String
+    val longitude: kotlin.Double
 ) : Parcelable
 
