@@ -33,7 +33,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [AuthorizedRoles(Roles.User, Roles.Moderator, Roles.Creator)]
-    public virtual async Task<IActionResult> AddRoleReview([FromBody][Required] PostPoIReview body)
+    public virtual async Task<IActionResult> AddPoIReview([FromBody][Required] PostPoIReview body)
     {
       try
       {
