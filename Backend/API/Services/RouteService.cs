@@ -13,6 +13,7 @@ namespace API.Services
     private readonly ILogger<RouteService> _logger;
     private readonly MariaDbContext _dbContext;
     private readonly IPointOfInterestService _poiService;
+    private readonly IRouteReviewService _routeReviewService;
 
     /// <summary>
     /// Ctor.
@@ -20,11 +21,13 @@ namespace API.Services
     /// <param name="logger">Logger for fails.</param>
     /// <param name="dbContext">The desired db context.</param>
     /// <param name="poiService">Serviceclass for the poi's</param>
-    public RouteService(ILogger<RouteService> logger, MariaDbContext dbContext, IPointOfInterestService poiService)
+    /// /// <param name="routeReviewService">Serviceclass for the route reviews</param>
+    public RouteService(ILogger<RouteService> logger, MariaDbContext dbContext, IPointOfInterestService poiService, IRouteReviewService routeReviewService)
     {
       _logger = logger ?? throw new ArgumentNullException(nameof(logger), "Logger was null!");
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
       _poiService = poiService ?? throw new ArgumentNullException(nameof(poiService), "Context was null!");
+      _routeReviewService = routeReviewService ?? throw new ArgumentNullException(nameof(routeReviewService), "Context was null!");
     }
 
     private bool CheckRoutePoIs(List<Guid> pois)
@@ -61,7 +64,9 @@ namespace API.Services
         Duration = postRoute.Duration,
         Name = postRoute.Name,
         Polyline = postRoute.Polyline,
-        PointOfInterests = new List<PointOfInterest>()
+        PointOfInterests = new List<PointOfInterest>(),
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
 
       var routeAddSuccess = _dbContext.Route.Add(record);
@@ -107,6 +112,10 @@ namespace API.Services
       if (!connectionsDelete)
         return 0;
 
+      var reviewsDelete = _routeReviewService.DeleteRouteReviews(result.RouteID);
+      if (!reviewsDelete)
+        return 0;
+
       var success = _dbContext.Route.Remove(result);
       if (success.State != EntityState.Deleted)
       {
@@ -150,6 +159,20 @@ namespace API.Services
         pois.Add(poi);
       }
 
+      var reviews = _dbContext.RouteReviews.Where(route => route.Route.RouteID == routeId).ToListAsync().Result;
+
+      if (reviews.Count > 0)
+      {
+        double? sumRatings = 0;
+        foreach (RouteReview review in reviews)
+          sumRatings += review.Rating;
+
+        result.AverageRating = sumRatings / reviews.Count;
+      }
+      else
+        result.AverageRating = 0;
+
+      result.NumberOfRatings = reviews.Count;
       result.PointOfInterests = pois;
       return result;
     }
@@ -175,6 +198,8 @@ namespace API.Services
         Duration = putRoute.Duration,
         Name = putRoute.Name,
         Polyline = putRoute.Polyline,
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
 
       await DeleteConnections(oldRoute.RouteID);

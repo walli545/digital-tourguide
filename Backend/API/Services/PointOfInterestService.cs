@@ -17,16 +17,19 @@ namespace API.Services
   {
     private readonly ILogger<PointOfInterestService> _logger;
     private readonly MariaDbContext _dbContext;
+    private readonly IPointOfInterestReviewService _poiReviewService;
 
     /// <summary>
     /// Ctor.
     /// </summary>
     /// <param name="logger">Logger for fails.</param>
     /// <param name="dbContext">The desired db context.</param>
-    public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext)
+    /// /// <param name="poiReviewService">Serviceclass for the poi reviews.</param>
+    public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext, IPointOfInterestReviewService poiReviewService)
     {
       _logger = logger ?? throw new ArgumentNullException(nameof(logger), "logger was null!");
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
+      _poiReviewService = poiReviewService ?? throw new ArgumentNullException(nameof(poiReviewService), "Context was null!");
     }
 
     /// <summary>
@@ -45,7 +48,7 @@ namespace API.Services
         Longitude = poi.Longitude,
         Name = poi.Name,
         UserName = poi.UserName,
-        AverageRating = 0.0M,
+        AverageRating = 0.0,
         NumberOfRatings = 0,
         ImageUrl = poi.ImageUrl
       };
@@ -76,6 +79,10 @@ namespace API.Services
       if (result == null)
         return 0;
 
+      var reviewsDelete = _poiReviewService.DeletePoIReviews(result.PoIID);
+      if (!reviewsDelete)
+        return 0;
+
       var success = _dbContext.PointOfInterest.Remove(result);
       if (success.State != EntityState.Deleted)
       {
@@ -92,7 +99,17 @@ namespace API.Services
     /// <returns>The poi's from the given user</returns>
     public async Task<List<PointOfInterest>> GetAllPoIs(string username)
     {
-      return await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).ToListAsync();
+      var poiIDsFromUser = await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).Select(r => r.PoIID).ToListAsync();
+      if (poiIDsFromUser == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid poiID in poiIDsFromUser)
+      {
+        pois.Add(await GetPoI(poiID));
+      }
+
+      return pois;
     }
 
     /// <summary>
@@ -128,7 +145,25 @@ namespace API.Services
     /// <returns>The found poi</returns>
     public async Task<PointOfInterest> GetPoI(Guid poiID)
     {
-      return await _dbContext.PointOfInterest.FindAsync(poiID);
+      var result = await _dbContext.PointOfInterest.FindAsync(poiID);
+      if (result == null)
+        return null;
+
+      var reviews = _dbContext.PoIReviews.Where(rev => rev.PointOfInterest.PoIID == poiID).ToListAsync().Result;
+
+      if (reviews.Count > 0)
+      {
+        double? sumRatings = 0;
+        foreach (PoIReview review in reviews)
+          sumRatings += review.Rating;
+
+        result.AverageRating = sumRatings / reviews.Count;
+      }
+      else
+        result.AverageRating = 0;
+
+      result.NumberOfRatings = reviews.Count;
+      return result;
     }
 
     public async Task<int> PutPoI(PutPointOfInterest poi)
@@ -145,9 +180,13 @@ namespace API.Services
         ImageUrl = poi.ImageUrl,
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
-        AverageRating = oldPoI.AverageRating,
-        NumberOfRatings = oldPoI.NumberOfRatings
+        AverageRating = 0.0,
+        NumberOfRatings = 0
       };
+
+      var reviewsDelete = _poiReviewService.DeletePoIReviews(newPoI.PoIID);
+      if (!reviewsDelete)
+        return 0;
 
       try
       {
