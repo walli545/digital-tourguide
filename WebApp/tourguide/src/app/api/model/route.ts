@@ -41,5 +41,13 @@ export interface Route {
      * Gets or Sets Polyline
      */
     polyline: string;
+    /**
+     * Gets or Sets AverageRating
+     */
+    averageRating: number;
+    /**
+     * Gets or Sets NumberOfRatings
+     */
+    numberOfRatings: number;
 }
 

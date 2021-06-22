@@ -13,27 +13,23 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { Me } from '../model/models';
+import { PostRouteReview } from '../model/models';
+import { ProblemDetails } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 
-export interface HealthcheckServiceInterface {
+export interface RouteReviewServiceInterface {
     defaultHeaders: HttpHeaders;
     configuration: Configuration;
 
     /**
-     * Return 200 ok.
+     * Add a new review for a route
      * 
+     * @param postRouteReview 
      */
-    getMe(extraHttpRequestParams?: any): Observable<Me>;
-
-    /**
-     * Return 200 ok.
-     * 
-     */
-    healthcheck(extraHttpRequestParams?: any): Observable<{}>;
+    addRouteReview(postRouteReview: PostRouteReview, extraHttpRequestParams?: any): Observable<{}>;
 
 }
