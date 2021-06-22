@@ -119,7 +119,7 @@ namespace API.Controllers
     /// </summary>
     /// <param name="userName"></param>
     [HttpGet]
-    [Route("/api/routes/{creatorName}")]
+    [Route("/api/routes/{userName}")]
     [ValidateModelState]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Route>))]
     [Produces("application/json")]
