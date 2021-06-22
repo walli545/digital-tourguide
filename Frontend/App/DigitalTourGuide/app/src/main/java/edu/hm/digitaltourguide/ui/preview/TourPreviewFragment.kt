@@ -20,13 +20,12 @@ import com.google.android.gms.maps.model.PolylineOptions
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
-import java.util.*
 
 class TourPreviewFragment : Fragment() {
 
     private var locationPermissionGranted: Boolean = false
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-    private lateinit var tour : Route
+    private lateinit var route : Route
     private lateinit var map : GoogleMap
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -42,7 +41,7 @@ class TourPreviewFragment : Fragment() {
 
         MapsInitializer.initialize(requireContext())
         map = googleMap
-        tour.pointOfInterests?.let { setLocation(it) }
+        route.pointOfInterests?.let { setLocation(it) }
     }
 
     override fun onCreateView(
@@ -52,15 +51,12 @@ class TourPreviewFragment : Fragment() {
     ): View? {
         val bundle = TourPreviewFragmentArgs.fromBundle(requireArguments())
 
-        val tourID = bundle.tourID
-        tour = getRoute(tourID.toString())
+        route = bundle.route
 
         val view = inflater.inflate(R.layout.fragment_tour_preview, container, false)
         view.findViewById<Button>(R.id.start_tour_button).setOnClickListener {
-            startNavigation(tour.pointOfInterests!![0])
+            startNavigation(route.pointOfInterests!![0])
         }
-
-        // TODO get tour from backend
 
         getLocationPermission()
 
@@ -103,7 +99,7 @@ class TourPreviewFragment : Fragment() {
             moveCamera(CameraUpdateFactory.newLatLngZoom(lats[0], 13f))
             addPolyline(
                 PolylineOptions()
-                    .addAll(com.google.maps.android.PolyUtil.decode(tour.polyline))
+                    .addAll(com.google.maps.android.PolyUtil.decode(route.polyline))
 
             )
         }
@@ -115,49 +111,6 @@ class TourPreviewFragment : Fragment() {
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
-    }
-
-    private fun getRoute(id: String): Route {
-        return Route(
-            UUID.randomUUID(),
-            "TestTour",
-            "",
-            "",
-            1.0f,
-            "",
-            listOf(
-                PointOfInterest(
-                    UUID.randomUUID(),
-                    "Kirchsee",
-                    "",
-                    47.8189,
-                    11.611,
-                    0.5,
-                    0,
-                    ""
-
-                ),
-                PointOfInterest(
-                    UUID.randomUUID(),
-                    "Besserer Kirchsee",
-                    "",
-                    47.8235,
-                    11.6345,
-                    0.5,
-                    0,
-                    ""
-                ),
-                PointOfInterest(
-                    UUID.randomUUID(),
-                    "Bester Kirchsee",
-                    "",
-                    47.8199,
-                    11.6045,
-                    0.5,
-                    0,
-                    ""
-                )
-            ))
     }
 
     private fun getLocationPermission() {
@@ -193,7 +146,7 @@ class TourPreviewFragment : Fragment() {
             }
         }
         if (::map.isInitialized) {
-            tour.pointOfInterests?.let { setLocation(it) }
+            route.pointOfInterests?.let { setLocation(it) }
         }
     }
 }

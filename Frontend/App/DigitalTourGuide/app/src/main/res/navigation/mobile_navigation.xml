@@ -46,17 +46,20 @@
         android:name="edu.hm.digitaltourguide.ui.tour.TourDetailFragment"
         android:label="Tour"
         tools:layout="@layout/fragment_tour_detail" >
-        <action
+        <argument
             android:name="route"
             app:argType="edu.hm.digitaltourguide.api.models.Route" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_tourPreviewFragment"
+            app:destination="@id/tourPreviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourPreviewFragment"
         android:name="edu.hm.digitaltourguide.ui.preview.TourPreviewFragment"
         android:label="TourPreviewFragment" >
         <argument
-            android:name="tourID"
-            app:argType="java.util.UUID" />
+            android:name="route"
+            app:argType="edu.hm.digitaltourguide.api.models.Route" />
     </fragment>
     <fragment
         android:id="@+id/tourListFragment"

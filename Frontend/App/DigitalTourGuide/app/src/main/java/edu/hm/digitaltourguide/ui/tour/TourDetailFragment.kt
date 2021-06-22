@@ -26,16 +26,19 @@ class TourDetailFragment : Fragment() {
     private lateinit var route: Route
 
     // Demo POI Information
-    val poiTitleList = arrayOf("St. Marienkirche","Zionskirche","Kirche am Südstern","St. Johanniskirche")
-    val poiImageList = arrayOf("https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg",
+    val poiTitleList =
+        arrayOf("St. Marienkirche", "Zionskirche", "Kirche am Südstern", "St. Johanniskirche")
+    val poiImageList = arrayOf(
+        "https://www.h-hotels.com/_Resources/Persistent/5a7e839511d272d52470d6f8cd1aed90527a691b/berlin-skyview-museumsinsel-01-2660x1990.jpg",
         "https://www.h-hotels.com/_Resources/Persistent/3b16ed74d9a4b7a5bfb7cb1ca631bec93d49375f/berlin-nikolaikirche-01-2400x1351-1356x763.jpg",
         "https://evkirche-luckenwalde.de/gra/johportal.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/b/bf/Johanneskirche_%28Berlin-Lichterfelde%29.jpg")
+        "https://upload.wikimedia.org/wikipedia/commons/b/bf/Johanneskirche_%28Berlin-Lichterfelde%29.jpg"
+    )
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
 
         val args = TourDetailFragmentArgs.fromBundle(requireArguments())
@@ -60,15 +63,17 @@ class TourDetailFragment : Fragment() {
 
         // Route Poi Pictures
         val slideModels = arrayListOf<SlideModel>()
-        for (poi in route.pointOfInterests!!){
+        for (poi in route.pointOfInterests!!) {
             slideModels.add(SlideModel(poi.imageUrl, poi.name))
         }
         imageSlider.setImageList(slideModels, true)
 
         // Demo description text
-        descriptionText.text = "Eine Tour, welche die besten und schönsten Kirchen der Stadt besucht."
+        descriptionText.text =
+            "Eine Tour, welche die besten und schönsten Kirchen der Stadt besucht."
 
-        var urlStaticMap = "https://maps.googleapis.com/maps/api/staticmap?size=600x400&path="+ route.polyline +"&key=AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ"
+        var urlStaticMap =
+            "https://maps.googleapis.com/maps/api/staticmap?size=600x400&path=" + route.polyline + "&key=AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ"
 
         context?.let {
             Glide.with(it)
@@ -78,8 +83,11 @@ class TourDetailFragment : Fragment() {
 
         binding.startTourIcon.setOnClickListener {
             // TODO get route UUID
-            findNavController().navigate(TourDetailFragmentDirections.actionTourDetailFragmentToTourPreviewFragment(
-                UUID.randomUUID()))
+            findNavController().navigate(
+                TourDetailFragmentDirections.actionTourDetailFragmentToTourPreviewFragment(
+                    route
+                )
+            )
         }
 
         return binding.root
