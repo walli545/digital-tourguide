@@ -47,7 +47,7 @@ namespace API
       modelBuilder.Entity<Route>().Ignore(r => r.PointOfInterests);
 
       modelBuilder.Entity<RoutePoIConnector>()
-                .HasKey(c => new { c.PoIID, c.RouteID});
+                .HasKey(c => new { c.PoIID, c.RouteID, c.Order});
     }
   }
 }

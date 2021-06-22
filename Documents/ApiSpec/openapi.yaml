@@ -208,6 +208,48 @@
         }
       }
     },
+    "/api/pointOfInterest/{userName}/center": {
+      "get": {
+        "tags": [
+          "PointOfInterest"
+        ],
+        "summary": "Get the center of all poi's from the given user",
+        "operationId": "GetCenterOfPOIs",
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CenterResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/pointOfInterest/getUserPoIs/{userName}": {
       "get": {
         "tags": [
@@ -474,7 +516,7 @@
         }
       }
     },
-    "/api/routes/{creatorName}": {
+    "/api/routes/{userName}": {
       "get": {
         "tags": [
           "Route"
@@ -483,7 +525,7 @@
         "operationId": "GetRoutes",
         "parameters": [
           {
-            "name": "creatorName",
+            "name": "userName",
             "in": "path",
             "description": "",
             "required": true,
@@ -556,31 +598,11 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -650,7 +672,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
@@ -769,6 +791,27 @@
   },
   "components": {
     "schemas": {
+      "CenterResult": {
+        "required": [
+          "latitude",
+          "longitude"
+        ],
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "description": "Gets or Sets Latitude",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "Gets or Sets Longitude",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model class for a centerResult"
+      },
       "PointOfInterest": {
         "required": [
           "averageRating",
@@ -778,7 +821,8 @@
           "longitude",
           "name",
           "numberOfRatings",
-          "poIID"
+          "poIID",
+          "userName"
         ],
         "type": "object",
         "properties": {
@@ -790,6 +834,10 @@
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -829,13 +877,18 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name"
+          "name",
+          "userName"
         ],
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -936,7 +989,8 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name"
+          "name",
+          "userName"
         ],
         "type": "object",
         "properties": {
@@ -947,6 +1001,10 @@
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",

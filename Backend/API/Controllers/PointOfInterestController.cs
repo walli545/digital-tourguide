@@ -88,7 +88,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CenterResult))]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual async Task<IActionResult> GetCenterOfPOIsAsync([FromRoute][Required] string userName)
+    public virtual async Task<IActionResult> GetCenterOfPOIs([FromRoute][Required] string userName)
     {
       var result = await _poiService.GetCenter(userName);
       if (result == null)
