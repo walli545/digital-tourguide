@@ -13,8 +13,8 @@
             android:icon="@drawable/ic_menu_map"
             android:title="@string/menu_maps" />
         <item
-            android:id="@+id/tourDetailFragment"
+            android:id="@+id/tourListFragment"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_tour" />
+            android:title="@string/menu_routs" />
     </group>
 </menu>

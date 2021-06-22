@@ -17,4 +17,8 @@
     <dimen name="poi_item_title_text_size">20sp</dimen>
     <dimen name="tour_detail_header_text_size">22sp</dimen>
     <dimen name="tour_detail_margin_top">15dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="tour_item_image_size">320dp</dimen>
+    <dimen name="tour_item_title_text_size">20sp</dimen>
+    <dimen name="tour_item_description_text_size">16sp</dimen>
 </resources>
