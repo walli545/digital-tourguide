@@ -143,6 +143,30 @@ namespace API.Controllers
     }
 
     /// <summary>
+    /// Get all routes
+    /// </summary>
+    [HttpGet]
+    [Route("/api/routes/all")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Route>))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Creator, Roles.User, Roles.Moderator)]
+    public virtual async Task<IActionResult> GetAllRoutes()
+    {
+      try
+      {
+        var result = await _routeService.GetAllRoutes();
+
+        return Ok(result);
+      }
+      catch (Exception)
+      {
+        return StatusCode(500);
+      }
+    }
+
+    /// <summary>
     /// Edits the route to a given id
     /// </summary>
     /// <param name="body"></param>

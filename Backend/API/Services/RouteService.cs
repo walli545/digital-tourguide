@@ -273,5 +273,24 @@ namespace API.Services
         }
       }
     }
+
+    /// <summary>
+    /// Get all routes from the db.
+    /// </summary>
+    /// <returns>List with all the routes.</returns>
+    public async Task<List<Route>> GetAllRoutes()
+    {
+      var routeIds = await _dbContext.Route.Select(r => r.RouteID).ToListAsync();
+      if (routeIds == null)
+        return null;
+
+      var routes = new List<Route>();
+      foreach (Guid routeID in routeIds)
+      {
+        routes.Add(await GetRoute(routeID));
+      }
+
+      return routes;
+    }
   }
 }
