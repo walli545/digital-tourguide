@@ -22,6 +22,7 @@ services:
       ConnectionStrings__MariaDbConnectionString: 'server=api-db; user=api; password=Gruppe02; database=api'
       JwtBearer__Authority: 'http://keycloak:8080/auth/realms/tourguide'
       JwtBearer__RequireHttpsMetadata: 'false'
+      JwtTokenValidation__ValidateIssuer: 'false'
 
   api-db:
     image: mariadb
