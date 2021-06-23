@@ -8,8 +8,12 @@
           <mat-icon inline="true">timer</mat-icon>
           ~ {{ route.duration }}
         </div>
-        <div class="review" matTooltip="reviews" matTooltipClass="tooltip">
-          <mat-icon inline="true">reviews</mat-icon> route.review
+        <div
+          class="rating"
+          matTooltip="average rating"
+          matTooltipClass="tooltip"
+        >
+          <mat-icon inline="true">reviews</mat-icon> {{ route.averageRating }}
         </div></mat-card-subtitle
       >
     </mat-card-header>
