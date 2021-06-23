@@ -113,6 +113,25 @@ namespace API.Services
     }
 
     /// <summary>
+    /// Get all poi's
+    /// </summary>
+    /// <returns>List of all pois</returns>
+    public async Task<List<PointOfInterest>> GetAllPoIs()
+    {
+      var poiIds = await _dbContext.PointOfInterest.Select(r => r.PoIID).ToListAsync();
+      if (poiIds == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid poiID in poiIds)
+      {
+        pois.Add(await GetPoI(poiID));
+      }
+
+      return pois;
+    }
+
+    /// <summary>
     /// Returns the center of the points from the given user.
     /// </summary>
     /// <param name="username">The name of the creator of the pois</param>

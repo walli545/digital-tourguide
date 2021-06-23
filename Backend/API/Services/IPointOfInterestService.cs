@@ -18,6 +18,8 @@ namespace API.Services
 
     public Task<List<PointOfInterest>> GetAllPoIs(string username);
 
+    public Task<List<PointOfInterest>> GetAllPoIs();
+
     public Task<int> PutPoI(PutPointOfInterest poi);
   }
 }

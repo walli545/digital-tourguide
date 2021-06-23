@@ -142,6 +142,22 @@ namespace API.Controllers
     }
 
     /// <summary>
+    /// Get all poi&#x27;s
+    /// </summary>
+    [HttpGet]
+    [Route("/api/pointOfInterest/getUserPoIs/all")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PointOfInterest>))]
+    [Produces("application/json")]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.Moderator, Roles.User)]
+    public virtual async Task<IActionResult> GetAllPOIs()
+    {
+      var results = await _poiService.GetAllPoIs();
+
+      return Ok(results);
+    }
+
+    /// <summary>
     /// Edits the poi to a given id
     /// </summary>
     /// <param name="body"></param>
