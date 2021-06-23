@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Newtonsoft.Json.Converters;
 using FluentValidation.AspNetCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API
 {
@@ -65,6 +66,7 @@ namespace API
 
 
             var jwtOptions = Configuration.GetSection("JwtBearer").Get<JwtBearerOptions>();
+            var jwtTokenValidation = Configuration.GetSection("JwtTokenValidation").Get<TokenValidationParameters>();
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -74,7 +76,7 @@ namespace API
                     options.RequireHttpsMetadata = jwtOptions.RequireHttpsMetadata;
                     options.TokenValidationParameters.NameClaimType = "preferred_username";
                     options.TokenValidationParameters.RoleClaimType = Roles.ClaimType;
-                    options.TokenValidationParameters.ValidateIssuer = false; //DANGER ! only for local testing ! do not merge like this 
+                    options.TokenValidationParameters.ValidateIssuer = jwtTokenValidation.ValidateIssuer;
                 });
 
             services.AddTransient<IClaimsTransformation>(sp => new KeycloakRolesClaimsTransformation(sp));

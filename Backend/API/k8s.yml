@@ -32,6 +32,8 @@ spec:
           value: 'https://__URL__/auth/realms/tourguide'
         - name: JwtBearer__RequireHttpsMetadata
           value: 'true'
+        - name: JwtTokenValidation__ValidateIssuer
+          value: 'true'
       imagePullSecrets:
       - name: image-pull-secret
 
