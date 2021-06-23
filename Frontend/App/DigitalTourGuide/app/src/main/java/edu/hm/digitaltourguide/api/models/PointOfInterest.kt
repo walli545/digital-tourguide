@@ -28,6 +28,7 @@ import kotlinx.parcelize.Parcelize
  * @param averageRating Gets or Sets AverageRating
  * @param numberOfRatings Gets or Sets NumberOfRatings
  * @param imageUrl Gets or Sets ImageUrl
+ * @param isPromoted Defines, whether this poi is promoted or not
  */
 @Parcelize
 
@@ -58,6 +59,9 @@ data class PointOfInterest (
     val numberOfRatings: kotlin.Int,
     /* Gets or Sets ImageUrl */
     @Json(name = "imageUrl")
-    val imageUrl: kotlin.String
+    val imageUrl: kotlin.String,
+    /* Defines, whether this poi is promoted or not */
+    @Json(name = "isPromoted")
+    val isPromoted: kotlin.Boolean
 ) : Parcelable
 

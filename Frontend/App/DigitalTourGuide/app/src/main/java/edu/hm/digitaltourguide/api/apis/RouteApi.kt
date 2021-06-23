@@ -146,6 +146,59 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     }
 
     /**
+    * Get all routes
+    * 
+    * @return kotlin.collections.List<Route>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getAllRoutes() : kotlin.collections.List<Route> {
+        val localVariableConfig = getAllRoutesRequestConfig()
+
+        val localVarResponse = request<kotlin.collections.List<Route>>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Route>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation getAllRoutes
+    *
+    * @return RequestConfig
+    */
+    fun getAllRoutesRequestConfig() : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/api/routes/all",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
     * Gets the route to a given id
     * 
     * @param routeID  
