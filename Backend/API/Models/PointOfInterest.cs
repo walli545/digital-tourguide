@@ -79,5 +79,12 @@ namespace API.Models
     [Required]
     [DataMember(Name = "imageUrl")]
     public string ImageUrl { get; set; }
+
+    /// <summary>
+    /// Defines, whether this poi is promoted or not
+    /// </summary>
+    [Required]
+    [DataMember(Name = "isPromoted")]
+    public bool IsPromoted { get; set; }
   }
 }

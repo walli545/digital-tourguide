@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -41,7 +42,13 @@ namespace API.Controllers
     {
       try
       {
-        var result = await _poiService.AddPoI(body);
+        PointOfInterest result = null;
+
+        if (User.FindAll(Roles.ClaimType).ToList().Select(element => element.Value).ToList().Contains(Roles.Promoter))
+          result = await _poiService.AddPoI(body, true);
+        else
+          result = await _poiService.AddPoI(body, false);
+
         if (result == null)
           return StatusCode(400);
 
@@ -164,8 +171,8 @@ namespace API.Controllers
     [HttpPut]
     [Route("/api/pointOfInterest")]
     [ValidateModelState]
-    [SwaggerOperation("PutPOI")]
-    [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [AuthorizedRoles(Roles.Creator, Roles.Promoter)]
     public virtual async Task<IActionResult> PutPOI([FromBody][Required] PutPointOfInterest body)
     {
@@ -173,7 +180,23 @@ namespace API.Controllers
       if (result == 0)
         return StatusCode(404);
 
-      return StatusCode(200);
+      return NoContent();
+    }
+
+    /// <summary>
+    /// Get all promoted pois
+    /// </summary>
+    [HttpGet]
+    [Route("/api/pointOfInterest/promoted")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PointOfInterest>))]
+    [Produces("application/json")]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.Moderator, Roles.User)]
+    public virtual async Task<IActionResult> GetPromotedPoIs()
+    {
+      var result = await _poiService.GetPromotedPois();
+
+      return Ok(result);
     }
   }
 }

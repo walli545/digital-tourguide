@@ -37,8 +37,9 @@ namespace API.Services
     /// Throws: Exception when an internal server error occurs
     /// </summary>
     /// <param name="poi">The poi to add</param>
+    /// /// <param name="isPromoted">Defines if this poi is promoted or not</param>
     /// <returns>The added poi as json format</returns>
-    public async Task<PointOfInterest> AddPoI(PostPointOfInterest poi)
+    public async Task<PointOfInterest> AddPoI(PostPointOfInterest poi, bool isPromoted)
     {
       var record = new PointOfInterest
       {
@@ -50,7 +51,8 @@ namespace API.Services
         UserName = poi.UserName,
         AverageRating = 0.0,
         NumberOfRatings = 0,
-        ImageUrl = poi.ImageUrl
+        ImageUrl = poi.ImageUrl,
+        IsPromoted = isPromoted
       };
 
       var success = _dbContext.PointOfInterest.Add(record);
@@ -185,6 +187,25 @@ namespace API.Services
       return result;
     }
 
+    /// <summary>
+    /// Gets all promoted pois
+    /// </summary>
+    /// <returns>A list of all promoted pois</returns>
+    public async Task<List<PointOfInterest>> GetPromotedPois()
+    {
+      var promotedPois = await _dbContext.PointOfInterest.Where(poi => poi.IsPromoted).Select(r => r.PoIID).ToListAsync();
+      if (promotedPois == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid poiID in promotedPois)
+      {
+        pois.Add(await GetPoI(poiID));
+      }
+
+      return pois;
+    }
+
     public async Task<int> PutPoI(PutPointOfInterest poi)
     {
       var oldPoI = _dbContext.PointOfInterest.AsNoTracking().Where(p => p.PoIID == Guid.Parse(poi.Id)).FirstOrDefault();
@@ -200,7 +221,8 @@ namespace API.Services
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
         AverageRating = 0.0,
-        NumberOfRatings = 0
+        NumberOfRatings = 0,
+        IsPromoted = oldPoI.IsPromoted
       };
 
       var reviewsDelete = _poiReviewService.DeletePoIReviews(newPoI.PoIID);
