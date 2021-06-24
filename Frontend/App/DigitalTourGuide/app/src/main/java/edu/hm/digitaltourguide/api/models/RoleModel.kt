@@ -1,6 +1,6 @@
 /**
 * API
-* API Spec f�r den digitalen Reisef�hrer
+* API Spec fuer den digitalen Reisefuehrer
 *
 * The version of the OpenAPI document: v1
 * 
