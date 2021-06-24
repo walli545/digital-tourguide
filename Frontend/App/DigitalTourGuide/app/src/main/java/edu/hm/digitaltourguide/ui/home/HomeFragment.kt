@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
                     "",
                     3.5,
                     2,
-                    listOf(
+                    arrayOf(
                         PointOfInterest(
                             UUID.randomUUID(),
                             "Kirchsee",
@@ -53,7 +53,8 @@ class HomeFragment : Fragment() {
                             11.6180,
                             0.5,
                             0,
-                            ""
+                            "",
+                            false
 
                         ),
                         PointOfInterest(
@@ -65,7 +66,8 @@ class HomeFragment : Fragment() {
                             11.6345,
                             0.5,
                             0,
-                            ""
+                            "",
+                            true
                         ),
                         PointOfInterest(
                             UUID.randomUUID(),
@@ -76,7 +78,8 @@ class HomeFragment : Fragment() {
                             11.6045,
                             0.5,
                             0,
-                            ""
+                            "",
+                            true
                         )
                 ),
                 )

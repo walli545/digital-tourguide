@@ -44,7 +44,7 @@ class TourDetailFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = route.name
 
         // Initialize and assign Adapter to PoiList RecyclerView
-        poiListAdapter = activity?.let { PoiListAdapter(it, route.pointOfInterests!!) }!!;
+        poiListAdapter = activity?.let { PoiListAdapter(it, route.pointOfInterests?.asList()!!) }!!;
         poiList.adapter = poiListAdapter
         poiList.layoutManager = LinearLayoutManager(context)
         descriptionText.text = route.description

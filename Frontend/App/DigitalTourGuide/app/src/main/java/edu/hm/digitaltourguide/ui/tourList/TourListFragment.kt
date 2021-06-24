@@ -39,12 +39,18 @@ class TourListFragment : Fragment() {
         recipeListViewModel = ViewModelProvider(
             this).get(TourListViewModel::class.java)
 
-        val list: List<Route> = recipeListViewModel.getAllRoutes()
-
-        listener = TourItemListener(this)
-        tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list, it, listener) }!!
-        binding.tourList.adapter = tourAdapter
-
+        try {
+            val list: Array<Route> = recipeListViewModel.getAllRoutes()
+            for (e in list){
+                e.toString()
+            }
+            val listFirst = list.first()
+            listener = TourItemListener(this)
+            tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list.asList(), it, listener) }!!
+            binding.tourList.adapter = tourAdapter
+        }catch (e: Exception){
+            e.toString()
+        }
         return binding.root
     }
 }
