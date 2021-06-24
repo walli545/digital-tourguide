@@ -163,7 +163,7 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Route>
+            ResponseType.Success -> (localVarResponse as Success<*>) as kotlin.collections.List<Route>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
