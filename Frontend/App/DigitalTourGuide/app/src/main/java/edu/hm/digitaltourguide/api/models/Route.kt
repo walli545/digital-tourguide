@@ -59,6 +59,6 @@ data class Route (
     val numberOfRatings: kotlin.Int,
     /* The PoIs that are on this route */
     @Json(name = "pointOfInterests")
-    val pointOfInterests: kotlin.collections.List<PointOfInterest>? = null
+    val pointOfInterests: kotlin.Array<PointOfInterest>? = null
 ) : Parcelable
 

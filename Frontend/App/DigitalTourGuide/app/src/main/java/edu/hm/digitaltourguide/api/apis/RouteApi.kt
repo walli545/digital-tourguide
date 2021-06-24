@@ -148,22 +148,22 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     /**
     * Get all routes
     * 
-    * @return kotlin.collections.List<Route>
+    * @return kotlin.Array<Route>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAllRoutes() : kotlin.collections.List<Route> {
+    fun getAllRoutes() : kotlin.Array<Route> {
         val localVariableConfig = getAllRoutesRequestConfig()
 
-        val localVarResponse = request<kotlin.collections.List<Route>>(
+        val localVarResponse = request<kotlin.Array<Route>>(
             localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Route>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<Route>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -257,22 +257,22 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * Get all routes from the given user
     * 
     * @param userName  
-    * @return kotlin.collections.List<Route>
+    * @return kotlin.Array<Route>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getRoutes(userName: kotlin.String) : kotlin.collections.List<Route> {
+    fun getRoutes(userName: kotlin.String) : kotlin.Array<Route> {
         val localVariableConfig = getRoutesRequestConfig(userName = userName)
 
-        val localVarResponse = request<kotlin.collections.List<Route>>(
+        val localVarResponse = request<kotlin.Array<Route>>(
             localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Route>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<Route>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
