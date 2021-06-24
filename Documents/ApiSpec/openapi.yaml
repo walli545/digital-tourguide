@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "API",
-    "description": "API Spec fuer den digitalen Reisefuehrer",
+    "description": "API Spec fuer den digitalen Reisefuehrer", 
     "version": "v1"
   },
   "paths": {
