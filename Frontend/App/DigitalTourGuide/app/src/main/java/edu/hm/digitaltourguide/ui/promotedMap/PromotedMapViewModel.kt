@@ -10,7 +10,6 @@ class PromotedMapViewModel() : ViewModel() {
     private val poiApi: PointOfInterestApi = PointOfInterestApi(BuildConfig.BASE_URL)
 
     fun getAllPromotedPoIs(): Array<PointOfInterest> {
-        val poi = poiApi.getPromotedPoIs()
-        return poi
+        return poiApi.getPromotedPoIs()
     }
 }

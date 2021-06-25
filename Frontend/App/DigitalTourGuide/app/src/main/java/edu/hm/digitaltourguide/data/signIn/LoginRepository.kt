@@ -1,6 +1,7 @@
 package edu.hm.digitaltourguide.data.signIn
 
 import edu.hm.digitaltourguide.MainActivity
+import edu.hm.digitaltourguide.api.infrastructure.ApiClient
 import edu.hm.digitaltourguide.data.signIn.model.LoggedInUser
 
 /**
@@ -15,6 +16,7 @@ class LoginRepository(val dataSource: LoginDataSource) {
     val editor = MainActivity.preferences.edit()
 
     fun logout() {
+        ApiClient.accessToken = ""
         dataSource.logout()
 
         // Delete User Information in shared preferences

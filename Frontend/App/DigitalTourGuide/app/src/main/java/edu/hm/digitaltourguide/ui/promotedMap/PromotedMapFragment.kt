@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import edu.hm.digitaltourguide.R
+import edu.hm.digitaltourguide.api.infrastructure.ClientException
 import edu.hm.digitaltourguide.ui.tour.TourDetailViewModel
 import java.lang.Exception
 
@@ -57,9 +58,13 @@ class PromotedMapFragment : Fragment() {
                     ), 1000, null
                 );
             }
-        }catch (e: Exception){
-            Toast.makeText(this.context, "Loggen Sie sich ein, um PoIs abzurufen", Toast.LENGTH_LONG).show()
-        }
+        }catch (e: ClientException) {
+            Toast.makeText(
+                this.context,
+                "Loggen Sie sich ein, um PoIs abzurufen!",
+                Toast.LENGTH_LONG
+            ).show()
+        }catch (e: Exception) {}
     }
 
     override fun onCreateView(

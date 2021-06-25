@@ -12,9 +12,11 @@ import androidx.navigation.fragment.NavHostFragment
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.apis.RouteApi
 import edu.hm.digitaltourguide.api.infrastructure.ApiClient
+import edu.hm.digitaltourguide.api.infrastructure.ClientException
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
 import edu.hm.digitaltourguide.databinding.FragmentTourListBinding
+import java.lang.Exception
 import java.util.*
 
 /**
@@ -49,8 +51,9 @@ class TourListFragment : Fragment() {
             listener = TourItemListener(this)
             tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list.asList(), it, listener) }!!
             binding.tourList.adapter = tourAdapter
-        }catch (e: java.lang.Exception){
+        }catch (e: ClientException){
             Toast.makeText(this.context, "Loggen Sie sich ein, um Routen abzurufen!", Toast.LENGTH_LONG).show()
+        }catch (e: Exception){
         }
         return binding.root
     }
