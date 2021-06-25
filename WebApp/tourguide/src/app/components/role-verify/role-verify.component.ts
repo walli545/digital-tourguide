@@ -39,7 +39,7 @@ export class RoleVerifyComponent implements OnInit {
         .toPromise();
       this.requests.delete(role.creatorName);
     } catch (e) {
-      this.snackBar.open('Failed to accept role request', undefined, {
+      this.snackBar.open('failed to accept role request', undefined, {
         duration: 3000,
       });
     }
@@ -51,7 +51,7 @@ export class RoleVerifyComponent implements OnInit {
       await this.verificationService.denyRequest(role.creatorName).toPromise();
       this.requests.delete(role.creatorName);
     } catch (e) {
-      this.snackBar.open('Failed to accept role request', undefined, {
+      this.snackBar.open('failed to deny role request', undefined, {
         duration: 3000,
       });
     }
