@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -48,8 +49,8 @@ class TourListFragment : Fragment() {
             listener = TourItemListener(this)
             tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list.asList(), it, listener) }!!
             binding.tourList.adapter = tourAdapter
-        }catch (e: Exception){
-            e.toString()
+        }catch (e: java.lang.Exception){
+            Toast.makeText(this.context, "Loggen Sie sich ein, um Routen abzurufen!", Toast.LENGTH_LONG).show()
         }
         return binding.root
     }
