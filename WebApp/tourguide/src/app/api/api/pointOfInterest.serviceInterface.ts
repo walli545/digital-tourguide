@@ -47,7 +47,7 @@ export interface PointOfInterestServiceInterface {
      * 
      * @param userName 
      */
-    getCenterOfPOIs(userName: string, extraHttpRequestParams?: any): Observable<CenterResult>;
+    getCenterOfPOIsAsync(userName: string, extraHttpRequestParams?: any): Observable<CenterResult>;
 
     /**
      * Gets the poi to a given id

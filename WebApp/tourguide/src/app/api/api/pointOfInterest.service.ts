@@ -202,12 +202,12 @@ export class PointOfInterestService implements PointOfInterestServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCenterOfPOIs(userName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<CenterResult>;
-    public getCenterOfPOIs(userName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<CenterResult>>;
-    public getCenterOfPOIs(userName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<CenterResult>>;
-    public getCenterOfPOIs(userName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public getCenterOfPOIsAsync(userName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<CenterResult>;
+    public getCenterOfPOIsAsync(userName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<CenterResult>>;
+    public getCenterOfPOIsAsync(userName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<CenterResult>>;
+    public getCenterOfPOIsAsync(userName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (userName === null || userName === undefined) {
-            throw new Error('Required parameter userName was null or undefined when calling getCenterOfPOIs.');
+            throw new Error('Required parameter userName was null or undefined when calling getCenterOfPOIsAsync.');
         }
 
         let headers = this.defaultHeaders;
