@@ -17,6 +17,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.switchmaterial.SwitchMaterial
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
@@ -27,6 +28,7 @@ class TourPreviewFragment : Fragment() {
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     private lateinit var route : Route
     private lateinit var map : GoogleMap
+    private var satelliteView = false
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -53,12 +55,16 @@ class TourPreviewFragment : Fragment() {
 
         route = bundle.route
 
+        getLocationPermission()
+
         val view = inflater.inflate(R.layout.fragment_tour_preview, container, false)
         view.findViewById<Button>(R.id.start_tour_button).setOnClickListener {
             startNavigation(route.pointOfInterests!![0])
         }
 
-        getLocationPermission()
+        view.findViewById<SwitchMaterial>(R.id.preview_satellite_switch).setOnClickListener {
+            toggleMapType()
+        }
 
         return view
     }
@@ -147,6 +153,15 @@ class TourPreviewFragment : Fragment() {
         }
         if (::map.isInitialized) {
             route.pointOfInterests?.let { setLocation(it) }
+        }
+    }
+
+    private fun toggleMapType() {
+        satelliteView = !satelliteView
+        if (satelliteView) {
+            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        } else {
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
         }
     }
 }

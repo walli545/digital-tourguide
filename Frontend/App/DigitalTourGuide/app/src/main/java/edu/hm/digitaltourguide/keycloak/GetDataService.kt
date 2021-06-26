@@ -30,7 +30,7 @@ interface GetDataService {
 
 
     @FormUrlEncoded
-    @POST("/auth/realms/master/protocol/openid-connect/token")
+    @POST("/auth/realms/tourguide/protocol/openid-connect/token")
     fun getAdminAccessToken(
         @Field("client_id") client_id: String?,
         @Field("grant_type") grant_type: String?,

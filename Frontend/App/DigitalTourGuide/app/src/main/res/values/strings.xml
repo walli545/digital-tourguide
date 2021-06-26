@@ -45,4 +45,7 @@
     <string name="logout_text">Logout</string>
     <string name="hint_title">Titel</string>
     <string name="hint_description">Beschreibung</string>
+
+    <string name="URL">https://review-develop-3zknud.cityguide.sart.solutions/</string>
+    <string name="satellite_string">Satellite</string>
 </resources>
