@@ -37,7 +37,7 @@ namespace API.Controllers
     {
       try
       {
-        var result = await _routeReviewService.AddRouteReview(body);
+        var result = await _routeReviewService.AddRouteReview(body, User.GetName());
         if (result == 0)
           return NotFound();
 

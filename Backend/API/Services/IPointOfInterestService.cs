@@ -8,7 +8,7 @@ namespace API.Services
 {
   public interface IPointOfInterestService
   {
-    public Task<PointOfInterest> AddPoI(PostPointOfInterest poi, bool isPromoted);
+    public Task<PointOfInterest> AddPoI(PostPointOfInterest poi, string userName, bool isPromoted);
 
     public Task<int> DeletePoI(Guid poi);
 
@@ -22,6 +22,6 @@ namespace API.Services
 
     public Task<List<PointOfInterest>> GetPromotedPois();
 
-    public Task<int> PutPoI(PutPointOfInterest poi);
+    public Task<int> PutPoI(PutPointOfInterest poi, string userName);
   }
 }

@@ -37,9 +37,10 @@ namespace API.Services
     /// Throws: Exception when an internal server error occurs
     /// </summary>
     /// <param name="poi">The poi to add</param>
-    /// /// <param name="isPromoted">Defines if this poi is promoted or not</param>
+    /// <param name="userName">The unique name of the user adding the PoI</param>
+    /// <param name="isPromoted">Defines if this poi is promoted or not</param>
     /// <returns>The added poi as json format</returns>
-    public async Task<PointOfInterest> AddPoI(PostPointOfInterest poi, bool isPromoted)
+    public async Task<PointOfInterest> AddPoI(PostPointOfInterest poi, string userName, bool isPromoted)
     {
       var record = new PointOfInterest
       {
@@ -48,7 +49,7 @@ namespace API.Services
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
         Name = poi.Name,
-        UserName = poi.UserName,
+        UserName = userName,
         AverageRating = 0.0,
         NumberOfRatings = 0,
         ImageUrl = poi.ImageUrl,
@@ -206,7 +207,7 @@ namespace API.Services
       return pois;
     }
 
-    public async Task<int> PutPoI(PutPointOfInterest poi)
+    public async Task<int> PutPoI(PutPointOfInterest poi, string userName)
     {
       var oldPoI = _dbContext.PointOfInterest.AsNoTracking().Where(p => p.PoIID == Guid.Parse(poi.Id)).FirstOrDefault();
       if (oldPoI == null)
@@ -216,7 +217,7 @@ namespace API.Services
         PoIID = Guid.Parse(poi.Id),
         Description = poi.Description,
         Name = poi.Name,
-        UserName = poi.UserName,
+        UserName = userName,
         ImageUrl = poi.ImageUrl,
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,

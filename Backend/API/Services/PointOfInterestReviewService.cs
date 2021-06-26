@@ -28,8 +28,9 @@ namespace API.Services
     /// Add a new poi review to the db
     /// </summary>
     /// <param name="body">The new review</param>
+    /// <param name="userName">The unique name of the user adding the PoIReview</param>
     /// <returns>Affected Rows</returns>
-    public async Task<int> AddPoIReview(PostPoIReview body)
+    public async Task<int> AddPoIReview(PostPoIReview body, string userName)
     {
       var result = _dbContext.PointOfInterest.Find(body.PoIID);
       if (result == null)
@@ -43,7 +44,7 @@ namespace API.Services
         Content = body.Content,
         Rating = body.Rating,
         PoIReviewId = Guid.NewGuid(),
-        UserName = body.UserName
+        UserName = userName
       };
 
       var success = _dbContext.PoIReviews.Add(record);

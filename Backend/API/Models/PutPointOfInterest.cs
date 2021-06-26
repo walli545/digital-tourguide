@@ -25,13 +25,6 @@ namespace API.Models
     public string Name { get; set; }
 
     /// <summary>
-    /// Gets or Sets username
-    /// </summary>
-    [Required]
-    [DataMember(Name = "userName")]
-    public string UserName { get; set; }
-
-    /// <summary>
     /// Gets or Sets Description
     /// </summary>
     [Required]
