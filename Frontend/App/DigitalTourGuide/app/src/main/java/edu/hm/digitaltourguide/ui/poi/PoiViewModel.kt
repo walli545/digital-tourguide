@@ -22,6 +22,10 @@ class PoiViewModel() : ViewModel() {
         return poiReviewAPI.getPoIReviews(poiID)
     }
 
+    fun deleteReview(reviewID: UUID) {
+        poiReviewAPI.deletePoIReview(reviewID)
+    }
+
     fun getPoi(poiID: UUID): PointOfInterest {
         return poiAPI.getPOI(poiID)
     }

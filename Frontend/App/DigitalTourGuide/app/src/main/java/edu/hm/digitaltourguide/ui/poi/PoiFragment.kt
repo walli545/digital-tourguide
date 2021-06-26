@@ -90,9 +90,14 @@ class PoiFragment : Fragment() {
                     .setPositiveButton(
                         android.R.string.yes
                     ) { dialog, which ->
-        //                val item = ratingListAdapter.ratingList[viewHolder.adapterPosition]
-        //                API.deleteRating(item)
-                        // Continue with delete operation
+                        val review = ratingListAdapter.reviewList[viewHolder.adapterPosition]
+                        try {
+                            poiViewModel.deleteReview(reviewID = review.poIReviewId)
+                        }catch (e: Exception){
+                            Toast.makeText(requireContext(), "Bewertung konnte nicht gelöscht werden", Toast.LENGTH_LONG).show()
+                        }
+                        updatePoi()
+
                     } // A null listener allows the button to dismiss the dialog and take no further action.
                     .setNegativeButton(android.R.string.no, null)
                     .setIcon(R.drawable.ic_delete_purple_24)
@@ -101,8 +106,8 @@ class PoiFragment : Fragment() {
             }
         }
 
-        val role = MainActivity.preferences.getString("ROLE", null)
-        if (role != null && role == "moderator"){
+        val role = MainActivity.preferences.getStringSet("ROLES", null)
+        if (role != null && role.contains("moderator")){
             val itemTouchHelperDelete = ItemTouchHelper(swipeDeleteHandler)
             itemTouchHelperDelete.attachToRecyclerView(ratingList)
         }
@@ -133,19 +138,23 @@ class PoiFragment : Fragment() {
                 poiViewModel.addReview(review)
                 Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
             }catch (e: Exception){
-                Toast.makeText(requireContext(), "Bewertung konnte nicht hinzugefügt werde abgegeben", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Bewertung konnte nicht hinzugefügt werden", Toast.LENGTH_LONG).show()
             }
 
-            try {
-                poi = poiViewModel.getPoi(poi.poIID)
-                rating.rating = poi.averageRating.toFloat()
-                ratingListAdapter.reviewList = poiViewModel.getReviews(poi.poIID).asList()
-                ratingListAdapter.notifyDataSetChanged()
-            }catch (e: Exception){}
+            updatePoi()
         }
         d.setNegativeButton("Cancel") { _, _ -> }
         val alertDialog = d.create()
         alertDialog.show()
+    }
+
+    fun updatePoi(){
+        try {
+            poi = poiViewModel.getPoi(poi.poIID)
+            rating.rating = poi.averageRating.toFloat()
+            ratingListAdapter.reviewList = poiViewModel.getReviews(poi.poIID).asList()
+            ratingListAdapter.notifyDataSetChanged()
+        }catch (e: Exception){}
     }
 }
 
