@@ -11,6 +11,7 @@
 */
 package edu.hm.digitaltourguide.api.models
 
+import edu.hm.digitaltourguide.api.models.PointOfInterest
 
 import com.squareup.moshi.Json
 import android.os.Parcelable
@@ -19,17 +20,20 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * 
- * @param routeID Gets or Sets Id
+ * @param poIReviewId Gets or Sets poIReviewId
+ * @param pointOfInterest 
  * @param content Gets or Sets Content
  * @param rating Gets or Sets Rating
  * @param userName Gets or Sets username
  */
 @Parcelize
 
-data class PostRouteReview (
-    /* Gets or Sets Id */
-    @Json(name = "routeID")
-    val routeID: java.util.UUID,
+data class PoIReview (
+    /* Gets or Sets poIReviewId */
+    @Json(name = "poIReviewId")
+    val poIReviewId: java.util.UUID,
+    @Json(name = "pointOfInterest")
+    val pointOfInterest: PointOfInterest,
     /* Gets or Sets Content */
     @Json(name = "content")
     val content: kotlin.String,

@@ -120,19 +120,9 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected fun updateAuthParams(requestConfig: RequestConfig) {
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken"
-            }
-        }
-    }
 
     protected inline fun <reified T: Any?> request(requestConfig: RequestConfig): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
-
-        // take authMethod from operation
-        updateAuthParams(requestConfig)
 
         val url = httpUrl.newBuilder()
             .addPathSegments(requestConfig.path.trimStart('/'))

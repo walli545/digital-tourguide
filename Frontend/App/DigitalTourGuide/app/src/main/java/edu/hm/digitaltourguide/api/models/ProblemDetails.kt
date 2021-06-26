@@ -1,6 +1,6 @@
 /**
 * API
-* API Spec fuer den digitalen Reisefuehrer
+* API Spec f�r den digitalen Reisef�hrer
 *
 * The version of the OpenAPI document: v1
 * 
@@ -40,8 +40,4 @@ data class ProblemDetails (
     @Json(name = "instance")
     val instance: kotlin.String? = null
 ) : kotlin.collections.HashMap<String, AnyType>(), Parcelable
-
-class AnyType {
-
-}
 

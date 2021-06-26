@@ -1,6 +1,6 @@
 /**
 * API
-* API Spec fuer den digitalen Reisefuehrer
+* API Spec f�r den digitalen Reisef�hrer
 *
 * The version of the OpenAPI document: v1
 * 
@@ -13,6 +13,7 @@ package edu.hm.digitaltourguide.api.apis
 
 import edu.hm.digitaltourguide.api.models.PostRouteReview
 import edu.hm.digitaltourguide.api.models.ProblemDetails
+import edu.hm.digitaltourguide.api.models.RouteReview
 
 import edu.hm.digitaltourguide.api.infrastructure.ApiClient
 import edu.hm.digitaltourguide.api.infrastructure.ClientException
@@ -80,6 +81,115 @@ class RouteReviewApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
         val localVariableConfig = RequestConfig(
             method = RequestMethod.POST,
             path = "/api/routereview",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
+    * Deletes the given review.
+    * 
+    * @param reviewId The id from the review to delete 
+    * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun deleteRouteReview(reviewId: java.util.UUID) : Unit {
+        val localVariableConfig = deleteRouteReviewRequestConfig(reviewId = reviewId)
+
+        val localVarResponse = request<Any?>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation deleteRouteReview
+    *
+    * @param reviewId The id from the review to delete 
+    * @return RequestConfig
+    */
+    fun deleteRouteReviewRequestConfig(reviewId: java.util.UUID) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.DELETE,
+            path = "/api/routereview/{reviewId}".replace("{"+"reviewId"+"}", "$reviewId"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
+    * Gets all reviews for the given route
+    * 
+    * @param routeId The id from the route 
+    * @return kotlin.Array<RouteReview>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getRouteReviews(routeId: java.util.UUID) : kotlin.Array<RouteReview> {
+        val localVariableConfig = getRouteReviewsRequestConfig(routeId = routeId)
+
+        val localVarResponse = request<kotlin.Array<RouteReview>>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<RouteReview>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation getRouteReviews
+    *
+    * @param routeId The id from the route 
+    * @return RequestConfig
+    */
+    fun getRouteReviewsRequestConfig(routeId: java.util.UUID) : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/api/routereview/{routeId}".replace("{"+"routeId"+"}", "$routeId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
