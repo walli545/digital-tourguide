@@ -10,7 +10,7 @@ namespace API.Services
   {
     public Task<List<RouteReview>> GetRouteReviews(Guid routeId);
 
-    public Task<int> AddRouteReview(PostRouteReview body);
+    public Task<int> AddRouteReview(PostRouteReview body, string userName);
 
     public Task<int> DeleteReview(Guid reviewId);
 

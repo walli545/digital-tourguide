@@ -29,12 +29,5 @@ namespace API.Models
     [Required]
     [DataMember(Name = "rating")]
     public int Rating { get; set; }
-
-    /// <summary>
-    /// Gets or Sets username
-    /// </summary>
-    [Required]
-    [DataMember(Name = "userName")]
-    public string UserName { get; set; }
   }
 }

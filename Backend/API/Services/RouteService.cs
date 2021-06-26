@@ -51,7 +51,7 @@ namespace API.Services
       return true;
     }
 
-    public async Task<Route> AddRoute(PostRoute postRoute)
+    public async Task<Route> AddRoute(PostRoute postRoute, string creatorName)
     {
       if (!CheckRoutePoIs(postRoute.PointOfInterests))
         throw new InvalidOperationException("PostRoute body is not valid! At least two pois needed and no consecutive pois allowed");
@@ -59,7 +59,7 @@ namespace API.Services
       var record = new Route
       {
         RouteID = Guid.NewGuid(),
-        CreatorName = postRoute.CreatorName,
+        CreatorName = creatorName,
         Description = postRoute.Description,
         Duration = postRoute.Duration,
         Name = postRoute.Name,
@@ -177,7 +177,7 @@ namespace API.Services
       return result;
     }
 
-    public async Task<int> PutRoute(PutRoute putRoute)
+    public async Task<int> PutRoute(PutRoute putRoute, string creatorName)
     {
       if (!CheckRoutePoIs(putRoute.PointOfInterests))
         throw new ArgumentException("PutRoute body is not valid! At least two pois needed and no consecutive pois allowed");
@@ -193,7 +193,7 @@ namespace API.Services
       var newRoute = new Route
       {
         RouteID = oldRoute.RouteID,
-        CreatorName = putRoute.CreatorName,
+        CreatorName = creatorName,
         Description = putRoute.Description,
         Duration = putRoute.Duration,
         Name = putRoute.Name,

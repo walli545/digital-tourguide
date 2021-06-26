@@ -28,8 +28,9 @@ namespace API.Services
     /// Add a new route review to the db
     /// </summary>
     /// <param name="body">The new review</param>
+    /// <param name="userName">The unique name of the user adding the route</param>
     /// <returns>Affected Rows</returns>
-    public async Task<int> AddRouteReview(PostRouteReview body)
+    public async Task<int> AddRouteReview(PostRouteReview body, string userName)
     {
       var result = _dbContext.Route.Find(body.RouteID);
       if (result == null)
@@ -41,7 +42,7 @@ namespace API.Services
         Content = body.Content,
         Rating = body.Rating,
         RouteReviewId = Guid.NewGuid(),
-        UserName = body.UserName
+        UserName = userName
       };
 
       var success = _dbContext.RouteReviews.Add(record);

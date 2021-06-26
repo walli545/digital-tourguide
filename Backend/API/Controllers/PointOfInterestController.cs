@@ -42,7 +42,7 @@ namespace API.Controllers
     {
       try
       {
-        PointOfInterest result = await _poiService.AddPoI(body, User.HasRole(Roles.Promoter));
+        PointOfInterest result = await _poiService.AddPoI(body, User.GetName(), User.HasRole(Roles.Promoter));
 
         if (result == null)
           return StatusCode(400);
@@ -171,7 +171,7 @@ namespace API.Controllers
     [AuthorizedRoles(Roles.Creator, Roles.Promoter)]
     public virtual async Task<IActionResult> PutPOI([FromBody][Required] PutPointOfInterest body)
     {
-      var result = await _poiService.PutPoI(body);
+      var result = await _poiService.PutPoI(body, User.GetName());
       if (result == 0)
         return StatusCode(404);
 

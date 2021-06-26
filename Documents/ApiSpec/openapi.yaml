@@ -23,7 +23,7 @@
     "/api/me": {
       "get": {
         "tags": [
-          "Healthcheck"
+          "Me"
         ],
         "summary": "Return 200 ok.",
         "operationId": "GetMe",
@@ -1811,18 +1811,13 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name",
-          "userName"
+          "name"
         ],
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
-          },
-          "userName": {
-            "type": "string",
-            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -1850,8 +1845,7 @@
         "required": [
           "content",
           "poIID",
-          "rating",
-          "userName"
+          "rating"
         ],
         "type": "object",
         "properties": {
@@ -1868,17 +1862,12 @@
             "type": "integer",
             "description": "Gets or Sets Rating",
             "format": "int32"
-          },
-          "userName": {
-            "type": "string",
-            "description": "Gets or Sets username"
           }
         },
         "additionalProperties": false
       },
       "PostRoute": {
         "required": [
-          "creatorName",
           "description",
           "duration",
           "name",
@@ -1903,10 +1892,6 @@
             "type": "string",
             "description": "Gets or Sets Description"
           },
-          "creatorName": {
-            "type": "string",
-            "description": "Gets or Sets CreatorName"
-          },
           "duration": {
             "type": "number",
             "description": "Gets or Sets Duration",
@@ -1923,8 +1908,7 @@
         "required": [
           "content",
           "rating",
-          "routeID",
-          "userName"
+          "routeID"
         ],
         "type": "object",
         "properties": {
@@ -1941,10 +1925,6 @@
             "type": "integer",
             "description": "Gets or Sets Rating",
             "format": "int32"
-          },
-          "userName": {
-            "type": "string",
-            "description": "Gets or Sets username"
           }
         },
         "additionalProperties": false
@@ -1983,8 +1963,7 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name",
-          "userName"
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -1995,10 +1974,6 @@
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
-          },
-          "userName": {
-            "type": "string",
-            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -2023,7 +1998,6 @@
       },
       "PutRoute": {
         "required": [
-          "creatorName",
           "description",
           "duration",
           "id",
@@ -2052,10 +2026,6 @@
           "description": {
             "type": "string",
             "description": "Gets or Sets Description"
-          },
-          "creatorName": {
-            "type": "string",
-            "description": "Gets or Sets CreatorName"
           },
           "duration": {
             "type": "number",
