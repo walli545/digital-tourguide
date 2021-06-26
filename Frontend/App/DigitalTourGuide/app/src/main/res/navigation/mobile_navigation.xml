@@ -49,6 +49,9 @@
         <argument
             android:name="route"
             app:argType="edu.hm.digitaltourguide.api.models.Route" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_poiFragment"
+            app:destination="@id/poiFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourListFragment"
@@ -58,5 +61,14 @@
         <action
             android:id="@+id/action_tourListFragment_to_tourDetailFragment"
             app:destination="@id/tourDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/poiFragment"
+        android:name="edu.hm.digitaltourguide.ui.poi.PoiFragment"
+        android:label="fragment_poi"
+        tools:layout="@layout/fragment_poi" >
+        <argument
+            android:name="poi"
+            app:argType="edu.hm.digitaltourguide.api.models.PointOfInterest" />
     </fragment>
 </navigation>
