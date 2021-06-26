@@ -59,7 +59,7 @@ class TourDetailFragment : Fragment() {
 
         // Initialize and assign Adapter to PoiList RecyclerView
         listener = PoiItemListener(this)
-        poiListAdapter = activity?.let { PoiListAdapter(route.pointOfInterests!!, it, listener) }!!;
+        poiListAdapter = activity?.let { PoiListAdapter(route.pointOfInterests!!.asList(), it, listener) }!!;
         poiList.adapter = poiListAdapter
         poiList.layoutManager = LinearLayoutManager(context)
         descriptionText.text = route.description

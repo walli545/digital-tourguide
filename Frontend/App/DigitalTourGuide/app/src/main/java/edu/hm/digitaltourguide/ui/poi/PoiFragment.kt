@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,12 +21,16 @@ import edu.hm.digitaltourguide.BuildConfig
 import edu.hm.digitaltourguide.MainActivity
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.PointOfInterest
+import edu.hm.digitaltourguide.api.models.PostPoIReview
 import edu.hm.digitaltourguide.databinding.FragmentPoiBinding
+import edu.hm.digitaltourguide.ui.tourList.TourListViewModel
+import java.lang.Exception
 
 
 class PoiFragment : Fragment() {
 
     private lateinit var ratingListAdapter: RatingListAdapter
+    private lateinit var poiViewModel: PoiViewModel
     private lateinit var binding: FragmentPoiBinding
     private lateinit var poi: PointOfInterest
 
@@ -40,6 +45,9 @@ class PoiFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_poi, container, false)
 
+        poiViewModel = ViewModelProvider(
+            this).get(PoiViewModel::class.java)
+
         val imageSlider = binding.tripImageSlider
         val ratingList = binding.ratingRecycler
         val descriptionText = binding.poiDescription
@@ -49,7 +57,8 @@ class PoiFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = poi.name
 
         // Initialize and assign Adapter to PoiList RecyclerView
-        ratingListAdapter = RatingListAdapter(listOf(poi, poi))
+        val reviews = poiViewModel.getReviews(poi.poIID)
+        ratingListAdapter = RatingListAdapter(reviews!!.asList())
         ratingList.adapter = ratingListAdapter
         ratingList.layoutManager = LinearLayoutManager(context)
         descriptionText.text = poi.description
@@ -117,10 +126,19 @@ class PoiFragment : Fragment() {
         val comment = dialogView.findViewById<EditText>(R.id.review_comment)
 
         d.setPositiveButton("Done") { _, _ ->
-            // TODO
-            ratingBar.numStars.toDouble()
-            comment.text.toString()
-            Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
+
+            try {
+                val review = PostPoIReview( poIID = poi.poIID, content = comment.text.toString(), rating = ratingBar.numStars, userName = MainActivity.preferences.getString("USERNAME", "")!!)
+                poiViewModel.addReview(review)
+                Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
+            }catch (e: Exception){
+                Toast.makeText(requireContext(), "Bewertung konnte nicht hinzugefügt werde abgegeben", Toast.LENGTH_LONG).show()
+            }
+
+            try {
+                ratingListAdapter.reviewList = poiViewModel.getReviews(poi.poIID).asList()
+                ratingListAdapter.notifyDataSetChanged()
+            }catch (e: Exception){}
         }
         d.setNegativeButton("Cancel") { _, _ -> }
         val alertDialog = d.create()

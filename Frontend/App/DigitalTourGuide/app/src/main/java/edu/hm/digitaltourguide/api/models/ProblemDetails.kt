@@ -17,6 +17,10 @@ import com.squareup.moshi.Json
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+class AnyType {
+
+}
+
 
 /**
  * 

@@ -1,15 +1,14 @@
 package edu.hm.digitaltourguide.ui.poi
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import edu.hm.digitaltourguide.api.models.PointOfInterest
+import edu.hm.digitaltourguide.api.models.PoIReview
 import edu.hm.digitaltourguide.databinding.PoiRatingItemBinding
 
-class RatingListAdapter(private val poiList: List<PointOfInterest>) :
+class RatingListAdapter(var reviewList: List<PoIReview>) :
     RecyclerView.Adapter<RatingListAdapter.ViewHolder>() {
 
 
@@ -27,12 +26,12 @@ class RatingListAdapter(private val poiList: List<PointOfInterest>) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val item = poiList[position]
-        holder.itemComment.text = item.name
+        val item = reviewList[position]
+        holder.itemComment.text = item.userName + ": " + item.content
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = poiList.size
+    override fun getItemCount() = reviewList.size
 
     inner class ViewHolder(val binding: PoiRatingItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
