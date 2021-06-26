@@ -86,7 +86,7 @@ namespace API
                     options.RequireHttpsMetadata = jwtOptions.RequireHttpsMetadata;
                     options.TokenValidationParameters.NameClaimType = "preferred_username";
                     options.TokenValidationParameters.RoleClaimType = Roles.ClaimType;
-                    options.TokenValidationParameters.ValidateIssuer = false;
+                    options.TokenValidationParameters.ValidateIssuer = jwtTokenValidation.ValidateIssuer;
                 });
 
             services.AddTransient<IClaimsTransformation>(sp => new KeycloakRolesClaimsTransformation(sp));
