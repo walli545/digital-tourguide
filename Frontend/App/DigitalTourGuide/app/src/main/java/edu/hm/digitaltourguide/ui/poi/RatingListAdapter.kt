@@ -28,6 +28,7 @@ class RatingListAdapter(var reviewList: List<PoIReview>) :
 
         val item = reviewList[position]
         holder.itemComment.text = item.userName + ": " + item.content
+        holder.itemRatingBar.rating = item.rating.toFloat()
     }
 
     // Return the size of your dataset (invoked by the layout manager)

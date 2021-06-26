@@ -83,7 +83,8 @@
                 android:layout_marginTop="@dimen/tour_detail_margin_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/poi_rating"
-                app:layout_constraintTop_toBottomOf="@+id/poi_preview_image" />
+                app:layout_constraintTop_toBottomOf="@+id/poi_preview_image"
+                android:isIndicator="true"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rating_recycler"

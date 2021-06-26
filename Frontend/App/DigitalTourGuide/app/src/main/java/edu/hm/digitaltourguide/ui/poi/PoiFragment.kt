@@ -33,6 +33,7 @@ class PoiFragment : Fragment() {
     private lateinit var poiViewModel: PoiViewModel
     private lateinit var binding: FragmentPoiBinding
     private lateinit var poi: PointOfInterest
+    private lateinit var rating: RatingBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,15 +51,15 @@ class PoiFragment : Fragment() {
 
         val imageSlider = binding.tripImageSlider
         val ratingList = binding.ratingRecycler
+        rating = binding.ratingBar
         val descriptionText = binding.poiDescription
-        val rating = binding.ratingBar
         val rateBtn = binding.ratePoiBtn
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title = poi.name
 
         // Initialize and assign Adapter to PoiList RecyclerView
         val reviews = poiViewModel.getReviews(poi.poIID)
-        ratingListAdapter = RatingListAdapter(reviews!!.asList())
+        ratingListAdapter = RatingListAdapter(reviews.asList())
         ratingList.adapter = ratingListAdapter
         ratingList.layoutManager = LinearLayoutManager(context)
         descriptionText.text = poi.description
@@ -128,7 +129,7 @@ class PoiFragment : Fragment() {
         d.setPositiveButton("Done") { _, _ ->
 
             try {
-                val review = PostPoIReview( poIID = poi.poIID, content = comment.text.toString(), rating = ratingBar.numStars, userName = MainActivity.preferences.getString("USERNAME", "")!!)
+                val review = PostPoIReview( poIID = poi.poIID, content = comment.text.toString(), rating = ratingBar.rating.toInt(), userName = MainActivity.preferences.getString("USERNAME", "")!!)
                 poiViewModel.addReview(review)
                 Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
             }catch (e: Exception){
@@ -136,6 +137,8 @@ class PoiFragment : Fragment() {
             }
 
             try {
+                poi = poiViewModel.getPoi(poi.poIID)
+                rating.rating = poi.averageRating.toFloat()
                 ratingListAdapter.reviewList = poiViewModel.getReviews(poi.poIID).asList()
                 ratingListAdapter.notifyDataSetChanged()
             }catch (e: Exception){}

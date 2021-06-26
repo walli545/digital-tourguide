@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|center_vertical"
         android:numStars="5"
-        android:rating="4"
-        android:stepSize=".5" />
+        android:stepSize="1."
+        android:isIndicator="true"/>
 
       <TextView
           android:layout_width="wrap_content"
