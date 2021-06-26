@@ -13,6 +13,11 @@
         ],
         "summary": "Return 200 ok.",
         "operationId": "Healthcheck",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -27,6 +32,11 @@
         ],
         "summary": "Return 200 ok.",
         "operationId": "GetMe",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -223,6 +233,11 @@
         ],
         "summary": "Gets the poi to a given id",
         "operationId": "GetPOI",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "poiID",
@@ -266,6 +281,11 @@
         ],
         "summary": "Get the center of all poi's from the given user",
         "operationId": "GetCenterOfPOIsAsync",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "userName",
@@ -308,6 +328,11 @@
         ],
         "summary": "Get all poi's from the given user",
         "operationId": "GetPOIs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "userName",
@@ -353,6 +378,11 @@
         ],
         "summary": "Get all poi's",
         "operationId": "GetAllPOIs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -377,6 +407,11 @@
         ],
         "summary": "Get all promoted pois",
         "operationId": "GetPromotedPoIs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -401,6 +436,11 @@
         ],
         "summary": "Add a new review for a poi",
         "operationId": "AddPoIReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -484,6 +524,11 @@
         ],
         "summary": "Gets all reviews for the given poi",
         "operationId": "GetPoIReviews",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "poiId",
@@ -531,6 +576,11 @@
         ],
         "summary": "Deletes the given review.",
         "operationId": "DeletePoIReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "poiId",
@@ -600,6 +650,11 @@
         ],
         "summary": "Add a new route to the database",
         "operationId": "AddRoute",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -798,6 +853,11 @@
         ],
         "summary": "Gets the route to a given id",
         "operationId": "GetRoute",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "routeID",
@@ -844,6 +904,11 @@
         ],
         "summary": "Get all routes from the given user",
         "operationId": "GetRoutes",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "userName",
@@ -892,6 +957,11 @@
         ],
         "summary": "Get all routes",
         "operationId": "GetAllRoutes",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -919,6 +989,11 @@
         ],
         "summary": "Add a new review for a route",
         "operationId": "AddRouteReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -1002,6 +1077,11 @@
         ],
         "summary": "Gets all reviews for the given route",
         "operationId": "GetRouteReviews",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "routeId",
@@ -1051,6 +1131,11 @@
         ],
         "summary": "Deletes the given review.",
         "operationId": "DeleteRouteReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "reviewId",
@@ -1339,6 +1424,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "CenterResult": {
         "required": [
