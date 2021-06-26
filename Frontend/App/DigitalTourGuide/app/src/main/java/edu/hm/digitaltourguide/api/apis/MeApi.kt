@@ -11,6 +11,7 @@
 */
 package edu.hm.digitaltourguide.api.apis
 
+import edu.hm.digitaltourguide.api.models.Me
 
 import edu.hm.digitaltourguide.api.infrastructure.ApiClient
 import edu.hm.digitaltourguide.api.infrastructure.ClientException
@@ -24,7 +25,7 @@ import edu.hm.digitaltourguide.api.infrastructure.ResponseType
 import edu.hm.digitaltourguide.api.infrastructure.Success
 import edu.hm.digitaltourguide.api.infrastructure.toMultiValue
 
-class HealthcheckApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+class MeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -35,21 +36,22 @@ class HealthcheckApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     /**
     * Return 200 ok.
     * 
-    * @return void
+    * @return Me
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
+    @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun healthcheck() : Unit {
-        val localVariableConfig = healthcheckRequestConfig()
+    fun getMe() : Me {
+        val localVariableConfig = getMeRequestConfig()
 
-        val localVarResponse = request<Any?>(
+        val localVarResponse = request<Me>(
             localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Me
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -64,18 +66,18 @@ class HealthcheckApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     }
 
     /**
-    * To obtain the request config of the operation healthcheck
+    * To obtain the request config of the operation getMe
     *
     * @return RequestConfig
     */
-    fun healthcheckRequestConfig() : RequestConfig {
+    fun getMeRequestConfig() : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val localVariableConfig = RequestConfig(
             method = RequestMethod.GET,
-            path = "/api/Healthcheck",
+            path = "/api/me",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

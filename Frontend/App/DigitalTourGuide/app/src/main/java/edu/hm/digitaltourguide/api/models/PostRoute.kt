@@ -22,7 +22,6 @@ import kotlinx.parcelize.Parcelize
  * @param pointOfInterests Gets or Sets PointOfInterests
  * @param name Gets or Sets Name
  * @param description Gets or Sets Description
- * @param creatorName Gets or Sets CreatorName
  * @param duration Gets or Sets Duration
  * @param polyline Gets or Sets Polyline
  */
@@ -38,9 +37,6 @@ data class PostRoute (
     /* Gets or Sets Description */
     @Json(name = "description")
     val description: kotlin.String,
-    /* Gets or Sets CreatorName */
-    @Json(name = "creatorName")
-    val creatorName: kotlin.String,
     /* Gets or Sets Duration */
     @Json(name = "duration")
     val duration: kotlin.Float,

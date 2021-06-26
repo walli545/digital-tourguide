@@ -22,7 +22,6 @@ import kotlinx.parcelize.Parcelize
  * @param poIID Gets or Sets Id
  * @param content Gets or Sets Content
  * @param rating Gets or Sets Rating
- * @param userName Gets or Sets username
  */
 @Parcelize
 
@@ -35,9 +34,6 @@ data class PostPoIReview (
     val content: kotlin.String,
     /* Gets or Sets Rating */
     @Json(name = "rating")
-    val rating: kotlin.Int,
-    /* Gets or Sets username */
-    @Json(name = "userName")
-    val userName: kotlin.String
+    val rating: kotlin.Int
 ) : Parcelable
 
