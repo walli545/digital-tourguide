@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "API",
-    "description": "API Spec fuer den digitalen Reisefuehrer", 
+    "description": "API Spec f�r den digitalen Reisef�hrer",
     "version": "v1"
   },
   "paths": {
@@ -13,11 +13,6 @@
         ],
         "summary": "Return 200 ok.",
         "operationId": "Healthcheck",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -32,11 +27,6 @@
         ],
         "summary": "Return 200 ok.",
         "operationId": "GetMe",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -245,11 +235,6 @@
             }
           }
         ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -290,11 +275,6 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
           }
         ],
         "responses": {
@@ -339,11 +319,6 @@
             }
           }
         ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -378,11 +353,6 @@
         ],
         "summary": "Get all poi's",
         "operationId": "GetAllPOIs",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -407,11 +377,6 @@
         ],
         "summary": "Get all promoted pois",
         "operationId": "GetPromotedPoIs",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -462,6 +427,122 @@
           },
           "required": true
         },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/poireview/{poiId}": {
+      "get": {
+        "tags": [
+          "PoIReview"
+        ],
+        "summary": "Gets all reviews for the given poi",
+        "operationId": "GetPoIReviews",
+        "parameters": [
+          {
+            "name": "poiId",
+            "in": "path",
+            "description": "The id from the poi",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoIReview"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PoIReview"
+        ],
+        "summary": "Deletes the given review.",
+        "operationId": "DeletePoIReview",
+        "parameters": [
+          {
+            "name": "poiId",
+            "in": "path",
+            "description": "The id from the review to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "204": {
             "description": "Success"
@@ -729,11 +810,6 @@
             }
           }
         ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -779,11 +855,6 @@
             }
           }
         ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -821,11 +892,6 @@
         ],
         "summary": "Get all routes",
         "operationId": "GetAllRoutes",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -879,6 +945,124 @@
           },
           "required": true
         },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/routereview/{routeId}": {
+      "get": {
+        "tags": [
+          "RouteReview"
+        ],
+        "summary": "Gets all reviews for the given route",
+        "operationId": "GetRouteReviews",
+        "parameters": [
+          {
+            "name": "routeId",
+            "in": "path",
+            "description": "The id from the route",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RouteReview"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/routereview/{reviewId}": {
+      "delete": {
+        "tags": [
+          "RouteReview"
+        ],
+        "summary": "Deletes the given review.",
+        "operationId": "DeleteRouteReview",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "The id from the review to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "204": {
             "description": "Success"
@@ -1155,13 +1339,6 @@
     }
   },
   "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    },
     "schemas": {
       "CenterResult": {
         "required": [
@@ -1268,6 +1445,40 @@
         },
         "additionalProperties": false,
         "description": "Model class for a PointOfInterest"
+      },
+      "PoIReview": {
+        "required": [
+          "content",
+          "pointOfInterest",
+          "poIReviewId",
+          "rating",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "poIReviewId": {
+            "type": "string",
+            "description": "Gets or Sets poIReviewId",
+            "format": "uuid"
+          },
+          "pointOfInterest": {
+            "$ref": "#/components/schemas/PointOfInterest"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
+          }
+        },
+        "additionalProperties": false
       },
       "PostPointOfInterest": {
         "required": [
@@ -1616,6 +1827,40 @@
             "type": "integer",
             "description": "Gets or Sets NumberOfRatings",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RouteReview": {
+        "required": [
+          "content",
+          "rating",
+          "route",
+          "routeReviewId",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "routeReviewId": {
+            "type": "string",
+            "description": "Gets or Sets RouteReviewId",
+            "format": "uuid"
+          },
+          "route": {
+            "$ref": "#/components/schemas/Route"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           }
         },
         "additionalProperties": false
