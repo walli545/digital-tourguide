@@ -35,8 +35,6 @@ namespace API.Services
       if (result == null)
         return 0;
 
-      // TODO: (Simon fragen) check if user exists.
-
       var record = new RouteReview()
       {
         Route = result,
@@ -59,6 +57,26 @@ namespace API.Services
         return saveResult;
       }
       throw new Exception(); // This path means no rows got affected after add
+    }
+
+    /// <summary>
+    /// Deletes the given reviewId
+    /// </summary>
+    /// <param name="reviewId">The id from the review to delete</param>
+    /// <returns>Affected rows</returns>
+    public async Task<int> DeleteReview(Guid reviewId)
+    {
+      var result = _dbContext.RouteReviews.Find(reviewId);
+      if (result == null)
+        return 0;
+
+      var success = _dbContext.RouteReviews.Remove(result);
+      if (success.State != EntityState.Deleted)
+      {
+        _logger.LogInformation($"Failed to delete PoI from the database! Item: {0} Given poi:{1}", nameof(result), reviewId, result);
+        throw new Exception();
+      }
+      return await _dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -86,6 +104,16 @@ namespace API.Services
       }
 
       return true;
+    }
+
+    /// <summary>
+    /// Gets all reviews for the given Route
+    /// </summary>
+    /// <param name="routeId">The id from the route to get</param>
+    /// <returns>List with all route reviews</returns>
+    public async Task<List<RouteReview>> GetRouteReviews(Guid routeId)
+    {
+      return await _dbContext.RouteReviews.Include(i => i.Route).Where(review => review.Route.RouteID == routeId).ToListAsync();
     }
   }
 }
