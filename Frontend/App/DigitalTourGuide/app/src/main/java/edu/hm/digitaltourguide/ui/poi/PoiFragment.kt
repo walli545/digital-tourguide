@@ -9,6 +9,7 @@ import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -110,6 +111,7 @@ class PoiFragment : Fragment() {
         if (role != null && role.contains("moderator")){
             val itemTouchHelperDelete = ItemTouchHelper(swipeDeleteHandler)
             itemTouchHelperDelete.attachToRecyclerView(ratingList)
+            rateBtn.isVisible = false
         }
 
         rateBtn.setOnClickListener{
