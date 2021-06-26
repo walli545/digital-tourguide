@@ -13,11 +13,6 @@
         ],
         "summary": "Return 200 ok.",
         "operationId": "Healthcheck",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -32,11 +27,6 @@
         ],
         "summary": "Return 200 ok.",
         "operationId": "GetMe",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -57,8 +47,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/pointOfInterest": {
@@ -117,8 +120,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -175,8 +191,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/pointOfInterest/{poiID}": {
@@ -224,8 +253,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -233,11 +275,6 @@
         ],
         "summary": "Gets the poi to a given id",
         "operationId": "GetPOI",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "poiID",
@@ -270,8 +307,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/pointOfInterest/{userName}/center": {
@@ -281,11 +331,6 @@
         ],
         "summary": "Get the center of all poi's from the given user",
         "operationId": "GetCenterOfPOIsAsync",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "userName",
@@ -317,8 +362,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/pointOfInterest/getUserPoIs/{userName}": {
@@ -328,11 +386,6 @@
         ],
         "summary": "Get all poi's from the given user",
         "operationId": "GetPOIs",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "userName",
@@ -367,8 +420,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/pointOfInterest/getUserPoIs/all": {
@@ -378,11 +444,6 @@
         ],
         "summary": "Get all poi's",
         "operationId": "GetAllPOIs",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -396,8 +457,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/pointOfInterest/promoted": {
@@ -407,11 +481,6 @@
         ],
         "summary": "Get all promoted pois",
         "operationId": "GetPromotedPoIs",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -425,8 +494,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/poireview": {
@@ -436,11 +518,6 @@
         ],
         "summary": "Add a new review for a poi",
         "operationId": "AddPoIReview",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -513,8 +590,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/poireview/{poiId}": {
@@ -524,11 +614,6 @@
         ],
         "summary": "Gets all reviews for the given poi",
         "operationId": "GetPoIReviews",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "poiId",
@@ -567,8 +652,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -576,11 +674,6 @@
         ],
         "summary": "Deletes the given review.",
         "operationId": "DeletePoIReview",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "poiId",
@@ -639,8 +732,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/route": {
@@ -650,11 +756,6 @@
         ],
         "summary": "Add a new route to the database",
         "operationId": "AddRoute",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -714,8 +815,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -795,8 +909,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/route/{routeID}": {
@@ -844,8 +971,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -853,11 +993,6 @@
         ],
         "summary": "Gets the route to a given id",
         "operationId": "GetRoute",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "routeID",
@@ -893,8 +1028,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/routes/{userName}": {
@@ -904,11 +1052,6 @@
         ],
         "summary": "Get all routes from the given user",
         "operationId": "GetRoutes",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "userName",
@@ -946,8 +1089,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/routes/all": {
@@ -957,11 +1113,6 @@
         ],
         "summary": "Get all routes",
         "operationId": "GetAllRoutes",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -978,8 +1129,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/routereview": {
@@ -989,11 +1153,6 @@
         ],
         "summary": "Add a new review for a route",
         "operationId": "AddRouteReview",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -1066,8 +1225,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/routereview/{routeId}": {
@@ -1077,11 +1249,6 @@
         ],
         "summary": "Gets all reviews for the given route",
         "operationId": "GetRouteReviews",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "routeId",
@@ -1120,8 +1287,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/routereview/{reviewId}": {
@@ -1131,11 +1311,6 @@
         ],
         "summary": "Deletes the given review.",
         "operationId": "DeleteRouteReview",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "name": "reviewId",
@@ -1194,8 +1369,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/verification": {
@@ -1257,8 +1445,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/verification/requests": {
@@ -1284,8 +1485,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/verification/accept/{userName}": {
@@ -1351,8 +1565,21 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     },
     "/api/verification/deny/{userName}": {
@@ -1418,19 +1645,25 @@
           },
           "500": {
             "description": "Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              null
+            ]
+          }
+        ]
       }
     }
   },
   "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    },
     "schemas": {
       "CenterResult": {
         "required": [
@@ -1956,6 +2189,14 @@
           }
         },
         "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
