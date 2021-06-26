@@ -42,12 +42,7 @@ namespace API.Controllers
     {
       try
       {
-        PointOfInterest result = null;
-
-        if (User.FindAll(Roles.ClaimType).ToList().Select(element => element.Value).ToList().Contains(Roles.Promoter))
-          result = await _poiService.AddPoI(body, true);
-        else
-          result = await _poiService.AddPoI(body, false);
+        PointOfInterest result = await _poiService.AddPoI(body, User.HasRole(Roles.Promoter));
 
         if (result == null)
           return StatusCode(400);
