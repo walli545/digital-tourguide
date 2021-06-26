@@ -87,5 +87,35 @@ namespace API.Services
 
       return true;
     }
+
+    /// <summary>
+    /// Deletes the given review
+    /// </summary>
+    /// <param name="reviewId">id from the review to delete</param>
+    /// <returns>Affected rows</returns>
+    public async Task<int> DeleteReview(Guid reviewId)
+    {
+      var result = _dbContext.PoIReviews.Find(reviewId);
+      if (result == null)
+        return 0;
+
+      var success = _dbContext.PoIReviews.Remove(result);
+      if (success.State != EntityState.Deleted)
+      {
+        _logger.LogInformation($"Failed to delete PoI review from the database! Item: {0} Given poi:{1}", nameof(result), reviewId, result);
+        throw new Exception();
+      }
+      return await _dbContext.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Gets all reviews for the given poi
+    /// </summary>
+    /// <param name="poiId">the id from the poi</param>
+    /// <returns>List with the poi reviews</returns>
+    public async Task<List<PoIReview>> GetPoIReviews(Guid poiId)
+    {
+      return await _dbContext.PoIReviews.Include(i => i.PointOfInterest).Where(review => review.PointOfInterest.PoIID == poiId).ToListAsync();
+    }
   }
 }

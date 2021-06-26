@@ -47,7 +47,7 @@ namespace API.Services
       var success = _dbContext.RouteReviews.Add(record);
       if (success.State != EntityState.Added)
       {
-        _logger.LogInformation($"Failed to add PoI to the database! Item: {0} Given body:{1}", nameof(record), body, body);
+        _logger.LogInformation($"Failed to add route review to the database! Item: {0} Given body:{1}", nameof(record), body, body);
         throw new Exception(); //maybe choose other exception here
       }
 
@@ -73,7 +73,7 @@ namespace API.Services
       var success = _dbContext.RouteReviews.Remove(result);
       if (success.State != EntityState.Deleted)
       {
-        _logger.LogInformation($"Failed to delete PoI from the database! Item: {0} Given poi:{1}", nameof(result), reviewId, result);
+        _logger.LogInformation($"Failed to delete route review from the database! Item: {0} Given poi:{1}", nameof(result), reviewId, result);
         throw new Exception();
       }
       return await _dbContext.SaveChangesAsync();
