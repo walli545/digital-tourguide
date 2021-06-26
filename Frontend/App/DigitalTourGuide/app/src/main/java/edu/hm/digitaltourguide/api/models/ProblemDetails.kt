@@ -41,3 +41,7 @@ data class ProblemDetails (
     val instance: kotlin.String? = null
 ) : kotlin.collections.HashMap<String, AnyType>(), Parcelable
 
+class AnyType {
+
+}
+
