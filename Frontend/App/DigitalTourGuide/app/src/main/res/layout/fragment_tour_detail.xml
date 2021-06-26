@@ -30,11 +30,12 @@
 
             <TextView
                 android:id="@+id/description_header"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="@string/description_header"
                 android:textSize="@dimen/tour_detail_header_text_size"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trip_image_slider" />
 
             <TextView
@@ -119,6 +120,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rating_recycler"
                 android:text="Route bewerten"/>
+
+            <ImageView
+                android:id="@+id/timeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="2dp"
+                app:layout_constraintEnd_toStartOf="@+id/duration"
+                app:layout_constraintTop_toBottomOf="@+id/trip_image_slider"
+                app:srcCompat="@drawable/ic_time" />
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trip_image_slider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

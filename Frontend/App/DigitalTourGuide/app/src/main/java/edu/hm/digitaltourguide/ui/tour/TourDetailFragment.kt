@@ -62,6 +62,7 @@ class TourDetailFragment : Fragment() {
         rating = binding.ratingBar
         val rateBtn = binding.rateRouteBtn
         val ratingList = binding.ratingRecycler
+        val duration = binding.duration
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title = route.name
 
@@ -75,6 +76,7 @@ class TourDetailFragment : Fragment() {
         ratingList.adapter = ratingListAdapter
         ratingList.layoutManager = LinearLayoutManager(context)
         descriptionText.text = route.description
+        duration.text = route.duration.toString() + " h"
 
         // Route Poi Pictures
         val slideModels = arrayListOf<SlideModel>()
