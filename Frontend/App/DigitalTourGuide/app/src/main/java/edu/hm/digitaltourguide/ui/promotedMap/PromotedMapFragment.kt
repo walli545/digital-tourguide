@@ -35,8 +35,8 @@ class PromotedMapFragment : Fragment() {
 
         try {
             val promotedPoIs = promotedMapViewModel.getAllPromotedPoIs()
-            var camPosLat = emptyList<Double>().toMutableList()
-            var camPosLng = emptyList<Double>().toMutableList()
+            val camPosLat = emptyList<Double>().toMutableList()
+            val camPosLng = emptyList<Double>().toMutableList()
 
             for (poi in promotedPoIs) {
                 camPosLat.add(poi.latitude)
