@@ -76,7 +76,7 @@ class TourPreviewFragment : Fragment() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun setLocation(pointOfInterests: List<PointOfInterest>) {
+    private fun setLocation(pointOfInterests: Array<PointOfInterest>) {
         if (!::map.isInitialized) return
         with(map) {
             mapType = GoogleMap.MAP_TYPE_NORMAL
