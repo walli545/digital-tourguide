@@ -8,7 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_maps">Map</string>
+    <string name="menu_map">Map</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tour">Tour</string>
 
@@ -31,7 +31,7 @@
     <string name="login">Anmelden</string>
 
     <!-- Strings related to TourDetail -->
-    <string name="description_header">Description</string>
+    <string name="description_header">Beschreibung</string>
     <string name="points_of_interest_header">Points of Interest</string>
     <string name="tour_preview">Tour Preview</string>
     <string name="decription_dummy">Eine Tour welche die besten und schönsten Kirchen der Stadt besucht.</string>
@@ -48,4 +48,6 @@
     <string name="menu_routs">Routen</string>
 
     <string name="menu_tour_list">Touren</string>
+    <string name="poi_preview">Vorschau</string>
+    <string name="rating_header">Bewertung</string>
 </resources>

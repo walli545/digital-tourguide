@@ -31,6 +31,6 @@ data class Me (
     @Json(name = "name")
     val name: kotlin.String? = null,
     @Json(name = "roles")
-    val roles: kotlin.collections.List<kotlin.String>? = null
+    val roles: kotlin.Array<kotlin.String>? = null
 ) : Parcelable
 

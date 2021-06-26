@@ -47,7 +47,7 @@ class RoutePreviewAdapter(var routes: List<Route>) :
         override fun onMapReady(gMap: GoogleMap) {
             MapsInitializer.initialize(itemView.context)
             map = gMap
-            route.pointOfInterests?.let { setLocation(it) }
+            route.pointOfInterests?.let { setLocation(it.asList()) }
         }
 
         private fun setLocation() {

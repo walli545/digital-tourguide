@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -41,7 +42,8 @@ namespace API.Controllers
     {
       try
       {
-        var result = await _poiService.AddPoI(body);
+        PointOfInterest result = await _poiService.AddPoI(body, User.HasRole(Roles.Promoter));
+
         if (result == null)
           return StatusCode(400);
 
@@ -142,14 +144,30 @@ namespace API.Controllers
     }
 
     /// <summary>
+    /// Get all poi&#x27;s
+    /// </summary>
+    [HttpGet]
+    [Route("/api/pointOfInterest/getUserPoIs/all")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PointOfInterest>))]
+    [Produces("application/json")]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.Moderator, Roles.User)]
+    public virtual async Task<IActionResult> GetAllPOIs()
+    {
+      var results = await _poiService.GetAllPoIs();
+
+      return Ok(results);
+    }
+
+    /// <summary>
     /// Edits the poi to a given id
     /// </summary>
     /// <param name="body"></param>
     [HttpPut]
     [Route("/api/pointOfInterest")]
     [ValidateModelState]
-    [SwaggerOperation("PutPOI")]
-    [SwaggerResponse(statusCode: 200, type: typeof(PointOfInterest), description: "Success")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [AuthorizedRoles(Roles.Creator, Roles.Promoter)]
     public virtual async Task<IActionResult> PutPOI([FromBody][Required] PutPointOfInterest body)
     {
@@ -157,7 +175,23 @@ namespace API.Controllers
       if (result == 0)
         return StatusCode(404);
 
-      return StatusCode(200);
+      return NoContent();
+    }
+
+    /// <summary>
+    /// Get all promoted pois
+    /// </summary>
+    [HttpGet]
+    [Route("/api/pointOfInterest/promoted")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PointOfInterest>))]
+    [Produces("application/json")]
+    [AuthorizedRoles(Roles.Creator, Roles.Promoter, Roles.Moderator, Roles.User)]
+    public virtual async Task<IActionResult> GetPromotedPoIs()
+    {
+      var result = await _poiService.GetPromotedPois();
+
+      return Ok(result);
     }
   }
 }

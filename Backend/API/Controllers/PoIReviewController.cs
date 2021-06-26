@@ -49,6 +49,57 @@ namespace API.Controllers
       }
     }
 
-    //TODO: missing at least a delete for the moderators. 
+    /// <summary>
+    /// Gets all reviews for the given poi
+    /// </summary>
+    /// <param name="poiId">The id from the poi</param>
+    [HttpGet]
+    [Route("/api/poireview/{poiId}")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PoIReview>))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.User, Roles.Moderator, Roles.Creator)]
+    public virtual async Task<IActionResult> GetPoIReviews([FromRoute][Required] Guid poiId)
+    {
+      try
+      {
+        var result = await _poiReviewService.GetPoIReviews(poiId);
+        return Ok(result);
+      }
+      catch (Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
+    }
+
+    /// <summary>
+    /// Deletes the given review.
+    /// </summary>
+    /// <param name="poiId">The id from the review to delete</param>
+    [HttpDelete]
+    [Route("/api/poireview/{poiId}")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Moderator)]
+    public virtual async Task<IActionResult> DeletePoIReview([FromRoute][Required] Guid poiId)
+    {
+      try
+      {
+        var result = await _poiReviewService.DeleteReview(poiId);
+        if (result == 0)
+          return NotFound();
+
+        return NoContent();
+      }
+      catch (Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
+    }
   }
 }

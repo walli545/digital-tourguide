@@ -11,6 +11,8 @@
 */
 package edu.hm.digitaltourguide.api.models
 
+import edu.hm.digitaltourguide.api.models.AnyType
+
 import com.squareup.moshi.Json
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -40,6 +42,6 @@ data class ProblemDetails (
 ) : kotlin.collections.HashMap<String, AnyType>(), Parcelable
 
 class AnyType {
-}
 
+}
 

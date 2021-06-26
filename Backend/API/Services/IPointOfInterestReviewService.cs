@@ -11,5 +11,9 @@ namespace API.Services
     public Task<int> AddPoIReview(PostPoIReview body);
 
     public bool DeletePoIReviews(Guid poiId);
+
+    public Task<List<PoIReview>> GetPoIReviews(Guid poiId);
+
+    public Task<int> DeleteReview(Guid reviewId);
   }
 }

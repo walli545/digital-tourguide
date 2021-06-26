@@ -147,6 +147,59 @@ class PointOfInterestApi(basePath: kotlin.String = defaultBasePath) : ApiClient(
     }
 
     /**
+    * Get all poi&#39;s
+    * 
+    * @return kotlin.Array<PointOfInterest>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getAllPOIs() : kotlin.Array<PointOfInterest> {
+        val localVariableConfig = getAllPOIsRequestConfig()
+
+        val localVarResponse = request<kotlin.Array<PointOfInterest>>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<PointOfInterest>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation getAllPOIs
+    *
+    * @return RequestConfig
+    */
+    fun getAllPOIsRequestConfig() : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/api/pointOfInterest/getUserPoIs/all",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
     * Get the center of all poi&#39;s from the given user
     * 
     * @param userName  
@@ -260,22 +313,22 @@ class PointOfInterestApi(basePath: kotlin.String = defaultBasePath) : ApiClient(
     * Get all poi&#39;s from the given user
     * 
     * @param userName  
-    * @return kotlin.collections.List<PointOfInterest>
+    * @return kotlin.Array<PointOfInterest>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getPOIs(userName: kotlin.String) : kotlin.collections.List<PointOfInterest> {
+    fun getPOIs(userName: kotlin.String) : kotlin.Array<PointOfInterest> {
         val localVariableConfig = getPOIsRequestConfig(userName = userName)
 
-        val localVarResponse = request<kotlin.collections.List<PointOfInterest>>(
+        val localVarResponse = request<kotlin.Array<PointOfInterest>>(
             localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<PointOfInterest>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<PointOfInterest>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -303,6 +356,59 @@ class PointOfInterestApi(basePath: kotlin.String = defaultBasePath) : ApiClient(
         val localVariableConfig = RequestConfig(
             method = RequestMethod.GET,
             path = "/api/pointOfInterest/getUserPoIs/{userName}".replace("{"+"userName"+"}", "$userName"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
+    * Get all promoted pois
+    * 
+    * @return kotlin.Array<PointOfInterest>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getPromotedPoIs() : kotlin.Array<PointOfInterest> {
+        val localVariableConfig = getPromotedPoIsRequestConfig()
+
+        val localVarResponse = request<kotlin.Array<PointOfInterest>>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<PointOfInterest>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation getPromotedPoIs
+    *
+    * @return RequestConfig
+    */
+    fun getPromotedPoIsRequestConfig() : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/api/pointOfInterest/promoted",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

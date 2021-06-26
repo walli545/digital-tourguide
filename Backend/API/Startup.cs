@@ -59,6 +59,16 @@ namespace API
                   });
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1", Description = "API Spec f�r den digitalen Reisef�hrer" });
                 c.EnableAnnotations();
+                c.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);

@@ -48,7 +48,60 @@ namespace API.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
     }
-    
-    //TODO: missing at least a delete for the moderators. 
+
+    /// <summary>
+    /// Gets all reviews for the given route
+    /// </summary>
+    /// <param name="routeId">The id from the route</param>
+    [HttpGet]
+    [Route("/api/routereview/{routeId}")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<RouteReview>))]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.User, Roles.Moderator, Roles.Creator)]
+    public virtual async Task<IActionResult> GetRouteReviews([FromRoute][Required] Guid routeId)
+    {
+      try
+      {
+        var result = await _routeReviewService.GetRouteReviews(routeId);
+        return Ok(result);
+      }
+      catch (Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
+    }
+
+    /// <summary>
+    /// Deletes the given review.
+    /// </summary>
+    /// <param name="reviewId">The id from the review to delete</param>
+    [HttpDelete]
+    [Route("/api/routereview/{reviewId}")]
+    [ValidateModelState]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Moderator)]
+    public virtual async Task<IActionResult> DeleteRouteReview([FromRoute][Required] Guid reviewId)
+    {
+      try
+      {
+        var result = await _routeReviewService.DeleteReview(reviewId);
+        if (result == 0)
+          return NotFound();
+
+        return NoContent();
+      }
+      catch (Exception)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
+    }
   }
+
+
 }

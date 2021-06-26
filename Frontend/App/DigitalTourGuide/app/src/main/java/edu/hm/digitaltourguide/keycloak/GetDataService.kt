@@ -2,6 +2,7 @@ package edu.hm.digitaltourguide.keycloak
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import edu.hm.digitaltourguide.api.models.Me
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -55,8 +56,8 @@ interface GetDataService {
     @FormUrlEncoded
     @POST("/auth/realms/tourguide/protocol/openid-connect/userinfo")
     fun getUserInfo(
-        @Field("access_token") access_token: String?
-    ): Call<UserInfo?>?
+        @Header("Authorization") auth_header: String,
+    ): Call<Me?>?
 
     @FormUrlEncoded
     @POST("/auth/realms/tourguide/protocol/openid-connect/logout")
