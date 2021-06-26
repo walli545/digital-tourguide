@@ -12,10 +12,51 @@
           "Healthcheck"
         ],
         "summary": "Return 200 ok.",
-        "operationId": "Healthcheck", 
+        "operationId": "Healthcheck",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/me": {
+      "get": {
+        "tags": [
+          "Healthcheck"
+        ],
+        "summary": "Return 200 ok.",
+        "operationId": "GetMe",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            }
           }
         }
       }
@@ -112,8 +153,28 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
         }
       }
@@ -172,6 +233,11 @@
         ],
         "summary": "Gets the poi to a given id",
         "operationId": "GetPOI",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "poiID",
@@ -208,6 +274,53 @@
         }
       }
     },
+    "/api/pointOfInterest/{userName}/center": {
+      "get": {
+        "tags": [
+          "PointOfInterest"
+        ],
+        "summary": "Get the center of all poi's from the given user",
+        "operationId": "GetCenterOfPOIsAsync",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CenterResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/pointOfInterest/getUserPoIs/{userName}": {
       "get": {
         "tags": [
@@ -215,6 +328,11 @@
         ],
         "summary": "Get all poi's from the given user",
         "operationId": "GetPOIs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "userName",
@@ -253,6 +371,278 @@
         }
       }
     },
+    "/api/pointOfInterest/getUserPoIs/all": {
+      "get": {
+        "tags": [
+          "PointOfInterest"
+        ],
+        "summary": "Get all poi's",
+        "operationId": "GetAllPOIs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PointOfInterest"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pointOfInterest/promoted": {
+      "get": {
+        "tags": [
+          "PointOfInterest"
+        ],
+        "summary": "Get all promoted pois",
+        "operationId": "GetPromotedPoIs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PointOfInterest"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/poireview": {
+      "post": {
+        "tags": [
+          "PoIReview"
+        ],
+        "summary": "Add a new review for a poi",
+        "operationId": "AddPoIReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPoIReview"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/poireview/{poiId}": {
+      "get": {
+        "tags": [
+          "PoIReview"
+        ],
+        "summary": "Gets all reviews for the given poi",
+        "operationId": "GetPoIReviews",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "poiId",
+            "in": "path",
+            "description": "The id from the poi",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoIReview"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PoIReview"
+        ],
+        "summary": "Deletes the given review.",
+        "operationId": "DeletePoIReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "poiId",
+            "in": "path",
+            "description": "The id from the review to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
     "/api/route": {
       "post": {
         "tags": [
@@ -260,6 +650,11 @@
         ],
         "summary": "Add a new route to the database",
         "operationId": "AddRoute",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -377,6 +772,29 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
           }
         }
       }
@@ -435,6 +853,11 @@
         ],
         "summary": "Gets the route to a given id",
         "operationId": "GetRoute",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "routeID",
@@ -474,16 +897,21 @@
         }
       }
     },
-    "/api/routes/{creatorName}": {
+    "/api/routes/{userName}": {
       "get": {
         "tags": [
           "Route"
         ],
         "summary": "Get all routes from the given user",
         "operationId": "GetRoutes",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
-            "name": "creatorName",
+            "name": "userName",
             "in": "path",
             "description": "",
             "required": true,
@@ -510,6 +938,254 @@
             "description": "Not Found",
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/routes/all": {
+      "get": {
+        "tags": [
+          "Route"
+        ],
+        "summary": "Get all routes",
+        "operationId": "GetAllRoutes",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Route"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/routereview": {
+      "post": {
+        "tags": [
+          "RouteReview"
+        ],
+        "summary": "Add a new review for a route",
+        "operationId": "AddRouteReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRouteReview"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/routereview/{routeId}": {
+      "get": {
+        "tags": [
+          "RouteReview"
+        ],
+        "summary": "Gets all reviews for the given route",
+        "operationId": "GetRouteReviews",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "routeId",
+            "in": "path",
+            "description": "The id from the route",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RouteReview"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/api/routereview/{reviewId}": {
+      "delete": {
+        "tags": [
+          "RouteReview"
+        ],
+        "summary": "Deletes the given review.",
+        "operationId": "DeleteRouteReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "The id from the review to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -556,31 +1232,11 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -650,7 +1306,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
@@ -717,7 +1373,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Success"
           },
           "400": {
@@ -768,17 +1424,68 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
+      "CenterResult": {
+        "required": [
+          "latitude",
+          "longitude"
+        ],
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "description": "Gets or Sets Latitude",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "Gets or Sets Longitude",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model class for a centerResult"
+      },
+      "Me": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PointOfInterest": {
         "required": [
           "averageRating",
           "description",
           "imageUrl",
+          "isPromoted",
           "latitude",
           "longitude",
           "name",
           "numberOfRatings",
-          "poIID"
+          "poIID",
+          "userName"
         ],
         "type": "object",
         "properties": {
@@ -790,6 +1497,10 @@
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -818,10 +1529,48 @@
           "imageUrl": {
             "type": "string",
             "description": "Gets or Sets ImageUrl"
+          },
+          "isPromoted": {
+            "type": "boolean",
+            "description": "Defines, whether this poi is promoted or not"
           }
         },
         "additionalProperties": false,
         "description": "Model class for a PointOfInterest"
+      },
+      "PoIReview": {
+        "required": [
+          "content",
+          "pointOfInterest",
+          "poIReviewId",
+          "rating",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "poIReviewId": {
+            "type": "string",
+            "description": "Gets or Sets poIReviewId",
+            "format": "uuid"
+          },
+          "pointOfInterest": {
+            "$ref": "#/components/schemas/PointOfInterest"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
+          }
+        },
+        "additionalProperties": false
       },
       "PostPointOfInterest": {
         "required": [
@@ -829,13 +1578,18 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name"
+          "name",
+          "userName"
         ],
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -858,6 +1612,36 @@
         },
         "additionalProperties": false,
         "description": "Model class for posting a new poi"
+      },
+      "PostPoIReview": {
+        "required": [
+          "content",
+          "poIID",
+          "rating",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "poIID": {
+            "type": "string",
+            "description": "Gets or Sets Id",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
+          }
+        },
+        "additionalProperties": false
       },
       "PostRoute": {
         "required": [
@@ -902,6 +1686,36 @@
         },
         "additionalProperties": false
       },
+      "PostRouteReview": {
+        "required": [
+          "content",
+          "rating",
+          "routeID",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "routeID": {
+            "type": "string",
+            "description": "Gets or Sets Id",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
+          }
+        },
+        "additionalProperties": false
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -936,7 +1750,8 @@
           "imageUrl",
           "latitude",
           "longitude",
-          "name"
+          "name",
+          "userName"
         ],
         "type": "object",
         "properties": {
@@ -947,6 +1762,10 @@
           "name": {
             "type": "string",
             "description": "Gets or Sets Name"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           },
           "description": {
             "type": "string",
@@ -1046,10 +1865,12 @@
       },
       "Route": {
         "required": [
+          "averageRating",
           "creatorName",
           "description",
           "duration",
           "name",
+          "numberOfRatings",
           "polyline",
           "routeId"
         ],
@@ -1088,6 +1909,50 @@
           "polyline": {
             "type": "string",
             "description": "Gets or Sets Polyline"
+          },
+          "averageRating": {
+            "type": "number",
+            "description": "Gets or Sets AverageRating",
+            "format": "double"
+          },
+          "numberOfRatings": {
+            "type": "integer",
+            "description": "Gets or Sets NumberOfRatings",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RouteReview": {
+        "required": [
+          "content",
+          "rating",
+          "route",
+          "routeReviewId",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "routeReviewId": {
+            "type": "string",
+            "description": "Gets or Sets RouteReviewId",
+            "format": "uuid"
+          },
+          "route": {
+            "$ref": "#/components/schemas/Route"
+          },
+          "content": {
+            "type": "string",
+            "description": "Gets or Sets Content"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Gets or Sets Rating",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Gets or Sets username"
           }
         },
         "additionalProperties": false

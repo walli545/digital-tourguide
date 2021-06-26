@@ -145,22 +145,22 @@ class VerificationApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     /**
     * Fetch all open role requests
     * 
-    * @return kotlin.collections.List<RoleModel>
+    * @return kotlin.Array<RoleModel>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getRequests() : kotlin.collections.List<RoleModel> {
+    fun getRequests() : kotlin.Array<RoleModel> {
         val localVariableConfig = getRequestsRequestConfig()
 
-        val localVarResponse = request<kotlin.collections.List<RoleModel>>(
+        val localVarResponse = request<kotlin.Array<RoleModel>>(
             localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<RoleModel>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<RoleModel>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {

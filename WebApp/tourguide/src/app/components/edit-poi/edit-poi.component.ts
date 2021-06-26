@@ -3,6 +3,7 @@ import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PointOfInterestService } from '../../api';
+import { AuthService } from '../../services/auth.service';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
 import { toGoogleMaps, toPostPoi, toPutPoi } from '../../utils/poi';
@@ -28,7 +29,8 @@ export class EditPoiComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private poiService: PointOfInterestService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {
     this.poiForm = new PoiForm();
   }
@@ -64,6 +66,7 @@ export class EditPoiComponent implements OnInit {
 
   async onSave(): Promise<void> {
     this.loading = true;
+    this.poiForm.pointOfInterest.userName = await this.authService.getUsername();
     this.poiForm.updatePoi();
     try {
       if (this.isNew) {
@@ -99,7 +102,7 @@ export class EditPoiComponent implements OnInit {
     let coords;
     try {
       coords = await this.poiService
-        .getCenterOfPOIs('TestUserNameChangeMe')
+        .getCenterOfPOIs(await this.authService.getUsername())
         .toPromise();
     } catch (error) {
       console.error(

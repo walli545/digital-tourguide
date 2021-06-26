@@ -41,37 +41,45 @@ class HomeFragment : Fragment() {
                     "",
                     1.0f,
                     "",
-                    listOf(
+                    3.5,
+                    2,
+                    arrayOf(
                         PointOfInterest(
                             UUID.randomUUID(),
                             "Kirchsee",
                             "",
+                            "Wunderschöner Kirchsee",
                             47.8189,
                             11.6180,
                             0.5,
                             0,
-                            ""
+                            "",
+                            false
 
                         ),
                         PointOfInterest(
                             UUID.randomUUID(),
                             "Besserer Kirchsee",
                             "",
+                            "Wunderschöner Kirchsee",
                             47.8235,
                             11.6345,
                             0.5,
                             0,
-                            ""
+                            "",
+                            true
                         ),
                         PointOfInterest(
                             UUID.randomUUID(),
                             "Bester Kirchsee",
                             "",
+                            "Wunderschöner Kirchsee",
                             47.8199,
                             11.6045,
                             0.5,
                             0,
-                            ""
+                            "",
+                            true
                         )
                 ),
                 )

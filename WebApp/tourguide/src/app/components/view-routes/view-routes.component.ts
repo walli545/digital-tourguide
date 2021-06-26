@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Route, RouteService } from 'src/app/api';
 import { UrlGeneratorService } from 'src/app/services/url-generator.service';
+import { AuthService } from '../../services/auth.service';
+import { sortRoutes } from '../../utils/sort';
 
 @Component({
   selector: 'app-view-routes',
@@ -11,19 +13,21 @@ import { UrlGeneratorService } from 'src/app/services/url-generator.service';
 export class ViewRoutesComponent implements OnInit {
   loading = true;
   routes = new Map<string, Route>();
-  username = 'TestUserNameChangeMe';
 
   constructor(
     private routeService: RouteService,
     private router: Router,
-    private urlGen: UrlGeneratorService
+    private urlGen: UrlGeneratorService,
+    private authService: AuthService
   ) {}
 
   async ngOnInit(): Promise<void> {
     try {
-      const routes = await this.routeService
-        .getRoutes(this.username)
-        .toPromise();
+      const routes = (
+        await this.routeService
+          .getRoutes(await this.authService.getUsername())
+          .toPromise()
+      ).sort(sortRoutes);
       for (const r of routes) {
         this.routes.set(r.routeId, r);
       }

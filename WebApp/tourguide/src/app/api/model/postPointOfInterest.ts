@@ -20,6 +20,10 @@ export interface PostPointOfInterest {
      */
     name: string;
     /**
+     * Gets or Sets username
+     */
+    userName: string;
+    /**
      * Gets or Sets Description
      */
     description: string;

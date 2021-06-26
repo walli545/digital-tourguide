@@ -35,7 +35,7 @@ data class PutRoute (
     val id: kotlin.String,
     /* Gets or Sets PointOfInterests */
     @Json(name = "pointOfInterests")
-    val pointOfInterests: kotlin.collections.List<java.util.UUID>,
+    val pointOfInterests: kotlin.Array<java.util.UUID>,
     /* Gets or Sets Name */
     @Json(name = "name")
     val name: kotlin.String,

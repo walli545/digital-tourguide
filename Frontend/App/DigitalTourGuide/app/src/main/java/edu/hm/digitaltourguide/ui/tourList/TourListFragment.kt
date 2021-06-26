@@ -5,15 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.apis.RouteApi
 import edu.hm.digitaltourguide.api.infrastructure.ApiClient
+import edu.hm.digitaltourguide.api.infrastructure.ClientException
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
 import edu.hm.digitaltourguide.databinding.FragmentTourListBinding
+import java.lang.Exception
 import java.util.*
 
 /**
@@ -39,12 +42,19 @@ class TourListFragment : Fragment() {
         recipeListViewModel = ViewModelProvider(
             this).get(TourListViewModel::class.java)
 
-        val list: List<Route> = recipeListViewModel.getAllRoutes()
-
-        listener = TourItemListener(this)
-        tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list, it, listener) }!!
-        binding.tourList.adapter = tourAdapter
-
+        try {
+            val list: Array<Route> = recipeListViewModel.getAllRoutes()
+            for (e in list){
+                e.toString()
+            }
+            val listFirst = list.first()
+            listener = TourItemListener(this)
+            tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list.asList(), it, listener) }!!
+            binding.tourList.adapter = tourAdapter
+        }catch (e: ClientException){
+            Toast.makeText(this.context, "Loggen Sie sich ein, um Routen abzurufen!", Toast.LENGTH_LONG).show()
+        }catch (e: Exception){
+        }
         return binding.root
     }
 }

@@ -1,6 +1,6 @@
 /**
  * API
- * API Spec für den digitalen Reiseführer
+ * API Spec f�r den digitalen Reisef�hrer
  *
  * The version of the OpenAPI document: v1
  * 
@@ -13,7 +13,8 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { InlineResponse200, PointOfInterest } from '../model/models';
+import { CenterResult } from '../model/models';
+import { PointOfInterest } from '../model/models';
 import { PostPointOfInterest } from '../model/models';
 import { ProblemDetails } from '../model/models';
 import { PutPointOfInterest } from '../model/models';
@@ -46,7 +47,7 @@ export interface PointOfInterestServiceInterface {
      * 
      * @param userName 
      */
-    getCenterOfPOIs(userName: string, extraHttpRequestParams?: any): Observable<InlineResponse200>;
+    getCenterOfPOIs(userName: string, extraHttpRequestParams?: any): Observable<CenterResult>;
 
     /**
      * Gets the poi to a given id
