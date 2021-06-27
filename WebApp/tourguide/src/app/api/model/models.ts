@@ -1,5 +1,6 @@
 export * from './centerResult';
 export * from './me';
+export * from './poIReview';
 export * from './pointOfInterest';
 export * from './postPoIReview';
 export * from './postPointOfInterest';
@@ -11,3 +12,4 @@ export * from './putRoute';
 export * from './role';
 export * from './roleModel';
 export * from './route';
+export * from './routeReview';

@@ -51,5 +51,9 @@ export interface PointOfInterest {
      * Gets or Sets ImageUrl
      */
     imageUrl: string;
+    /**
+     * Defines, whether this poi is promoted or not
+     */
+    isPromoted: boolean;
 }
 

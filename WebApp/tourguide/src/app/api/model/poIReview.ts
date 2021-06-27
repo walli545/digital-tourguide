@@ -9,28 +9,26 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PointOfInterest } from './pointOfInterest';
 
 
-export interface PostRoute { 
+export interface PoIReview { 
     /**
-     * Gets or Sets PointOfInterests
+     * Gets or Sets poIReviewId
      */
-    pointOfInterests: Array<string>;
+    poIReviewId: string;
+    pointOfInterest: PointOfInterest;
     /**
-     * Gets or Sets Name
+     * Gets or Sets Content
      */
-    name: string;
+    content: string;
     /**
-     * Gets or Sets Description
+     * Gets or Sets Rating
      */
-    description: string;
+    rating: number;
     /**
-     * Gets or Sets Duration
+     * Gets or Sets username
      */
-    duration: number;
-    /**
-     * Gets or Sets Polyline
-     */
-    polyline: string;
+    userName: string;
 }
 

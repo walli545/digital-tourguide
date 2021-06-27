@@ -15,6 +15,7 @@ import { Observable }                                        from 'rxjs';
 
 import { PostRouteReview } from '../model/models';
 import { ProblemDetails } from '../model/models';
+import { RouteReview } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -31,5 +32,19 @@ export interface RouteReviewServiceInterface {
      * @param postRouteReview 
      */
     addRouteReview(postRouteReview: PostRouteReview, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Deletes the given review.
+     * 
+     * @param reviewId The id from the review to delete
+     */
+    deleteRouteReview(reviewId: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Gets all reviews for the given route
+     * 
+     * @param routeId The id from the route
+     */
+    getRouteReviews(routeId: string, extraHttpRequestParams?: any): Observable<Array<RouteReview>>;
 
 }

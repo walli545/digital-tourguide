@@ -4,6 +4,8 @@ api.module.ts
 api/api.ts
 api/healthcheck.service.ts
 api/healthcheck.serviceInterface.ts
+api/me.service.ts
+api/me.serviceInterface.ts
 api/poIReview.service.ts
 api/poIReview.serviceInterface.ts
 api/pointOfInterest.service.ts
@@ -21,6 +23,7 @@ index.ts
 model/centerResult.ts
 model/me.ts
 model/models.ts
+model/poIReview.ts
 model/pointOfInterest.ts
 model/postPoIReview.ts
 model/postPointOfInterest.ts
@@ -32,4 +35,5 @@ model/putRoute.ts
 model/role.ts
 model/roleModel.ts
 model/route.ts
+model/routeReview.ts
 variables.ts
