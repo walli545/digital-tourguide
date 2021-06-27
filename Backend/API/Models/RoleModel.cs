@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace API.Models
     /// <summary>
     /// Enum for ContentCreator
     /// </summary>
-    [EnumMember(Value = "contentCreator")]
+    [EnumMember(Value = "content-creator")]
     ContentCreator = 0,
 
     /// <summary>
