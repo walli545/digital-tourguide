@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "API",
-    "description": "API Spec f�r den digitalen Reisef�hrer", 
+    "description": "API Spec f�r den digitalen Reisef�hrer",
     "version": "v1"
   },
   "paths": {
@@ -2041,7 +2041,7 @@
       },
       "Role": {
         "enum": [
-          "contentCreator",
+          "content-creator",
           "moderator",
           "admin",
           "promoter"

@@ -14,10 +14,10 @@
 /**
  * Gets or Sets Role
  */
-export type Role = 'contentCreator' | 'moderator' | 'admin' | 'promoter';
+export type Role = 'content-creator' | 'moderator' | 'admin' | 'promoter';
 
 export const Role = {
-    ContentCreator: 'contentCreator' as Role,
+    ContentCreator: 'content-creator' as Role,
     Moderator: 'moderator' as Role,
     Admin: 'admin' as Role,
     Promoter: 'promoter' as Role
