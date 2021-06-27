@@ -18,6 +18,7 @@ export class PoiForm {
     numberOfRatings: 0,
     averageRating: 0,
     imageUrl: '',
+    isPromoted: false,
   };
 
   private poiForm = new FormGroup({

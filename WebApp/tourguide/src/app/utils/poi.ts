@@ -13,7 +13,6 @@ export const toGoogleMaps = (
 
 export const toPostPoi = (poi: PointOfInterest): PostPointOfInterest => ({
   name: poi.name,
-  userName: poi.userName,
   description: poi.description,
   latitude: poi.latitude,
   longitude: poi.longitude,
@@ -22,7 +21,6 @@ export const toPostPoi = (poi: PointOfInterest): PostPointOfInterest => ({
 
 export const toPutPoi = (poi: PointOfInterest): PutPointOfInterest => ({
   id: poi.poIID,
-  userName: poi.userName,
   name: poi.name,
   description: poi.description,
   latitude: poi.latitude,

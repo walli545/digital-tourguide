@@ -66,7 +66,6 @@ export class EditPoiComponent implements OnInit {
 
   async onSave(): Promise<void> {
     this.loading = true;
-    this.poiForm.pointOfInterest.userName = await this.authService.getUsername();
     this.poiForm.updatePoi();
     try {
       if (this.isNew) {
