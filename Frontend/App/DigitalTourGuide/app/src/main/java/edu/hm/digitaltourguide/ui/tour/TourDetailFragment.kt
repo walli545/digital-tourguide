@@ -151,7 +151,7 @@ class TourDetailFragment : Fragment() {
         d.setPositiveButton("Done") { _, _ ->
 
             try {
-                val review = PostRouteReview(  routeID = route.routeId, content = comment.text.toString(), rating = ratingBar.rating.toInt(), userName = MainActivity.preferences.getString("USERNAME", "")!!)
+                val review = PostRouteReview(  routeID = route.routeId, content = comment.text.toString(), rating = ratingBar.rating.toInt())
                 tourDetailViewModel.addReview(review)
                 Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
             }catch (e: Exception){

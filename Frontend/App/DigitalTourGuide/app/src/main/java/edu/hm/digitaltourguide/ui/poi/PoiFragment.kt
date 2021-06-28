@@ -136,7 +136,7 @@ class PoiFragment : Fragment() {
         d.setPositiveButton("Done") { _, _ ->
 
             try {
-                val review = PostPoIReview( poIID = poi.poIID, content = comment.text.toString(), rating = ratingBar.rating.toInt(), userName = MainActivity.preferences.getString("USERNAME", "")!!)
+                val review = PostPoIReview( poIID = poi.poIID, content = comment.text.toString(), rating = ratingBar.rating.toInt())
                 poiViewModel.addReview(review)
                 Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
             }catch (e: Exception){

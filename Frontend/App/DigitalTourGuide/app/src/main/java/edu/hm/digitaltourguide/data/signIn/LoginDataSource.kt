@@ -3,6 +3,7 @@ package edu.hm.digitaltourguide.data.signIn
 import edu.hm.digitaltourguide.BuildConfig
 import edu.hm.digitaltourguide.MainActivity
 import edu.hm.digitaltourguide.api.apis.HealthcheckApi
+import edu.hm.digitaltourguide.api.apis.MeApi
 import edu.hm.digitaltourguide.api.infrastructure.ApiClient
 import edu.hm.digitaltourguide.data.signIn.model.LoggedInUser
 import edu.hm.digitaltourguide.keycloak.AccessToken
@@ -17,7 +18,7 @@ import java.io.IOException
 class LoginDataSource {
 
     val LOGIN_CLIENT = "App"
-    val LOGIN_CLIENT_SECRET = "c215d8a8-c0f7-43ef-a569-497c8a975e24"
+    val LOGIN_CLIENT_SECRET = "9ba961c1-8d54-4edd-af97-5719f87a159b"
     val LOGIN_CLIENT_GRAND_TYPE = "password"
     val LOGIN_CLIENT_SCOPE = "openid"
 
@@ -65,7 +66,7 @@ class LoginDataSource {
 
     private fun getUserRoles(): Array<String> {
 
-        val response = HealthcheckApi(BuildConfig.BASE_URL).getMe()
+        val response = MeApi(BuildConfig.BASE_URL).getMe()
         return response.roles!!
     }
 
