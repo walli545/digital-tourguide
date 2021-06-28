@@ -6,7 +6,6 @@ export const toPostRoute = (route: Route): PostRoute => ({
   pointOfInterests: route.pointOfInterests?.map((p) => p.poIID) || [],
   polyline: route.polyline,
   duration: route.duration,
-  creatorName: route.creatorName,
 });
 
 export const toPutRoute = (route: Route): PutRoute => ({
@@ -16,5 +15,4 @@ export const toPutRoute = (route: Route): PutRoute => ({
   pointOfInterests: route.pointOfInterests?.map((p) => p.poIID) || [],
   polyline: route.polyline,
   duration: route.duration,
-  creatorName: route.creatorName,
 });

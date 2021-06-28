@@ -8,7 +8,7 @@ namespace API.Services
 {
   public interface IRouteService
   {
-    public Task<Route> AddRoute(PostRoute route);
+    public Task<Route> AddRoute(PostRoute route, string creatorName);
 
     public Task<int> DeleteRoute(Guid routeId);
 
@@ -17,6 +17,6 @@ namespace API.Services
     public Task<List<Route>> GetAllRoutes(string userName);
     public Task<List<Route>> GetAllRoutes();
 
-    public Task<int> PutRoute(PutRoute route);
+    public Task<int> PutRoute(PutRoute route, string creatorName);
   }
 }

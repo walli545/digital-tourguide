@@ -40,7 +40,7 @@ namespace API.Controllers
     {
       try
       {
-        var result = await _routeService.AddRoute(body);
+        var result = await _routeService.AddRoute(body, User.GetName());
         if (result == null)
           return BadRequest();
 
@@ -182,7 +182,7 @@ namespace API.Controllers
     {
       try
       {
-        var result = await _routeService.PutRoute(body);
+        var result = await _routeService.PutRoute(body, User.GetName());
         if (result == 0)
           return StatusCode(404);
 

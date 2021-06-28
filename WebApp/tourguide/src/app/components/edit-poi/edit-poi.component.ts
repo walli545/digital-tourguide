@@ -66,7 +66,6 @@ export class EditPoiComponent implements OnInit {
 
   async onSave(): Promise<void> {
     this.loading = true;
-    this.poiForm.pointOfInterest.userName = await this.authService.getUsername();
     this.poiForm.updatePoi();
     try {
       if (this.isNew) {
@@ -102,7 +101,7 @@ export class EditPoiComponent implements OnInit {
     let coords;
     try {
       coords = await this.poiService
-        .getCenterOfPOIs(await this.authService.getUsername())
+        .getCenterOfPOIsAsync(await this.authService.getUsername())
         .toPromise();
     } catch (error) {
       console.error(

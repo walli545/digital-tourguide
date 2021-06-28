@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="loading" id="spinner"></mat-spinner>
-<div id="container">
+<div id="container" *ngIf="!loading">
   <mat-card id="card"
     ><mat-card-header>
       <mat-card-title
@@ -16,7 +16,7 @@
           User: <b>{{ req.creatorName }}</b
           ><br />
           Role:
-          <b> {{ req.requestedRole }}</b>
+          <b> {{ req.requestedRole | displayRole }}</b>
           <mat-card-actions>
             <button mat-raised-button color="warn" (click)="onDeny(req)">
               DENY
@@ -28,5 +28,8 @@
         </mat-card-content>
       </mat-card>
     </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="loadRequests()">RELOAD</button>
+    </mat-card-actions>
   </mat-card>
 </div>

@@ -16,6 +16,8 @@ export class RouteForm {
     creatorName: '',
     duration: 1,
     polyline: '',
+    averageRating: 0,
+    numberOfRatings: 0,
   };
 
   private routeForm = new FormGroup({

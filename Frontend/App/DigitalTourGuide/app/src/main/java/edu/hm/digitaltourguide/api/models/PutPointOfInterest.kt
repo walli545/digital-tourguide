@@ -21,7 +21,6 @@ import kotlinx.parcelize.Parcelize
  * 
  * @param id Gets or Sets Id
  * @param name Gets or Sets Name
- * @param userName Gets or Sets username
  * @param description Gets or Sets Description
  * @param latitude Gets or Sets Latitude
  * @param longitude Gets or Sets Longitude
@@ -36,9 +35,6 @@ data class PutPointOfInterest (
     /* Gets or Sets Name */
     @Json(name = "name")
     val name: kotlin.String,
-    /* Gets or Sets username */
-    @Json(name = "userName")
-    val userName: kotlin.String,
     /* Gets or Sets Description */
     @Json(name = "description")
     val description: kotlin.String,

@@ -73,7 +73,7 @@ export class EditRouteComponent implements OnInit {
         });
       } else {
         this.poiService
-          .getCenterOfPOIs(await this.authService.getUsername())
+          .getCenterOfPOIsAsync(await this.authService.getUsername())
           .toPromise()
           .then((coord) => {
             this.map.center = {
@@ -100,7 +100,6 @@ export class EditRouteComponent implements OnInit {
   async onSave(): Promise<void> {
     this.loading = true;
     this.routeForm.updateRoute();
-    this.routeForm.route.creatorName = await this.authService.getUsername();
     try {
       if (this.isNew) {
         await this.saveNewRoute();

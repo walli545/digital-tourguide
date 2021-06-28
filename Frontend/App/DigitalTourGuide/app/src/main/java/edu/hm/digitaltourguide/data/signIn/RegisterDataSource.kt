@@ -12,7 +12,7 @@ import java.io.IOException
 class RegisterDataSource {
 
     val ADMIN_CLIENT = "admin-cli"
-    val ADMIN_CLIENT_SECRET = "05213bb0-92a8-4e18-8220-563ade3a6b0a"
+    val ADMIN_CLIENT_SECRET = "0fefc982-ee9b-4d59-a444-daaf61c0f64b"
     val ADMIN_CLIENT_GRAND_TYPE = "client_credentials"
 
     fun register(username: String, password: String): Result<String> {

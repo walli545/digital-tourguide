@@ -43,6 +43,10 @@ export class AuthService {
     await this.keycloak.logout(redirectUri);
   }
 
+  isLoggedIn(): Promise<boolean> {
+    return this.keycloak.isLoggedIn();
+  }
+
   private async checkLoggedIn(): Promise<void> {
     if (!(await this.keycloak.isLoggedIn())) {
       throw new Error('Not logged in');

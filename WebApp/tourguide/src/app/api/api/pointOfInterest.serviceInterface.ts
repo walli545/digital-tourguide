@@ -43,11 +43,17 @@ export interface PointOfInterestServiceInterface {
     deletePOI(poiID: string, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get all poi\&#39;s
+     * 
+     */
+    getAllPOIs(extraHttpRequestParams?: any): Observable<Array<PointOfInterest>>;
+
+    /**
      * Get the center of all poi\&#39;s from the given user
      * 
      * @param userName 
      */
-    getCenterOfPOIs(userName: string, extraHttpRequestParams?: any): Observable<CenterResult>;
+    getCenterOfPOIsAsync(userName: string, extraHttpRequestParams?: any): Observable<CenterResult>;
 
     /**
      * Gets the poi to a given id
@@ -62,6 +68,12 @@ export interface PointOfInterestServiceInterface {
      * @param userName 
      */
     getPOIs(userName: string, extraHttpRequestParams?: any): Observable<Array<PointOfInterest>>;
+
+    /**
+     * Get all promoted pois
+     * 
+     */
+    getPromotedPoIs(extraHttpRequestParams?: any): Observable<Array<PointOfInterest>>;
 
     /**
      * Edits the poi to a given id

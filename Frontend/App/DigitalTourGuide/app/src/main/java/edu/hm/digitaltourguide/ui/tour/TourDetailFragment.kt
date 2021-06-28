@@ -64,6 +64,7 @@ class TourDetailFragment : Fragment() {
         rating = binding.ratingBar
         val rateBtn = binding.rateRouteBtn
         val ratingList = binding.ratingRecycler
+        val duration = binding.duration
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title = route.name
 
@@ -77,6 +78,7 @@ class TourDetailFragment : Fragment() {
         ratingList.adapter = ratingListAdapter
         ratingList.layoutManager = LinearLayoutManager(context)
         descriptionText.text = route.description
+        duration.text = route.duration.toString() + " h"
 
         // Route Poi Pictures
         val slideModels = arrayListOf<SlideModel>()
@@ -160,7 +162,7 @@ class TourDetailFragment : Fragment() {
         d.setPositiveButton("Done") { _, _ ->
 
             try {
-                val review = PostRouteReview(  routeID = route.routeId, content = comment.text.toString(), rating = ratingBar.rating.toInt(), userName = MainActivity.preferences.getString("USERNAME", "")!!)
+                val review = PostRouteReview(  routeID = route.routeId, content = comment.text.toString(), rating = ratingBar.rating.toInt())
                 tourDetailViewModel.addReview(review)
                 Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
             }catch (e: Exception){

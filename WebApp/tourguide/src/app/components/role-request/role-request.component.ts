@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Role, VerificationService } from 'src/app/api';
 import { AuthService, USER } from 'src/app/services/auth.service';
 
@@ -19,7 +20,8 @@ export class RoleRequestComponent implements OnInit {
   userName = '';
   constructor(
     private authService: AuthService,
-    private verificationService: VerificationService
+    private verificationService: VerificationService,
+    private snackbar: MatSnackBar
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -30,15 +32,21 @@ export class RoleRequestComponent implements OnInit {
     );
   }
 
-  onRequest(): void {
+  async onRequest(): Promise<void> {
     this.selectDisabled = true;
-    const res = this.verificationService.requestRole({
-      creatorName: this.userName,
-      requestedRole: this.setRole,
-    });
-    console.log(
-      'request: ' + this.userName + ' ' + this.setRole + ' ' + res.subscribe()
-    );
+    try {
+      await this.verificationService
+        .requestRole({
+          creatorName: this.userName,
+          requestedRole: this.setRole,
+        })
+        .toPromise();
+    } catch (e) {
+      this.snackbar.open('failed to request role', undefined, {
+        duration: 3000,
+      });
+      this.selectDisabled = false;
+    }
   }
 
   selectedValue(event: MatSelectChange): void {
