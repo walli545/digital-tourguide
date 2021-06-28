@@ -13,6 +13,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { PoIReview } from '../model/models';
 import { PostPoIReview } from '../model/models';
 import { ProblemDetails } from '../model/models';
 
@@ -31,5 +32,19 @@ export interface PoIReviewServiceInterface {
      * @param postPoIReview 
      */
     addPoIReview(postPoIReview: PostPoIReview, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Deletes the given review.
+     * 
+     * @param poiId The id from the review to delete
+     */
+    deletePoIReview(poiId: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Gets all reviews for the given poi
+     * 
+     * @param poiId The id from the poi
+     */
+    getPoIReviews(poiId: string, extraHttpRequestParams?: any): Observable<Array<PoIReview>>;
 
 }

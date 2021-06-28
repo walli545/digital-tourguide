@@ -24,9 +24,5 @@ export interface PostRouteReview {
      * Gets or Sets Rating
      */
     rating: number;
-    /**
-     * Gets or Sets username
-     */
-    userName: string;
 }
 

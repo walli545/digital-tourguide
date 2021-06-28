@@ -13,13 +13,14 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { Me } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 
-export interface HealthcheckServiceInterface {
+export interface MeServiceInterface {
     defaultHeaders: HttpHeaders;
     configuration: Configuration;
 
@@ -27,6 +28,6 @@ export interface HealthcheckServiceInterface {
      * Return 200 ok.
      * 
      */
-    healthcheck(extraHttpRequestParams?: any): Observable<{}>;
+    getMe(extraHttpRequestParams?: any): Observable<Me>;
 
 }

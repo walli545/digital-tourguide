@@ -29,10 +29,6 @@ export interface PutRoute {
      */
     description: string;
     /**
-     * Gets or Sets CreatorName
-     */
-    creatorName: string;
-    /**
      * Gets or Sets Duration
      */
     duration: number;

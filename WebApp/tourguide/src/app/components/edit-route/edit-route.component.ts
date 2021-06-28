@@ -100,7 +100,6 @@ export class EditRouteComponent implements OnInit {
   async onSave(): Promise<void> {
     this.loading = true;
     this.routeForm.updateRoute();
-    this.routeForm.route.creatorName = await this.authService.getUsername();
     try {
       if (this.isNew) {
         await this.saveNewRoute();
