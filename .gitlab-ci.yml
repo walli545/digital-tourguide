@@ -81,6 +81,20 @@ test_website:
       cobertura:
         - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
 
+test_backend:
+  stage: website_build-and-test
+  image: mcr.microsoft.com/dotnet/sdk:5.0
+  script:
+    - cd Backend
+    - dotnet test API.Tests
+#  artifacts:
+#    name: 'test-and-coverage'
+#    reports:
+#      junit:
+#        - WebApp/tourguide/artifacts/tests/junit-test-results.xml
+#      cobertura:
+#        - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
+
 app_lintDebug:
   image: jangrewe/gitlab-ci-android
   stage: app_build-and-test
