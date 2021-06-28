@@ -1,6 +1,5 @@
 package edu.hm.digitaltourguide.ui.promotedMap
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +7,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.infrastructure.ClientException
-import edu.hm.digitaltourguide.ui.tour.TourDetailViewModel
-import java.lang.Exception
+import edu.hm.digitaltourguide.ui.tour.TourDetailFragmentDirections
+
 
 class PromotedMapFragment : Fragment() {
 
@@ -58,6 +59,15 @@ class PromotedMapFragment : Fragment() {
                     ), 1000, null
                 );
             }
+
+            googleMap.setOnInfoWindowClickListener (GoogleMap.OnInfoWindowClickListener { marker -> // on marker click we are getting the title of our marker
+                // which is clicked and displaying it in a toast message.
+
+                val action = PromotedMapFragmentDirections.actionNavMapsToPoiFragment(promotedPoIs.first{it.name.equals(marker.title)})
+                NavHostFragment.findNavController(this).navigate(action)
+                false
+            })
+
         }catch (e: ClientException) {
             Toast.makeText(
                 this.context,
