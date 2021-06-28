@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 public class RetrofitClientInstance {
 
     var retrofit: Retrofit? = null
-    val BASE_URL = "http:/10.0.2.2:8080"
+    val BASE_URL = "https://review-develop-3zknud.cityguide.sart.solutions/"
 
     public fun getRetrofitInstance() : Retrofit {
         if (retrofit == null){
