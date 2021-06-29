@@ -70,7 +70,7 @@ class TourDetailFragment : Fragment() {
 
         // Initialize and assign Adapter to PoiList RecyclerView
         listener = PoiItemListener(this)
-        poiListAdapter = activity?.let { PoiListAdapter(route.pointOfInterests!!.asList(), it, listener) }!!;
+        poiListAdapter = activity?.let { PoiListAdapter(route.pointOfInterests!!.asList(), it, listener) }!!
         poiList.adapter = poiListAdapter
         poiList.layoutManager = LinearLayoutManager(context)
         val reviews = tourDetailViewModel.getReviews(route.routeId)
@@ -98,8 +98,7 @@ class TourDetailFragment : Fragment() {
                 .into(binding.tourPreviewImage)
         }
 
-        binding.startTourIcon.setOnClickListener {
-            // TODO get route UUID
+        binding.tourPreviewImage.setOnClickListener {
             findNavController().navigate(
                 TourDetailFragmentDirections.actionTourDetailFragmentToTourPreviewFragment(
                     route
