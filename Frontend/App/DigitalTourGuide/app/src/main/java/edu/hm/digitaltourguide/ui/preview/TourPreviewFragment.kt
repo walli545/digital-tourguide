@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
@@ -24,11 +25,16 @@ import edu.hm.digitaltourguide.api.models.Route
 
 class TourPreviewFragment : Fragment() {
 
+    private val NEXT_POI = "next_poi"
+
     private var locationPermissionGranted: Boolean = false
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-    private lateinit var route : Route
-    private lateinit var map : GoogleMap
+
+    private lateinit var route: Route
+    private lateinit var map: GoogleMap
+
     private var satelliteView = false
+    private var nextPoI = 0
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -57,9 +63,13 @@ class TourPreviewFragment : Fragment() {
 
         getLocationPermission()
 
+        if (savedInstanceState != null) {
+            nextPoI = savedInstanceState.getInt(NEXT_POI)
+        }
+
         val view = inflater.inflate(R.layout.fragment_tour_preview, container, false)
         view.findViewById<Button>(R.id.start_tour_button).setOnClickListener {
-            startNavigation(route.pointOfInterests!![0])
+            startNavigation()
         }
 
         view.findViewById<SwitchMaterial>(R.id.preview_satellite_switch).setOnClickListener {
@@ -71,8 +81,22 @@ class TourPreviewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.preview_map) as SupportMapFragment?
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.preview_map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (this::map.isInitialized) {
+            map.clear()
+            route.pointOfInterests?.let { setLocation(it) }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(NEXT_POI, nextPoI)
     }
 
     @SuppressLint("MissingPermission")
@@ -89,6 +113,7 @@ class TourPreviewFragment : Fragment() {
             }
 
             val lats = mutableListOf<LatLng>()
+
             pointOfInterests.forEach {
                 val coordinates = LatLng(
                     it.latitude,
@@ -101,8 +126,14 @@ class TourPreviewFragment : Fragment() {
                         .title(it.name)
                 )
             }
+            addMarker(
+                MarkerOptions()
+                    .title(pointOfInterests[nextPoI].name)
+                    .position(lats[nextPoI])
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+            )
 
-            moveCamera(CameraUpdateFactory.newLatLngZoom(lats[0], 13f))
+            moveCamera(CameraUpdateFactory.newLatLngZoom(lats[nextPoI], 12f))
             addPolyline(
                 PolylineOptions()
                     .addAll(com.google.maps.android.PolyUtil.decode(route.polyline))
@@ -111,9 +142,20 @@ class TourPreviewFragment : Fragment() {
         }
     }
 
-    private fun startNavigation(poi: PointOfInterest) {
+    private fun startNavigation() {
+        val poi = route.pointOfInterests!![nextPoI]
+        if (route.pointOfInterests!!.size > (nextPoI + 1)) {
+            nextPoI++
+        }
+
         val gmmIntentUri =
-            Uri.parse(String.format("google.navigation:q=%s,%s&mode=w", poi.latitude.toString(), poi.longitude.toString()))
+            Uri.parse(
+                String.format(
+                    "google.navigation:q=%s,%s&mode=w",
+                    poi.latitude.toString(),
+                    poi.longitude.toString()
+                )
+            )
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
@@ -125,13 +167,18 @@ class TourPreviewFragment : Fragment() {
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             locationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            )
         }
     }
 
@@ -146,7 +193,8 @@ class TourPreviewFragment : Fragment() {
 
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
                     locationPermissionGranted = true
                 }
             }
