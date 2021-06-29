@@ -53,4 +53,5 @@
 
     <string name="URL">https://review-develop-3zknud.cityguide.sart.solutions/</string>
     <string name="satellite_string">Satellite</string>
+    <string name="preview_of_the_tour">Preview of the Tour</string>
 </resources>

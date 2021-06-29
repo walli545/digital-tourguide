@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="@+id/tour_preview_text"
         app:layout_constraintTop_toBottomOf="@+id/tour_preview_text" />
 
-    <com.google.android.gms.maps.MapView
+    <ImageView
         android:id="@+id/tour_preview_map"
         android:layout_width="0dp"
         android:layout_height="200dp"
@@ -45,7 +45,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tour_preview_picture"
         map:liteMode="true"
-        map:mapType="none" />
+        map:mapType="none"
+        android:contentDescription="@string/preview_of_the_tour" />
 
     <TextView
         android:id="@+id/tour_preview_description"
