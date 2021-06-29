@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Tests
 {
@@ -25,8 +27,13 @@ namespace API.Tests
 
       var post = new PostRoute();
 
-      service.Setup(x => x.AddRoute(post)).ReturnsAsync((Route)null);
+      service.Setup(x => x.AddRoute(post, It.IsAny<string>())).ReturnsAsync((Route)null);
       var controller = new RouteController(service.Object);
+
+      controller.ControllerContext = new ControllerContext()
+      {
+        HttpContext = new DefaultHttpContext() { User = CreateMockUser("content-creator") }
+      };
 
       var result = await controller.AddRoute(post) as StatusCodeResult;
 
@@ -45,6 +52,8 @@ namespace API.Tests
       var testDescription = "testDescription";
       float testDuration = 0.0f;
       var testLine = "testPoly";
+      var testAverage = 5;
+      var testRatings = 10;
 
       var poiId = Guid.NewGuid();
       var returnPoI = new PointOfInterest()
@@ -66,32 +75,31 @@ namespace API.Tests
         Name = testName,
         PointOfInterests = testList,
         Polyline = testLine,
+        AverageRating = testAverage,
+        NumberOfRatings = testRatings
       };
 
-      service.Setup(x => x.AddRoute(It.IsAny<PostRoute>())).ReturnsAsync(returnRoute);
+      service.Setup(x => x.AddRoute(It.IsAny<PostRoute>(), It.IsAny<string>())).ReturnsAsync(returnRoute);
       var controller = new RouteController(service.Object);
+
+      controller.ControllerContext = new ControllerContext()
+      {
+        HttpContext = new DefaultHttpContext() { User = CreateMockUser("content-creator") }
+      };
 
       var results = await controller.AddRoute(new PostRoute()) as ObjectResult;
 
-
-      var returns = results.Value;
-      var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
-
-      var guid = data["routeId"].Value<string>();
-      Guid id = Guid.Parse(guid);
-      var name = data["name"].Value<string>();
-      var description = data["description"].Value<string>();
-      var creatorName = data["creatorName"].Value<string>();
-      var duration = data["duration"].Value<float>();
-      var polyline = data["polyline"].Value<string>();
+      var returns = results.Value as Route;
 
       Assert.Equal(200, results.StatusCode);
-      Assert.Equal(id, testID);
-      Assert.Equal(creatorName, testCreator);
-      Assert.Equal(description, testDescription);
-      Assert.Equal(duration, testDuration);
-      Assert.Equal(polyline, testLine);
-      Assert.Equal(name, testName);
+      Assert.Equal(returns.RouteID, testID);
+      Assert.Equal(returns.CreatorName, testCreator);
+      Assert.Equal(returns.Description, testDescription);
+      Assert.Equal(returns.Duration, testDuration);
+      Assert.Equal(returns.Polyline, testLine);
+      Assert.Equal(returns.Name, testName);
+      Assert.Equal(returns.AverageRating, testAverage);
+      Assert.Equal(returns.NumberOfRatings, testRatings);
     }
 
     [Fact]
@@ -173,6 +181,8 @@ namespace API.Tests
       var testDescription = "testDescription";
       float testDuration = 0.0f;
       var testLine = "testPoly";
+      var testAverage = 5;
+      var testRatings = 10;
 
       var poiId = Guid.NewGuid();
       var returnPoI = new PointOfInterest()
@@ -194,8 +204,9 @@ namespace API.Tests
         Name = testName,
         PointOfInterests = testList,
         Polyline = testLine,
+        AverageRating = testAverage,
+        NumberOfRatings = testRatings
       };
-
 
       // arrange
       var service = new Mock<IRouteService>();
@@ -205,32 +216,20 @@ namespace API.Tests
 
       var result = await controller.GetRoute(testID) as ObjectResult;
 
-      var returns = result.Value;
-      var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
+      var returns = result.Value as Route;
 
-      var guid = data["routeId"].Value<string>();
-      Guid id = Guid.Parse(guid);
-      var name = data["name"].Value<string>();
-      var description = data["description"].Value<string>();
-      var creatorName = data["creatorName"].Value<string>();
-      var duration = data["duration"].Value<float>();
-      var polyline = data["polyline"].Value<string>();
-
-      var poiArray = data.Children<JProperty>().FirstOrDefault(x => x.Name == "pointOfInterests").Value;
-
-      var item = poiArray.Children().FirstOrDefault();
-      var itemProperties = item.Children<JProperty>();
-      var poiID = itemProperties.FirstOrDefault(x => x.Name == "poiId");
-      var poiIDValue = poiID.Value;
-      Assert.Equal(Guid.Parse(poiIDValue.Value<string>()), poiId);
+      var poiID = returns.PointOfInterests.FirstOrDefault(x => x.PoIID == poiId).PoIID;
+      Assert.Equal(poiId, poiID);
 
       Assert.Equal(200, result.StatusCode);
-      Assert.Equal(id, testID);
-      Assert.Equal(creatorName, testCreator);
-      Assert.Equal(description, testDescription);
-      Assert.Equal(duration, testDuration);
-      Assert.Equal(polyline, testLine);
-      Assert.Equal(name, testName);
+      Assert.Equal(returns.RouteID, testID);
+      Assert.Equal(returns.CreatorName, testCreator);
+      Assert.Equal(returns.Description, testDescription);
+      Assert.Equal(returns.Duration, testDuration);
+      Assert.Equal(returns.Polyline, testLine);
+      Assert.Equal(returns.Name, testName);
+      Assert.Equal(returns.AverageRating, testAverage);
+      Assert.Equal(returns.NumberOfRatings, testRatings);
     }
 
     [Fact]
@@ -267,11 +266,10 @@ namespace API.Tests
 
       // Act
       var results = await controller.GetRoutes(creator1) as ObjectResult;
-      var returns = results.Value;
-      var ob = JsonConvert.DeserializeObject(returns.ToString()) as JArray;
+      var returns = results.Value as List<Route>;
 
       // Assert
-      Assert.Equal(2, ob.Count);
+      Assert.Equal(2, returns.Count);
     }
 
     [Fact]
@@ -357,24 +355,42 @@ namespace API.Tests
     {
       var service = new Mock<IRouteService>();
 
-      service.Setup(x => x.PutRoute(It.IsAny<PutRoute>())).ReturnsAsync(0);
+      service.Setup(x => x.PutRoute(It.IsAny<PutRoute>(), It.IsAny<string>())).ReturnsAsync(0);
 
       var controller = new RouteController(service.Object);
+      controller.ControllerContext = new ControllerContext()
+      {
+        HttpContext = new DefaultHttpContext() { User = CreateMockUser("content-creator") }
+      };
 
       var results = await controller.PutRoute(new PutRoute()) as StatusCodeResult;
 
       Assert.Equal(404, results.StatusCode);
     }
 
+    private ClaimsPrincipal CreateMockUser(string role)
+    {
+      return new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+      {
+        new Claim(ClaimTypes.GivenName, "example name"),
+        new Claim(ClaimTypes.NameIdentifier, "1"),
+        new Claim("role", role),
+      }, "mock"));
+    }
 
     [Fact]
     public async Task PutExistingRoute()
     {
       var service = new Mock<IRouteService>();
 
-      service.Setup(x => x.PutRoute(It.IsAny<PutRoute>())).ReturnsAsync(1);
+      service.Setup(x => x.PutRoute(It.IsAny<PutRoute>(), It.IsAny<string>())).ReturnsAsync(1);
 
       var controller = new RouteController(service.Object);
+
+      controller.ControllerContext = new ControllerContext()
+      {
+        HttpContext = new DefaultHttpContext() { User = CreateMockUser("content-creator") }
+      };
 
       var results = await controller.PutRoute(new PutRoute()) as StatusCodeResult;
 

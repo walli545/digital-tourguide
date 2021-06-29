@@ -1,12 +1,11 @@
 stages:
-  - website_build-and-test
-  - app_build-and-test
-  - openapi_gen
-  - openapi_deploy
-  - deploy-k8s
+  - test
+  - build
+  - deploy
 
 build_website:
-  stage: website_build-and-test
+  stage: build
+  needs: ["test_website", "lint_website"]
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/website:$CI_COMMIT_SHA
   image:
@@ -18,7 +17,8 @@ build_website:
     - /kaniko/executor --context $CI_PROJECT_DIR/WebApp/tourguide --dockerfile $CI_PROJECT_DIR/WebApp/tourguide/Dockerfile --destination $IMAGE_TAG
 
 build_api:
-  stage: website_build-and-test
+  stage: build
+  needs: [test_api]
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
   image:
@@ -30,7 +30,8 @@ build_api:
     - /kaniko/executor --context $CI_PROJECT_DIR/Backend/API --dockerfile $CI_PROJECT_DIR/Backend/API/Dockerfile --destination $IMAGE_TAG
 
 build_keycloak:
-  stage: website_build-and-test
+  stage: build
+  needs: []
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE/keycloak:$CI_COMMIT_SHA
   image:
@@ -42,7 +43,7 @@ build_keycloak:
     - /kaniko/executor --context $CI_PROJECT_DIR/Keycloak --dockerfile $CI_PROJECT_DIR/Keycloak/Dockerfile --destination $IMAGE_TAG
 
 lint_website:
-  stage: website_build-and-test
+  stage: test
   image: buildkite/puppeteer
   tags:
     - docker
@@ -53,8 +54,9 @@ lint_website:
     - npm run lint
 
 format_website:
-  stage: website_build-and-test
+  stage: test
   image: buildkite/puppeteer
+  allow_failure: true
   tags:
     - docker
   script:
@@ -64,7 +66,7 @@ format_website:
     - npm run prettier:check
 
 test_website:
-  stage: website_build-and-test
+  stage: test
   image: buildkite/puppeteer
   tags:
     - docker
@@ -81,9 +83,23 @@ test_website:
       cobertura:
         - WebApp/tourguide/coverage/tourguide/cobertura-coverage.xml
 
+test_api:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:5.0
+  script:
+    - cd Backend
+    - dotnet test --logger "junit"  API.Tests/
+  artifacts:
+    when: always
+    paths:
+      - ./**/*TestResults.xml
+    reports:
+      junit:
+        - ./**/*TestResults.xml
+
 app_lintDebug:
+  stage: test
   image: jangrewe/gitlab-ci-android
-  stage: app_build-and-test
   before_script:
     - export GRADLE_USER_HOME=$(pwd)/.gradle
     - cd ./Frontend/App/DigitalTourGuide/
@@ -95,8 +111,9 @@ app_lintDebug:
       - Frontend/App/*
 
 app_build:
+  stage: build
+  needs: ["app_lintDebug", "app_testDebug"]
   image: jangrewe/gitlab-ci-android
-  stage: app_build-and-test
   before_script:
     - export GRADLE_USER_HOME=$(pwd)/.gradle
     - cd ./Frontend/App/DigitalTourGuide/
@@ -111,8 +128,8 @@ app_build:
       - ./Frontend/App/DigitalTourGuide/app/build/outputs/apk
 
 app_testDebug:
+  stage: test
   image: jangrewe/gitlab-ci-android
-  stage: app_build-and-test
   before_script:
     - export GRADLE_USER_HOME=$(pwd)/.gradle
     - cd ./Frontend/App/DigitalTourGuide/
@@ -125,7 +142,7 @@ app_testDebug:
 
 openapi_gen:
   image: jeshan/swagger-codegen-cli
-  stage: openapi_gen
+  stage: build
   before_script:
     - apk update
     - apk add --update openssl
@@ -142,7 +159,8 @@ openapi_gen:
     paths: ['openapi-kotlin-client']
 
 openapi_deploy:
-  stage: openapi_deploy
+  stage: deploy
+  needs: ["openapi_gen"]
   before_script:
     - apk update
     - apk add git
@@ -166,7 +184,8 @@ deploy_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ['/bin/sh', '-c']
-  stage: deploy-k8s
+  stage: deploy
+  needs: ["build_website", "build_api", "build_keycloak"]
   variables:
     URL: $CI_ENVIRONMENT_SLUG.cityguide.sart.solutions
   script:
@@ -193,7 +212,7 @@ stop_review:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ['/bin/sh', '-c']
-  stage: deploy-k8s
+  stage: deploy
   variables:
     GIT_STRATEGY: none
   script:
@@ -213,16 +232,20 @@ deploy_production:
   image:
     name: lachlanevenson/k8s-kubectl:latest
     entrypoint: ['/bin/sh', '-c']
-  stage: deploy-k8s
+  stage: deploy
+  needs: ["build_website", "build_api", "build_keycloak"]
   variables:
     URL: cityguide.sart.solutions
   script:
     - kubectl version
     - kubectl create secret docker-registry image-pull-secret --docker-server $CI_REGISTRY --docker-username $CI_DEPLOY_USER --docker-password $CI_DEPLOY_PASSWORD --dry-run=true -o yaml | kubectl apply -f -
-    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/g" WebApp/tourguide/k8s.yml
-    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/g" WebApp/tourguide/k8s.yml
-    - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/g" WebApp/tourguide/k8s.yml
-    - sed -i "s/__URL__/${URL}/g" WebApp/tourguide/k8s.yml
+    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
+    - sed -i "s/__CI_COMMIT_SHA__/${CI_COMMIT_SHA}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
+    - sed -i "s/__URL__/${URL}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
+    - sed -i "s/__PW__/${PW}/g" WebApp/tourguide/k8s.yml Keycloak/k8s.yml Backend/API/k8s.yml
+    - kubectl apply -f Keycloak/k8s.yml
+    - kubectl apply -f Backend/API/k8s.yml
     - kubectl apply -f WebApp/tourguide/k8s.yml
   environment:
     name: Production

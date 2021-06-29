@@ -2,6 +2,7 @@
 using API.Models;
 using API.Services;
 using GenFu;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -38,24 +40,28 @@ namespace API.Tests
       // arrange
       var service = new Mock<IPointOfInterestService>();
 
-      var usernameA = "testUserA";
+      var usernameA = "example name";
       var usernameB = "testUserB";
       int size = 10;
       var pois = GetFakeData(size);
       pois[0].UserName = usernameA;
       pois[1].UserName = usernameB;
       pois[2].UserName = usernameA;
-      
+
       service.Setup(x => x.GetAllPoIs(usernameA)).ReturnsAsync(pois.Where(poi => poi.UserName == usernameA).ToList());
       var controller = new PointOfInterestController(service.Object);
+      controller.ControllerContext = new ControllerContext()
+      {
+        HttpContext = new DefaultHttpContext() { User = CreateMockUser("promoter") }
+      };
 
       // Act
       var results = await controller.GetPOIs(usernameA) as ObjectResult;
-      var returns = results.Value;
-      var ob = JsonConvert.DeserializeObject(returns.ToString()) as JArray;
+      var returns = results.Value as List<PointOfInterest>;
+      
 
       // Assert
-      Assert.Equal(2, ob.Count);
+      Assert.Equal(2, returns.Count);
     }
 
     [Fact]
@@ -79,20 +85,30 @@ namespace API.Tests
       service.Setup(x => x.GetPoI(searchID)).ReturnsAsync(poi);
       var controller = new PointOfInterestController(service.Object);
 
+
+      controller.ControllerContext = new ControllerContext()
+      {
+        HttpContext = new DefaultHttpContext() { User = CreateMockUser("promoter") }
+      };
+
       // Act
       var results = await controller.GetPOI(searchID) as ObjectResult;
-      var returns = results.Value;
-      var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
-
-      string guid = data["poiId"].Value<string>();
-      Guid gu = Guid.Parse(guid);
-      string name = data["name"].Value<string>();
-      string description = data["description"].Value<string>();
+      var returns = results.Value as PointOfInterest;
 
       // Assert
-      Assert.Equal(gu, searchID);
-      Assert.Equal(name, testname);
-      Assert.Equal(description, testdescription);
+      Assert.Equal(returns.PoIID, searchID);
+      Assert.Equal(returns.Name, testname);
+      Assert.Equal(returns.Description, testdescription);
+    }
+
+    private ClaimsPrincipal CreateMockUser(string role)
+    {
+      return new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+      {
+        new Claim(ClaimTypes.GivenName, "example name"),
+        new Claim(ClaimTypes.NameIdentifier, "1"),
+        new Claim("role", role),
+      }, "mock"));
     }
 
     [Fact]
@@ -102,11 +118,16 @@ namespace API.Tests
       var service = new Mock<IPointOfInterestService>();
 
       var testname = "testName";
+      var userName = "example name";
       var testdescription = "testDescription";
       var testUrl = "testUrl";
       var lat = 10;
       var longi = 20;
       var id = Guid.NewGuid();
+      var testRatings = 5;
+      var testAverage = 3;
+      var testPromoted = true;
+
       var returnPoI = new PointOfInterest()
       {
         PoIID = id,
@@ -114,7 +135,11 @@ namespace API.Tests
         Description = testdescription,
         Latitude = lat,
         Longitude = longi,
-        ImageUrl = testUrl
+        ImageUrl = testUrl,
+        AverageRating = testAverage,
+        IsPromoted = testPromoted,
+        NumberOfRatings = testRatings,
+        UserName = userName
       };
 
       var postPoI = new PostPointOfInterest()
@@ -126,29 +151,30 @@ namespace API.Tests
         ImageUrl = testUrl
       };
 
-      service.Setup(x => x.AddPoI(postPoI)).ReturnsAsync(returnPoI);
+      service.Setup(x => x.AddPoI(postPoI, userName, true)).ReturnsAsync(returnPoI);
       var controller = new PointOfInterestController(service.Object);
+
+
+      controller.ControllerContext = new ControllerContext()
+      {
+        HttpContext = new DefaultHttpContext() { User = CreateMockUser("promoter") }
+      };
 
       // Act
       var results = await controller.AddPOI(postPoI) as ObjectResult;
-      var returns = results.Value;
-      var data = (JObject)JsonConvert.DeserializeObject(returns.ToString());
-
-      string guid = data["poiId"].Value<string>();
-      Guid gu = Guid.Parse(guid);
-      string name = data["name"].Value<string>();
-      string description = data["description"].Value<string>();
-      decimal latitude = data["latitude"].Value<decimal>();
-      decimal longitude = data["longitude"].Value<decimal>();
-      string url = data["imageUrl"].Value<string>();
+      var returns = results.Value as PointOfInterest;
 
       // Assert
-      Assert.Equal(gu, returnPoI.PoIID);
-      Assert.Equal(name, returnPoI.Name);
-      Assert.Equal(description, returnPoI.Description);
-      Assert.Equal(latitude, returnPoI.Latitude);
-      Assert.Equal(longitude, returnPoI.Longitude);
-      Assert.Equal(url, returnPoI.ImageUrl);
+      Assert.Equal(returns.PoIID, returnPoI.PoIID);
+      Assert.Equal(returns.Name, returnPoI.Name);
+      Assert.Equal(returns.Description, returnPoI.Description);
+      Assert.Equal(returns.Latitude, returnPoI.Latitude);
+      Assert.Equal(returns.Longitude, returnPoI.Longitude);
+      Assert.Equal(returns.ImageUrl, returnPoI.ImageUrl);
+      Assert.Equal(returns.UserName, returnPoI.UserName);
+      Assert.Equal(returns.NumberOfRatings, returnPoI.NumberOfRatings);
+      Assert.Equal(returns.IsPromoted, returnPoI.IsPromoted);
+      Assert.Equal(returns.AverageRating, returnPoI.AverageRating);
     }
   }
 }

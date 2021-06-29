@@ -34,6 +34,10 @@ spec:
           value: 'true'
         - name: JwtTokenValidation__ValidateIssuer
           value: 'true'
+        readinessProbe:
+          httpGet:
+            path: /api/Healthcheck
+            port: 80
       imagePullSecrets:
       - name: image-pull-secret
 
