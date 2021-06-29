@@ -22,15 +22,13 @@ import com.denzcoskun.imageslider.models.SlideModel
 import edu.hm.digitaltourguide.BuildConfig
 import edu.hm.digitaltourguide.MainActivity
 import edu.hm.digitaltourguide.R
+import edu.hm.digitaltourguide.api.infrastructure.ClientException
 import edu.hm.digitaltourguide.api.models.PointOfInterest
-import edu.hm.digitaltourguide.api.models.PostPoIReview
 import edu.hm.digitaltourguide.api.models.PostRouteReview
 import edu.hm.digitaltourguide.api.models.Route
 import edu.hm.digitaltourguide.databinding.FragmentTourDetailBinding
-import edu.hm.digitaltourguide.ui.tourList.RatingListAdapter
 import edu.hm.digitaltourguide.ui.poi.SwipeToDeleteCallback
-import edu.hm.digitaltourguide.ui.tourList.TourItemListener
-import java.lang.Exception
+import edu.hm.digitaltourguide.ui.tourList.RatingListAdapter
 
 class TourDetailFragment : Fragment() {
 
@@ -48,13 +46,22 @@ class TourDetailFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
+        tourDetailViewModel =
+            ViewModelProvider(this).get(TourDetailViewModel::class.java)
+
         val args = TourDetailFragmentArgs.fromBundle(requireArguments())
-        route = args.route
+
+        try {
+            route = tourDetailViewModel.getRoute(args.route.routeId)
+        }catch (e: ClientException){
+            Toast.makeText(this.context, "Loggen Sie sich ein, um die Route abzurufen!", Toast.LENGTH_LONG).show()
+        }catch (e: Exception){
+            Toast.makeText(this.context, "Route konnte nicht abgerufen werden!", Toast.LENGTH_LONG).show()
+        }
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_detail, container, false)
 
-        tourDetailViewModel =
-            ViewModelProvider(this).get(TourDetailViewModel::class.java)
+
 
         val imageSlider = binding.tripImageSlider
         val poiList = binding.poiListRecycler
