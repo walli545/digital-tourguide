@@ -10,9 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -22,6 +25,8 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
+import edu.hm.digitaltourguide.ui.promotedMap.PromotedMapFragmentDirections
+import edu.hm.digitaltourguide.ui.promotedMap.PromotedMapViewModel
 
 class TourPreviewFragment : Fragment() {
 
@@ -32,6 +37,7 @@ class TourPreviewFragment : Fragment() {
 
     private lateinit var route: Route
     private lateinit var map: GoogleMap
+    private lateinit var promotedMapViewModel: PromotedMapViewModel
 
     private var satelliteView = false
     private var nextPoI = 0
@@ -60,6 +66,10 @@ class TourPreviewFragment : Fragment() {
         val bundle = TourPreviewFragmentArgs.fromBundle(requireArguments())
 
         route = bundle.route
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = route.name
+
+        promotedMapViewModel =
+            ViewModelProvider(this).get(PromotedMapViewModel::class.java)
 
         getLocationPermission()
 
@@ -139,6 +149,13 @@ class TourPreviewFragment : Fragment() {
                     .addAll(com.google.maps.android.PolyUtil.decode(route.polyline))
 
             )
+
+            val promotedPoIs = promotedMapViewModel.getAllPromotedPoIs()
+            for (poi in promotedPoIs) {
+                addMarker(
+                    MarkerOptions().position(LatLng(poi.latitude, poi.longitude)).title(poi.name)
+                )
+            }
         }
     }
 

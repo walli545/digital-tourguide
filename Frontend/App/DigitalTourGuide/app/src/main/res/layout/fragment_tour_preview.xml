@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.976" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/preview_satellite_switch"
@@ -32,8 +32,8 @@
         android:layout_height="wrap_content"
         android:text="@string/satellite_string"
         app:layout_constraintBottom_toBottomOf="@+id/start_tour_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/start_tour_button"
+        app:layout_constraintEnd_toStartOf="@+id/start_tour_button"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/start_tour_button" />
 
 
