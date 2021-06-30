@@ -39,7 +39,6 @@ class TourPreviewFragment : Fragment() {
     private lateinit var map: GoogleMap
     private lateinit var promotedMapViewModel: PromotedMapViewModel
 
-    private var satelliteView = false
     private var nextPoI = 0
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -56,6 +55,7 @@ class TourPreviewFragment : Fragment() {
         MapsInitializer.initialize(requireContext())
         map = googleMap
         route.pointOfInterests?.let { setLocation(it) }
+        toggleMapType()
     }
 
     override fun onCreateView(
@@ -101,6 +101,8 @@ class TourPreviewFragment : Fragment() {
         if (this::map.isInitialized) {
             map.clear()
             route.pointOfInterests?.let { setLocation(it) }
+
+            toggleMapType()
         }
     }
 
@@ -154,7 +156,15 @@ class TourPreviewFragment : Fragment() {
             for (poi in promotedPoIs) {
                 addMarker(
                     MarkerOptions().position(LatLng(poi.latitude, poi.longitude)).title(poi.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
                 )
+            }
+
+            map.setOnInfoWindowClickListener { marker ->
+                val action = TourPreviewFragmentDirections.actionTourPreviewFragmentToPoiFragment(
+                    promotedPoIs.first { it.name == marker.title })
+                NavHostFragment.findNavController(this@TourPreviewFragment).navigate(action)
+                false
             }
         }
     }
@@ -222,8 +232,7 @@ class TourPreviewFragment : Fragment() {
     }
 
     private fun toggleMapType() {
-        satelliteView = !satelliteView
-        if (satelliteView) {
+        if (requireView().findViewById<SwitchMaterial>(R.id.preview_satellite_switch).isChecked) {
             map.mapType = GoogleMap.MAP_TYPE_SATELLITE
         } else {
             map.mapType = GoogleMap.MAP_TYPE_NORMAL
