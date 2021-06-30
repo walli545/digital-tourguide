@@ -54,8 +54,19 @@
             android:name="route"
             app:argType="edu.hm.digitaltourguide.api.models.Route" />
         <action
+            android:id="@+id/action_tourDetailFragment_to_tourPreviewFragment"
+            app:destination="@id/tourPreviewFragment" />
+        <action
             android:id="@+id/action_tourDetailFragment_to_poiFragment"
             app:destination="@id/poiFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourPreviewFragment"
+        android:name="edu.hm.digitaltourguide.ui.preview.TourPreviewFragment"
+        android:label="TourPreviewFragment" >
+        <argument
+            android:name="route"
+            app:argType="edu.hm.digitaltourguide.api.models.Route" />
     </fragment>
     <fragment
         android:id="@+id/tourListFragment"

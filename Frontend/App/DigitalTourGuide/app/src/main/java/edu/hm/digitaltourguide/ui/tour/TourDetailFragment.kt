@@ -28,7 +28,10 @@ import edu.hm.digitaltourguide.api.models.PostRouteReview
 import edu.hm.digitaltourguide.api.models.Route
 import edu.hm.digitaltourguide.databinding.FragmentTourDetailBinding
 import edu.hm.digitaltourguide.ui.poi.SwipeToDeleteCallback
+import edu.hm.digitaltourguide.ui.tourList.TourItemListener
+import androidx.navigation.fragment.findNavController
 import edu.hm.digitaltourguide.ui.tourList.RatingListAdapter
+import java.lang.Exception
 
 class TourDetailFragment : Fragment() {
 
@@ -41,10 +44,10 @@ class TourDetailFragment : Fragment() {
     private lateinit var rating: RatingBar
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         tourDetailViewModel =
             ViewModelProvider(this).get(TourDetailViewModel::class.java)
@@ -75,7 +78,7 @@ class TourDetailFragment : Fragment() {
 
         // Initialize and assign Adapter to PoiList RecyclerView
         listener = PoiItemListener(this)
-        poiListAdapter = activity?.let { PoiListAdapter(route.pointOfInterests!!.asList(), it, listener) }!!;
+        poiListAdapter = activity?.let { PoiListAdapter(route.pointOfInterests!!.asList(), it, listener) }!!
         poiList.adapter = poiListAdapter
         poiList.layoutManager = LinearLayoutManager(context)
         val reviews = tourDetailViewModel.getReviews(route.routeId)
@@ -88,7 +91,7 @@ class TourDetailFragment : Fragment() {
         // Route Poi Pictures
         val slideModels = arrayListOf<SlideModel>()
         var poiLocationsString = ""
-        for (poi in route.pointOfInterests!!){
+        for (poi in route.pointOfInterests!!) {
             slideModels.add(SlideModel(poi.imageUrl, poi.name))
             poiLocationsString += "|" + poi.latitude.toString() + "," + poi.longitude.toString()
         }
@@ -101,6 +104,14 @@ class TourDetailFragment : Fragment() {
             Glide.with(it)
                 .load(urlStaticMap)
                 .into(binding.tourPreviewImage)
+        }
+
+        binding.tourPreviewImage.setOnClickListener {
+            findNavController().navigate(
+                TourDetailFragmentDirections.actionTourDetailFragmentToTourPreviewFragment(
+                    route
+                )
+            )
         }
 
         rating.rating = route.averageRating.toFloat()

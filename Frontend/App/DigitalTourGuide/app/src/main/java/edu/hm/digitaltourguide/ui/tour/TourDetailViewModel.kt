@@ -1,11 +1,7 @@
 package edu.hm.digitaltourguide.ui.tour
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.hm.digitaltourguide.BuildConfig
-import edu.hm.digitaltourguide.api.apis.PoIReviewApi
-import edu.hm.digitaltourguide.api.apis.PointOfInterestApi
 import edu.hm.digitaltourguide.api.apis.RouteApi
 import edu.hm.digitaltourguide.api.apis.RouteReviewApi
 import edu.hm.digitaltourguide.api.models.*

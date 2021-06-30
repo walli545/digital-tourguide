@@ -34,15 +34,15 @@
     <string name="description_header">Beschreibung</string>
     <string name="points_of_interest_header">Points of Interest</string>
     <string name="tour_preview">Tour Preview</string>
-    <string name="decription_dummy">Eine Tour welche die besten und schönsten Kirchen der Stadt besucht.</string>
+    <string name="description_dummy">Eine Tour welche die besten und schönsten Kirchen der Stadt besucht.</string>
 
     <string name="last_tour_text">Last Tour</string>
     <string name="map_preview_description">Map Preview</string>
-    <string name="tour_estimate_dummy">1 h</string>
-    <string name="tour_description_dummy">Tour \n description</string>
-    <string name="tour_name_dummy">Tour Name</string>
     <string name="start_text">It\'s time to start a Tour!</string>
     <string name="button_select_a_tour_text">Select a Tour</string>
+    <string name="start_tour_text">Start</string>
+    <string name="start_the_tour">Start the Tour</string>
+    <string name="logout_text">Logout</string>
     <string name="hint_title">Titel</string>
     <string name="hint_description">Beschreibung</string>
     <string name="menu_routs">Routen</string>
@@ -50,4 +50,9 @@
     <string name="menu_tour_list">Touren</string>
     <string name="poi_preview">Vorschau</string>
     <string name="rating_header">Bewertung</string>
+
+    <string name="satellite_string">Satellite</string>
+    <string name="preview_of_the_tour">Preview of the Tour</string>
+    <string name="rate_route_text">Route bewerten</string>
+    <string name="duration_icon_description">Duration Icon</string>
 </resources>
