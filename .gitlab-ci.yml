@@ -106,9 +106,6 @@ app_lintDebug:
     - chmod +x ./gradlew
   script:
     - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
-  only:
-    changes:
-      - Frontend/App/*
 
 app_build:
   stage: build
@@ -120,9 +117,6 @@ app_build:
     - chmod +x ./gradlew
   script:
     - ./gradlew assembleDebug
-  only:
-    changes:
-      - Frontend/App/*
   artifacts:
     paths:
       - ./Frontend/App/DigitalTourGuide/app/build/outputs/apk
@@ -136,9 +130,6 @@ app_testDebug:
     - chmod +x ./gradlew
   script:
     - ./gradlew -Pci --console=plain :app:testDebug
-  only:
-    changes:
-      - Frontend/App/*
 
 openapi_gen:
   image: jeshan/swagger-codegen-cli
