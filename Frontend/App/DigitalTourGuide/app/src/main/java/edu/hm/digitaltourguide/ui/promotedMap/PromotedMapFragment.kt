@@ -71,7 +71,7 @@ class PromotedMapFragment : Fragment() {
         }catch (e: ClientException) {
             Toast.makeText(
                 this.context,
-                "Loggen Sie sich ein, um PoIs abzurufen!",
+                "Log in to request promoted pois!",
                 Toast.LENGTH_LONG
             ).show()
         }catch (e: Exception) {}
