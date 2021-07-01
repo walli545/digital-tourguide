@@ -6,13 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.denzcoskun.imageslider.models.SlideModel
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.maps.android.PolyUtil
-import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
 
 class RoutePreviewAdapter(var routes: List<Route>) :
@@ -45,11 +38,6 @@ class RoutePreviewAdapter(var routes: List<Route>) :
         }
 
     }
-
-    //private val recycleListener = RecyclerView.RecyclerListener { holder ->
-    //    val mapHolder = holder as RoutePreviewAdapter.RoutePreviewHolder
-    //    mapHolder.clearView()
-    //}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoutePreviewHolder {
         val itemView = LayoutInflater.from(parent.context)

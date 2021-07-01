@@ -95,7 +95,7 @@ class PoiFragment : Fragment() {
                         try {
                             poiViewModel.deleteReview(reviewID = review.poIReviewId)
                         }catch (e: Exception){
-                            Toast.makeText(requireContext(), "Bewertung konnte nicht gelöscht werden", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Error deleting the review!", Toast.LENGTH_LONG).show()
                         }
                         updatePoi()
 
@@ -128,7 +128,7 @@ class PoiFragment : Fragment() {
         val d = AlertDialog.Builder(requireContext())
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.poi_dialog_rating, null)
-        d.setTitle("PoI bewerten")
+        d.setTitle("Poi review")
         d.setView(dialogView)
         val ratingBar = dialogView.findViewById<RatingBar>(R.id.review_ratingBar)
         val comment = dialogView.findViewById<EditText>(R.id.review_comment)
@@ -138,9 +138,9 @@ class PoiFragment : Fragment() {
             try {
                 val review = PostPoIReview( poIID = poi.poIID, content = comment.text.toString(), rating = ratingBar.rating.toInt())
                 poiViewModel.addReview(review)
-                Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Review submit successful", Toast.LENGTH_LONG).show()
             }catch (e: Exception){
-                Toast.makeText(requireContext(), "Bewertung konnte nicht hinzugefügt werden", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Error submitting the review", Toast.LENGTH_LONG).show()
             }
 
             updatePoi()

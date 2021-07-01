@@ -57,9 +57,9 @@ class TourDetailFragment : Fragment() {
         try {
             route = tourDetailViewModel.getRoute(args.route.routeId)
         }catch (e: ClientException){
-            Toast.makeText(this.context, "Loggen Sie sich ein, um die Route abzurufen!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Log in to request the tour!", Toast.LENGTH_LONG).show()
         }catch (e: Exception){
-            Toast.makeText(this.context, "Route konnte nicht abgerufen werden!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Error requesting the tour!", Toast.LENGTH_LONG).show()
         }
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tour_detail, container, false)
@@ -128,7 +128,7 @@ class TourDetailFragment : Fragment() {
                         try {
                             tourDetailViewModel.deleteReview(reviewID = review.routeReviewId)
                         }catch (e: Exception){
-                            Toast.makeText(requireContext(), "Bewertung konnte nicht gelöscht werden", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Error deleting the review!", Toast.LENGTH_LONG).show()
                         }
                         updateRoute()
 
@@ -161,7 +161,7 @@ class TourDetailFragment : Fragment() {
         val d = AlertDialog.Builder(requireContext())
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.poi_dialog_rating, null)
-        d.setTitle("Route bewerten")
+        d.setTitle("Tour review")
         d.setView(dialogView)
         val ratingBar = dialogView.findViewById<RatingBar>(R.id.review_ratingBar)
         val comment = dialogView.findViewById<EditText>(R.id.review_comment)
@@ -171,9 +171,9 @@ class TourDetailFragment : Fragment() {
             try {
                 val review = PostRouteReview(  routeID = route.routeId, content = comment.text.toString(), rating = ratingBar.rating.toInt())
                 tourDetailViewModel.addReview(review)
-                Toast.makeText(requireContext(), "Bewertung erfolgreich abgegeben", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Review submit successful", Toast.LENGTH_LONG).show()
             }catch (e: Exception){
-                Toast.makeText(requireContext(), "Bewertung konnte nicht hinzugefügt werden", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Error submitting the review", Toast.LENGTH_LONG).show()
             }
 
             updateRoute()

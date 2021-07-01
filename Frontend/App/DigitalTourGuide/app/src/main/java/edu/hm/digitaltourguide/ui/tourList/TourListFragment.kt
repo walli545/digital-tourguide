@@ -52,8 +52,9 @@ class TourListFragment : Fragment() {
             tourAdapter = activity?.let { MyTourRecyclerViewAdapter(list.asList(), it, listener) }!!
             binding.tourList.adapter = tourAdapter
         }catch (e: ClientException){
-            Toast.makeText(this.context, "Loggen Sie sich ein, um Routen abzurufen!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Log in to request the tours!", Toast.LENGTH_LONG).show()
         }catch (e: Exception){
+            Toast.makeText(this.context, "Error requesting tours!", Toast.LENGTH_LONG).show()
         }
         return binding.root
     }
