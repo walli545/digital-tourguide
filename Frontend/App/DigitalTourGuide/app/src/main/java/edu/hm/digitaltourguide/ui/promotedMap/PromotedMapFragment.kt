@@ -12,8 +12,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.switchmaterial.SwitchMaterial
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.infrastructure.ClientException
 import edu.hm.digitaltourguide.ui.tour.TourDetailFragmentDirections
@@ -22,6 +24,7 @@ import edu.hm.digitaltourguide.ui.tour.TourDetailFragmentDirections
 class PromotedMapFragment : Fragment() {
 
     private lateinit var promotedMapViewModel: PromotedMapViewModel
+    private lateinit var map: GoogleMap
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -35,6 +38,10 @@ class PromotedMapFragment : Fragment() {
          */
 
         try {
+
+            map = googleMap
+            toggleMapType()
+
             val promotedPoIs = promotedMapViewModel.getAllPromotedPoIs()
             val camPosLat = emptyList<Double>().toMutableList()
             val camPosLng = emptyList<Double>().toMutableList()
@@ -43,7 +50,8 @@ class PromotedMapFragment : Fragment() {
                 camPosLat.add(poi.latitude)
                 camPosLng.add(poi.longitude)
                 googleMap.addMarker(
-                    MarkerOptions().position(LatLng(poi.latitude, poi.longitude)).title(poi.name)
+                    MarkerOptions().position(LatLng(poi.latitude, poi.longitude)).title(poi.name).icon(
+                        BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
                 )
             }
 
@@ -86,12 +94,25 @@ class PromotedMapFragment : Fragment() {
         promotedMapViewModel =
             ViewModelProvider(this).get(PromotedMapViewModel::class.java)
 
-        return inflater.inflate(R.layout.fragment_promoted_map, container, false)
+        val view = inflater.inflate(R.layout.fragment_promoted_map, container, false)
+        view.findViewById<SwitchMaterial>(R.id.preview_satellite_switch).setOnClickListener {
+            toggleMapType()
+        }
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+    }
+
+    private fun toggleMapType() {
+        if (requireView().findViewById<SwitchMaterial>(R.id.preview_satellite_switch).isChecked) {
+            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        } else {
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
+        }
     }
 }
