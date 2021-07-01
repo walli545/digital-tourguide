@@ -10,9 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -22,6 +25,8 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
+import edu.hm.digitaltourguide.ui.promotedMap.PromotedMapFragmentDirections
+import edu.hm.digitaltourguide.ui.promotedMap.PromotedMapViewModel
 
 class TourPreviewFragment : Fragment() {
 
@@ -32,8 +37,8 @@ class TourPreviewFragment : Fragment() {
 
     private lateinit var route: Route
     private lateinit var map: GoogleMap
+    private lateinit var promotedMapViewModel: PromotedMapViewModel
 
-    private var satelliteView = false
     private var nextPoI = 0
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -50,6 +55,7 @@ class TourPreviewFragment : Fragment() {
         MapsInitializer.initialize(requireContext())
         map = googleMap
         route.pointOfInterests?.let { setLocation(it) }
+        toggleMapType()
     }
 
     override fun onCreateView(
@@ -60,6 +66,10 @@ class TourPreviewFragment : Fragment() {
         val bundle = TourPreviewFragmentArgs.fromBundle(requireArguments())
 
         route = bundle.route
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = route.name
+
+        promotedMapViewModel =
+            ViewModelProvider(this).get(PromotedMapViewModel::class.java)
 
         getLocationPermission()
 
@@ -91,6 +101,8 @@ class TourPreviewFragment : Fragment() {
         if (this::map.isInitialized) {
             map.clear()
             route.pointOfInterests?.let { setLocation(it) }
+
+            toggleMapType()
         }
     }
 
@@ -139,6 +151,21 @@ class TourPreviewFragment : Fragment() {
                     .addAll(com.google.maps.android.PolyUtil.decode(route.polyline))
 
             )
+
+            val promotedPoIs = promotedMapViewModel.getAllPromotedPoIs()
+            for (poi in promotedPoIs) {
+                addMarker(
+                    MarkerOptions().position(LatLng(poi.latitude, poi.longitude)).title(poi.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                )
+            }
+
+            map.setOnInfoWindowClickListener { marker ->
+                val action = TourPreviewFragmentDirections.actionTourPreviewFragmentToPoiFragment(
+                    promotedPoIs.first { it.name == marker.title })
+                NavHostFragment.findNavController(this@TourPreviewFragment).navigate(action)
+                false
+            }
         }
     }
 
@@ -205,8 +232,7 @@ class TourPreviewFragment : Fragment() {
     }
 
     private fun toggleMapType() {
-        satelliteView = !satelliteView
-        if (satelliteView) {
+        if (requireView().findViewById<SwitchMaterial>(R.id.preview_satellite_switch).isChecked) {
             map.mapType = GoogleMap.MAP_TYPE_SATELLITE
         } else {
             map.mapType = GoogleMap.MAP_TYPE_NORMAL

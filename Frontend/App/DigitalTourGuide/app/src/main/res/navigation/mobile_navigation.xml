@@ -67,6 +67,9 @@
         <argument
             android:name="route"
             app:argType="edu.hm.digitaltourguide.api.models.Route" />
+        <action
+            android:id="@+id/action_tourPreviewFragment_to_poiFragment"
+            app:destination="@id/poiFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourListFragment"
