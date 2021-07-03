@@ -11,7 +11,7 @@
         style="@style/headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="100sp"
         android:text="@string/start_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/home_select_tour_button"
         style="@style/purple_button"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
@@ -36,12 +36,14 @@
         android:id="@+id/last_tour_header"
         style="@style/headline"
         android:layout_width="0dp"
+        android:layout_marginTop="16dp"
         android:text="@string/last_tour_text"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/materialCardView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/materialCardView"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/home_select_tour_button"
         app:layout_constraintVertical_bias="0.050000012" />
 
     <com.google.android.material.card.MaterialCardView
