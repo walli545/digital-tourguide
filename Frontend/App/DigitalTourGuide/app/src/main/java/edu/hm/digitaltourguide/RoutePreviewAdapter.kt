@@ -21,13 +21,10 @@ class RoutePreviewAdapter(var routes: List<Route>, val context: Activity) :
 
         fun bind(route: Route, context: Activity) {
 
-            val test = itemView.findViewById<ImageView>(R.id.tour_preview_picture)
-
             if (route.pointOfInterests?.isNotEmpty() == true){
-                val t = route.pointOfInterests?.first()?.imageUrl
                 Glide.with(context)
                     .load(route.pointOfInterests?.first()?.imageUrl)
-                    .into(test)
+                    .into(itemView.findViewById<ImageView>(R.id.tour_preview_picture))
             }
 
 
