@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.hm.digitaltourguide.R
@@ -28,66 +32,35 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(
+                requireActivity()
+            ).get(HomeViewModel::class.java)
+
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
         val recyclerView: RecyclerView = root.findViewById(R.id.home_last_recycler)
-        adapter = RoutePreviewAdapter(
-            listOf(
-                Route(
-                    UUID.randomUUID(),
-                    "TestTour",
-                    "",
-                    "",
-                    1.0f,
-                    "",
-                    3.5,
-                    2,
-                    arrayOf(
-                        PointOfInterest(
-                            UUID.randomUUID(),
-                            "Kirchsee",
-                            "",
-                            "Wunderschöner Kirchsee",
-                            47.8189,
-                            11.6180,
-                            0.5,
-                            0,
-                            "",
-                            false
+        adapter = RoutePreviewAdapter(listOf())
 
-                        ),
-                        PointOfInterest(
-                            UUID.randomUUID(),
-                            "Besserer Kirchsee",
-                            "",
-                            "Wunderschöner Kirchsee",
-                            47.8235,
-                            11.6345,
-                            0.5,
-                            0,
-                            "",
-                            true
-                        ),
-                        PointOfInterest(
-                            UUID.randomUUID(),
-                            "Bester Kirchsee",
-                            "",
-                            "Wunderschöner Kirchsee",
-                            47.8199,
-                            11.6045,
-                            0.5,
-                            0,
-                            "",
-                            true
-                        )
-                ),
-                )
-            )
-        )
+        homeViewModel.lastTour.observe(viewLifecycleOwner, {
+            if (it != null) {
+                adapter.routes = listOf(it)
+            }
+        })
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        root.findViewById<Button>(R.id.home_select_tour_button).setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToTourListFragment())
+        }
+
         return root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (this::homeViewModel.isInitialized) {
+            homeViewModel.saveState()
+        }
+        super.onSaveInstanceState(outState)
     }
 }

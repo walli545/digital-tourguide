@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.maps.*
@@ -25,6 +26,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import edu.hm.digitaltourguide.R
 import edu.hm.digitaltourguide.api.models.PointOfInterest
 import edu.hm.digitaltourguide.api.models.Route
+import edu.hm.digitaltourguide.ui.home.HomeViewModel
 import edu.hm.digitaltourguide.ui.promotedMap.PromotedMapFragmentDirections
 import edu.hm.digitaltourguide.ui.promotedMap.PromotedMapViewModel
 
@@ -40,6 +42,8 @@ class TourPreviewFragment : Fragment() {
     private lateinit var promotedMapViewModel: PromotedMapViewModel
 
     private var nextPoI = 0
+
+    private lateinit var homeViewModel: HomeViewModel
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -63,6 +67,11 @@ class TourPreviewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        homeViewModel = ViewModelProvider(
+            requireActivity()
+        ).get(HomeViewModel::class.java)
+
+
         val bundle = TourPreviewFragmentArgs.fromBundle(requireArguments())
 
         route = bundle.route
@@ -79,6 +88,7 @@ class TourPreviewFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_tour_preview, container, false)
         view.findViewById<Button>(R.id.start_tour_button).setOnClickListener {
+            homeViewModel.setLastTour(route)
             startNavigation()
         }
 
@@ -107,6 +117,9 @@ class TourPreviewFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        if (this::homeViewModel.isInitialized) {
+            homeViewModel.saveState()
+        }
         super.onSaveInstanceState(outState)
         outState.putInt(NEXT_POI, nextPoI)
     }
