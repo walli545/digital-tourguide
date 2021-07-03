@@ -9,12 +9,14 @@
         android:id="@+id/tour_preview_picture"
         android:layout_width="65dp"
         android:layout_height="65dp"
+        android:layout_marginTop="10sp"
         android:contentDescription="@string/map_preview_description"
         app:layout_constraintBottom_toTopOf="@+id/tour_preview_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <TextView
@@ -50,10 +52,11 @@
 
     <TextView
         android:id="@+id/tour_preview_description"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
+        android:layout_marginBottom="20sp"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
