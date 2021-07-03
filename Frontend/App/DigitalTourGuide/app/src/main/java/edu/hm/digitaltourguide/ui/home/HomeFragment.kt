@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -36,7 +37,10 @@ class HomeFragment : Fragment() {
 
         homeViewModel.lastTour.observe(viewLifecycleOwner, {
             if (it != null) {
+                view?.findViewById<TextView>(R.id.last_tour_header)?.visibility = View.VISIBLE
                 adapter.routes = listOf(it)
+            }else{
+                view?.findViewById<TextView>(R.id.last_tour_header)?.visibility = View.INVISIBLE
             }
         })
 
