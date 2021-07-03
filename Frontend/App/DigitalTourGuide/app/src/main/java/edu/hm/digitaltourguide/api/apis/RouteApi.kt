@@ -146,6 +146,59 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     }
 
     /**
+    * Get all routes
+    * 
+    * @return kotlin.Array<Route>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getAllRoutes() : kotlin.Array<Route> {
+        val localVariableConfig = getAllRoutesRequestConfig()
+
+        val localVarResponse = request<kotlin.Array<Route>>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<Route>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation getAllRoutes
+    *
+    * @return RequestConfig
+    */
+    fun getAllRoutesRequestConfig() : RequestConfig {
+        val localVariableBody: kotlin.Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        val localVariableConfig = RequestConfig(
+            method = RequestMethod.GET,
+            path = "/api/routes/all",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+
+        return localVariableConfig
+    }
+
+    /**
     * Gets the route to a given id
     * 
     * @param routeID  
@@ -203,23 +256,23 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     /**
     * Get all routes from the given user
     * 
-    * @param creatorName  
-    * @return kotlin.collections.List<Route>
+    * @param userName  
+    * @return kotlin.Array<Route>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getRoutes(creatorName: kotlin.String) : kotlin.collections.List<Route> {
-        val localVariableConfig = getRoutesRequestConfig(creatorName = creatorName)
+    fun getRoutes(userName: kotlin.String) : kotlin.Array<Route> {
+        val localVariableConfig = getRoutesRequestConfig(userName = userName)
 
-        val localVarResponse = request<kotlin.collections.List<Route>>(
+        val localVarResponse = request<kotlin.Array<Route>>(
             localVariableConfig
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Route>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Array<Route>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -236,17 +289,17 @@ class RouteApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     /**
     * To obtain the request config of the operation getRoutes
     *
-    * @param creatorName  
+    * @param userName  
     * @return RequestConfig
     */
-    fun getRoutesRequestConfig(creatorName: kotlin.String) : RequestConfig {
+    fun getRoutesRequestConfig(userName: kotlin.String) : RequestConfig {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val localVariableConfig = RequestConfig(
             method = RequestMethod.GET,
-            path = "/api/routes/{creatorName}".replace("{"+"creatorName"+"}", "$creatorName"),
+            path = "/api/routes/{userName}".replace("{"+"userName"+"}", "$userName"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

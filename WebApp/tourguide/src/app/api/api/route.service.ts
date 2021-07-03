@@ -106,6 +106,13 @@ export class RouteService implements RouteServiceInterface {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
+
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -164,6 +171,13 @@ export class RouteService implements RouteServiceInterface {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
+
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -196,6 +210,54 @@ export class RouteService implements RouteServiceInterface {
     }
 
     /**
+     * Get all routes
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllRoutes(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Route>>;
+    public getAllRoutes(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Route>>>;
+    public getAllRoutes(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Route>>>;
+    public getAllRoutes(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.get<Array<Route>>(`${this.configuration.basePath}/api/routes/all`,
+            {
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Gets the route to a given id
      * @param routeID 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -210,6 +272,13 @@ export class RouteService implements RouteServiceInterface {
         }
 
         let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
@@ -242,19 +311,26 @@ export class RouteService implements RouteServiceInterface {
 
     /**
      * Get all routes from the given user
-     * @param creatorName 
+     * @param userName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRoutes(creatorName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Route>>;
-    public getRoutes(creatorName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Route>>>;
-    public getRoutes(creatorName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Route>>>;
-    public getRoutes(creatorName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
-        if (creatorName === null || creatorName === undefined) {
-            throw new Error('Required parameter creatorName was null or undefined when calling getRoutes.');
+    public getRoutes(userName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Route>>;
+    public getRoutes(userName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Route>>>;
+    public getRoutes(userName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Route>>>;
+    public getRoutes(userName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (userName === null || userName === undefined) {
+            throw new Error('Required parameter userName was null or undefined when calling getRoutes.');
         }
 
         let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
@@ -274,7 +350,7 @@ export class RouteService implements RouteServiceInterface {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<Route>>(`${this.configuration.basePath}/api/routes/${encodeURIComponent(String(creatorName))}`,
+        return this.httpClient.get<Array<Route>>(`${this.configuration.basePath}/api/routes/${encodeURIComponent(String(userName))}`,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
@@ -300,6 +376,13 @@ export class RouteService implements RouteServiceInterface {
         }
 
         let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (bearerAuth) required
+        credential = this.configuration.lookupCredential('bearerAuth');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+        }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {

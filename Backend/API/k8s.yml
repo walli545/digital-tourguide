@@ -28,6 +28,16 @@ spec:
         env:
         - name: ConnectionStrings__MariaDbConnectionString
           value: 'server=api-db-service; user=api; password=Gruppe02; database=api'
+        - name: JwtBearer__Authority
+          value: 'https://__URL__/auth/realms/tourguide'
+        - name: JwtBearer__RequireHttpsMetadata
+          value: 'true'
+        - name: JwtTokenValidation__ValidateIssuer
+          value: 'true'
+        readinessProbe:
+          httpGet:
+            path: /api/Healthcheck
+            port: 80
       imagePullSecrets:
       - name: image-pull-secret
 

@@ -69,6 +69,8 @@ describe('PoiForm', () => {
       longitude: 98.765432,
       name: 'Marienplatz',
       imageUrl: 'https://google.png',
+      isPromoted: false,
+      userName: 'User',
     };
 
     form.pointOfInterest = newPoi;

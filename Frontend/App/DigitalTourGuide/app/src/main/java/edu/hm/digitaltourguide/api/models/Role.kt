@@ -16,14 +16,14 @@ import com.squareup.moshi.Json
 
 /**
 * Gets or Sets Role
-* Values: contentCreator,moderator,admin,promoter
+* Values: contentMinusCreator,moderator,admin,promoter
 */
 
 enum class Role(val value: kotlin.String) {
 
 
-    @Json(name = "contentCreator")
-    contentCreator("contentCreator"),
+    @Json(name = "content-creator")
+    contentMinusCreator("content-creator"),
 
     @Json(name = "moderator")
     moderator("moderator"),

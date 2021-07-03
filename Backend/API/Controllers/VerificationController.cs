@@ -31,6 +31,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.User, Roles.Moderator, Roles.Creator, Roles.Promoter, Roles.Admin)]
     public virtual async Task<IActionResult> RequestRole([FromBody][Required] RoleModel body)
     {
       try
@@ -41,7 +42,7 @@ namespace API.Controllers
 
         return NoContent();
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
@@ -56,6 +57,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<RoleModel>))]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Admin)]
     public virtual async Task<IActionResult> GetRequests()
     {
       try
@@ -79,6 +81,7 @@ namespace API.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Admin)]
     public virtual async Task<IActionResult> AcceptRequest([FromRoute][Required] string userName)
     {
       try
@@ -101,10 +104,11 @@ namespace API.Controllers
     [HttpPost]
     [Route("/api/verification/deny/{userName}")]
     [ValidateModelState]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AuthorizedRoles(Roles.Admin)]
     public virtual async Task<IActionResult> DenyRequest([FromRoute][Required] string userName)
     {
       try

@@ -9,12 +9,20 @@
         android:id="@+id/nav_home"
         android:name="edu.hm.digitaltourguide.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_tourListFragment"
+            app:destination="@id/tourListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_maps"
-        android:name="edu.hm.digitaltourguide.ui.maps.MapsFragment"
-        android:label="@string/menu_maps"
-        tools:layout="@layout/fragment_maps" />
+        android:name="edu.hm.digitaltourguide.ui.promotedMap.PromotedMapFragment"
+        android:label="@string/menu_map"
+        tools:layout="@layout/fragment_promoted_map" >
+        <action
+            android:id="@+id/action_nav_maps_to_poiFragment"
+            app:destination="@id/poiFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="edu.hm.digitaltourguide.ui.slideshow.SlideshowFragment"
@@ -45,5 +53,44 @@
         android:id="@+id/tourDetailFragment"
         android:name="edu.hm.digitaltourguide.ui.tour.TourDetailFragment"
         android:label="Tour"
-        tools:layout="@layout/fragment_tour_detail" />
+        tools:layout="@layout/fragment_tour_detail" >
+        <argument
+            android:name="route"
+            app:argType="edu.hm.digitaltourguide.api.models.Route" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_tourPreviewFragment"
+            app:destination="@id/tourPreviewFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_poiFragment"
+            app:destination="@id/poiFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourPreviewFragment"
+        android:name="edu.hm.digitaltourguide.ui.preview.TourPreviewFragment"
+        android:label="TourPreviewFragment" >
+        <argument
+            android:name="route"
+            app:argType="edu.hm.digitaltourguide.api.models.Route" />
+        <action
+            android:id="@+id/action_tourPreviewFragment_to_poiFragment"
+            app:destination="@id/poiFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourListFragment"
+        android:name="edu.hm.digitaltourguide.ui.tourList.TourListFragment"
+        android:label="@string/menu_routs"
+        tools:layout="@layout/fragment_tour_list" >
+        <action
+            android:id="@+id/action_tourListFragment_to_tourDetailFragment"
+            app:destination="@id/tourDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/poiFragment"
+        android:name="edu.hm.digitaltourguide.ui.poi.PoiFragment"
+        android:label="fragment_poi"
+        tools:layout="@layout/fragment_poi" >
+        <argument
+            android:name="poi"
+            app:argType="edu.hm.digitaltourguide.api.models.PointOfInterest" />
+    </fragment>
 </navigation>

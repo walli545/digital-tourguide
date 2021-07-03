@@ -42,6 +42,12 @@ export interface RouteServiceInterface {
     deleteRoute(routeID: string, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get all routes
+     * 
+     */
+    getAllRoutes(extraHttpRequestParams?: any): Observable<Array<Route>>;
+
+    /**
      * Gets the route to a given id
      * 
      * @param routeID 
@@ -51,9 +57,9 @@ export interface RouteServiceInterface {
     /**
      * Get all routes from the given user
      * 
-     * @param creatorName 
+     * @param userName 
      */
-    getRoutes(creatorName: string, extraHttpRequestParams?: any): Observable<Array<Route>>;
+    getRoutes(userName: string, extraHttpRequestParams?: any): Observable<Array<Route>>;
 
     /**
      * Edits the route to a given id

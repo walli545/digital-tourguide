@@ -17,16 +17,19 @@ namespace API.Services
   {
     private readonly ILogger<PointOfInterestService> _logger;
     private readonly MariaDbContext _dbContext;
+    private readonly IPointOfInterestReviewService _poiReviewService;
 
     /// <summary>
     /// Ctor.
     /// </summary>
     /// <param name="logger">Logger for fails.</param>
     /// <param name="dbContext">The desired db context.</param>
-    public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext)
+    /// /// <param name="poiReviewService">Serviceclass for the poi reviews.</param>
+    public PointOfInterestService(ILogger<PointOfInterestService> logger, MariaDbContext dbContext, IPointOfInterestReviewService poiReviewService)
     {
       _logger = logger ?? throw new ArgumentNullException(nameof(logger), "logger was null!");
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext), "Context was null!");
+      _poiReviewService = poiReviewService ?? throw new ArgumentNullException(nameof(poiReviewService), "Context was null!");
     }
 
     /// <summary>
@@ -34,8 +37,10 @@ namespace API.Services
     /// Throws: Exception when an internal server error occurs
     /// </summary>
     /// <param name="poi">The poi to add</param>
+    /// <param name="userName">The unique name of the user adding the PoI</param>
+    /// <param name="isPromoted">Defines if this poi is promoted or not</param>
     /// <returns>The added poi as json format</returns>
-    public async Task<PointOfInterest> AddPoI(PostPointOfInterest poi)
+    public async Task<PointOfInterest> AddPoI(PostPointOfInterest poi, string userName, bool isPromoted)
     {
       var record = new PointOfInterest
       {
@@ -44,10 +49,11 @@ namespace API.Services
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
         Name = poi.Name,
-        UserName = poi.UserName,
-        AverageRating = 0.0M,
+        UserName = userName,
+        AverageRating = 0.0,
         NumberOfRatings = 0,
-        ImageUrl = poi.ImageUrl
+        ImageUrl = poi.ImageUrl,
+        IsPromoted = isPromoted
       };
 
       var success = _dbContext.PointOfInterest.Add(record);
@@ -76,6 +82,10 @@ namespace API.Services
       if (result == null)
         return 0;
 
+      var reviewsDelete = _poiReviewService.DeletePoIReviews(result.PoIID);
+      if (!reviewsDelete)
+        return 0;
+
       var success = _dbContext.PointOfInterest.Remove(result);
       if (success.State != EntityState.Deleted)
       {
@@ -92,7 +102,36 @@ namespace API.Services
     /// <returns>The poi's from the given user</returns>
     public async Task<List<PointOfInterest>> GetAllPoIs(string username)
     {
-      return await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).ToListAsync();
+      var poiIDsFromUser = await _dbContext.PointOfInterest.Where(poi => poi.UserName == username).Select(r => r.PoIID).ToListAsync();
+      if (poiIDsFromUser == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid poiID in poiIDsFromUser)
+      {
+        pois.Add(await GetPoI(poiID));
+      }
+
+      return pois;
+    }
+
+    /// <summary>
+    /// Get all poi's
+    /// </summary>
+    /// <returns>List of all pois</returns>
+    public async Task<List<PointOfInterest>> GetAllPoIs()
+    {
+      var poiIds = await _dbContext.PointOfInterest.Select(r => r.PoIID).ToListAsync();
+      if (poiIds == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid poiID in poiIds)
+      {
+        pois.Add(await GetPoI(poiID));
+      }
+
+      return pois;
     }
 
     /// <summary>
@@ -128,10 +167,47 @@ namespace API.Services
     /// <returns>The found poi</returns>
     public async Task<PointOfInterest> GetPoI(Guid poiID)
     {
-      return await _dbContext.PointOfInterest.FindAsync(poiID);
+      var result = await _dbContext.PointOfInterest.FindAsync(poiID);
+      if (result == null)
+        return null;
+
+      var reviews = _dbContext.PoIReviews.Where(rev => rev.PointOfInterest.PoIID == poiID).ToListAsync().Result;
+
+      if (reviews.Count > 0)
+      {
+        double? sumRatings = 0;
+        foreach (PoIReview review in reviews)
+          sumRatings += review.Rating;
+
+        result.AverageRating = sumRatings / reviews.Count;
+      }
+      else
+        result.AverageRating = 0;
+
+      result.NumberOfRatings = reviews.Count;
+      return result;
     }
 
-    public async Task<int> PutPoI(PutPointOfInterest poi)
+    /// <summary>
+    /// Gets all promoted pois
+    /// </summary>
+    /// <returns>A list of all promoted pois</returns>
+    public async Task<List<PointOfInterest>> GetPromotedPois()
+    {
+      var promotedPois = await _dbContext.PointOfInterest.Where(poi => poi.IsPromoted).Select(r => r.PoIID).ToListAsync();
+      if (promotedPois == null)
+        return null;
+
+      var pois = new List<PointOfInterest>();
+      foreach (Guid poiID in promotedPois)
+      {
+        pois.Add(await GetPoI(poiID));
+      }
+
+      return pois;
+    }
+
+    public async Task<int> PutPoI(PutPointOfInterest poi, string userName)
     {
       var oldPoI = _dbContext.PointOfInterest.AsNoTracking().Where(p => p.PoIID == Guid.Parse(poi.Id)).FirstOrDefault();
       if (oldPoI == null)
@@ -141,13 +217,18 @@ namespace API.Services
         PoIID = Guid.Parse(poi.Id),
         Description = poi.Description,
         Name = poi.Name,
-        UserName = poi.UserName,
+        UserName = userName,
         ImageUrl = poi.ImageUrl,
         Latitude = poi.Latitude,
         Longitude = poi.Longitude,
-        AverageRating = oldPoI.AverageRating,
-        NumberOfRatings = oldPoI.NumberOfRatings
+        AverageRating = 0.0,
+        NumberOfRatings = 0,
+        IsPromoted = oldPoI.IsPromoted
       };
+
+      var reviewsDelete = _poiReviewService.DeletePoIReviews(newPoI.PoIID);
+      if (!reviewsDelete)
+        return 0;
 
       try
       {

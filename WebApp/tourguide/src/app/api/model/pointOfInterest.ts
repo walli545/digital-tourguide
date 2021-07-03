@@ -24,6 +24,10 @@ export interface PointOfInterest {
      */
     name: string;
     /**
+     * Gets or Sets username
+     */
+    userName: string;
+    /**
      * Gets or Sets Description
      */
     description: string;
@@ -47,5 +51,9 @@ export interface PointOfInterest {
      * Gets or Sets ImageUrl
      */
     imageUrl: string;
+    /**
+     * Defines, whether this poi is promoted or not
+     */
+    isPromoted: boolean;
 }
 

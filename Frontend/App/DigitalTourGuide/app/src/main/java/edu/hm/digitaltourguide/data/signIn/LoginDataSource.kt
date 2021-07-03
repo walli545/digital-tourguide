@@ -1,6 +1,10 @@
 package edu.hm.digitaltourguide.data.signIn
 
+import edu.hm.digitaltourguide.BuildConfig
 import edu.hm.digitaltourguide.MainActivity
+import edu.hm.digitaltourguide.api.apis.HealthcheckApi
+import edu.hm.digitaltourguide.api.apis.MeApi
+import edu.hm.digitaltourguide.api.infrastructure.ApiClient
 import edu.hm.digitaltourguide.data.signIn.model.LoggedInUser
 import edu.hm.digitaltourguide.keycloak.AccessToken
 import edu.hm.digitaltourguide.keycloak.GetDataService
@@ -13,8 +17,8 @@ import java.io.IOException
  */
 class LoginDataSource {
 
-    val LOGIN_CLIENT = "Login"
-    val LOGIN_CLIENT_SECRET = "3b90413e-db7c-4488-87a1-0bff0eef9d43"
+    val LOGIN_CLIENT = "App"
+    val LOGIN_CLIENT_SECRET = "b47a7a1f-713e-45f3-8cc8-ffcec965fb44"
     val LOGIN_CLIENT_GRAND_TYPE = "password"
     val LOGIN_CLIENT_SCOPE = "openid"
 
@@ -22,7 +26,8 @@ class LoginDataSource {
         try {
             val accessToken = getAccessToken(username, password)
             if (accessToken != null){
-                val user = LoggedInUser(accessToken, username, getUserRoles(accessToken.accessToken))
+                ApiClient.accessToken = accessToken.accessToken
+                val user = LoggedInUser(accessToken, username, getUserRoles())
                 return Result.Success(user)
             }
             return Result.Error(IOException("Error logging in"))
@@ -59,15 +64,10 @@ class LoginDataSource {
         return response.body()
     }
 
-    fun getUserRoles(accessToken: String?): Array<String> {
+    private fun getUserRoles(): Array<String> {
 
-        val service: GetDataService =
-            RetrofitClientInstance().getRetrofitInstance().create(GetDataService::class.java)
-
-        val call = service.getUserInfo(accessToken)
-
-        val response = call!!.execute()
-        return response.body()?.roles!!
+        val response = MeApi(BuildConfig.BASE_URL).getMe()
+        return response.roles!!
     }
 
     fun logoutWithToken(): AccessToken? {

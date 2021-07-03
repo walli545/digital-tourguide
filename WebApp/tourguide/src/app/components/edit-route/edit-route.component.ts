@@ -7,6 +7,7 @@ import {
   PointOfInterestService,
   RouteService,
 } from '../../api';
+import { AuthService } from '../../services/auth.service';
 import { PolylineService } from '../../services/polyline.service';
 import { displayError } from '../../utils/errors';
 import { mapOptions } from '../../utils/map-options';
@@ -55,13 +56,14 @@ export class EditRouteComponent implements OnInit {
     private routeService: RouteService,
     private snackBar: MatSnackBar,
     public polylineService: PolylineService,
-    private poiService: PointOfInterestService
+    private poiService: PointOfInterestService,
+    private authService: AuthService
   ) {
     this.routeForm = new RouteForm();
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
+    this.route.paramMap.subscribe(async (params: ParamMap) => {
       const id = params.get('id');
       if (id) {
         this.getExistingRoute(id).then(() => {
@@ -71,7 +73,7 @@ export class EditRouteComponent implements OnInit {
         });
       } else {
         this.poiService
-          .getCenterOfPOIs('username')
+          .getCenterOfPOIsAsync(await this.authService.getUsername())
           .toPromise()
           .then((coord) => {
             this.map.center = {
@@ -98,7 +100,6 @@ export class EditRouteComponent implements OnInit {
   async onSave(): Promise<void> {
     this.loading = true;
     this.routeForm.updateRoute();
-    this.routeForm.route.creatorName = 'TestUserNameChangeMe';
     try {
       if (this.isNew) {
         await this.saveNewRoute();

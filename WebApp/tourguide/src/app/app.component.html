@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="isLoggedIn">
   <app-toolbar (hamburgerClick)="sidenav?.toggle()"></app-toolbar>
   <app-side-nav #snav><router-outlet></router-outlet></app-side-nav>
 </div>

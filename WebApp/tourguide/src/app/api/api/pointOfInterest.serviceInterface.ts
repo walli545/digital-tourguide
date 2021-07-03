@@ -1,6 +1,6 @@
 /**
  * API
- * API Spec für den digitalen Reiseführer
+ * API Spec f�r den digitalen Reisef�hrer
  *
  * The version of the OpenAPI document: v1
  * 
@@ -13,7 +13,8 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { InlineResponse200, PointOfInterest } from '../model/models';
+import { CenterResult } from '../model/models';
+import { PointOfInterest } from '../model/models';
 import { PostPointOfInterest } from '../model/models';
 import { ProblemDetails } from '../model/models';
 import { PutPointOfInterest } from '../model/models';
@@ -42,11 +43,17 @@ export interface PointOfInterestServiceInterface {
     deletePOI(poiID: string, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get all poi\&#39;s
+     * 
+     */
+    getAllPOIs(extraHttpRequestParams?: any): Observable<Array<PointOfInterest>>;
+
+    /**
      * Get the center of all poi\&#39;s from the given user
      * 
      * @param userName 
      */
-    getCenterOfPOIs(userName: string, extraHttpRequestParams?: any): Observable<InlineResponse200>;
+    getCenterOfPOIsAsync(userName: string, extraHttpRequestParams?: any): Observable<CenterResult>;
 
     /**
      * Gets the poi to a given id
@@ -61,6 +68,12 @@ export interface PointOfInterestServiceInterface {
      * @param userName 
      */
     getPOIs(userName: string, extraHttpRequestParams?: any): Observable<Array<PointOfInterest>>;
+
+    /**
+     * Get all promoted pois
+     * 
+     */
+    getPromotedPoIs(extraHttpRequestParams?: any): Observable<Array<PointOfInterest>>;
 
     /**
      * Edits the poi to a given id

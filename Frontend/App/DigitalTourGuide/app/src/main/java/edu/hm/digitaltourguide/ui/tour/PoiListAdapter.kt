@@ -9,43 +9,51 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.hm.digitaltourguide.R
+import edu.hm.digitaltourguide.api.models.PointOfInterest
+import edu.hm.digitaltourguide.api.models.Route
+import edu.hm.digitaltourguide.databinding.FragmentTourListItemBinding
+import edu.hm.digitaltourguide.databinding.RecyclerViewPoiItemBinding
+import edu.hm.digitaltourguide.ui.tourList.MyTourRecyclerViewAdapter
+import edu.hm.digitaltourguide.ui.tourList.TourItemListener
 
-class PoiListAdapter(private val context: Activity, private val poiList: Array<String>, private val imageList: Array<String>) :
+class PoiListAdapter(private val poiList: List<PointOfInterest>, private val context: Activity, private val listener: PoiItemListener) :
     RecyclerView.Adapter<PoiListAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val itemTitle: TextView = view.findViewById(R.id.poi_item_title)
-        val itemImage: ImageView = view.findViewById(R.id.poi_item_image)
 
-        init {
-            // Define click listener for the ViewHolder's View.
-        }
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.recycler_view_poi_item, viewGroup, false)
-
-        return ViewHolder(view)
+        return ViewHolder(
+            RecyclerViewPoiItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.itemTitle.text = poiList[position]
+        val item = poiList[position]
+        holder.bind(item, listener)
+        holder.itemTitle.text = item.name
         Glide.with(context)
-            .load(imageList[position])
-            .into(viewHolder.itemImage)
+            .load(item.imageUrl)
+            .into(holder.itemImage)
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = poiList.size
+
+    inner class ViewHolder(val binding: RecyclerViewPoiItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val itemTitle: TextView = binding.poiItemTitle
+        val itemImage: ImageView = binding.poiItemImage
+
+        fun bind(poi: PointOfInterest, listener: PoiItemListener) {
+            binding.poi = poi
+            binding.root.parent
+            binding.clickListener = listener
+        }
+    }
 }

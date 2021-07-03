@@ -3,8 +3,11 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 import { HealthcheckService } from './api/healthcheck.service';
+import { MeService } from './api/me.service';
+import { PoIReviewService } from './api/poIReview.service';
 import { PointOfInterestService } from './api/pointOfInterest.service';
 import { RouteService } from './api/route.service';
+import { RouteReviewService } from './api/routeReview.service';
 import { VerificationService } from './api/verification.service';
 
 @NgModule({

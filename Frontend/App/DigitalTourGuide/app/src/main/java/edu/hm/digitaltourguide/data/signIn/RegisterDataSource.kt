@@ -12,7 +12,7 @@ import java.io.IOException
 class RegisterDataSource {
 
     val ADMIN_CLIENT = "admin-cli"
-    val ADMIN_CLIENT_SECRET = "4d69abf9-fcb4-4b09-9ba9-1f3a262a678a"
+    val ADMIN_CLIENT_SECRET = "a060779f-836c-4c5f-9ff8-cbf126e0f1c0"
     val ADMIN_CLIENT_GRAND_TYPE = "client_credentials"
 
     fun register(username: String, password: String): Result<String> {
@@ -50,7 +50,7 @@ class RegisterDataSource {
 
         // Create new user
         val call2 = service.createNewUser("Bearer " + accessToken, bodyData)
-        val responseCreateUser = call2!!.execute()
+        val responseCreateUser = call2.execute()
 
         return responseCreateUser.isSuccessful
     }

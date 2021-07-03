@@ -1,16 +1,7 @@
-﻿using API.Helper;
-using API.Models;
+﻿using API.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Swashbuckle.Swagger.Annotations;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace API.Controllers
 {
   [ApiController]
@@ -36,5 +27,6 @@ namespace API.Controllers
     {
       return Ok("Hi from the Backend");
     }
+
   }
 }

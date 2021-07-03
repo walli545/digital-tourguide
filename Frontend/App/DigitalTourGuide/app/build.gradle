@@ -1,12 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
 }
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "edu.hm.digitaltourguide"
@@ -19,7 +21,13 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField("String", "API_KEY", "\"AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ\"")
+            buildConfigField("String", "BASE_URL", "\"https://review-develop-3zknud.cityguide.sart.solutions\"")
+        }
         release {
+            buildConfigField("String", "API_KEY", "\"AIzaSyAiZcSKHkU0fDADhteoQJJzkdXQfvnCHnQ\"")
+            buildConfigField("String", "BASE_URL", "\"https://review-develop-3zknud.cityguide.sart.solutions\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -41,7 +49,7 @@ dependencies {
 
     implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
     implementation 'com.squareup.moshi:moshi-adapters:1.12.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -55,10 +63,14 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     testImplementation 'junit:junit:4.13.2'
     implementation 'androidx.annotation:annotation:1.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'com.google.maps.android:android-maps-utils:0.4'
 
     /* Slideshow dependencies */
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'

@@ -12,11 +12,13 @@ export class PoiForm {
     latitude: 0,
     longitude: 0,
     poIID: 'new',
+    userName: '',
     description: '',
     name: '',
     numberOfRatings: 0,
     averageRating: 0,
     imageUrl: '',
+    isPromoted: false,
   };
 
   private poiForm = new FormGroup({

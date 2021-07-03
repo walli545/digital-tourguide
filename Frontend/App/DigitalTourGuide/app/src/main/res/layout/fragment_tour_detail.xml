@@ -17,24 +17,24 @@
 
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/trip_image_slider"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="200dp"
                 app:auto_cycle="true"
                 app:corner_radius="5"
                 app:delay="0"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:period="2000"></com.denzcoskun.imageslider.ImageSlider>
+                app:period="2000" />
 
 
             <TextView
                 android:id="@+id/description_header"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="@string/description_header"
                 android:textSize="@dimen/tour_detail_header_text_size"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trip_image_slider" />
 
             <TextView
@@ -47,7 +47,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description_header"
-                tools:text="@string/decription_dummy"/>
+                tools:text="@string/description_dummy" />
 
             <TextView
                 android:id="@+id/poi_header"
@@ -75,14 +75,73 @@
                 android:textSize="@dimen/tour_detail_header_text_size"
                 app:layout_constraintTop_toBottomOf="@+id/poi_list_recycler" />
 
-            // TODO: implement Tour preview
             <ImageView
-                android:id="@+id/tour_preview_map"
+                android:id="@+id/tour_preview_image"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map_preview_header" />
+                app:layout_constraintTop_toBottomOf="@+id/map_preview_header"
+                android:contentDescription="@string/preview_of_the_tour" />
+
+            <TextView
+                android:id="@+id/route_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rating_header"
+                android:textSize="@dimen/tour_detail_header_text_size"
+                app:layout_constraintBottom_toTopOf="@+id/rating_recycler"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tour_preview_image" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tour_detail_margin_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/route_rating"
+                app:layout_constraintTop_toBottomOf="@+id/tour_preview_image"
+                android:isIndicator="true" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rating_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:maxHeight="300dp"
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+                android:isIndicator="true"/>
+
+            <Button
+                android:id="@+id/rate_route_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rating_recycler"
+                android:text="@string/rate_route_text"/>
+
+            <ImageView
+                android:id="@+id/timeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                app:layout_constraintBottom_toTopOf="@+id/tour_description"
+                app:layout_constraintEnd_toStartOf="@+id/duration"
+                app:layout_constraintTop_toBottomOf="@+id/trip_image_slider"
+                app:srcCompat="@drawable/ic_time"
+                android:contentDescription="@string/duration_icon_description" />
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/tour_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trip_image_slider" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
