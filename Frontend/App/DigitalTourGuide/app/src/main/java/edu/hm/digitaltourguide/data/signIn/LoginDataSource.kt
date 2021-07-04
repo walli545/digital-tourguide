@@ -18,7 +18,7 @@ import java.io.IOException
 class LoginDataSource {
 
     val LOGIN_CLIENT = "App"
-    val LOGIN_CLIENT_SECRET = "b47a7a1f-713e-45f3-8cc8-ffcec965fb44"
+    val LOGIN_CLIENT_SECRET = "99694e30-25b6-45a0-874c-c2b55184ce32"
     val LOGIN_CLIENT_GRAND_TYPE = "password"
     val LOGIN_CLIENT_SCOPE = "openid"
 
