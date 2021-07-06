@@ -166,6 +166,7 @@ class TourPreviewFragment : Fragment() {
             )
 
             val promotedPoIs = promotedMapViewModel.getAllPromotedPoIs()
+            val poIs = promotedMapViewModel.getAllPoIs()
             for (poi in promotedPoIs) {
                 addMarker(
                     MarkerOptions().position(LatLng(poi.latitude, poi.longitude)).title(poi.name)
@@ -175,7 +176,7 @@ class TourPreviewFragment : Fragment() {
 
             map.setOnInfoWindowClickListener { marker ->
                 val action = TourPreviewFragmentDirections.actionTourPreviewFragmentToPoiFragment(
-                    promotedPoIs.first { it.name == marker.title })
+                    poIs.first { it.name == marker.title })
                 NavHostFragment.findNavController(this@TourPreviewFragment).navigate(action)
                 false
             }

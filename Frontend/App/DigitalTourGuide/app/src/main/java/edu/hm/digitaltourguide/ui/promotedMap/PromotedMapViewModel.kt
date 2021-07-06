@@ -12,4 +12,8 @@ class PromotedMapViewModel() : ViewModel() {
     fun getAllPromotedPoIs(): Array<PointOfInterest> {
         return poiApi.getPromotedPoIs()
     }
+
+    fun getAllPoIs(): Array<PointOfInterest> {
+        return poiApi.getAllPOIs()
+    }
 }
