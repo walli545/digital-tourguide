@@ -25,12 +25,13 @@ interests on other routes.
 
 ## Technologies
 
-  * Android App with Kotling and Google Maps
-  * Angular Website with Google Maps and Angular Material
-  * Asp .Net Core Backend with Entity Framework
+  * Android app with Kotling and Google Maps
+  * Angular website with Google Maps and Angular Material
+  * Asp .Net Core backend with EntityFramework
   * MySQL Database
   * Keycloak
   * Kubernetes and Docker (new deployments per branch to have review versions for merge requests)
+  * Common OpenAPI Spec with generators for Angular and Kotlin service code
 
 ## Screenshots
 
